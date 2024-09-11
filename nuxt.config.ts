@@ -6,6 +6,10 @@ export default defineNuxtConfig({
   future: {
     compatibilityVersion: 4,
   },
+  experimental: {
+    viewTransition: true,
+    asyncEntry: true,
+  },
   colorMode: {
     preference: 'light',
   },
@@ -16,4 +20,3 @@ export default defineNuxtConfig({
     },
   },
 })
-

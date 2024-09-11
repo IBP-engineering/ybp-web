@@ -9,6 +9,9 @@ import {
 } from 'valibot'
 import type { FormSubmitEvent } from '#ui/types'
 
+definePageMeta({
+  layout: 'auth',
+})
 useHead({
   title: 'Login',
 })
@@ -31,15 +34,13 @@ const toast = useToast()
 
 async function login(event: FormSubmitEvent<Schema>) {
   isLoading.value = true
-  await navigateTo('/')
+  await navigateTo('/admin')
 }
 </script>
 
 <template>
   <div class="relative flex justify-center w-full h-full">
-    <div
-      class="flex flex-col mx-auto mt-[10rem] w-full px-6 md:px-0 md:mt-[15rem]"
-    >
+    <div class="flex flex-col mx-auto mt-[10rem] w-full px-6 md:px-0">
       <div>
         <img
           src="https://picsum.photos/200/200"
