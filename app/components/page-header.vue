@@ -1,5 +1,5 @@
 <script setup lang="ts">
-defineProps<{ title: string; buttonText: string }>()
+defineProps<{ title: string; buttonText?: string }>()
 defineEmits<{
   btnClick: [show: boolean]
 }>()
@@ -13,7 +13,11 @@ defineEmits<{
       <h1 class="text-3xl">
         {{ title }}
       </h1>
-      <UButton size="md" @click="$emit('btnClick', true)">
+      <UButton
+        v-if="Boolean(buttonText)"
+        size="md"
+        @click="$emit('btnClick', true)"
+      >
         {{ buttonText }}
       </UButton>
     </div>

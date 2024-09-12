@@ -9,27 +9,15 @@ const links = [
     icon: 'i-heroicons-x-mark',
   },
   {
-    label: 'Tickets',
-    icon: 'i-heroicons-ticket',
+    label: 'Articles',
+    icon: 'i-heroicons-bookmark',
     to: '/',
     click: () => (openNavModal.value = false),
   },
   {
-    label: 'Headlines',
-    icon: 'i-heroicons-bookmark',
-    to: '/headlines',
-    click: () => (openNavModal.value = false),
-  },
-  {
-    label: 'Info & address',
+    label: 'Users',
     icon: 'i-heroicons-at-symbol',
-    to: '/info',
-    click: () => (openNavModal.value = false),
-  },
-  {
-    label: 'About & contact',
-    icon: 'i-heroicons-information-circle',
-    to: '/dynamic',
+    to: '/users',
     click: () => (openNavModal.value = false),
   },
 ]
@@ -76,14 +64,17 @@ const items = [
               decoding="async"
               loading="lazy"
             />
-            <b class="text-lg ml-2">| Admin</b>
+            <b class="text-lg ml-2">| YBP</b>
           </div>
           <div class="flex items-center gap-4">
             <UDropdown :items="items" :popper="{ placement: 'bottom-start' }">
-              <UAvatar
-                src="https://api.dicebear.com/7.x/bottts-neutral/svg?seed=Willow"
-                alt="Avatar"
-              />
+              <UButton color="white" variant="ghost"
+                >Editor 1
+                <UAvatar
+                  src="https://api.dicebear.com/7.x/bottts-neutral/svg?seed=Willow"
+                  alt="Avatar"
+                />
+              </UButton>
             </UDropdown>
           </div>
         </div>
