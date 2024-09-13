@@ -34,13 +34,13 @@ const toast = useToast()
 
 async function login(event: FormSubmitEvent<Schema>) {
   isLoading.value = true
-  await navigateTo('/admin')
+  await navigateTo('/hq')
 }
 </script>
 
 <template>
-  <div class="relative flex justify-center w-full h-full">
-    <div class="flex flex-col mx-auto mt-[10rem] w-full px-6 md:px-0">
+  <div class="relative flex h-full w-full justify-center">
+    <div class="mx-auto mt-[10rem] flex w-full flex-col px-6 md:px-0">
       <div>
         <img
           src="https://picsum.photos/200/200"
@@ -48,12 +48,12 @@ async function login(event: FormSubmitEvent<Schema>) {
           loading="lazy"
           width="200"
           height="200"
-          class="mx-auto z-20"
+          class="z-20 mx-auto"
           alt="YBP logo"
         />
       </div>
       <div
-        class="w-full md:w-[24rem] shadow p-4 space-y-4 bg-white rounded border mx-auto mt-6 z-20"
+        class="z-20 mx-auto mt-6 w-full space-y-4 rounded border bg-white p-4 shadow md:w-[24rem]"
       >
         <b>Sign in to your account</b>
 
@@ -77,7 +77,7 @@ async function login(event: FormSubmitEvent<Schema>) {
           <UButton block :loading="isLoading" type="submit"> Login </UButton>
         </UForm>
 
-        <small class="text-center mx-auto block italic text-gray-500 w-full">
+        <small class="mx-auto block w-full text-center italic text-gray-500">
           {{ appConfig.appVersion }}
         </small>
       </div>

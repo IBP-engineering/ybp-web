@@ -2,7 +2,6 @@
   "plugins": ["prettier-plugin-tailwindcss"],
   "printWidth": 80,
   "arrowParens": "avoid",
-  "vueIndentScriptAndStyle": true,
   "semi": false,
   "singleQuote": true,
   "endOfLine": "lf",
