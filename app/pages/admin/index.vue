@@ -1,18 +1,22 @@
 <script setup lang="ts">
-useHead({
-  title: 'Dashboard',
-})
-definePageMeta({
-  layout: 'dashboard',
-})
+  useHead({
+    title: 'Dashboard',
+  })
+  definePageMeta({
+    layout: 'dashboard',
+  })
 </script>
 
 <template>
   <div>
     <PageHeader title="Articles" />
 
-    <div class="mt-8 w-full max-w-screen-lg grid grid-cols-1 gap-8 mx-auto">
-      <div v-for="v in [1, 2, 3]" :key="v.toString()" class="flex gap-4">
+    <div class="mx-auto mt-8 grid w-full max-w-screen-lg grid-cols-1 gap-8">
+      <div
+        v-for="v in [1, 2, 3]"
+        :key="v.toString()"
+        class="flex gap-4"
+      >
         <div>
           <img
             src="https://picsum.photos/250/130"
@@ -24,7 +28,7 @@ definePageMeta({
         </div>
         <section>
           <NuxtLink
-            class="text-2xl font-semibold hover:text-primary-600 leading-relaxed"
+            class="hover:text-primary-600 text-2xl font-semibold leading-relaxed"
             to="/articles/hehe"
           >
             Ketika kekuasaan disalahgunakan
@@ -39,10 +43,12 @@ definePageMeta({
           </div>
           <p class="text-gray-600">17 Agu 2024, 11:23</p>
           <NuxtLink
-            class="text-gray-600 hover:underline mt-4 flex items-center"
+            class="mt-4 flex items-center text-gray-600 hover:underline"
             to="/articles/hehe"
-            >Detail <UIcon name="i-heroicons:arrow-up-right-solid"
-          /></NuxtLink>
+          >
+            Detail
+            <UIcon name="i-heroicons:arrow-up-right-solid" />
+          </NuxtLink>
         </section>
       </div>
     </div>

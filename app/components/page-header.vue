@@ -6,9 +6,9 @@ defineEmits<{
 </script>
 
 <template>
-  <div class="w-full bg-white border-b">
+  <div class="w-full border-b bg-white">
     <div
-      class="max-w-screen-xl mx-auto w-full flex justify-between items-center py-12 px-4"
+      class="mx-auto flex w-full max-w-screen-xl items-center justify-between px-4 py-12"
     >
       <h1 class="text-3xl">
         {{ title }}
