@@ -13,7 +13,7 @@ definePageMeta({
   layout: 'auth',
 })
 useHead({
-  title: 'Login',
+  title: 'Masuk',
 })
 
 const schema = object({
@@ -75,6 +75,10 @@ async function login(event: FormSubmitEvent<Schema>) {
           </UFormGroup>
 
           <UButton block :loading="isLoading" type="submit"> Login </UButton>
+          <p class="text-center">
+            Belum memiliki akun?
+            <ULink class="text-primary-600" to="/register">Buat baru</ULink>
+          </p>
         </UForm>
 
         <small class="mx-auto block w-full text-center italic text-gray-500">
