@@ -17,8 +17,8 @@ useHead({
 })
 
 const schema = object({
-  username: pipe(string(), nonEmpty('Mohon masukkan username anda.')),
-  password: pipe(string(), nonEmpty('Mohon masukkan password anda.')),
+  username: pipe(string(), nonEmpty('Mohon masukkan username anda')),
+  password: pipe(string(), nonEmpty('Mohon masukkan password anda')),
 })
 
 type Schema = InferInput<typeof schema>
