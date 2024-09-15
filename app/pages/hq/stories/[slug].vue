@@ -9,7 +9,7 @@ const slug = route.params.slug
 
 <template>
   <div>
-    <PageHeader title="Hehe" back-button-text="Articles" mode="detail" />
+    <PageHeader title="Hehe" back-button-text="Stories" mode="detail" />
     <p>params: {{ slug }}</p>
   </div>
 </template>

@@ -9,7 +9,7 @@ const links = [
     icon: 'i-heroicons-x-mark',
   },
   {
-    label: 'Articles',
+    label: 'Stories',
     icon: 'i-heroicons-bookmark',
     to: '/hq',
     click: () => (openNavModal.value = false),
