@@ -27,7 +27,7 @@ const samples = [
 
 <template>
   <div>
-    <PageHeader title="Articles" />
+    <PageHeader title="Stories" />
 
     <div class="mx-auto mt-8 grid w-full max-w-screen-lg grid-cols-1 gap-8">
       <div v-for="v in samples" :key="v.title" class="flex gap-4">
@@ -52,7 +52,7 @@ const samples = [
         <section>
           <NuxtLink
             class="hover:text-primary-600 text-2xl font-semibold leading-relaxed"
-            to="/hq/articles/hehe"
+            to="/hq/stories/hehe"
           >
             {{ v.title }}
           </NuxtLink>
@@ -67,7 +67,7 @@ const samples = [
           <p class="text-gray-600">17 Agu 2024, 11:23</p>
           <NuxtLink
             class="mt-4 flex items-center text-gray-600 hover:underline"
-            to="/articles/hehe"
+            to="/hq/stories/hehe"
           >
             Detail
             <UIcon name="i-heroicons:arrow-up-right-solid" />

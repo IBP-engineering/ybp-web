@@ -25,7 +25,7 @@ const links = [
     icon: 'i-heroicons-x-mark',
   },
   {
-    label: 'Articles',
+    label: 'Stories',
     icon: 'i-heroicons-bookmark',
     to: '/hq',
     click: () => (openNavModal.value = false),
@@ -43,7 +43,7 @@ const links = [
   <div class="w-full border-b bg-white">
     <nav
       v-if="mode === 'list'"
-      class="hidden items-center gap-2 border-b py-2 md:flex"
+      class="mx-auto hidden max-w-screen-xl items-center gap-2 border-b py-2 md:flex"
     >
       <div v-for="link in links" :key="link.icon">
         <NuxtLink
