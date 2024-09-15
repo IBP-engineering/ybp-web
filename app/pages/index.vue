@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import heroTugu from "~/assets/images/tugu.png";
+import heroTugu from "~/assets/images/tugu-jogja.png";
 useHead({
   title: 'Home',
 })
@@ -40,7 +40,7 @@ useHead({
         <h1 class="text-9xl font-bold text-gray-700 mb-2">Jogja</h1>
         <div class="flex items-center justify-center mb-6">
           <h1 class="text-8xl font-bold text-gray-700">Book</h1>
-          <img :src="heroTugu" alt="Image Description" class="mx-4 h-48">
+          <img :src="heroTugu" alt="Image from Darmawan R. Dipo in Behance" class="ml-2 mr-1 h-56">
           <h1 class="text-8xl font-bold text-gray-700">Party</h1>
         </div>
       </div>
