@@ -144,6 +144,12 @@ async function register(event: FormSubmitEvent<Schema>) {
 
           <UButton block :loading="isLoading" type="submit"> Daftar </UButton>
         </UForm>
+        <p class="text-center">
+          Sudah memiliki akun?
+          <ULink to="/login" class="text-primary-600 hover:underline"
+            >Masuk</ULink
+          >
+        </p>
       </div>
     </div>
   </div>

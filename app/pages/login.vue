@@ -77,7 +77,9 @@ async function login(event: FormSubmitEvent<Schema>) {
           <UButton block :loading="isLoading" type="submit"> Login </UButton>
           <p class="text-center">
             Belum memiliki akun?
-            <ULink class="text-primary-600" to="/register">Buat baru</ULink>
+            <ULink class="text-primary-600 hover:underline" to="/register"
+              >Buat baru</ULink
+            >
           </p>
         </UForm>
 
