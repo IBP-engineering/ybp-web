@@ -8,6 +8,9 @@ import {
   email,
   trim,
   forward,
+  minLength,
+  maxLength,
+  regex,
   partialCheck,
   type InferInput,
 } from 'valibot'
@@ -25,6 +28,7 @@ const schema = pipe(
     fullname: pipe(
       string(),
       trim(),
+      maxLength(120, 'Maksimal 120 karakter'),
       nonEmpty('Mohon masukkan nama lengkap anda'),
     ),
     email: pipe(
@@ -33,13 +37,23 @@ const schema = pipe(
       email('Format email tidak valid'),
       nonEmpty('Mohon masukkan email anda'),
     ),
-    username: pipe(string(), trim(), nonEmpty('Mohon masukkan username anda')),
-    bio: pipe(
+    username: pipe(
       string(),
+      minLength(3, 'Minimal 3 karakter'),
+      maxLength(16, 'Maksimal 16 karakter'),
+      regex(
+        /^[a-zA-Z0-9._-]+$/,
+        'Username hanya boleh mengandung huruf (a-z, A-Z), angka (0-9), titik (.), garis bawah (_), dan tanda hubung (-)',
+      ),
       trim(),
-      nonEmpty('Mohon masukkan biodata singkat anda'),
+      nonEmpty('Mohon masukkan username anda'),
     ),
-    password: pipe(string(), trim(), nonEmpty('Mohon masukkan password anda')),
+    password: pipe(
+      string(),
+      minLength(8, 'Minimal 8 karakter'),
+      trim(),
+      nonEmpty('Mohon masukkan password anda'),
+    ),
     repeatPassword: pipe(
       string(),
       trim(),
@@ -63,7 +77,6 @@ const state = reactive<Partial<Schema>>({
   fullname: '',
   username: '',
   password: '',
-  bio: '',
   email: '',
   repeatPassword: '',
 })
