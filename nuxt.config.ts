@@ -2,7 +2,7 @@
 export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
   devtools: { enabled: true },
-  modules: ['@nuxt/ui', '@nuxtjs/google-fonts', '@nuxt/eslint'],
+  modules: ['@nuxt/ui', '@nuxt/eslint', '@nuxt/fonts'],
   future: {
     compatibilityVersion: 4,
   },
@@ -13,10 +13,11 @@ export default defineNuxtConfig({
   colorMode: {
     preference: 'light',
   },
-  googleFonts: {
-    display: 'swap',
-    families: {
-      Rubik: '400..700',
+  fonts: {
+    provider: 'bunny',
+    defaults: {
+      weights: [400, 500, 600, 700],
     },
   },
 })
+
