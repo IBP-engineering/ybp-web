@@ -29,7 +29,7 @@ const samples = [
   <div>
     <PageHeader title="Stories" />
 
-    <div class="mx-auto mt-8 grid w-full max-w-screen-lg grid-cols-1 gap-8">
+    <div class="mx-auto mt-8 w-full max-w-screen-lg space-y-8">
       <div v-for="v in samples" :key="v.title" class="flex gap-4">
         <div class="relative">
           <img
