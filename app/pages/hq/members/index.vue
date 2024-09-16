@@ -11,7 +11,7 @@ useHead({
 <template>
   <div>
     <PageHeader button-text="Tambah baru" title="Members" />
-    <div class="mx-auto mt-4 w-full max-w-screen-xl px-4 md:px-8">
+    <div class="mx-auto mt-4 w-full max-w-screen-xl px-4">
       <p>Total: 25</p>
 
       <div class="mt-2 block">
@@ -29,15 +29,10 @@ useHead({
                   width="40"
                   height="40"
                 />
-                <div class="">
-                  <p
-                    class="w-fit rounded border border-purple-700 bg-purple-500 px-1 text-xs font-medium text-white"
-                    title="Role: Member"
-                  >
-                    Member
-                  </p>
-                  <b>jamroji123</b>
-                  <small class="text-gray-600"> < hehe@gmail.com > </small>
+                <div>
+                  <RoleBadge />
+                  <b class="mr-1">Muhammad Idris</b>
+                  <small class="text-gray-600">@jamroji123</small>
                   <p class="text-gray-600">2 stories</p>
                 </div>
               </div>

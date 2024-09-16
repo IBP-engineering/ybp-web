@@ -63,7 +63,7 @@ const links = [
       <div class="flex flex-col gap-4">
         <ULink
           v-if="mode === 'detail'"
-          class="focue:ring inline-flex items-center gap-1 text-gray-600 outline-none hover:bg-gray-200"
+          class="focue:ring inline-flex w-fit items-center gap-1 text-gray-600 outline-none hover:bg-gray-200"
           to="/hq"
           ><UIcon name="i-heroicons:chevron-left" /> {{ backButtonText }}</ULink
         >
