@@ -26,20 +26,17 @@ useHead({
                   src="https://api.dicebear.com/9.x/shapes/svg?seed=hehe"
                   alt="Profile picture"
                   class="rounded-full border bg-gray-50"
-                  width="40"
-                  height="40"
+                  width="50"
+                  height="50"
                 />
                 <div>
                   <RoleBadge />
+                  <br />
                   <b class="mr-1">Muhammad Idris</b>
                   <small class="text-gray-600">@jamroji123</small>
                   <p class="text-gray-600">2 stories</p>
                 </div>
               </div>
-              <UIcon
-                name="i-heroicons:chevron-right-16-solid"
-                class="h-5 w-5 transform transition hover:translate-x-1"
-              />
             </NuxtLink>
           </li>
         </ul>
