@@ -29,7 +29,7 @@ const samples = [
   <div>
     <PageHeader title="Stories" />
 
-    <div class="mx-auto mt-8 w-full max-w-screen-lg space-y-8 px-4 lg:px-0">
+    <div class="mx-auto mt-8 w-full max-w-screen-xl space-y-4 px-4">
       <StoryCard v-for="v in samples" :story="v" :key="v.title" />
     </div>
   </div>

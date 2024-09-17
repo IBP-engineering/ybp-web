@@ -36,7 +36,7 @@ const props = defineProps<{
       <div class="text-gray-600">
         <span> oleh </span>
         <ULink
-          to="/users/123"
+          to="/hq/members/123"
           inactive-class="underline hover:text-primary-600"
           >{{ story.author }}</ULink
         >

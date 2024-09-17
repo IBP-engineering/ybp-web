@@ -6,6 +6,23 @@ definePageMeta({
 useHead({
   title: 'Detail member',
 })
+const samples = [
+  {
+    title: 'Ketika kekuasaan disalahgunakan',
+    author: 'Kalwabed Rizki',
+    status: 'verified',
+  },
+  {
+    title: 'Tidur beralaskan jerami',
+    author: 'Kalwabed Rizki',
+    status: 'rejected',
+  },
+  {
+    title: 'Kepanasan disengat hawa panas matahari ',
+    author: 'Kalwabed Rizki',
+    status: 'pending',
+  },
+]
 </script>
 
 <template>
@@ -15,8 +32,8 @@ useHead({
       mode="detail"
       back-button-text="Members"
     />
-    <div class="mx-auto mt-4 w-full max-w-screen-xl px-4">
-      <div class="flex w-full flex-col-reverse justify-between md:flex-row">
+    <div class="mx-auto w-full max-w-screen-xl">
+      <div class="flex w-full flex-col-reverse justify-between p-4 md:flex-row">
         <div>
           <RoleBadge />
           <div class="flex items-center gap-2">
@@ -46,6 +63,10 @@ useHead({
             >Edit</UButton
           >
         </div>
+      </div>
+      <div class="mt-4 space-y-4 px-4">
+        <h2 class="text-lg">Daftar cerita</h2>
+        <StoryCard v-for="v in samples" :story="v" :key="v.title" />
       </div>
     </div>
   </div>
