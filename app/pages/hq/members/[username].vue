@@ -6,6 +6,7 @@ definePageMeta({
 useHead({
   title: 'Detail member',
 })
+
 const samples = [
   {
     title: 'Ketika kekuasaan disalahgunakan',
@@ -23,6 +24,8 @@ const samples = [
     status: 'pending',
   },
 ]
+
+const openEditProfileSlide = ref(false)
 </script>
 
 <template>
@@ -35,19 +38,25 @@ const samples = [
     />
     <div class="mx-auto w-full max-w-screen-xl">
       <div class="flex w-full flex-col-reverse justify-between p-4 md:flex-row">
-        <div>
+        <div class="md:w-3/4">
           <RoleBadge />
-          <div class="flex items-center gap-2">
-            <h1 class="text-xl font-bold md:text-4xl">Lughos Sari</h1>
-            <span class="text-sm text-gray-600"> < hi@myemail.com > </span>
-          </div>
-          <p>@jamroji123</p>
-          <p class="mb-3">Bergabung pada 17 Agu 2024, 11:23</p>
+          <h1 class="text-xl font-bold md:mb-1 md:text-4xl">Lughos Sari</h1>
+          <p class="text-sm text-gray-600 md:text-base">@jamroji123</p>
+          <p class="mt-1 text-balance">
+            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Fugiat
+            voluptatem numquam optio? Quis quos eaque et? In porro, cum voluptas
+            ea unde quo, a delectus rem odio ducimus, id ipsum!
+          </p>
+          <p class="my-3 inline-flex items-center gap-1 text-gray-600">
+            <UIcon name="i-heroicons:calendar-days" class="h-5 w-5" /> Bergabung
+            pada Agustus 2024
+          </p>
           <UButton
             block
             class="inline-flex md:hidden"
             variant="outline"
             color="gray"
+            @click="openEditProfileSlide = true"
             >Edit</UButton
           >
         </div>
@@ -60,7 +69,11 @@ const samples = [
             width="110"
             height="110"
           />
-          <UButton class="hidden md:inline-flex" variant="outline" color="gray"
+          <UButton
+            class="hidden md:inline-flex"
+            variant="outline"
+            color="gray"
+            @click="openEditProfileSlide = true"
             >Edit</UButton
           >
         </div>
@@ -70,5 +83,34 @@ const samples = [
         <StoryCard v-for="v in samples" :story="v" :key="v.title" />
       </div>
     </div>
+    <USlideover v-model="openEditProfileSlide" prevent-close>
+      <UCard
+        class="flex flex-1 flex-col"
+        :ui="{
+          body: { base: 'flex-1' },
+          ring: '',
+          divide: 'divide-y divide-gray-100 dark:divide-gray-800',
+        }"
+      >
+        <template #header>
+          <div class="flex items-center justify-between">
+            <h3
+              class="text-base font-semibold leading-6 text-gray-900 dark:text-white"
+            >
+              Slideover
+            </h3>
+            <UButton
+              color="gray"
+              variant="ghost"
+              icon="i-heroicons-x-mark-20-solid"
+              class="-my-1"
+              @click="openEditProfileSlide = false"
+            />
+          </div>
+        </template>
+
+        <p>hello world</p>
+      </UCard>
+    </USlideover>
   </div>
 </template>
