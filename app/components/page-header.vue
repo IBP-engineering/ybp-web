@@ -5,10 +5,12 @@ withDefaults(
     mode?: 'detail' | 'list'
     buttonText?: string
     backButtonText?: string
+    backButtonHref?: string
   }>(),
   {
     backButtonText: 'Back',
     mode: 'list',
+    backButtonHref: '/hq',
   },
 )
 defineEmits<{
@@ -64,7 +66,7 @@ const links = [
         <ULink
           v-if="mode === 'detail'"
           class="focue:ring inline-flex w-fit items-center gap-1 text-gray-600 outline-none hover:bg-gray-200"
-          to="/hq"
+          :to="backButtonHref"
           ><UIcon name="i-heroicons:chevron-left" /> {{ backButtonText }}</ULink
         >
         <h1 class="text-3xl">

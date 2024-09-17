@@ -31,6 +31,7 @@ const samples = [
       title="Detail member"
       mode="detail"
       back-button-text="Members"
+      back-button-href="/hq/members"
     />
     <div class="mx-auto w-full max-w-screen-xl">
       <div class="flex w-full flex-col-reverse justify-between p-4 md:flex-row">
