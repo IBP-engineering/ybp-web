@@ -5,10 +5,12 @@ withDefaults(
     mode?: 'detail' | 'list'
     buttonText?: string
     backButtonText?: string
+    backButtonHref?: string
   }>(),
   {
     backButtonText: 'Back',
     mode: 'list',
+    backButtonHref: '/hq',
   },
 )
 defineEmits<{
@@ -31,9 +33,9 @@ const links = [
     click: () => (openNavModal.value = false),
   },
   {
-    label: 'Users',
+    label: 'Members',
     icon: 'i-heroicons-at-symbol',
-    to: '/users',
+    to: '/hq/members',
     click: () => (openNavModal.value = false),
   },
 ]
@@ -63,8 +65,8 @@ const links = [
       <div class="flex flex-col gap-4">
         <ULink
           v-if="mode === 'detail'"
-          class="focue:ring inline-flex items-center gap-1 text-gray-600 outline-none hover:bg-gray-200"
-          to="/hq"
+          class="focue:ring inline-flex w-fit items-center gap-1 text-gray-600 outline-none hover:bg-gray-200"
+          :to="backButtonHref"
           ><UIcon name="i-heroicons:chevron-left" /> {{ backButtonText }}</ULink
         >
         <h1 class="text-3xl">
