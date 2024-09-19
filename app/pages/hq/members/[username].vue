@@ -1,4 +1,15 @@
 <script setup lang="ts">
+import {
+  nonEmpty,
+  object,
+  pipe,
+  safeParser,
+  string,
+  maxLength,
+  type InferInput,
+} from 'valibot'
+import type { FormSubmitEvent } from '#ui/types'
+
 definePageMeta({
   layout: 'dashboard',
 })
@@ -24,8 +35,25 @@ const samples = [
     status: 'pending',
   },
 ]
+const schema = object({
+  username: pipe(string(), nonEmpty('Mohon masukkan username anda')),
+  displayName: pipe(string(), nonEmpty('Mohon masukkan nama anda')),
+  bio: pipe(string(), maxLength(250, 'Maksimal 250 karakter')),
+})
+
+type Schema = InferInput<typeof schema>
 
 const openEditProfileSlide = ref(false)
+const isLoading = ref(false)
+const state = reactive({
+  username: '',
+  displayName: '',
+  bio: '',
+})
+
+async function updateProfile(event: FormSubmitEvent<Schema>) {
+  console.log(event)
+}
 </script>
 
 <template>
@@ -83,7 +111,8 @@ const openEditProfileSlide = ref(false)
         <StoryCard v-for="v in samples" :story="v" :key="v.title" />
       </div>
     </div>
-    <USlideover v-model="openEditProfileSlide" prevent-close>
+
+    <USlideover v-model="openEditProfileSlide">
       <UCard
         class="flex flex-1 flex-col"
         :ui="{
@@ -97,7 +126,7 @@ const openEditProfileSlide = ref(false)
             <h3
               class="text-base font-semibold leading-6 text-gray-900 dark:text-white"
             >
-              Slideover
+              Edit member
             </h3>
             <UButton
               color="gray"
@@ -109,7 +138,29 @@ const openEditProfileSlide = ref(false)
           </div>
         </template>
 
-        <p>hello world</p>
+        <UForm
+          :schema="safeParser(schema)"
+          :state="state"
+          @submit="updateProfile"
+          class="flex w-full flex-col"
+        >
+          <UFormGroup required label="Username" name="username">
+            <UInput v-model="state.username" :loading="isLoading" type="text" />
+          </UFormGroup>
+          <UFormGroup required class="my-4" label="Nama" name="displayName">
+            <UInput v-model="state.displayName" :loading="isLoading" />
+          </UFormGroup>
+          <UFormGroup label="Bio" name="bio">
+            <UTextarea v-model="state.bio" :loading="isLoading" />
+          </UFormGroup>
+
+          <UButton block :loading="isLoading" class="mb-2 mt-4" type="submit">
+            Simpan
+          </UButton>
+          <UButton block variant="ghost" color="gray" :loading="isLoading">
+            Batal
+          </UButton>
+        </UForm>
       </UCard>
     </USlideover>
   </div>
