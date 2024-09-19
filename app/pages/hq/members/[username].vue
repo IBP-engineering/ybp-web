@@ -157,7 +157,13 @@ async function updateProfile(event: FormSubmitEvent<Schema>) {
           <UButton block :loading="isLoading" class="mb-2 mt-4" type="submit">
             Simpan
           </UButton>
-          <UButton block variant="ghost" color="gray" :loading="isLoading">
+          <UButton
+            block
+            @click="openEditProfileSlide = false"
+            variant="ghost"
+            color="gray"
+            :loading="isLoading"
+          >
             Batal
           </UButton>
         </UForm>
