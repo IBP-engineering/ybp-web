@@ -36,7 +36,7 @@ const samples = [
   },
 ]
 const schema = object({
-  username: pipe(string(), nonEmpty('Mohon masukkan username anda')),
+  username: usernameValidator,
   displayName: pipe(string(), nonEmpty('Mohon masukkan nama anda')),
   bio: pipe(string(), maxLength(250, 'Maksimal 250 karakter')),
 })
@@ -154,7 +154,7 @@ async function updateProfile(event: FormSubmitEvent<Schema>) {
             <UTextarea v-model="state.bio" :loading="isLoading" />
           </UFormGroup>
 
-          <UButton block :loading="isLoading" class="mb-2 mt-4" type="submit">
+          <UButton block :loading="isLoading" class="mb-2 mt-6" type="submit">
             Simpan
           </UButton>
           <UButton

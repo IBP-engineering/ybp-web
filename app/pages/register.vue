@@ -15,6 +15,11 @@ import {
   type InferInput,
 } from 'valibot'
 import type { FormSubmitEvent } from '#ui/types'
+import {
+  passwordValidator,
+  usernameValidator,
+  emailValidator,
+} from '~/utils/validator'
 
 definePageMeta({
   layout: 'auth',
@@ -31,29 +36,9 @@ const schema = pipe(
       maxLength(120, 'Maksimal 120 karakter'),
       nonEmpty('Mohon masukkan nama lengkap anda'),
     ),
-    email: pipe(
-      string(),
-      trim(),
-      email('Format email tidak valid'),
-      nonEmpty('Mohon masukkan email anda'),
-    ),
-    username: pipe(
-      string(),
-      minLength(3, 'Minimal 3 karakter'),
-      maxLength(16, 'Maksimal 16 karakter'),
-      regex(
-        /^[a-zA-Z0-9._-]+$/,
-        'Username hanya boleh mengandung huruf (a-z, A-Z), angka (0-9), titik (.), garis bawah (_), dan tanda hubung (-)',
-      ),
-      trim(),
-      nonEmpty('Mohon masukkan username anda'),
-    ),
-    password: pipe(
-      string(),
-      minLength(8, 'Minimal 8 karakter'),
-      trim(),
-      nonEmpty('Mohon masukkan password anda'),
-    ),
+    email: emailValidator,
+    username: usernameValidator,
+    password: passwordValidator,
     repeatPassword: pipe(
       string(),
       trim(),
