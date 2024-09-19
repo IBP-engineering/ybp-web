@@ -1,8 +1,24 @@
 <script setup lang="ts">
 import heroTugu from "~/assets/images/tugu-jogja.png";
+
+import { ref } from 'vue';
+
 useHead({
   title: 'Home',
 })
+
+const links = ref([
+  { text: 'Stories', href: '#' },
+  { text: 'Activities', href: '#' },
+  { text: 'Goodies', href: '#' },
+  { text: 'About Us', href: '#' }
+]);
+
+const cards = ref([
+  { header: "Malam Imajinasi", content: "https://placehold.co/400x400.png" },
+  { header: "Pekan Membaca", content: "https://placehold.co/500x500.png" },
+  { header: "JBP Berpuisi", content: "https://placehold.co/600x600.png" }
+]);
 </script>
 
 <template>
@@ -14,15 +30,10 @@ useHead({
             <img src="https://placehold.co/400x400.png" alt="YBP Logo" class="h-12 rounded-full">
           </div>
           <ul class="flex space-x-8 ml-12">
-            <li>
-              <a href="#" class="text-gray-600 hover:bg-primary-50 gap-2 px-4 py-3 transition md:w-auto">Stories</a>
-            </li>
-            <li>
-              <a href="#" class="text-gray-600 hover:bg-primary-50 gap-2 px-4 py-3 transition md:w-auto">Activities</a>
-            </li>
-            <li><a href="#" class="text-gray-600 hover:bg-primary-50 gap-2 px-4 py-3 transition md:w-auto">Goodies</a>
-            </li>
-            <li><a href="#" class="text-gray-600 hover:bg-primary-50 gap-2 px-4 py-3 transition md:w-auto">About Us</a>
+            <li v-for="link in links" :key="link.text">
+              <NuxtLink :to="link.href" class="text-gray-600 hover:bg-primary-50 gap-2 px-4 py-3 transition md:w-auto">
+                {{ link.text }}
+              </NuxtLink>
             </li>
           </ul>
         </div>
@@ -72,6 +83,23 @@ useHead({
             </p>
           </div>
         </div>
+      </div>
+    </div>
+
+    <div class="container mx-auto px-4 mt-24">
+      <h2 class="text-3xl mb-14 text-center text-gray-500">Agenda Kami</h2>
+      <div class="flex space-x-4">
+        <UCard v-for="(card, index) in cards" :key="index" class="flex-1 bg-gray-100">
+          <template #header>
+            <div class="text-center text-gray-500">{{ card.header }}</div>
+          </template>
+
+          <img :src="card.content" class="w-full h-full object-cover">
+
+          <template #footer>
+            <Placeholder class="h-8" />
+          </template>
+        </UCard>
       </div>
     </div>
   </div>
