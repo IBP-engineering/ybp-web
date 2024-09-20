@@ -2,13 +2,16 @@
 export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
   devtools: { enabled: true },
-  modules: ['@nuxt/ui', '@nuxt/eslint', '@nuxt/fonts'],
+  modules: ['@nuxt/ui', '@nuxt/eslint', '@nuxt/fonts', '@nuxtjs/supabase'],
   future: {
     compatibilityVersion: 4,
   },
   experimental: {
     viewTransition: true,
     asyncEntry: true,
+  },
+  supabase: {
+    redirect: false,
   },
   colorMode: {
     preference: 'light',

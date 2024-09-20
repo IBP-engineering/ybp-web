@@ -23,6 +23,12 @@ const samples = [
     status: 'pending',
   },
 ]
+
+const user = useSupabaseUser()
+
+onMounted(() => {
+  console.log(user.value)
+})
 </script>
 
 <template>

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-const toast = useToast()
 const openNavModal = ref(false)
 
 const links = [
@@ -22,18 +21,21 @@ const links = [
   },
 ]
 
+const supabase = useSupabaseClient()
+const toast = useToast()
+
 async function logout() {
-  // const { error } = await client.auth.signOut()
-  //
-  // if (error) {
-  //   toast.add({
-  //     title: 'Failed to sign out',
-  //     description: error.message,
-  //     color: 'red',
-  //     icon: 'i-heroicons-x-mark-solid',
-  //   })
-  //   return
-  // }
+  const { error } = await supabase.auth.signOut()
+
+  if (error) {
+    toast.add({
+      title: 'Failed to sign out',
+      description: error.message,
+      color: 'red',
+      icon: 'i-heroicons-x-mark-solid',
+    })
+    return
+  }
 
   await navigateTo('/login')
 }
