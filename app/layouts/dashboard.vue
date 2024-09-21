@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type { User } from '~/types/entities'
+
 const openNavModal = ref(false)
 
 const links = [
@@ -22,7 +24,13 @@ const links = [
 ]
 
 const supabase = useSupabaseClient()
+const userSession = useSupabaseUser()
 const toast = useToast()
+const { data: user } = (await supabase
+  .from('users')
+  .select('username,display_name')
+  .eq('id', userSession.value.id)
+  .single()) as { data: User }
 
 async function logout() {
   const { error } = await supabase.auth.signOut()
@@ -71,9 +79,9 @@ const items = [
           <div class="flex items-center gap-4">
             <UDropdown :items="items" :popper="{ placement: 'bottom-start' }">
               <UButton color="white" variant="ghost"
-                >Editor 1
+                >{{ user.display_name }}
                 <UAvatar
-                  src="https://api.dicebear.com/7.x/bottts-neutral/svg?seed=Willow"
+                  :src="`https://api.dicebear.com/7.x/bottts-neutral/svg?seed=${user.username}`"
                   alt="Avatar"
                 />
               </UButton>
