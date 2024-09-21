@@ -50,7 +50,7 @@ const route = useRoute()
 const toast = useToast()
 const usernameParams = route.params.username
 const { data: member, refresh } = await useAsyncData(
-  `member/${usernameParams}`,
+  `members/${usernameParams}`,
   async () => {
     const { data, error } = await supabase
       .from('users')
@@ -60,6 +60,7 @@ const { data: member, refresh } = await useAsyncData(
 
     if (error) {
       console.error(error)
+      return null
     }
 
     return data

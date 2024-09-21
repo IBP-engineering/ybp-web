@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import type { User } from '~/types/entities'
-
 definePageMeta({
   layout: 'dashboard',
 })
@@ -10,9 +8,19 @@ useHead({
 })
 
 const supabase = useSupabaseClient()
-const { data: members } = (await supabase.from('users').select()) as {
-  data: User[]
-}
+const { data: members } = await useAsyncData('members', async () => {
+  const { data, error } = await supabase
+    .from('users')
+    .select('username, id, display_name, created_at')
+    .order('created_at', { ascending: false })
+
+  if (error) {
+    console.error(error)
+    return []
+  }
+
+  return data
+})
 </script>
 
 <template>
