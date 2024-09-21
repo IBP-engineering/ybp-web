@@ -79,6 +79,25 @@ const state = reactive({
 async function updateProfile(event: FormSubmitEvent<Schema>) {
   const data = event.data
   isLoading.value = true
+
+  const existingUsername = await supabase
+    .from('users')
+    .select('id')
+    .ilike('username', `%${data.username}%`)
+    .single()
+
+  if (existingUsername?.data && existingUsername.data.id !== member.value.id) {
+    // check if username is found but is the same user
+    toast.add({
+      title: 'Terjadi kesalahan ketika mengubah member',
+      description: 'Username telah digunakan',
+      color: 'red',
+    })
+    isLoading.value = false
+    await refresh()
+    return
+  }
+
   const { error: errorUpdate } = await supabase
     .from('users')
     // @ts-ignore
@@ -107,7 +126,13 @@ async function updateProfile(event: FormSubmitEvent<Schema>) {
   })
   openEditProfileSlide.value = false
   isLoading.value = false
-  await refresh()
+
+  if (data.username !== member.value.username) {
+    // username is changing
+    await navigateTo(`/hq/members/${data.username}`)
+  } else {
+    await refresh()
+  }
 }
 </script>
 
