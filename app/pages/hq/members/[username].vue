@@ -9,6 +9,7 @@ import {
   type InferInput,
 } from 'valibot'
 import type { FormSubmitEvent } from '#ui/types'
+import type { User } from '~/types/entities'
 
 definePageMeta({
   layout: 'dashboard',
@@ -50,6 +51,18 @@ const state = reactive({
   displayName: '',
   bio: '',
 })
+const supabase = useSupabaseClient()
+const route = useRoute()
+const usernameParams = route.params.username
+const { data: member } = (await supabase
+  .from('users')
+  .select()
+  .eq('username', usernameParams)
+  .single()) as { data?: User }
+
+if (!member) {
+  throw createError({ statusCode: 404, statusMessage: 'Page Not Found' })
+}
 
 async function updateProfile(event: FormSubmitEvent<Schema>) {
   console.log(event)
@@ -68,16 +81,20 @@ async function updateProfile(event: FormSubmitEvent<Schema>) {
       <div class="flex w-full flex-col-reverse justify-between p-4 md:flex-row">
         <div class="md:w-3/4">
           <RoleBadge />
-          <h1 class="text-xl font-bold md:mb-1 md:text-4xl">Lughos Sari</h1>
-          <p class="text-sm text-gray-600 md:text-base">@jamroji123</p>
+          <h1 class="text-xl font-bold md:mb-1 md:text-4xl">
+            {{ member.display_name }}
+          </h1>
+          <p class="text-sm text-gray-600 md:text-base">
+            @{{ member.username }}
+          </p>
           <p class="mt-1 text-balance">
             Lorem, ipsum dolor sit amet consectetur adipisicing elit. Fugiat
             voluptatem numquam optio? Quis quos eaque et? In porro, cum voluptas
             ea unde quo, a delectus rem odio ducimus, id ipsum!
           </p>
-          <p class="my-3 inline-flex items-center gap-1 text-gray-600">
+          <p :title="new Date(member.created_at).toISOString()" class="my-3 inline-flex items-center gap-1 text-gray-600">
             <UIcon name="i-heroicons:calendar-days" class="h-5 w-5" /> Bergabung
-            pada Agustus 2024
+            pada {{new Intl.DateTimeFormat('id', {month: 'long', year: 'numeric'}).format(new Date(member.created_at))}}
           </p>
           <UButton
             block
@@ -91,7 +108,7 @@ async function updateProfile(event: FormSubmitEvent<Schema>) {
 
         <div class="flex flex-col items-center gap-2">
           <img
-            src="https://api.dicebear.com/9.x/shapes/svg?seed=paijo"
+            :src="`https://api.dicebear.com/9.x/shapes/svg?seed=${member.username}`"
             alt="Profile picture"
             class="rounded-full border bg-gray-50"
             width="110"
