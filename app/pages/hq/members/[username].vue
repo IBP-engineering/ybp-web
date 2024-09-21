@@ -46,13 +46,9 @@ type Schema = InferInput<typeof schema>
 
 const openEditProfileSlide = ref(false)
 const isLoading = ref(false)
-const state = reactive({
-  username: '',
-  displayName: '',
-  bio: '',
-})
 const supabase = useSupabaseClient()
 const route = useRoute()
+const toast = useToast()
 const usernameParams = route.params.username
 const { data: member } = (await supabase
   .from('users')
@@ -64,8 +60,42 @@ if (!member) {
   throw createError({ statusCode: 404, statusMessage: 'Page Not Found' })
 }
 
+const state = reactive({
+  username: member.username,
+  displayName: member.display_name,
+  bio: member.bio ?? '',
+})
+
 async function updateProfile(event: FormSubmitEvent<Schema>) {
-  console.log(event)
+  const data = event.data
+  isLoading.value = true
+  const { error: errorUpdate } = await supabase
+    .from('users')
+    // @ts-ignore
+    .update({
+      username: data.username,
+      display_name: data.displayName,
+      bio: data.bio,
+      updated_at: new Date(),
+    })
+    .eq('id', member.id)
+
+  if (errorUpdate) {
+    toast.add({
+      title: 'Terjadi kesalahan ketika mengubah member',
+      description: errorUpdate.message,
+      color: 'red',
+    })
+    isLoading.value = false
+    return
+  }
+
+  toast.add({
+    title: 'Berhasil mengubah member',
+    color: 'green',
+  })
+  openEditProfileSlide.value = false
+  isLoading.value = false
 }
 </script>
 
@@ -88,13 +118,20 @@ async function updateProfile(event: FormSubmitEvent<Schema>) {
             @{{ member.username }}
           </p>
           <p class="mt-1 text-balance">
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Fugiat
-            voluptatem numquam optio? Quis quos eaque et? In porro, cum voluptas
-            ea unde quo, a delectus rem odio ducimus, id ipsum!
+            {{ member.bio }}
           </p>
-          <p :title="new Date(member.created_at).toISOString()" class="my-3 inline-flex items-center gap-1 text-gray-600">
+          <p
+            :title="new Date(member.created_at).toISOString()"
+            class="my-3 inline-flex items-center gap-1 text-gray-600"
+          >
             <UIcon name="i-heroicons:calendar-days" class="h-5 w-5" /> Bergabung
-            pada {{new Intl.DateTimeFormat('id', {month: 'long', year: 'numeric'}).format(new Date(member.created_at))}}
+            pada
+            {{
+              new Intl.DateTimeFormat('id', {
+                month: 'long',
+                year: 'numeric',
+              }).format(new Date(member.created_at))
+            }}
           </p>
           <UButton
             block
