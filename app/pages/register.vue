@@ -77,7 +77,9 @@ async function register(event: FormSubmitEvent<Schema>) {
   if (existingUser?.data[0]) {
     toast.add({
       title: 'Gagal mendaftar',
-      description: 'Username sudah digunakan oleh orang lain',
+      icon: 'i-heroicons-exclamation-circle-solid',
+      description:
+        'Username telah ada digunakan. Mohon menggunakan username yang lain',
       color: 'yellow',
     })
     isLoading.value = false
