@@ -9,7 +9,6 @@ import {
   type InferInput,
 } from 'valibot'
 import type { FormSubmitEvent } from '#ui/types'
-import type { User } from '~/types/entities'
 
 definePageMeta({
   layout: 'dashboard',
@@ -50,20 +49,31 @@ const supabase = useSupabaseClient()
 const route = useRoute()
 const toast = useToast()
 const usernameParams = route.params.username
-const { data: member } = (await supabase
-  .from('users')
-  .select()
-  .eq('username', usernameParams)
-  .single()) as { data?: User }
+const { data: member, refresh } = await useAsyncData(
+  `member/${usernameParams}`,
+  async () => {
+    const { data, error } = await supabase
+      .from('users')
+      .select('username, id, display_name, created_at, bio')
+      .eq('username', usernameParams)
+      .single()
 
-if (!member) {
+    if (error) {
+      console.error(error)
+    }
+
+    return data
+  },
+)
+
+if (!member.value) {
   throw createError({ statusCode: 404, statusMessage: 'Page Not Found' })
 }
 
 const state = reactive({
-  username: member.username,
-  displayName: member.display_name,
-  bio: member.bio ?? '',
+  username: member.value.username,
+  displayName: member.value.display_name,
+  bio: member.value.bio ?? '',
 })
 
 async function updateProfile(event: FormSubmitEvent<Schema>) {
@@ -78,7 +88,7 @@ async function updateProfile(event: FormSubmitEvent<Schema>) {
       bio: data.bio,
       updated_at: new Date(),
     })
-    .eq('id', member.id)
+    .eq('id', member.value.id)
 
   if (errorUpdate) {
     toast.add({
@@ -87,6 +97,7 @@ async function updateProfile(event: FormSubmitEvent<Schema>) {
       color: 'red',
     })
     isLoading.value = false
+    await refresh()
     return
   }
 
@@ -96,6 +107,7 @@ async function updateProfile(event: FormSubmitEvent<Schema>) {
   })
   openEditProfileSlide.value = false
   isLoading.value = false
+  await refresh()
 }
 </script>
 
