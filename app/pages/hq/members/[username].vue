@@ -182,13 +182,7 @@ async function updateProfile(event: FormSubmitEvent<Schema>) {
         </div>
 
         <div class="flex flex-col items-center gap-2">
-          <img
-            :src="`https://api.dicebear.com/9.x/shapes/svg?seed=${member.username}`"
-            alt="Profile picture"
-            class="rounded-full border bg-gray-50"
-            width="110"
-            height="110"
-          />
+          <UserPicture :seed="member.username" />
           <UButton
             class="hidden md:inline-flex"
             variant="outline"

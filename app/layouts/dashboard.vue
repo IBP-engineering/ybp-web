@@ -82,7 +82,7 @@ const items = [
               <UButton color="white" variant="ghost"
                 >{{ user?.display_name }}
                 <UAvatar
-                  :src="`https://api.dicebear.com/7.x/bottts-neutral/svg?seed=${user?.username}`"
+                  :src="`https://api.dicebear.com/9.x/shapes/svg?seed=${user?.username}`"
                   alt="Avatar"
                 />
               </UButton>

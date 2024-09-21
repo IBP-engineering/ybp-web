@@ -37,13 +37,7 @@ const { data: members } = await useAsyncData('members', async () => {
               class="hover:border-primary-400 flex w-full items-center justify-between border-2 bg-white p-2 transition focus:outline-none focus:ring"
             >
               <div class="flex items-center gap-2">
-                <img
-                  :src="`https://api.dicebear.com/9.x/shapes/svg?seed=${member.username}`"
-                  alt="Profile picture"
-                  class="rounded-full border bg-gray-50"
-                  width="50"
-                  height="50"
-                />
+                <UserPicture :seed="member.username" width="50" height="50" />
                 <div>
                   <RoleBadge />
                   <br />
