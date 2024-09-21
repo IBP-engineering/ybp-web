@@ -16,6 +16,9 @@ export default defineNuxtConfig({
   colorMode: {
     preference: 'light',
   },
+  typescript: {
+    strict: false,
+  },
   fonts: {
     provider: 'bunny',
     defaults: {
@@ -23,4 +26,3 @@ export default defineNuxtConfig({
     },
   },
 })
-
