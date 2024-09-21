@@ -45,14 +45,95 @@ type Schema = InferInput<typeof schema>
 
 const openEditProfileSlide = ref(false)
 const isLoading = ref(false)
+const supabase = useSupabaseClient()
+const route = useRoute()
+const toast = useToast()
+const usernameParams = route.params.username
+const { data: member, refresh } = await useAsyncData(
+  `members/${usernameParams}`,
+  async () => {
+    const { data, error } = await supabase
+      .from('users')
+      .select('username, id, display_name, created_at, bio')
+      .eq('username', usernameParams)
+      .single()
+
+    if (error) {
+      console.error(error)
+      return null
+    }
+
+    return data
+  },
+)
+
+if (!member.value) {
+  throw createError({ statusCode: 404, statusMessage: 'Page Not Found' })
+}
+
 const state = reactive({
-  username: '',
-  displayName: '',
-  bio: '',
+  username: member.value.username,
+  displayName: member.value.display_name,
+  bio: member.value.bio ?? '',
 })
 
 async function updateProfile(event: FormSubmitEvent<Schema>) {
-  console.log(event)
+  const data = event.data
+  isLoading.value = true
+
+  const existingUsername = await supabase
+    .from('users')
+    .select('id')
+    .ilike('username', `%${data.username}%`)
+    .single()
+
+  if (existingUsername?.data && existingUsername.data.id !== member.value.id) {
+    // check if username is found but is the same user
+    toast.add({
+      title: 'Terjadi kesalahan ketika mengubah member',
+      description: 'Username telah digunakan',
+      color: 'red',
+    })
+    isLoading.value = false
+    await refresh()
+    return
+  }
+
+  const { error: errorUpdate } = await supabase
+    .from('users')
+    // @ts-ignore
+    .update({
+      username: data.username,
+      display_name: data.displayName,
+      bio: data.bio,
+      updated_at: new Date(),
+    })
+    .eq('id', member.value.id)
+
+  if (errorUpdate) {
+    toast.add({
+      title: 'Terjadi kesalahan ketika mengubah member',
+      description: errorUpdate.message,
+      color: 'red',
+    })
+    isLoading.value = false
+    await refresh()
+    return
+  }
+
+  toast.add({
+    title: 'Berhasil mengubah member',
+    color: 'green',
+  })
+  openEditProfileSlide.value = false
+  isLoading.value = false
+
+  if (data.username !== member.value.username) {
+    // username is changing
+    await navigateTo(`/hq/members/${data.username}`)
+  } else {
+    await refresh()
+  }
 }
 </script>
 
@@ -68,16 +149,27 @@ async function updateProfile(event: FormSubmitEvent<Schema>) {
       <div class="flex w-full flex-col-reverse justify-between p-4 md:flex-row">
         <div class="md:w-3/4">
           <RoleBadge />
-          <h1 class="text-xl font-bold md:mb-1 md:text-4xl">Lughos Sari</h1>
-          <p class="text-sm text-gray-600 md:text-base">@jamroji123</p>
-          <p class="mt-1 text-balance">
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Fugiat
-            voluptatem numquam optio? Quis quos eaque et? In porro, cum voluptas
-            ea unde quo, a delectus rem odio ducimus, id ipsum!
+          <h1 class="text-xl font-bold md:mb-1 md:text-4xl">
+            {{ member.display_name }}
+          </h1>
+          <p class="text-sm text-gray-600 md:text-base">
+            @{{ member.username }}
           </p>
-          <p class="my-3 inline-flex items-center gap-1 text-gray-600">
+          <p class="mt-1 text-balance">
+            {{ member.bio }}
+          </p>
+          <p
+            :title="new Date(member.created_at).toISOString()"
+            class="my-3 inline-flex items-center gap-1 text-gray-600"
+          >
             <UIcon name="i-heroicons:calendar-days" class="h-5 w-5" /> Bergabung
-            pada Agustus 2024
+            pada
+            {{
+              new Intl.DateTimeFormat('id', {
+                month: 'long',
+                year: 'numeric',
+              }).format(new Date(member.created_at))
+            }}
           </p>
           <UButton
             block
@@ -90,13 +182,7 @@ async function updateProfile(event: FormSubmitEvent<Schema>) {
         </div>
 
         <div class="flex flex-col items-center gap-2">
-          <img
-            src="https://api.dicebear.com/9.x/shapes/svg?seed=paijo"
-            alt="Profile picture"
-            class="rounded-full border bg-gray-50"
-            width="110"
-            height="110"
-          />
+          <UserPicture :seed="member.username" />
           <UButton
             class="hidden md:inline-flex"
             variant="outline"

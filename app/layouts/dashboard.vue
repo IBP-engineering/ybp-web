@@ -25,10 +25,11 @@ const links = [
 
 const supabase = useSupabaseClient()
 const userSession = useSupabaseUser()
+
 const toast = useToast()
 const { data: user } = (await supabase
   .from('users')
-  .select('username,display_name')
+  .select('username, display_name')
   .eq('id', userSession.value.id)
   .single()) as { data: User }
 
@@ -79,9 +80,9 @@ const items = [
           <div class="flex items-center gap-4">
             <UDropdown :items="items" :popper="{ placement: 'bottom-start' }">
               <UButton color="white" variant="ghost"
-                >{{ user.display_name }}
+                >{{ user?.display_name }}
                 <UAvatar
-                  :src="`https://api.dicebear.com/7.x/bottts-neutral/svg?seed=${user.username}`"
+                  :src="`https://api.dicebear.com/9.x/shapes/svg?seed=${user?.username}`"
                   alt="Avatar"
                 />
               </UButton>
