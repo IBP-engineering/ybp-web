@@ -11,6 +11,7 @@ import {
   type InferInput,
 } from 'valibot'
 import type { FormSubmitEvent } from '#ui/types'
+import type { User } from '~/types/entities'
 
 definePageMeta({
   layout: 'dashboard',
@@ -53,6 +54,10 @@ const state = reactive({
   password: '',
   repeatPassword: '',
 })
+const supabase = useSupabaseClient()
+const { data: members } = (await supabase.from('users').select()) as {
+  data: User[]
+}
 
 async function addNewMember(event: FormSubmitEvent<Schema>) {
   console.log(event)
@@ -75,14 +80,14 @@ function openModalNewMember() {
 
       <div class="mt-2 block">
         <ul class="grid grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-3">
-          <li v-for="v in [1, 2, 3]" :key="v.toString()">
+          <li v-for="member in members" :key="member.id">
             <NuxtLink
-              to="/hq/members/123"
+              :to="`/hq/members/${member.username}`"
               class="hover:border-primary-400 flex w-full items-center justify-between border-2 bg-white p-2 transition focus:outline-none focus:ring"
             >
               <div class="flex items-center gap-2">
                 <img
-                  src="https://api.dicebear.com/9.x/shapes/svg?seed=hehe"
+                  :src="`https://api.dicebear.com/9.x/shapes/svg?seed=${member.username}`"
                   alt="Profile picture"
                   class="rounded-full border bg-gray-50"
                   width="50"
@@ -91,8 +96,8 @@ function openModalNewMember() {
                 <div>
                   <RoleBadge />
                   <br />
-                  <b class="mr-1">Muhammad Idris</b>
-                  <small class="text-gray-600">@jamroji123</small>
+                  <b class="mr-1">{{ member.display_name }}</b>
+                  <small class="text-gray-600">@{{ member.username }}</small>
                   <p class="text-gray-600">2 stories</p>
                 </div>
               </div>
