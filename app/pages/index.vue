@@ -7,17 +7,17 @@ useHead({
   title: 'Home',
 })
 
-const links = ref([
-  { text: 'Stories', href: '#' },
-  { text: 'Activities', href: '#' },
-  { text: 'Goodies', href: '#' },
-  { text: 'About Us', href: '#' }
+const navLinks = ref([
+  { text: 'Stories', to: '#' },
+  { text: 'Activities', to: '#' },
+  { text: 'Goodies', to: '#' },
+  { text: 'About Us', to: '#' }
 ]);
 
-const cards = ref([
-  { header: "Malam Imajinasi", content: "https://placehold.co/400x400.png" },
-  { header: "Pekan Membaca", content: "https://placehold.co/500x500.png" },
-  { header: "JBP Berpuisi", content: "https://placehold.co/600x600.png" }
+const activityCards = ref([
+  { header: "Malam Imajinasi", content: "https://picsum.photos/400/400" },
+  { header: "Pekan Membaca", content: "https://picsum.photos/500/500" },
+  { header: "JBP Berpuisi", content: "https://picsum.photos/600/600" }
 ]);
 </script>
 
@@ -27,11 +27,11 @@ const cards = ref([
       <div class="container mx-auto flex items-center justify-between">
         <div class="flex items-center">
           <div>
-            <img src="https://placehold.co/400x400.png" alt="YBP Logo" class="h-12 rounded-full">
+            <img src="https://placehold.co/400x400.png" loading="lazy" alt="YBP Logo" class="h-12 rounded-full">
           </div>
           <ul class="flex space-x-8 ml-12">
-            <li v-for="link in links" :key="link.text">
-              <NuxtLink :to="link.href" class="text-gray-600 hover:bg-primary-50 gap-2 px-4 py-3 transition md:w-auto">
+            <li v-for="link in navLinks" :key="link.text">
+              <NuxtLink :to="link.to" class="text-gray-600 hover:bg-primary-50 gap-2 px-4 py-3 transition md:w-auto">
                 {{ link.text }}
               </NuxtLink>
             </li>
@@ -64,7 +64,7 @@ const cards = ref([
         </div>
         <div class="flex mt-6">
           <div class="w-1/3">
-            <img src="https://picsum.photos/300/200" alt="Banner Image" class="w-full h-auto rounded-xl">
+            <img src="https://picsum.photos/300/200" loading="lazy" alt="Banner Image" class="w-full h-auto rounded-xl">
           </div>
           <div class="w-2/3 p-4 ml-4">
             <p class="text-gray-500 text-3xl">
@@ -88,17 +88,13 @@ const cards = ref([
 
     <div class="container mx-auto px-4 mt-24">
       <h2 class="text-3xl mb-14 text-center text-gray-500">Agenda Kami</h2>
-      <div class="flex space-x-4">
-        <UCard v-for="(card, index) in cards" :key="index" class="flex-1 bg-gray-100">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <UCard v-for="(card, index) in activityCards" :key="index" class="bg-gray-100">
           <template #header>
             <div class="text-center text-gray-500">{{ card.header }}</div>
           </template>
 
-          <img :src="card.content" class="w-full h-full object-cover">
-
-          <template #footer>
-            <Placeholder class="h-8" />
-          </template>
+          <img :src="card.content" loading="lazy" class="w-full h-full object-cover">
         </UCard>
       </div>
     </div>
