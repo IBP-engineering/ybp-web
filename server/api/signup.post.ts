@@ -21,6 +21,7 @@ export default defineEventHandler(async event => {
     username: body.username,
     display_name: body.displayName,
     email: body.email,
+    role_id: 1,
     password: passwordHash,
   })
 
