@@ -39,12 +39,15 @@ const schema = object({
   username: usernameValidator,
   displayName: pipe(string(), nonEmpty('Mohon masukkan nama anda')),
   bio: pipe(string(), maxLength(250, 'Maksimal 250 karakter')),
+  role: pipe(string(), nonEmpty('Mohon pilih role anda')),
 })
 
 type Schema = InferInput<typeof schema>
 
 const openEditProfileSlide = ref(false)
 const isLoading = ref(false)
+const roleOptions = ref([])
+
 const supabase = useSupabaseClient()
 const route = useRoute()
 const toast = useToast()
@@ -54,7 +57,7 @@ const { data: member, refresh } = await useAsyncData(
   async () => {
     const { data, error } = await supabase
       .from('users')
-      .select('username, id, display_name, created_at, bio')
+      .select('username, id, display_name, created_at, bio, roles(name, id)')
       .eq('username', usernameParams)
       .single()
 
@@ -66,6 +69,19 @@ const { data: member, refresh } = await useAsyncData(
     return data
   },
 )
+const { data: roles } = await useLazyAsyncData('roles', async () => {
+  const { data, error } = await supabase
+    .from('roles')
+    .select('name, id, created_at')
+    .neq('has_full_access', true)
+
+  if (error) {
+    console.error(error)
+    return null
+  }
+
+  return data
+})
 
 if (!member.value) {
   throw createError({ statusCode: 404, statusMessage: 'Page Not Found' })
@@ -75,6 +91,7 @@ const state = reactive({
   username: member.value.username,
   displayName: member.value.display_name,
   bio: member.value.bio ?? '',
+  role: String(member.value.roles.id),
 })
 
 async function updateProfile(event: FormSubmitEvent<Schema>) {
@@ -106,6 +123,7 @@ async function updateProfile(event: FormSubmitEvent<Schema>) {
       username: data.username,
       display_name: data.displayName,
       bio: data.bio,
+      role_id: Number(data.role),
       updated_at: new Date(),
     })
     .eq('id', member.value.id)
@@ -135,6 +153,14 @@ async function updateProfile(event: FormSubmitEvent<Schema>) {
     await refresh()
   }
 }
+
+onMounted(() => {
+  if (roles.value.length > 0) {
+    for (const role of roles.value) {
+      roleOptions.value.push({ label: role.name, value: role.id })
+    }
+  }
+})
 </script>
 
 <template>
@@ -148,7 +174,7 @@ async function updateProfile(event: FormSubmitEvent<Schema>) {
     <div class="mx-auto w-full max-w-screen-xl">
       <div class="flex w-full flex-col-reverse justify-between p-4 md:flex-row">
         <div class="md:w-3/4">
-          <RoleBadge />
+          <RoleBadge :name="member.roles.name" />
           <h1 class="text-xl font-bold md:mb-1 md:text-4xl">
             {{ member.display_name }}
           </h1>
@@ -233,10 +259,19 @@ async function updateProfile(event: FormSubmitEvent<Schema>) {
           <UFormGroup required label="Username" name="username">
             <UInput v-model="state.username" :loading="isLoading" type="text" />
           </UFormGroup>
-          <UFormGroup required class="my-4" label="Nama" name="displayName">
+          <UFormGroup required class="mt-4" label="Nama" name="displayName">
             <UInput v-model="state.displayName" :loading="isLoading" />
           </UFormGroup>
-          <UFormGroup label="Bio" name="bio">
+          <UFormGroup
+            required
+            v-if="member.roles.name !== 'admin'"
+            class="mt-4"
+            label="Role"
+            name="role"
+          >
+            <USelect v-model="state.role" :options="roleOptions" />
+          </UFormGroup>
+          <UFormGroup class="mt-4" label="Bio" name="bio">
             <UTextarea v-model="state.bio" :loading="isLoading" />
           </UFormGroup>
 
