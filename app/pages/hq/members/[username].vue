@@ -155,7 +155,7 @@ async function updateProfile(event: FormSubmitEvent<Schema>) {
 }
 
 onMounted(() => {
-  if (roles.value.length > 0) {
+  if (roles.value?.length > 0) {
     for (const role of roles.value) {
       roleOptions.value.push({ label: role.name, value: role.id })
     }
