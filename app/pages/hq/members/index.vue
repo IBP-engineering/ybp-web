@@ -11,7 +11,7 @@ const supabase = useSupabaseClient()
 const { data: members } = await useAsyncData('members', async () => {
   const { data, error } = await supabase
     .from('users')
-    .select('username, id, display_name, created_at')
+    .select('username, id, display_name, created_at, roles(name)')
     .order('created_at', { ascending: false })
 
   if (error) {
@@ -39,7 +39,7 @@ const { data: members } = await useAsyncData('members', async () => {
               <div class="flex items-center gap-2">
                 <UserPicture :seed="member.username" width="50" height="50" />
                 <div>
-                  <RoleBadge />
+                  <RoleBadge :name="member.roles.name" />
                   <br />
                   <b class="mr-1">{{ member.display_name }}</b>
                   <small class="text-gray-600">@{{ member.username }}</small>
