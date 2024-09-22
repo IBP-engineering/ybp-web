@@ -75,7 +75,7 @@ const items = [
     <header class="w-full bg-white pb-2">
       <div class="mx-auto w-full max-w-screen-xl px-4 pt-4">
         <div class="flex items-center justify-between">
-          <div class="inline-flex items-center">
+          <NuxtLink to="/hq" class="inline-flex items-center">
             <img
               src="https://picsum.photos/200/200"
               alt="YBP logo"
@@ -85,7 +85,7 @@ const items = [
               loading="lazy"
             />
             <b class="ml-2 text-lg">| {{ user.roles.name.toUpperCase() }}</b>
-          </div>
+          </NuxtLink>
           <div class="flex items-center gap-4">
             <UDropdown :items="items" :popper="{ placement: 'bottom-start' }">
               <UButton color="white" variant="ghost"
