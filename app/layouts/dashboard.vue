@@ -27,12 +27,20 @@ const supabase = useSupabaseClient()
 const userSession = useSupabaseUser()
 
 const toast = useToast()
-const { data: user } = (await supabase
-  .from('users')
-  .select('username, display_name')
-  .eq('id', userSession.value.id)
-  .single()) as { data: User }
+const { data: user } = await useAsyncData('current-user', async () => {
+  const { data, error } = await supabase
+    .from('users')
+    .select('username, id, display_name, created_at, roles(name)')
+    .eq('id', userSession.value.id)
+    .single()
 
+  if (error) {
+    console.error(error)
+    return null
+  }
+
+  return data
+})
 async function logout() {
   const { error } = await supabase.auth.signOut()
 
@@ -51,6 +59,7 @@ async function logout() {
 
 const items = [
   [
+    { label: `@${user.value.username}` },
     {
       label: 'Logout',
       icon: 'i-heroicons-arrow-right-on-rectangle',
@@ -75,12 +84,12 @@ const items = [
               decoding="async"
               loading="lazy"
             />
-            <b class="ml-2 text-lg">| YBP</b>
+            <b class="ml-2 text-lg">| {{ user.roles.name.toUpperCase() }}</b>
           </div>
           <div class="flex items-center gap-4">
             <UDropdown :items="items" :popper="{ placement: 'bottom-start' }">
               <UButton color="white" variant="ghost"
-                >{{ user?.display_name }}
+                >Welcome, {{ user?.display_name }}
                 <UAvatar
                   :src="`https://api.dicebear.com/9.x/shapes/svg?seed=${user?.username}`"
                   alt="Avatar"
