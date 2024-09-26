@@ -32,7 +32,7 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
-  editor.value.destroy()
+  editor.value?.destroy()
 })
 </script>
 
