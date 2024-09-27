@@ -1,39 +1,24 @@
 <script setup lang="ts">
+const supabase = useSupabaseClient()
+const { data: tags } = await useAsyncData('tags', async () => {
+  const { data, error } = await supabase
+    .from('tags')
+    .select('id, title, slug, description')
+
+  if (error) {
+    console.error(error)
+    return null
+  }
+
+  return data
+})
+
 const content = ref('<p>Pada suatu masa...</p>')
 const title = ref('Tanpa judul')
 const showTags = ref(false)
-const tagsOrigin = ref([
-  {
-    id: 1,
-    label: 'curhat',
-    desc: 'hehehehehehe',
-    alreadySelect: false,
-  },
-  {
-    id: 2,
-    label: 'tiduran',
-    desc: 'hehehehehehe',
-    alreadySelect: false,
-  },
-  {
-    id: 3,
-    label: 'bilamana',
-    desc: 'hehehehehehe',
-    alreadySelect: false,
-  },
-  {
-    id: 4,
-    label: 'herewego',
-    desc: 'hehehehehehe',
-    alreadySelect: false,
-  },
-  {
-    id: 5,
-    label: 'nanas',
-    desc: 'hehehehehehe',
-    alreadySelect: false,
-  },
-])
+const tagsOrigin = ref(
+  tags.value.map(tag => ({ ...tag, alreadySelect: false })),
+)
 const selectedTags = ref([])
 
 const selectTag = tag => {
@@ -101,7 +86,7 @@ const removeTag = tag => {
           :key="tag.label"
           variant="ghost"
           @click="() => removeTag(tag)"
-          >#{{ tag.label }}</UButton
+          >#{{ tag.slug }}</UButton
         >
         <UButton
           label="Label"
@@ -121,14 +106,14 @@ const removeTag = tag => {
             >Maksimal memilih 4 label</small
           >
         </div>
-        <div v-for="tag in tagsOrigin" :key="tag.label">
+        <div v-for="tag in tagsOrigin" :key="tag.id">
           <button
             v-if="!tag.alreadySelect"
             @click="() => selectTag(tag)"
             class="flex w-full flex-col items-start p-2 transition hover:bg-gray-100"
           >
-            <p>#{{ tag.label }}</p>
-            <small class="text-gray-600">{{ tag.desc }}</small>
+            <p>#{{ tag.slug }}</p>
+            <small class="text-gray-600">{{ tag.description }}</small>
           </button>
         </div>
       </div>
