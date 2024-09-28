@@ -24,6 +24,7 @@ watch(
 onMounted(() => {
   editor.value = new Editor({
     content: editorModel.value,
+    // @ts-ignore
     extensions: [TextStyle.configure({ types: [ListItem.name] }), StarterKit],
     onUpdate: () => {
       editorModel.value = editor.value.getHTML()
