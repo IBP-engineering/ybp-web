@@ -87,10 +87,25 @@ const submitStory = async () => {
   isLoading.value = true
   try {
     const slug = toSlug(form.title)
+    let coverPath = ''
+    if (form.coverImage?.size) {
+      const fileExtension = form.coverImage.name.split('.').pop()
+      const fileName = slug.concat('.', fileExtension)
+      console.log('filename', fileName)
+      const { data } = await supabase.storage
+        .from('story-cover')
+        .upload(`${user.value.id}/${fileName}`, form.coverImage, {
+          upsert: true,
+        })
+      console.log('image', data)
+      coverPath = data?.path
+    }
+
     const { data: createdStory } = await supabase
       .from('stories')
       .insert({
         slug,
+        cover_path: coverPath,
         title: form.title,
         content: content.value,
         user_id: user.value?.id,
@@ -153,12 +168,12 @@ const previewImage = (event: any) => {
   }
 
   try {
-    form.coverImage = file
     const reader = new FileReader()
     reader.onload = e => {
       previewImageUrl.value = e.target.result
     }
     reader.readAsDataURL(file)
+    form.coverImage = file
   } catch (error) {
     console.error(error)
   }
