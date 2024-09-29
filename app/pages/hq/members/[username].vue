@@ -9,6 +9,7 @@ import {
   type InferInput,
 } from 'valibot'
 import type { FormSubmitEvent } from '#ui/types'
+import type { Database } from '~/types/database.types'
 
 definePageMeta({
   layout: 'dashboard',
@@ -18,23 +19,6 @@ useHead({
   title: 'Detail member',
 })
 
-const samples = [
-  {
-    title: 'Ketika kekuasaan disalahgunakan',
-    author: 'Kalwabed Rizki',
-    status: 'verified',
-  },
-  {
-    title: 'Tidur beralaskan jerami',
-    author: 'Kalwabed Rizki',
-    status: 'rejected',
-  },
-  {
-    title: 'Kepanasan disengat hawa panas matahari ',
-    author: 'Kalwabed Rizki',
-    status: 'pending',
-  },
-]
 const schema = object({
   username: usernameValidator,
   displayName: pipe(string(), nonEmpty('Mohon masukkan nama anda')),
@@ -48,12 +32,12 @@ const openEditProfileSlide = ref(false)
 const isLoading = ref(false)
 const roleOptions = ref([])
 
-const supabase = useSupabaseClient()
+const supabase = useSupabaseClient<Database>()
 const route = useRoute()
 const toast = useToast()
 const usernameParams = route.params.username
-const { data: member, refresh } = await useAsyncData(
-  `members/${usernameParams}`,
+const { data: user, refresh: refreshUser } = await useAsyncData(
+  `users/${usernameParams}`,
   async () => {
     const { data, error } = await supabase
       .from('users')
@@ -83,15 +67,39 @@ const { data: roles } = await useLazyAsyncData('roles', async () => {
   return data
 })
 
-if (!member.value) {
+if (!user.value) {
   throw createError({ statusCode: 404, statusMessage: 'Page Not Found' })
 }
 
+const { data: stories, refresh: refreshStories } = await useAsyncData(
+  `users/${usernameParams}/stories`,
+  async () => {
+    const { data, error } = await supabase
+      .from('stories')
+      .select(
+        `*, 
+        tags:story_tags!id(tag:tag_id(title)), 
+        author:users(id, username, display_name), 
+        status:story_statuses!id(*)
+        `,
+      )
+      .eq('user_id', user.value.id)
+      .order('created_at', { ascending: false })
+
+    if (error) {
+      console.error(error)
+      return []
+    }
+
+    return data
+  },
+)
+
 const state = reactive({
-  username: member.value.username,
-  displayName: member.value.display_name,
-  bio: member.value.bio ?? '',
-  role: String(member.value.roles.id),
+  username: user.value.username,
+  displayName: user.value.display_name,
+  bio: user.value.bio ?? '',
+  role: String(user.value.roles.id),
 })
 
 async function updateProfile(event: FormSubmitEvent<Schema>) {
@@ -104,7 +112,7 @@ async function updateProfile(event: FormSubmitEvent<Schema>) {
     .ilike('username', `%${data.username}%`)
     .single()
 
-  if (existingUsername?.data && existingUsername.data.id !== member.value.id) {
+  if (existingUsername?.data && existingUsername.data.id !== user.value.id) {
     // check if username is found but is the same user
     toast.add({
       title: 'Terjadi kesalahan ketika mengubah member',
@@ -112,7 +120,7 @@ async function updateProfile(event: FormSubmitEvent<Schema>) {
       color: 'red',
     })
     isLoading.value = false
-    await refresh()
+    await Promise.allSettled([refreshUser(), refreshStories()])
     return
   }
 
@@ -124,9 +132,9 @@ async function updateProfile(event: FormSubmitEvent<Schema>) {
       display_name: data.displayName,
       bio: data.bio,
       role_id: Number(data.role),
-      updated_at: new Date(),
+      updated_at: new Date().toString(),
     })
-    .eq('id', member.value.id)
+    .eq('id', user.value.id)
 
   if (errorUpdate) {
     toast.add({
@@ -135,7 +143,7 @@ async function updateProfile(event: FormSubmitEvent<Schema>) {
       color: 'red',
     })
     isLoading.value = false
-    await refresh()
+    await Promise.allSettled([refreshUser(), refreshStories()])
     return
   }
 
@@ -146,11 +154,11 @@ async function updateProfile(event: FormSubmitEvent<Schema>) {
   openEditProfileSlide.value = false
   isLoading.value = false
 
-  if (data.username !== member.value.username) {
+  if (data.username !== user.value.username) {
     // username is changing
     await navigateTo(`/hq/members/${data.username}`)
   } else {
-    await refresh()
+    await Promise.allSettled([refreshUser(), refreshStories()])
   }
 }
 
@@ -174,18 +182,16 @@ onMounted(() => {
     <div class="mx-auto w-full max-w-screen-xl">
       <div class="flex w-full flex-col-reverse justify-between p-4 md:flex-row">
         <div class="md:w-3/4">
-          <RoleBadge :name="member.roles.name" />
+          <RoleBadge :name="user.roles.name" />
           <h1 class="text-xl font-bold md:mb-1 md:text-4xl">
-            {{ member.display_name }}
+            {{ user.display_name }}
           </h1>
-          <p class="text-sm text-gray-600 md:text-base">
-            @{{ member.username }}
-          </p>
+          <p class="text-sm text-gray-600 md:text-base">@{{ user.username }}</p>
           <p class="mt-1 text-balance">
-            {{ member.bio }}
+            {{ user.bio }}
           </p>
           <p
-            :title="new Date(member.created_at).toISOString()"
+            :title="new Date(user.created_at).toString()"
             class="my-3 inline-flex items-center gap-1 text-gray-600"
           >
             <UIcon name="i-heroicons:calendar-days" class="h-5 w-5" /> Bergabung
@@ -194,7 +200,7 @@ onMounted(() => {
               new Intl.DateTimeFormat('id', {
                 month: 'long',
                 year: 'numeric',
-              }).format(new Date(member.created_at))
+              }).format(new Date(user.created_at))
             }}
           </p>
           <UButton
@@ -208,7 +214,7 @@ onMounted(() => {
         </div>
 
         <div class="flex flex-col items-center gap-2">
-          <UserPicture :seed="member.username" />
+          <UserPicture :seed="user.username" />
           <UButton
             class="hidden md:inline-flex"
             variant="outline"
@@ -219,8 +225,11 @@ onMounted(() => {
         </div>
       </div>
       <div class="mt-4 space-y-4 px-4">
-        <h2 class="text-lg">Daftar cerita</h2>
-        <StoryCard v-for="v in samples" :story="v" :key="v.title" />
+        <h2 class="text-lg font-semibold">DAFTAR CERITA</h2>
+        <div class="space-y-4" v-if="stories.length > 0">
+          <StoryCard v-for="v in stories" :story="v" :key="v.id" />
+        </div>
+        <p class="text-gray-600" v-else>Belum ada cerita yang ditambahkan</p>
       </div>
     </div>
 
@@ -264,7 +273,7 @@ onMounted(() => {
           </UFormGroup>
           <UFormGroup
             required
-            v-if="member.roles.name !== 'admin'"
+            v-if="user.roles.name !== 'admin'"
             class="mt-4"
             label="Role"
             name="role"
