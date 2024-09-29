@@ -10,6 +10,7 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@formkit/tempo": "^0.1.2",
     "@node-rs/argon2": "^1.8.3",
     "@nuxt/fonts": "^0.9.2",
     "@nuxt/ui": "^2.18.6",

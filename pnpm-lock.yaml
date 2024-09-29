@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@formkit/tempo':
+        specifier: ^0.1.2
+        version: 0.1.2
       '@node-rs/argon2':
         specifier: ^1.8.3
         version: 1.8.3
@@ -900,6 +903,9 @@ packages:
   '@fastify/busboy@2.1.1':
     resolution: {integrity: sha512-vBZP4NlzfOlerQTnba4aqZoMhE/a9HY7HRqoOPaETQcSQuWEIyZMHGfVu6w9wGtGK5fED5qRs2DteVCjOH60sA==}
     engines: {node: '>=14'}
+
+  '@formkit/tempo@0.1.2':
+    resolution: {integrity: sha512-jNPPbjL8oj7hK3eHX++CwbR6X4GKQt+x00/q4yeXkwynXHGKL27dylYhpEgwrmediPP4y7s0XtN1if/M/JYujg==}
 
   '@headlessui/tailwindcss@0.2.1':
     resolution: {integrity: sha512-2+5+NZ+RzMyrVeCZOxdbvkUSssSxGvcUxphkIfSVLpRiKsj+/63T2TOL9dBYMXVfj/CGr6hMxSRInzXv6YY7sA==}
@@ -5827,6 +5833,8 @@ snapshots:
       levn: 0.4.1
 
   '@fastify/busboy@2.1.1': {}
+
+  '@formkit/tempo@0.1.2': {}
 
   '@headlessui/tailwindcss@0.2.1(tailwindcss@3.4.13)':
     dependencies:
