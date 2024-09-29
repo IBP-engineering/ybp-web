@@ -13,7 +13,10 @@ const { data: story } = await useAsyncData(`hq/stories/${slug}`, async () => {
   const { data, error } = await supabase
     .from('stories')
     .select(
-      `*, tags:story_tags!id(tag:tag_id(title)), status:story_statuses!id(*)`,
+      `*, 
+      tags:story_tags!id(tag_id(*)), 
+      status:story_statuses!id(*)
+      `,
     )
     .eq('slug', slug)
     .single()
@@ -23,13 +26,40 @@ const { data: story } = await useAsyncData(`hq/stories/${slug}`, async () => {
     return null
   }
 
-  return data
+  return {
+    ...data,
+    tags: data.tags.map(tag => tag.tag_id) as unknown as {
+      id: string
+      description: string
+      title: string
+      slug: string
+    }[],
+  }
 })
 </script>
 
 <template>
   <div>
-    <PageHeader :title="story.title" back-button-text="Stories" mode="detail" />
-    <p>params: {{ slug }}</p>
+    <PageHeader title="Detail story" back-button-text="Stories" mode="detail" />
+    <div class="mx-auto w-full max-w-screen-xl px-4 md:px-0">
+      <h2 class="text-4xl font-bold leading-relaxed">{{ story.title }}</h2>
+      <div class="flex gap-2">
+        <div
+          class="rounded border border-gray-300 bg-gray-200 px-2"
+          v-for="tag in story.tags"
+          :key="tag.id"
+        >
+          <UTooltip :title="tag.title" :text="tag.description">
+            <b>#{{ tag?.slug }}</b>
+          </UTooltip>
+        </div>
+      </div>
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis
+        dolor, modi accusamus neque veritatis iusto, sapiente quae qui, beatae
+        expedita porro dignissimos cum rerum autem ipsam cumque vero dolorum!
+        Necessitatibus.
+      </p>
+    </div>
   </div>
 </template>
