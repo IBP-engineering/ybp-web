@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { Database } from '~/types/database.types'
 import type { User } from '~/types/entities'
 
 const openNavModal = ref(false)
@@ -23,7 +24,7 @@ const links = [
   },
 ]
 
-const supabase = useSupabaseClient()
+const supabase = useSupabaseClient<Database>()
 const userSession = useSupabaseUser()
 
 const toast = useToast()
@@ -88,8 +89,10 @@ const items = [
           </NuxtLink>
           <div class="flex items-center gap-4">
             <UDropdown :items="items" :popper="{ placement: 'bottom-start' }">
-              <UButton color="white" variant="ghost"
-                >Welcome, {{ user?.display_name }}
+              <UButton color="white" variant="ghost">
+                <span class="hidden md:block">
+                  Welcome, {{ user?.display_name }}
+                </span>
                 <UAvatar
                   :src="`https://api.dicebear.com/9.x/shapes/svg?seed=${user?.username}`"
                   alt="Avatar"
