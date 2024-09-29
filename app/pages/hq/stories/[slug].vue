@@ -50,37 +50,41 @@ const { data: story } = await useAsyncData(`hq/stories/${slug}`, async () => {
   <div>
     <PageHeader title="Detail story" back-button-text="Stories" mode="detail" />
     <div class="mx-auto mt-8 w-full max-w-screen-xl px-4 md:px-0">
-      <div class="flex gap-4 border-b border-gray-400 pb-2">
+      <div
+        class="flex flex-col gap-4 overflow-hidden rounded border bg-white shadow md:flex-row"
+      >
         <img
           v-if="story.cover_path"
           :src="story.cover_path"
           height="300"
-          class="h-[200px] w-full md:w-[400px]"
+          class="h-full min-h-[200px] w-full md:w-[400px]"
           alt="Story cover"
         />
-        <div class="flex flex-col">
+        <div class="flex flex-col px-4 py-3">
           <StoryBadgeStatus :status="story.status" />
-          <h2 class="text-3xl font-bold leading-relaxed">{{ story.title }}</h2>
-          <div v-if="story.tags?.length > 0" class="mb-4 flex gap-2">
+          <h2 class="text-xl font-bold leading-relaxed md:text-2xl">
+            {{ story.title }} tambahan 222
+          </h2>
+          <div v-if="story.tags?.length > 0" class="mt-2 flex gap-2">
             <div
               class="rounded border border-gray-300 bg-gray-200 px-2"
               v-for="tag in story.tags"
               :key="tag.id"
             >
               <UTooltip :title="tag.title" :text="tag.description">
-                <b>#{{ tag?.slug }}</b>
+                <span>#{{ tag?.slug }}</span>
               </UTooltip>
             </div>
           </div>
-          <p class="text-gray-600">
+          <small class="mt-4 text-gray-600">
             Ditulis oleh
             {{ story.author.display_name }}, pada
             {{ format(story.created_at, 'DD MMM YYYY, HH:mm', 'id') }}
-          </p>
-          <p class="text-gray-600">
+          </small>
+          <small class="text-gray-600">
             Update terakhir pada
             {{ format(story.updated_at, 'DD MMM YYYY, HH:mm', 'id') }}
-          </p>
+          </small>
         </div>
       </div>
 
