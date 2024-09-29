@@ -151,7 +151,7 @@ const activityCards = ref([
 
     <div class="container mx-auto mt-24 px-4">
       <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
-        <div class="description flex flex-col justify-center">
+        <div class="flex flex-col justify-center">
           <h2 class="mb-5 text-2xl text-gray-500">Tentang Kami</h2>
           <p class="w-3/4 text-lg text-gray-500">
             Hydra is a Y Combinator-backed data processing company with a
@@ -176,12 +176,72 @@ const activityCards = ref([
         </div>
       </div>
     </div>
-
-    <div
-      class="bottom-0 left-0 right-0 mb-4 ml-4 mr-4 mt-24 rounded-lg bg-gray-100 p-4 text-white"
-    >
-      <div class="mx-auto max-w-7xl text-center text-gray-600">
-        <p>© 2024 Jogja Book Party</p>
+    <div class="container mx-auto mb-12 mt-24 rounded-lg bg-gray-100 px-4 py-4">
+      <div class="grid grid-cols-3 gap-4">
+        <div class="col-span-1 flex h-full flex-col justify-between p-4">
+          <div>
+            <img
+              src="https://placehold.co/400x400.png"
+              loading="lazy"
+              alt="YBP Logo"
+              class="h-16 rounded-full"
+            />
+            <div class="mt-4 flex items-center">
+              <p class="text-base text-gray-600">Part of.</p>
+              <img
+                src="https://placehold.co/200x100.png"
+                loading="lazy"
+                alt="IBP Logo"
+                class="ml-4 h-12 w-auto rounded-lg"
+              />
+            </div>
+            <p class="mt-8 text-base text-gray-500">
+              Designed in Sleman, Yogyakarta.<br />
+              Built around the world. 🌎
+            </p>
+            <p class="mt-2 text-base text-gray-500">
+              Contact: <br />ibp1@gmail.com
+            </p>
+          </div>
+        </div>
+        <div class="col-span-2 p-4">
+          <div class="grid grid-cols-3 gap-4">
+            <div class="flex justify-end p-2 text-gray-600">
+              <ul class="pl-4">
+                <p class="mb-2 text-lg font-medium">Products</p>
+                <li><a href="#" class="">Cerita</a></li>
+                <li><a href="#" class="">Goodies</a></li>
+              </ul>
+            </div>
+            <div class="flex justify-end p-2 text-gray-600">
+              <ul class="pl-4">
+                <p class="mb-2 text-lg font-medium">Activities</p>
+                <li><a href="#" class="">Pekan Membaca</a></li>
+                <li><a href="#" class="">Malam Imajinasi</a></li>
+                <li><a href="#" class="">JPB Berpuisi</a></li>
+              </ul>
+            </div>
+            <div class="flex justify-end p-2 text-gray-600">
+              <ul class="pl-4">
+                <p class="mb-2 text-lg font-medium">Organization</p>
+                <li><a href="#" class="">Cerita</a></li>
+                <li><a href="#" class="">Tentang Kami</a></li>
+                <li><a href="#" class="">Kerja Sama</a></li>
+                <li><a href="#" class="">Donasi</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="flex justify-between p-4">
+        <div class="flex items-end">
+          <a href="#">
+            <UIcon name="i-ph:instagram-logo" class="h-6 w-6" />
+          </a>
+        </div>
+        <div class="flex items-end">
+          <p class="font-medium text-gray-600">© 2024 Jogja Book Party</p>
+        </div>
       </div>
     </div>
   </div>
