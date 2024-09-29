@@ -1,17 +1,4 @@
-export interface User {
-  id: string
-  display_name: string
-  username: string
-  password: string
-  bio: string
-  email: string
-  is_active: Date
-  created_at: Date
-}
+import type { Database } from './database.types'
 
-export interface Tag {
-  id: string
-  title: string
-  description: string
-  slug: string
-}
+export type User = Database['public']['Tables']['users']['Row']
+export type Tag = Database['public']['Tables']['tags']['Row']

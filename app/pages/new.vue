@@ -1,8 +1,9 @@
 <script setup lang="ts">
+import type { Database } from '~/types/database.types'
 import type { Tag } from '~/types/entities'
 
 const toast = useToast()
-const supabase = useSupabaseClient()
+const supabase = useSupabaseClient<Database>()
 const user = useSupabaseUser()
 const { data: tags } = await useAsyncData('tags', async () => {
   const { data, error } = await supabase
@@ -18,24 +19,26 @@ const { data: tags } = await useAsyncData('tags', async () => {
 })
 const fileInput = useTemplateRef('coverImage')
 
-const form = reactive<{ title: string; coverImage: File; selectedTags: Tag[] }>(
-  {
-    title: 'Tanpa judul',
-    selectedTags: [],
-    coverImage: null,
-  },
-)
+const form = reactive<{
+  title: string
+  coverImage: File
+  selectedTags: Partial<Tag>[]
+}>({
+  title: 'Tanpa judul',
+  selectedTags: [],
+  coverImage: null,
+})
 const previewImageUrl = ref<string | ArrayBuffer>('')
 const content = ref('<p>Pada suatu masa...</p>')
 const showTags = ref(false)
 const isLoading = ref(false)
 const modalAlert = reactive({ title: '', message: '', isSuccess: false })
 const openModal = ref(false)
-const tagsOrigin = ref(
+const tagsOrigin = ref<(Partial<Tag> & { alreadySelect: boolean })[]>(
   tags.value.map(tag => ({ ...tag, alreadySelect: false })),
 )
 
-const selectTag = (tag: Tag) => {
+const selectTag = (tag: Partial<Tag>) => {
   const existingTag = form.selectedTags.some(sel => sel.id === tag.id)
   if (existingTag || form.selectedTags.length >= 4) {
     return
@@ -57,7 +60,7 @@ const selectTag = (tag: Tag) => {
   tagsOrigin.value = modifyTags
 }
 
-const removeTag = (tag: Tag) => {
+const removeTag = (tag: Partial<Tag>) => {
   const existingTag = form.selectedTags.some(sel => sel.id === tag.id)
   if (!existingTag) {
     return
@@ -86,7 +89,6 @@ const submitStory = async () => {
     const slug = toSlug(form.title)
     const { data: createdStory } = await supabase
       .from('stories')
-      // @ts-ignore
       .insert({
         slug,
         title: form.title,
@@ -101,9 +103,7 @@ const submitStory = async () => {
       tag_id: tag.id,
     }))
     await Promise.all([
-      // @ts-ignore
       supabase.from('story_tags').insert(batchStoryWithTags),
-      // @ts-ignore
       supabase.from('story_statuses').insert({ story_id: createdStory.id }),
     ])
 

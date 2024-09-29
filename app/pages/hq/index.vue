@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type { Database } from '~/types/database.types'
+
 useHead({
   title: 'Dashboard',
 })
@@ -6,7 +8,7 @@ definePageMeta({
   layout: 'dashboard',
 })
 
-const supabase = useSupabaseClient()
+const supabase = useSupabaseClient<Database>()
 const { data: stories } = await useAsyncData('hq/stories', async () => {
   const { data, error } = await supabase
     .from('story_statuses')
