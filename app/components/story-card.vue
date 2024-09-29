@@ -1,9 +1,24 @@
 <script setup lang="ts">
 import { format } from '@formkit/tempo'
+import type { Story, Tag, User } from '~/types/entities'
 
-defineProps<{
-  data: any
+const props = defineProps<{
+  data: {
+    is_published: boolean
+    story: Story & { tags: Tag[]; author: User }
+  }
 }>()
+
+const imageUrl = ref('')
+const supabase = useSupabaseClient()
+
+if (props.data.story.cover_path) {
+  const { data: coverResult } = supabase.storage
+    .from('story-cover')
+    .getPublicUrl(props.data.story.cover_path)
+
+  imageUrl.value = coverResult?.publicUrl
+}
 </script>
 
 <template>
@@ -12,11 +27,12 @@ defineProps<{
   >
     <div class="relative">
       <img
-        src="https://picsum.photos/250/130"
+        v-if="Boolean(imageUrl)"
+        :src="imageUrl"
         alt="Cover"
         width="250"
         height="130"
-        class="h-full w-full rounded-t md:rounded-l md:rounded-tr-none"
+        class="h-full w-[250px] rounded-t md:rounded-l md:rounded-tr-none"
       />
       <div
         v-if="data.is_published"
