@@ -16,7 +16,7 @@ definePageMeta({
 })
 
 useHead({
-  title: 'Detail member',
+  title: 'Detail user',
 })
 
 const schema = object({
@@ -115,7 +115,7 @@ async function updateProfile(event: FormSubmitEvent<Schema>) {
   if (existingUsername?.data && existingUsername.data.id !== user.value.id) {
     // check if username is found but is the same user
     toast.add({
-      title: 'Terjadi kesalahan ketika mengubah member',
+      title: 'Terjadi kesalahan ketika mengubah user',
       description: 'Username telah digunakan',
       color: 'red',
     })
@@ -138,7 +138,7 @@ async function updateProfile(event: FormSubmitEvent<Schema>) {
 
   if (errorUpdate) {
     toast.add({
-      title: 'Terjadi kesalahan ketika mengubah member',
+      title: 'Terjadi kesalahan ketika mengubah user',
       description: errorUpdate.message,
       color: 'red',
     })
@@ -148,7 +148,7 @@ async function updateProfile(event: FormSubmitEvent<Schema>) {
   }
 
   toast.add({
-    title: 'Berhasil mengubah member',
+    title: 'Berhasil mengubah user',
     color: 'green',
   })
   openEditProfileSlide.value = false
@@ -156,7 +156,7 @@ async function updateProfile(event: FormSubmitEvent<Schema>) {
 
   if (data.username !== user.value.username) {
     // username is changing
-    await navigateTo(`/hq/members/${data.username}`)
+    await navigateTo(`/hq/users/${data.username}`)
   } else {
     await Promise.allSettled([refreshUser(), refreshStories()])
   }
@@ -174,10 +174,10 @@ onMounted(() => {
 <template>
   <div>
     <PageHeader
-      title="Detail member"
+      title="Detail user"
       mode="detail"
-      back-button-text="Members"
-      back-button-href="/hq/members"
+      back-button-text="Users"
+      back-button-href="/hq/users"
     />
     <div class="mx-auto w-full max-w-screen-xl">
       <div class="flex w-full flex-col-reverse justify-between p-4 md:flex-row">
@@ -247,7 +247,7 @@ onMounted(() => {
             <h3
               class="text-base font-semibold leading-6 text-gray-900 dark:text-white"
             >
-              Edit member
+              Edit user
             </h3>
             <UButton
               color="gray"

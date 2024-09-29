@@ -57,7 +57,7 @@ if (props.story.cover_path) {
       <div class="text-gray-600">
         <span> oleh </span>
         <ULink
-          :to="`/hq/members/${story.author.username}`"
+          :to="`/hq/users/${story.author.username}`"
           class="hover:text-primary-600 underline"
           >{{ story.author.display_name }}</ULink
         >
