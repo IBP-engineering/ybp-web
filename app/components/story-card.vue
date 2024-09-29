@@ -32,7 +32,7 @@ if (props.data.story.cover_path) {
         alt="Cover"
         width="250"
         height="130"
-        class="h-full w-[250px] rounded-t md:rounded-l md:rounded-tr-none"
+        class="h-full w-full rounded-t md:w-[250px] md:rounded-l md:rounded-tr-none"
       />
       <div
         v-if="data.is_published"

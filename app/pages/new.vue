@@ -192,14 +192,14 @@ const removeImageCover = () => {
 </script>
 
 <template>
-  <div class="mx-auto w-full max-w-screen-xl">
+  <div class="mx-auto w-full max-w-screen-xl px-4 md:px-0">
     <p>new page. login as:{{ user?.id ?? 'none' }}</p>
     <div class="mx-auto mt-12 max-w-screen-lg">
-      <div class="mb-4 flex gap-2">
+      <div class="mb-4 flex flex-col gap-2 md:flex-row">
         <img
           v-if="previewImageUrl"
           :src="previewImageUrl.toString()"
-          alt="Preview cover image"
+          alt="Story cover"
           width="500"
           height="300"
         />
@@ -267,7 +267,7 @@ const removeImageCover = () => {
           <button
             v-if="!tag.alreadySelect"
             @click="() => selectTag(tag)"
-            class="flex w-full flex-col items-start p-2 transition hover:bg-gray-100"
+            class="flex w-full flex-col items-start p-2 text-start transition hover:bg-gray-100"
           >
             <p>#{{ tag.slug }}</p>
             <small class="text-gray-600">{{ tag.description }}</small>
