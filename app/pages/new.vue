@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import type { Tag } from '~/types/entities'
+
+const toast = useToast()
 const supabase = useSupabaseClient()
 const user = useSupabaseUser()
 const { data: tags } = await useAsyncData('tags', async () => {
@@ -13,9 +16,17 @@ const { data: tags } = await useAsyncData('tags', async () => {
 
   return data
 })
+const fileInput = useTemplateRef('coverImage')
 
+const form = reactive<{ title: string; coverImage: File; selectedTags: Tag[] }>(
+  {
+    title: 'Tanpa judul',
+    selectedTags: [],
+    coverImage: null,
+  },
+)
+const previewImageUrl = ref<string | ArrayBuffer>('')
 const content = ref('<p>Pada suatu masa...</p>')
-const title = ref('Tanpa judul')
 const showTags = ref(false)
 const isLoading = ref(false)
 const modalAlert = reactive({ title: '', message: '', isSuccess: false })
@@ -23,15 +34,14 @@ const openModal = ref(false)
 const tagsOrigin = ref(
   tags.value.map(tag => ({ ...tag, alreadySelect: false })),
 )
-const selectedTags = ref([])
 
-const selectTag = tag => {
-  const existingTag = selectedTags.value.some(sel => sel.id === tag.id)
-  if (existingTag || selectedTags.value.length >= 4) {
+const selectTag = (tag: Tag) => {
+  const existingTag = form.selectedTags.some(sel => sel.id === tag.id)
+  if (existingTag || form.selectedTags.length >= 4) {
     return
   }
 
-  selectedTags.value.push(tag)
+  form.selectedTags.push(tag)
 
   const modifyTags = tagsOrigin.value.map(tg => {
     if (tg.id === tag.id) {
@@ -40,21 +50,21 @@ const selectTag = tag => {
     return tg
   })
 
-  if (selectedTags.value.length >= 4) {
+  if (form.selectedTags.length >= 4) {
     showTags.value = false
   }
 
   tagsOrigin.value = modifyTags
 }
 
-const removeTag = tag => {
-  const existingTag = selectedTags.value.some(sel => sel.id === tag.id)
+const removeTag = (tag: Tag) => {
+  const existingTag = form.selectedTags.some(sel => sel.id === tag.id)
   if (!existingTag) {
     return
   }
 
-  const modifySelectedTags = selectedTags.value.filter(tg => tg.id !== tag.id)
-  selectedTags.value = modifySelectedTags
+  const modifySelectedTags = form.selectedTags.filter(tg => tg.id !== tag.id)
+  form.selectedTags = modifySelectedTags
 
   const modifyTags = tagsOrigin.value.map(tg => {
     if (tg.id === tag.id) {
@@ -63,7 +73,7 @@ const removeTag = tag => {
     return tg
   })
 
-  if (selectedTags.value.length < 4) {
+  if (form.selectedTags.length < 4) {
     showTags.value = true
   }
 
@@ -73,20 +83,20 @@ const removeTag = tag => {
 const submitStory = async () => {
   isLoading.value = true
   try {
-    const slug = toSlug(title.value)
+    const slug = toSlug(form.title)
     const { data: createdStory } = await supabase
       .from('stories')
       // @ts-ignore
       .insert({
         slug,
-        title: title.value,
+        title: form.title,
         content: content.value,
         user_id: user.value?.id,
       })
       .select('id')
       .single()
 
-    const batchStoryWithTags = selectedTags.value.map(tag => ({
+    const batchStoryWithTags = form.selectedTags.map(tag => ({
       story_id: createdStory.id,
       tag_id: tag.id,
     }))
@@ -100,11 +110,10 @@ const submitStory = async () => {
     openModal.value = true
     modalAlert.isSuccess = true
     modalAlert.title = 'Berhasil'
-    modalAlert.message = `Terima kasihh! Cerita kamu dengan judul "${title.value}" akan segera kami proses, ya!`
+    modalAlert.message = `Terima kasihh! Cerita kamu dengan judul "${form.title}" akan segera kami proses, ya!`
 
-    title.value = 'Tanpa judul'
-    console.log(content.value)
-    selectedTags.value = []
+    form.title = 'Tanpa judul'
+    form.selectedTags = []
     showTags.value = false
     tagsOrigin.value = tagsOrigin.value.map(tag => ({
       ...tag,
@@ -123,26 +132,100 @@ const submitStory = async () => {
     return
   }
 }
+
+const previewImage = (event: any) => {
+  const file = event.target.files[0] as File
+  if (!file) {
+    return
+  }
+
+  const maxSizeInBytes = 5 * 1024 * 1024 // 5 MB in bytes
+  // max 5 mb
+  if (file.size >= maxSizeInBytes) {
+    form.coverImage = null
+    previewImageUrl.value = ''
+    toast.add({
+      title: 'Gagal menambahkan cover',
+      description: 'Maksimal ukuran gambar yang diunggah adalah 5mb',
+      color: 'red',
+    })
+    return
+  }
+
+  try {
+    form.coverImage = file
+    const reader = new FileReader()
+    reader.onload = e => {
+      previewImageUrl.value = e.target.result
+    }
+    reader.readAsDataURL(file)
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+const showFileUploader = () => {
+  if (fileInput.value) {
+    fileInput.value.click()
+  }
+}
+
+const removeImageCover = () => {
+  previewImageUrl.value = ''
+  form.coverImage = null
+}
 </script>
 
 <template>
   <div class="mx-auto w-full max-w-screen-xl">
     <p>new page. login as:{{ user?.id ?? 'none' }}</p>
     <div class="mx-auto mt-12 max-w-screen-lg">
+      <div class="mb-4 flex gap-2">
+        <img
+          v-if="previewImageUrl"
+          :src="previewImageUrl.toString()"
+          alt="Preview cover image"
+          width="500"
+          height="300"
+        />
+        <div class="flex items-start gap-4">
+          <UButton
+            variant="outline"
+            @click="showFileUploader"
+            icon="i-ph:image-square"
+          >
+            {{ Boolean(previewImageUrl) ? 'Ubah' : 'Unggah sampul' }}
+          </UButton>
+          <UButton
+            v-if="Boolean(previewImageUrl)"
+            @click="removeImageCover"
+            variant="soft"
+            color="red"
+            >Hapus
+          </UButton>
+        </div>
+      </div>
+      <input
+        ref="coverImage"
+        type="file"
+        class="hidden"
+        accept=".png, .jpg, .jpeg"
+        @change="previewImage"
+      />
       <UInput
         placeholder="Judulnyaaa"
         variant="none"
         color="gray"
         padded
         input-class="mb-2 font-bold text-4xl"
-        v-model="title"
+        v-model="form.title"
         @focus="showTags = false"
         required
       />
       <div class="mb-4 flex w-full items-center gap-2">
         <UButton
-          v-for="tag in selectedTags"
-          :key="tag.label"
+          v-for="tag in form.selectedTags"
+          :key="tag.id"
           variant="ghost"
           @click="() => removeTag(tag)"
           >#{{ tag.slug }}</UButton
