@@ -78,7 +78,7 @@ const activityCards = ref([
           <div
             class="border-primary-300 bg-primary-500 mr-2 h-5 w-5 rounded-full border"
           />
-          <div class="text-xl text-gray-500">Kegiatan yang Akan Datang</div>
+          <div class="text-2xl text-gray-500">Kegiatan yang Akan Datang</div>
         </div>
         <div class="mt-6 flex">
           <div class="w-1/3">
@@ -90,18 +90,23 @@ const activityCards = ref([
             />
           </div>
           <div class="ml-4 w-2/3 p-4">
-            <p class="text-3xl text-gray-500">Nama Kegiatan</p>
-            <br />
-            <p class="text-xl text-gray-500">
-              Hari: 24 Agustus 2024<br />
-              Waktu: 14.00 WIB - selesai<br />
-              Tempat: Wisdom Park UGM
+            <p class="text-2xl text-gray-500">
+              Membaca Bersama Jogja Book Party
             </p>
             <br />
-            <p class="text-xl text-gray-500">
+            <p class="text-lg text-gray-500">
+              Hari: 29 September 2024<br />
+              Waktu: 14.00 WIB - selesai<br />
+              Tempat: Taman Balairung UGM
+            </p>
+            <br />
+            <p class="text-lg text-gray-500">
               Catatan:<br />
-              Bawa alat tulis dan buku yang isinya pengen kamu ceritain ke
-              bookmates lainnya, yaa!
+              Seperti biasa, Yogya Book Party kembali hadir menyapa para
+              bookmates nih! Minggu ini kita bakal seru-seruan di Taman
+              Balairung UGM. Jangan sampai ketinggalan karena bakalan ada games
+              dengan hadiah yang menarik!🥳✨ Mau tau apalagi keseruan
+              bookparty? Stay Tuned terus ya Bookmates 🙌
             </p>
           </div>
         </div>
@@ -109,7 +114,7 @@ const activityCards = ref([
     </div>
 
     <div class="container mx-auto mt-24 px-4">
-      <h2 class="mb-14 text-center text-3xl text-gray-500">Agenda Kami</h2>
+      <h2 class="mb-14 text-center text-2xl text-gray-500">Agenda Kami</h2>
       <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <UCard
           v-for="(card, index) in activityCards"
@@ -147,21 +152,19 @@ const activityCards = ref([
     <div class="container mx-auto mt-24 px-4">
       <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
         <div class="description flex flex-col justify-center">
-          <div>
-            <h2 class="mb-5 text-3xl text-gray-500">Tentang Kami</h2>
-            <p class="text-xl text-gray-500">
-              Hydra is a Y Combinator-backed data processing company with a
-              globally remote team. We are passionate PostgreSQL and backend
-              engineers from Microsoft Azure, Heroku, and Citus Data. We set out
-              to build the best all-in-one database for app development. We
-              believe DuckDB is a remarkable technology made revolutionary
-              within Postgres.<br />
-              <br />
-              Hydra authored pg_duckdb, the official PostgreSQL extension for
-              DuckDB, and employs the project's main contributors. We offer
-              production support and services for the system.
-            </p>
-          </div>
+          <h2 class="mb-5 text-2xl text-gray-500">Tentang Kami</h2>
+          <p class="w-3/4 text-lg text-gray-500">
+            Hydra is a Y Combinator-backed data processing company with a
+            globally remote team. We are passionate PostgreSQL and backend
+            engineers from Microsoft Azure, Heroku, and Citus Data. We set out
+            to build the best all-in-one database for app development. We
+            believe DuckDB is a remarkable technology made revolutionary within
+            Postgres.<br />
+            <br />
+            Hydra authored pg_duckdb, the official PostgreSQL extension for
+            DuckDB, and employs the project's main contributors. We offer
+            production support and services for the system.
+          </p>
         </div>
         <div class="flex items-center justify-end px-5">
           <img
@@ -171,6 +174,14 @@ const activityCards = ref([
             loading="lazy"
           />
         </div>
+      </div>
+    </div>
+
+    <div
+      class="bottom-0 left-0 right-0 mb-4 ml-4 mr-4 mt-24 rounded-lg bg-gray-100 p-4 text-white"
+    >
+      <div class="mx-auto max-w-7xl text-center text-gray-600">
+        <p>© 2024 Jogja Book Party</p>
       </div>
     </div>
   </div>
