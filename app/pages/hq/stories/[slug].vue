@@ -17,8 +17,7 @@ const { data: story } = await useAsyncData(`hq/stories/${slug}`, async () => {
     .select(
       `*, 
       author:users(display_name, username),
-      tags:story_tags!id(tag_id(*)), 
-      status:story_statuses!id(*)
+      tags:story_tags!id(tag_id(*))
       `,
     )
     .eq('slug', slug)
@@ -35,7 +34,6 @@ const { data: story } = await useAsyncData(`hq/stories/${slug}`, async () => {
       ? supabase.storage.from('story-cover').getPublicUrl(data.cover_path).data
           .publicUrl
       : null,
-    status: data.status as unknown as StoryStatus,
     tags: data.tags.map(tag => tag.tag_id) as unknown as {
       id: string
       description: string

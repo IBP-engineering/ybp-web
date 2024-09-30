@@ -13,10 +13,9 @@ const { data: stories } = await useAsyncData('hq/stories', async () => {
   const { data, error } = await supabase
     .from('stories')
     .select(
-      `*, 
-      tags:story_tags!id(tag:tag_id(title)), 
-      author:users(id, username, display_name), 
-      status:story_statuses!id(*)
+      `*,
+      tags:story_tags!id(tag:tag_id(title)),
+      author:users(id, username, display_name)
       `,
     )
     .order('created_at', { ascending: false })

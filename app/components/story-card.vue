@@ -4,9 +4,6 @@ import type { Story, Tag, User } from '~/types/entities'
 
 const props = defineProps<{
   story: Story & {
-    status: {
-      is_published: boolean
-    }
     tags: Tag[]
     author: User
   }
@@ -38,7 +35,7 @@ if (props.story.cover_path) {
         class="h-full w-full rounded-t md:w-[250px] md:rounded-l md:rounded-tr-none"
       />
       <div
-        v-if="story.status?.is_published"
+        v-if="story.status === 'published'"
         class="border-primary-300 bg-primary-50 absolute right-0 top-0 h-7 w-7 rounded-full border md:-right-3 md:-top-2"
       >
         <UIcon
