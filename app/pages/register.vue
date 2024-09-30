@@ -123,7 +123,7 @@ async function register(event: FormSubmitEvent<Schema>) {
 </script>
 
 <template>
-  <div class="relative flex h-full w-full justify-center">
+  <div class="relative flex w-full justify-center">
     <div class="mx-auto mt-[10rem] flex w-full flex-col px-6 md:px-0">
       <div>
         <img
