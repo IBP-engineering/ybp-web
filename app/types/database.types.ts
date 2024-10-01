@@ -243,7 +243,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      "Story status": "published" | "rejected" | "pending"
+      "Story status": "approved" | "rejected" | "pending"
     }
     CompositeTypes: {
       [_ in never]: never

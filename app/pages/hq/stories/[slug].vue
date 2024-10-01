@@ -1,7 +1,7 @@
 <script setup lang="ts">
+import type { LazyModalReview, UButton } from '#build/components'
 import { format } from '@formkit/tempo'
 import type { Database } from '~/types/database.types'
-import type { StoryStatus } from '~/types/entities'
 
 definePageMeta({
   layout: 'dashboard',
@@ -10,6 +10,7 @@ definePageMeta({
 const route = useRoute()
 const supabase = useSupabaseClient<Database>()
 const slug = route.params.slug
+const openReview = ref(false)
 
 const { data: story } = await useAsyncData(`hq/stories/${slug}`, async () => {
   const { data, error } = await supabase
@@ -48,6 +49,7 @@ const { data: story } = await useAsyncData(`hq/stories/${slug}`, async () => {
   <div>
     <PageHeader title="Detail story" back-button-text="Stories" mode="detail" />
     <div class="mx-auto mt-8 w-full max-w-screen-xl px-4 md:px-0">
+      <UButton class="mb-2" @click="openReview = true">Tinjau</UButton>
       <div
         class="flex flex-col gap-4 overflow-hidden rounded border bg-white shadow md:flex-row"
       >
@@ -90,5 +92,10 @@ const { data: story } = await useAsyncData(`hq/stories/${slug}`, async () => {
         <LazyProseRender :content="story.content" />
       </div>
     </div>
+    <LazyModalReview
+      :story-id="story.id"
+      :status="story.status"
+      v-model="openReview"
+    />
   </div>
 </template>
