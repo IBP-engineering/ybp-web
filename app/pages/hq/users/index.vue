@@ -3,6 +3,7 @@ import type { Database } from '~/types/database.types'
 
 definePageMeta({
   layout: 'dashboard',
+  middleware: ['admin-only'],
 })
 
 useHead({
