@@ -86,6 +86,11 @@ const removeTag = (tag: Partial<Tag>) => {
 const submitStory = async () => {
   isLoading.value = true
   try {
+    if (!user.value) {
+      alert('Tolong login dulu yaa')
+      return
+    }
+
     const slug = toSlug(form.title)
     let coverPath = ''
     if (form.coverImage?.size) {
@@ -119,7 +124,9 @@ const submitStory = async () => {
     }))
     await Promise.all([
       supabase.from('story_tags').insert(batchStoryWithTags),
-      supabase.from('story_statuses').insert({ story_id: createdStory.id }),
+      supabase
+        .from('story_status_histories')
+        .insert({ story_id: createdStory.id, updated_by: user.value?.id }),
     ])
 
     openModal.value = true

@@ -41,6 +41,7 @@ export type Database = {
           id: string
           reaction: Json | null
           slug: string
+          status: Database["public"]["Enums"]["Story status"]
           title: string
           updated_at: string
           user_id: string | null
@@ -52,6 +53,7 @@ export type Database = {
           id?: string
           reaction?: Json | null
           slug: string
+          status?: Database["public"]["Enums"]["Story status"]
           title: string
           updated_at?: string
           user_id?: string | null
@@ -63,6 +65,7 @@ export type Database = {
           id?: string
           reaction?: Json | null
           slug?: string
+          status?: Database["public"]["Enums"]["Story status"]
           title?: string
           updated_at?: string
           user_id?: string | null
@@ -81,39 +84,33 @@ export type Database = {
         Row: {
           created_at: string
           id: number
-          is_pending: boolean | null
-          is_published: boolean | null
-          is_rejected: boolean | null
           reason: string | null
-          story_status_id: number
+          status: Database["public"]["Enums"]["Story status"] | null
+          story_id: string
           updated_by: string | null
         }
         Insert: {
           created_at?: string
           id?: number
-          is_pending?: boolean | null
-          is_published?: boolean | null
-          is_rejected?: boolean | null
           reason?: string | null
-          story_status_id: number
+          status?: Database["public"]["Enums"]["Story status"] | null
+          story_id: string
           updated_by?: string | null
         }
         Update: {
           created_at?: string
           id?: number
-          is_pending?: boolean | null
-          is_published?: boolean | null
-          is_rejected?: boolean | null
           reason?: string | null
-          story_status_id?: number
+          status?: Database["public"]["Enums"]["Story status"] | null
+          story_id?: string
           updated_by?: string | null
         }
         Relationships: [
           {
-            foreignKeyName: "story_status_histories_story_status_id_fkey"
-            columns: ["story_status_id"]
+            foreignKeyName: "story_status_histories_story_id_fkey"
+            columns: ["story_id"]
             isOneToOne: false
-            referencedRelation: "story_statuses"
+            referencedRelation: "stories"
             referencedColumns: ["id"]
           },
           {
@@ -121,44 +118,6 @@ export type Database = {
             columns: ["updated_by"]
             isOneToOne: false
             referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      story_statuses: {
-        Row: {
-          created_at: string
-          id: number
-          is_pending: boolean
-          is_published: boolean
-          is_rejected: boolean
-          story_id: string | null
-          updated_at: string
-        }
-        Insert: {
-          created_at?: string
-          id?: number
-          is_pending?: boolean
-          is_published?: boolean
-          is_rejected?: boolean
-          story_id?: string | null
-          updated_at?: string
-        }
-        Update: {
-          created_at?: string
-          id?: number
-          is_pending?: boolean
-          is_published?: boolean
-          is_rejected?: boolean
-          story_id?: string | null
-          updated_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "story_statuses_story_id_fkey"
-            columns: ["story_id"]
-            isOneToOne: false
-            referencedRelation: "stories"
             referencedColumns: ["id"]
           },
         ]
@@ -284,7 +243,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      "Story status": "approved" | "rejected" | "pending"
     }
     CompositeTypes: {
       [_ in never]: never

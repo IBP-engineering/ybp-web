@@ -33,9 +33,9 @@ const links = [
     click: () => (openNavModal.value = false),
   },
   {
-    label: 'Members',
+    label: 'Users',
     icon: 'i-heroicons-at-symbol',
-    to: '/hq/members',
+    to: '/hq/users',
     click: () => (openNavModal.value = false),
   },
 ]

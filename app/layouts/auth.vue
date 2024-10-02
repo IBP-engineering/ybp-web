@@ -1,7 +1,9 @@
 <template>
-  <div class="flex w-full flex-auto flex-col bg-gray-100">
+  <div class="flex h-full w-full flex-auto flex-col bg-gray-100">
     <slot />
-    <div class="layout-bg h-[16rem] w-full bg-cover md:bg-auto" />
+    <div
+      class="layout-bg mt-auto min-h-[16rem] w-full bg-gray-100 bg-cover md:bg-auto"
+    />
   </div>
 </template>
 
