@@ -49,7 +49,15 @@ const { data: story } = await useAsyncData(`hq/stories/${slug}`, async () => {
   <div>
     <PageHeader title="Detail story" back-button-text="Stories" mode="detail" />
     <div class="mx-auto mt-8 w-full max-w-screen-xl px-4 md:px-0">
-      <UButton class="mb-2" @click="openReview = true">Tinjau</UButton>
+      <div class="flex justify-end">
+        <UButton
+          size="lg"
+          class="mb-2"
+          icon="i-heroicons:eye-solid"
+          @click="openReview = true"
+          >Tinjau</UButton
+        >
+      </div>
       <div
         class="flex flex-col gap-4 overflow-hidden rounded border bg-white shadow md:flex-row"
       >

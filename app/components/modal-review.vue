@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { format } from '@formkit/tempo'
 import type { StoryStatus } from '~/types/entities'
 
 const props = defineProps<{
@@ -34,15 +35,21 @@ const { data: storyHistories } = await useAsyncData(
   async () => {
     const { data, error } = await supabase
       .from('story_status_histories')
-      .select('*')
+      .select('*, updated_by(display_name)')
       .eq('story_id', props.storyId)
+      .order('created_at', { ascending: false })
 
     if (error) {
       console.error(error)
       return null
     }
 
-    return data
+    return data.map(his => ({
+      ...his,
+      updated_by: {
+        ...(his.updated_by as unknown as { display_name: string }),
+      },
+    }))
   },
 )
 
@@ -96,6 +103,18 @@ const saveStatus = async () => {
         class="mt-4"
         placeholder="Alasan (opsional)"
       />
+
+      <div class="mt-4 space-y-3 border-t py-2">
+        <b>Riwayat</b>
+        <div v-for="history in storyHistories" :key="history.id">
+          <p class="text-gray-600">
+            {{ format(history.created_at, 'DD MMM YYYY, HH:mm', 'id') }}
+          </p>
+          <p>Diupdate oleh: {{ history.updated_by.display_name }}</p>
+          <p>Status: {{ history.status }}</p>
+          <p>Alasan: {{ history.reason }}</p>
+        </div>
+      </div>
 
       <template #footer>
         <div class="flex items-center justify-end gap-4">
