@@ -81,6 +81,12 @@ const saveStatus = async () => {
     isLoading.value = false
   }
 }
+
+const historyColor = {
+  approved: 'border-green-300 bg-green-100 text-green-900',
+  rejected: 'border-red-300 bg-red-100 text-red-900',
+  pending: 'border-blue-300 bg-blue-100 text-blue-900',
+}
 </script>
 
 <template>
@@ -104,15 +110,24 @@ const saveStatus = async () => {
         placeholder="Alasan (opsional)"
       />
 
-      <div class="mt-4 space-y-3 border-t py-2">
+      <div class="mt-4 border-t py-2">
         <b>Riwayat</b>
-        <div v-for="history in storyHistories" :key="history.id">
-          <p class="text-gray-600">
-            {{ format(history.created_at, 'DD MMM YYYY, HH:mm', 'id') }}
-          </p>
-          <p>Diupdate oleh: {{ history.updated_by.display_name }}</p>
-          <p>Status: {{ history.status }}</p>
-          <p>Alasan: {{ history.reason }}</p>
+        <div class="mt-4 max-h-[350px] space-y-3 overflow-auto pr-2">
+          <div
+            v-for="history in storyHistories"
+            :key="history.id"
+            class="rounded border px-2 py-1"
+            :class="historyColor[history.status]"
+          >
+            <StoryBadgeStatus :status="history.status" />
+            <p v-if="history.reason">Alasan: {{ history.reason }}</p>
+            <small class="block"
+              >Diupdate oleh: {{ history.updated_by.display_name }}</small
+            >
+            <small class="block">
+              {{ format(history.created_at, 'DD MMM YYYY, HH:mm', 'id') }}
+            </small>
+          </div>
         </div>
       </div>
 
