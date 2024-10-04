@@ -51,7 +51,28 @@ async function login(event: FormSubmitEvent<Schema>) {
     return
   }
 
-  await navigateTo('/hq')
+  const { data: userRole, error: errorUser } = await supabase
+    .from('users')
+    .select('role_id')
+    .eq('id', data.user.id)
+    .eq('is_active', true)
+    .single()
+
+  if (!userRole) {
+    toast.add({
+      title: 'Terjadi kesalahan',
+      description: errorUser.message,
+      color: 'red',
+      icon: 'i-heroicons-x-mark-solid',
+    })
+    return
+  }
+
+  if (userRole.role_id === 1) {
+    await navigateTo('/')
+  } else {
+    await navigateTo('/hq')
+  }
 }
 </script>
 

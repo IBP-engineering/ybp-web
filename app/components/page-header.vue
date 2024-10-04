@@ -32,13 +32,19 @@ const links = [
     to: '/hq',
     click: () => (openNavModal.value = false),
   },
-  {
+]
+
+const currentUser = useNuxtData('current-user')
+
+if (currentUser.data.value.roles.id === 3) {
+  // only user with role admin
+  links.push({
     label: 'Users',
     icon: 'i-heroicons-at-symbol',
     to: '/hq/users',
     click: () => (openNavModal.value = false),
-  },
-]
+  })
+}
 </script>
 
 <template>

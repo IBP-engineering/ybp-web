@@ -1,9 +1,10 @@
 import { serverSupabaseClient } from '#supabase/server'
 import argon2 from '@node-rs/argon2'
+import { Database } from '~/types/database.types'
 
 export default defineEventHandler(async event => {
   const body = await readBody(event)
-  const supabase = await serverSupabaseClient(event)
+  const supabase = await serverSupabaseClient<Database>(event)
 
   // why? just in case we migrate from supabase.
   // fyi, we cannot (yet) control how password is stored in supabase neither hashed.

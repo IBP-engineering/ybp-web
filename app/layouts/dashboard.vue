@@ -1,28 +1,7 @@
 <script setup lang="ts">
 import type { Database } from '~/types/database.types'
-import type { User } from '~/types/entities'
 
 const openNavModal = ref(false)
-
-const links = [
-  {
-    label: 'Close',
-    click: () => (openNavModal.value = false),
-    icon: 'i-heroicons-x-mark',
-  },
-  {
-    label: 'Stories',
-    icon: 'i-heroicons-bookmark',
-    to: '/hq',
-    click: () => (openNavModal.value = false),
-  },
-  {
-    label: 'Users',
-    icon: 'i-heroicons-at-symbol',
-    to: '/users',
-    click: () => (openNavModal.value = false),
-  },
-]
 
 const supabase = useSupabaseClient<Database>()
 const userSession = useSupabaseUser()
@@ -31,7 +10,7 @@ const toast = useToast()
 const { data: user } = await useAsyncData('current-user', async () => {
   const { data, error } = await supabase
     .from('users')
-    .select('username, id, display_name, created_at, roles(name)')
+    .select('username, id, display_name, created_at, roles(id, name)')
     .eq('id', userSession.value.id)
     .single()
 
@@ -56,6 +35,30 @@ async function logout() {
   }
 
   await navigateTo('/login')
+}
+
+const links = [
+  {
+    label: 'Close',
+    click: () => (openNavModal.value = false),
+    icon: 'i-heroicons-x-mark',
+  },
+  {
+    label: 'Stories',
+    icon: 'i-heroicons-bookmark',
+    to: '/hq',
+    click: () => (openNavModal.value = false),
+  },
+]
+
+if (user.value.roles.id === 3) {
+  // only user with role admin
+  links.push({
+    label: 'Users',
+    icon: 'i-heroicons-at-symbol',
+    to: '/hq/users',
+    click: () => (openNavModal.value = false),
+  })
 }
 
 const items = [

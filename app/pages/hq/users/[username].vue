@@ -131,7 +131,8 @@ async function updateProfile(event: FormSubmitEvent<Schema>) {
       display_name: data.displayName,
       bio: data.bio,
       role_id: Number(data.role),
-      updated_at: new Date().toString(),
+      // @ts-ignore
+      updated_at: new Date(),
     })
     .eq('id', user.value.id)
 

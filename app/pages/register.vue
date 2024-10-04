@@ -106,19 +106,7 @@ async function register(event: FormSubmitEvent<Schema>) {
   }
 
   isLoading.value = false
-
-  toast.add({
-    icon: 'i-heroicons-check-solid',
-    color: 'green',
-    title: 'Berhasil mendaftarkan akun',
-    description: 'Sesaat lagi anda akan diarahkan ke halaman dashboard',
-    timeout: 3200,
-  })
-
-  setTimeout(() => {
-    // to ensure the user gonna make it into dashboard
-    reloadNuxtApp()
-  }, 3500)
+  await navigateTo('/')
 }
 </script>
 
