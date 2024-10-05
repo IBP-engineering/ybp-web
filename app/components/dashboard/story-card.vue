@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Story } from '~/types/entities'
+import type { Story, User } from '~/types/entities'
 
 const props = defineProps<{
   story: Story
@@ -9,11 +9,16 @@ const emit = defineEmits<{
   delete: [id: string]
 }>()
 
+const { data: user } = useNuxtData<User>('current-user')
+
+const storyUrl = `/${user.value.username}/${props.story.slug}`
+
 const storyOptions = [
   [
     {
       label: 'Edit',
       icon: 'i-heroicons:pencil-square',
+      click: () => navigateTo(storyUrl.concat('/edit')),
     },
     {
       label: 'Archive',
@@ -37,8 +42,10 @@ const storyOptions = [
   <div
     class="relative flex w-full items-center justify-between border-b bg-gray-50 px-4 py-2 outline-none last:border-0 hover:bg-gray-100"
   >
-    <NuxtLink to="/" class="outline-none focus:ring">
-      <h3 class="text-primary-600 text-lg font-bold">
+    <NuxtLink :to="storyUrl" class="group outline-none focus:ring">
+      <h3
+        class="text-primary-600 group-hover:text-primary-700 text-lg font-bold"
+      >
         {{ story.title }}
       </h3>
       <small class="text-gray-600">Diterbitkan: 20 Oktober 2020</small>
