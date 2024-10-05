@@ -92,12 +92,12 @@ watch(
 </script>
 
 <template>
-  <div class="mx-auto w-full max-w-screen-lg">
+  <div class="mx-auto w-full max-w-screen-lg px-4 md:px-0">
     <h1 class="text-2xl font-bold leading-relaxed">Dashboard</h1>
     <p class="text-gray-600">Kamu bisa temukan cerita yang kamu kirim disini</p>
 
     <div class="mt-8 flex w-full gap-8">
-      <aside class="mt-8 flex w-[300px] flex-col">
+      <aside class="mt-8 hidden w-[300px] flex-col md:flex">
         <UButton
           @click="filterStatus = 'all'"
           :variant="filterStatus === 'all' ? 'solid' : 'ghost'"
@@ -143,12 +143,12 @@ watch(
       <div class="w-full">
         <h2 class="font-bold">Stories</h2>
         <div
-          class="mt-2 grid max-h-[800px] w-full grid-cols-1 overflow-auto rounded-b-lg rounded-t-lg border border-gray-300 bg-gray-50"
+          class="mt-2 grid max-h-[650px] w-full grid-cols-1 overflow-auto rounded-b-lg rounded-t-lg border border-gray-300 bg-gray-50 md:max-h-[800px]"
         >
           <div
             v-for="story in stories"
             :key="story.id"
-            class="relative flex w-full items-center justify-between bg-gray-50 px-4 py-2 outline-none odd:border-b hover:bg-gray-100"
+            class="relative flex w-full items-center justify-between border-b bg-gray-50 px-4 py-2 outline-none last:border-0 hover:bg-gray-100"
           >
             <NuxtLink to="/" class="outline-none focus:ring">
               <h3 class="text-primary-600 text-lg font-bold">
