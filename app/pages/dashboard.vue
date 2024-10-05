@@ -3,24 +3,7 @@ definePageMeta({
   middleware: 'need-auth',
 })
 
-const storyOptions = [
-  [
-    {
-      label: 'Edit',
-      icon: 'i-heroicons:pencil-square',
-    },
-    {
-      label: 'Archive',
-      icon: 'i-heroicons:folder-open',
-    },
-    {
-      label: 'Delete',
-      class: 'bg-red-100 hover:bg-red-200 text-red-900',
-      iconClass: 'text-red-900',
-      icon: 'i-heroicons:trash',
-    },
-  ],
-]
+const toast = useToast()
 const supabase = useSupabaseClient()
 const user = useSupabaseUser()
 const filterStatus = ref<'all' | 'rejected' | 'approved' | 'pending'>('all')
@@ -31,7 +14,7 @@ const filterCount = reactive({
   pending: 0,
 })
 
-const { data: stories } = await useAsyncData(
+const { data: stories, refresh: refreshStories } = await useAsyncData(
   `stories/${user?.value?.id}`,
   async () => {
     if (filterStatus.value === 'all') {
@@ -43,6 +26,7 @@ const { data: stories } = await useAsyncData(
       `,
         )
         .eq('user_id', user.value.id)
+        .eq('is_active', true)
         .order('created_at', { ascending: false })
 
       if (error) {
@@ -62,6 +46,7 @@ const { data: stories } = await useAsyncData(
       )
       .eq('user_id', user.value.id)
       .eq('status', filterStatus.value)
+      .eq('is_active', true)
       .order('created_at', { ascending: false })
 
     if (error) {
@@ -74,17 +59,54 @@ const { data: stories } = await useAsyncData(
   { watch: [filterStatus] },
 )
 
+const deleteStory = async (id: string) => {
+  try {
+    const { error } = await supabase
+      .from('stories')
+      .update({ is_active: false })
+      .eq('id', id)
+      .eq('user_id', user.value.id)
+
+    if (error) {
+      toast.add({
+        title: 'Terjadi kesalahan',
+        description: 'Mohon ulangi kembali sesaat lagi',
+        color: 'red',
+      })
+      await refreshStories()
+      calculateStoryCount()
+      return
+    }
+
+    toast.add({
+      title: 'OK',
+      description: 'Berhasil menghapus cerita',
+      color: 'primary',
+    })
+    await refreshStories()
+    calculateStoryCount()
+  } catch (error) {
+    console.error(error)
+    await refreshStories()
+    calculateStoryCount()
+  }
+}
+
+const calculateStoryCount = () => {
+  filterCount.pending =
+    stories.value.filter(st => st.status === 'pending').length ?? 0
+  filterCount.approved =
+    stories.value.filter(st => st.status === 'approved').length ?? 0
+  filterCount.rejected =
+    stories.value.filter(st => st.status === 'rejected').length ?? 0
+  filterCount.all = stories.value.length
+}
+
 watch(
   filterStatus,
   () => {
     if (filterStatus.value === 'all') {
-      filterCount.pending =
-        stories.value.filter(st => st.status === 'pending').length ?? 0
-      filterCount.approved =
-        stories.value.filter(st => st.status === 'approved').length ?? 0
-      filterCount.rejected =
-        stories.value.filter(st => st.status === 'rejected').length ?? 0
-      filterCount.all = stories.value.length
+      calculateStoryCount()
     }
   },
   { immediate: true, once: true },
@@ -145,29 +167,12 @@ watch(
         <div
           class="mt-2 grid max-h-[650px] w-full grid-cols-1 overflow-auto rounded-b-lg rounded-t-lg border border-gray-300 bg-gray-50 md:max-h-[800px]"
         >
-          <div
+          <DashboardStoryCard
             v-for="story in stories"
             :key="story.id"
-            class="relative flex w-full items-center justify-between border-b bg-gray-50 px-4 py-2 outline-none last:border-0 hover:bg-gray-100"
-          >
-            <NuxtLink to="/" class="outline-none focus:ring">
-              <h3 class="text-primary-600 text-lg font-bold">
-                {{ story.title }}
-              </h3>
-              <small class="text-gray-600">Diterbitkan: 20 Oktober 2020</small>
-            </NuxtLink>
-            <div>
-              <UDropdown
-                :items="storyOptions"
-                :popper="{ placement: 'bottom-start', arrow: true }"
-              >
-                <UButton
-                  color="gray"
-                  icon="i-heroicons:ellipsis-vertical-20-solid"
-                />
-              </UDropdown>
-            </div>
-          </div>
+            :story="story"
+            @delete="deleteStory"
+          />
         </div>
       </div>
     </div>
