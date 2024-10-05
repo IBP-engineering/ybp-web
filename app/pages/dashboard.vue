@@ -1,14 +1,7 @@
 <script setup lang="ts">
-const samples = [
-  {
-    key: '1',
-    title: 'hei 1',
-  },
-  {
-    key: '2',
-    title: 'hei 2',
-  },
-]
+definePageMeta({
+  middleware: 'need-auth',
+})
 
 const storyOptions = [
   [
@@ -28,6 +21,30 @@ const storyOptions = [
     },
   ],
 ]
+const supabase = useSupabaseClient()
+const user = useSupabaseUser()
+
+const { data: stories } = await useAsyncData(
+  `stories/${user?.value?.id}`,
+  async () => {
+    const { data, error } = await supabase
+      .from('stories')
+      .select(
+        `*,
+      tags:story_tags!id(tag:tag_id(title))
+      `,
+      )
+      .eq('user_id', user.value.id)
+      .order('created_at', { ascending: false })
+
+    if (error) {
+      console.error(error)
+      return []
+    }
+
+    return data
+  },
+)
 </script>
 
 <template>
@@ -35,17 +52,21 @@ const storyOptions = [
     <h1 class="text-2xl font-bold leading-relaxed">Dashboard</h1>
     <p class="text-gray-600">Kamu bisa temukan cerita yang kamu kirim disini</p>
 
-    <h2 class="mb-2 mt-4 font-bold">Stories</h2>
+    <h2 class="mt-4 font-bold">Stories</h2>
+    <small class="text-gray-600">Total stories: {{ stories?.length }}</small>
+
     <div
-      class="grid w-full grid-cols-1 overflow-hidden rounded-lg border border-gray-300"
+      class="mt-2 grid max-h-[850px] w-full grid-cols-1 overflow-auto rounded-b-lg rounded-t-lg border border-gray-300"
     >
       <div
-        v-for="sam in samples"
-        :key="sam.key"
+        v-for="story in stories"
+        :key="story.id"
         class="relative flex w-full items-center justify-between bg-gray-50 px-4 py-2 outline-none odd:border-b hover:bg-gray-100"
       >
         <NuxtLink to="/" class="outline-none focus:ring">
-          <h3 class="text-primary-600 text-lg font-bold">{{ sam.title }}</h3>
+          <h3 class="text-primary-600 text-lg font-bold">
+            {{ story.title }}
+          </h3>
           <small class="text-gray-600">Diterbitkan: 20 Oktober 2020</small>
         </NuxtLink>
         <div>
