@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Database } from '~/types/database.types'
-import type { Tag } from '~/types/entities'
+import type { Tag, User } from '~/types/entities'
 
 const toast = useToast()
 const supabase = useSupabaseClient<Database>()
@@ -28,6 +28,8 @@ const form = reactive<{
   selectedTags: [],
   coverImage: null,
 })
+const createdSlug = ref('')
+const { data: currentUser } = useNuxtData<User>('current-user')
 const previewImageUrl = ref<string | ArrayBuffer>('')
 const content = ref('<p>Pada suatu masa...</p>')
 const showTags = ref(false)
@@ -141,6 +143,7 @@ const submitStory = async () => {
       ...tag,
       alreadySelect: false,
     }))
+    createdSlug.value = slug
     isLoading.value = false
   } catch (error) {
     openModal.value = true
@@ -148,6 +151,7 @@ const submitStory = async () => {
     modalAlert.message =
       'Maydayy! Telah terjadi kesalahan. Mohon coba kembali setelah beberap saat'
     modalAlert.isSuccess = false
+    createdSlug.value = ''
 
     isLoading.value = false
     console.error(error)
@@ -320,7 +324,9 @@ const removeImageCover = () => {
             >
             <UButton
               icon="i-heroicons:chevron-right"
-              @click="() => navigateTo('/new')"
+              @click="
+                () => navigateTo(`/${currentUser.username}/${createdSlug}`)
+              "
               >Ke cerita</UButton
             >
           </div>

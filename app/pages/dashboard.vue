@@ -164,7 +164,11 @@ watch(
 
       <div class="w-full">
         <h2 class="font-bold">Stories</h2>
+        <p class="mt-4" v-if="stories.length === 0">
+          Belum ada Cerita yang ditambahkan
+        </p>
         <div
+          v-else
           class="mt-2 grid max-h-[650px] w-full grid-cols-1 overflow-auto rounded-b-lg rounded-t-lg border border-gray-300 bg-gray-50 md:max-h-[800px]"
         >
           <DashboardStoryCard
