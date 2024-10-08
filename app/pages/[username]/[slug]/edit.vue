@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Database } from '~/types/database.types'
-import type { Tag, User } from '~/types/entities'
+import type { Tag } from '~/types/entities'
 
 const toast = useToast()
 const supabase = useSupabaseClient<Database>()
@@ -10,7 +10,7 @@ const slug = route.params.slug
 const { data: currentStory } = await useAsyncData(`story/${slug}`, async () => {
   const { data, error } = await supabase
     .from('stories')
-    .select('*, tags:story_tags!id(tag:tag_id(*))')
+    .select('*, tags:story_tags!id(tag:tag_id(*), id)')
     .eq('slug', slug)
     .eq('user_id', user.value.id)
     .single()
@@ -108,8 +108,7 @@ const submitStory = async () => {
       return
     }
 
-    const slug = toSlug(form.title)
-    let coverPath = ''
+    let coverPath = currentStory.value.cover_path
     if (form.coverImage?.size) {
       const fileExtension = form.coverImage.name.split('.').pop()
       const fileName = slug.concat('.', fileExtension)
@@ -126,7 +125,6 @@ const submitStory = async () => {
     await supabase
       .from('stories')
       .update({
-        slug,
         cover_path: coverPath,
         title: form.title,
         content: content.value,
@@ -137,21 +135,18 @@ const submitStory = async () => {
       story_id: currentStory.value.id,
       tag_id: tag.id,
     }))
+    const batchTagsToDelete = currentStory.value.tags.map(t => t.id)
+
     await Promise.all([
+      supabase.from('story_tags').delete().in('id', batchTagsToDelete),
       supabase.from('story_tags').insert(batchStoryWithTags),
-      supabase.from('story_status_histories').insert({
-        story_id: currentStory.value.id,
-        updated_by: user.value?.id,
-      }),
     ])
 
     openModal.value = true
     modalAlert.isSuccess = true
     modalAlert.title = 'Berhasil'
-    modalAlert.message = `Terima kasihh! Cerita kamu dengan judul "${form.title}" akan segera kami proses, ya!`
+    modalAlert.message = 'Terima kasihh! Cerita kamu sudah berhasil diupdate!'
 
-    form.title = 'Tanpa judul'
-    form.selectedTags = []
     showTags.value = false
     tagsOrigin.value = tagsOrigin.value.map(tag => ({
       ...tag,
