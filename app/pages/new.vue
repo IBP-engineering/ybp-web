@@ -204,7 +204,6 @@ const removeImageCover = () => {
 
 <template>
   <div class="mx-auto w-full max-w-screen-xl px-4 md:px-0">
-    <p>new page. login as:{{ user?.id ?? 'none' }}</p>
     <div class="mx-auto mt-12 max-w-screen-lg">
       <div class="mb-4 flex flex-col gap-2 md:flex-row">
         <img
