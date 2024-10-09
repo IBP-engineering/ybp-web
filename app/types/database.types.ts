@@ -39,6 +39,7 @@ export type Database = {
           cover_path: string | null
           created_at: string
           id: string
+          is_active: boolean
           reaction: Json | null
           slug: string
           status: Database["public"]["Enums"]["Story status"]
@@ -51,6 +52,7 @@ export type Database = {
           cover_path?: string | null
           created_at?: string
           id?: string
+          is_active?: boolean
           reaction?: Json | null
           slug: string
           status?: Database["public"]["Enums"]["Story status"]
@@ -63,6 +65,7 @@ export type Database = {
           cover_path?: string | null
           created_at?: string
           id?: string
+          is_active?: boolean
           reaction?: Json | null
           slug?: string
           status?: Database["public"]["Enums"]["Story status"]

@@ -71,7 +71,7 @@ const { data: story } = await useAsyncData(`hq/stories/${slug}`, async () => {
         <div class="flex flex-col px-4 py-3">
           <StoryBadgeStatus :status="story.status" />
           <h2 class="text-xl font-bold leading-relaxed md:text-2xl">
-            {{ story.title }} tambahan 222
+            {{ story.title }}
           </h2>
           <div v-if="story.tags?.length > 0" class="mt-2 flex gap-2">
             <div

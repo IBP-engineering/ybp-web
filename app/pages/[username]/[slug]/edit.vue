@@ -1,10 +1,35 @@
 <script setup lang="ts">
 import type { Database } from '~/types/database.types'
-import type { Tag, User } from '~/types/entities'
+import type { Tag } from '~/types/entities'
+
+definePageMeta({
+  middleware: 'need-auth',
+})
 
 const toast = useToast()
 const supabase = useSupabaseClient<Database>()
 const user = useSupabaseUser()
+const route = useRoute()
+const slug = route.params.slug
+const { data: currentStory } = await useAsyncData(`story/${slug}`, async () => {
+  const { data, error } = await supabase
+    .from('stories')
+    .select('*, tags:story_tags!id(tag:tag_id(*), id)')
+    .eq('slug', slug)
+    .single()
+
+  if (error) {
+    console.error(error)
+    return null
+  }
+
+  return data
+})
+
+if (currentStory?.value.user_id !== user?.value.id) {
+  throw createError({ statusCode: 404, statusMessage: 'Page not found' })
+}
+
 const { data: tags } = await useAsyncData('tags', async () => {
   const { data, error } = await supabase
     .from('tags')
@@ -24,18 +49,17 @@ const form = reactive<{
   coverImage: File
   selectedTags: Partial<Tag>[]
 }>({
-  title: 'Tanpa judul',
+  title: currentStory?.value.title,
   selectedTags: [],
   coverImage: null,
 })
-const createdSlug = ref('')
-const { data: currentUser } = useNuxtData<User>('current-user')
 const previewImageUrl = ref<string | ArrayBuffer>('')
-const content = ref('<p>Pada suatu masa...</p>')
+const content = ref(currentStory.value.content)
 const showTags = ref(false)
 const isLoading = ref(false)
 const modalAlert = reactive({ title: '', message: '', isSuccess: false })
 const openModal = ref(false)
+const isDeletingCover = ref(false)
 const tagsOrigin = ref<(Partial<Tag> & { alreadySelect: boolean })[]>(
   tags.value.map(tag => ({ ...tag, alreadySelect: false })),
 )
@@ -93,8 +117,7 @@ const submitStory = async () => {
       return
     }
 
-    const slug = toSlug(form.title)
-    let coverPath = ''
+    let coverPath = currentStory.value.cover_path
     if (form.coverImage?.size) {
       const fileExtension = form.coverImage.name.split('.').pop()
       const fileName = slug.concat('.', fileExtension)
@@ -108,42 +131,41 @@ const submitStory = async () => {
       coverPath = data?.path
     }
 
-    const { data: createdStory } = await supabase
+    if (isDeletingCover.value) {
+      await supabase.storage.from('story-cover').remove([coverPath])
+      coverPath = null
+    }
+
+    await supabase
       .from('stories')
-      .insert({
-        slug,
+      .update({
         cover_path: coverPath,
         title: form.title,
         content: content.value,
-        user_id: user.value?.id,
       })
-      .select('id')
-      .single()
+      .eq('id', currentStory.value.id)
 
     const batchStoryWithTags = form.selectedTags.map(tag => ({
-      story_id: createdStory.id,
+      story_id: currentStory.value.id,
       tag_id: tag.id,
     }))
+    const batchTagsToDelete = currentStory.value.tags.map(t => t.id)
+
     await Promise.all([
+      supabase.from('story_tags').delete().in('id', batchTagsToDelete),
       supabase.from('story_tags').insert(batchStoryWithTags),
-      supabase
-        .from('story_status_histories')
-        .insert({ story_id: createdStory.id, updated_by: user.value?.id }),
     ])
 
     openModal.value = true
     modalAlert.isSuccess = true
     modalAlert.title = 'Berhasil'
-    modalAlert.message = `Terima kasihh! Cerita kamu dengan judul "${form.title}" akan segera kami proses, ya!`
+    modalAlert.message = 'Terima kasihh! Cerita kamu sudah berhasil diupdate!'
 
-    form.title = 'Tanpa judul'
-    form.selectedTags = []
     showTags.value = false
     tagsOrigin.value = tagsOrigin.value.map(tag => ({
       ...tag,
       alreadySelect: false,
     }))
-    createdSlug.value = slug
     isLoading.value = false
   } catch (error) {
     openModal.value = true
@@ -151,7 +173,6 @@ const submitStory = async () => {
     modalAlert.message =
       'Maydayy! Telah terjadi kesalahan. Mohon coba kembali setelah beberap saat'
     modalAlert.isSuccess = false
-    createdSlug.value = ''
 
     isLoading.value = false
     console.error(error)
@@ -185,6 +206,7 @@ const previewImage = (event: any) => {
     }
     reader.readAsDataURL(file)
     form.coverImage = file
+    isDeletingCover.value = false
   } catch (error) {
     console.error(error)
   }
@@ -199,7 +221,20 @@ const showFileUploader = () => {
 const removeImageCover = () => {
   previewImageUrl.value = ''
   form.coverImage = null
+  isDeletingCover.value = true
 }
+
+onMounted(() => {
+  for (const fromTag of currentStory.value.tags) {
+    selectTag(fromTag.tag as unknown as Tag)
+  }
+
+  if (currentStory.value.cover_path) {
+    previewImageUrl.value = supabase.storage
+      .from('story-cover')
+      .getPublicUrl(currentStory.value.cover_path).data.publicUrl
+  }
+})
 </script>
 
 <template>
@@ -320,13 +355,6 @@ const removeImageCover = () => {
           <div class="flex items-center justify-end gap-4">
             <UButton variant="ghost" @click="() => reloadNuxtApp()"
               >Tutup</UButton
-            >
-            <UButton
-              icon="i-heroicons:chevron-right"
-              @click="
-                () => navigateTo(`/${currentUser.username}/${createdSlug}`)
-              "
-              >Ke cerita</UButton
             >
           </div>
         </template>

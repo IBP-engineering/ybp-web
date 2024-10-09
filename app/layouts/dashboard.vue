@@ -34,7 +34,7 @@ async function logout() {
     return
   }
 
-  await navigateTo('/login')
+  reloadNuxtApp()
 }
 
 const links = [
