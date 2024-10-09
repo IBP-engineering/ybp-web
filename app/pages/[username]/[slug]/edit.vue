@@ -59,6 +59,7 @@ const showTags = ref(false)
 const isLoading = ref(false)
 const modalAlert = reactive({ title: '', message: '', isSuccess: false })
 const openModal = ref(false)
+const isDeletingCover = ref(false)
 const tagsOrigin = ref<(Partial<Tag> & { alreadySelect: boolean })[]>(
   tags.value.map(tag => ({ ...tag, alreadySelect: false })),
 )
@@ -128,6 +129,11 @@ const submitStory = async () => {
         })
       console.log('image', data)
       coverPath = data?.path
+    }
+
+    if (isDeletingCover.value) {
+      await supabase.storage.from('story-cover').remove([coverPath])
+      coverPath = null
     }
 
     await supabase
@@ -200,6 +206,7 @@ const previewImage = (event: any) => {
     }
     reader.readAsDataURL(file)
     form.coverImage = file
+    isDeletingCover.value = false
   } catch (error) {
     console.error(error)
   }
@@ -214,6 +221,7 @@ const showFileUploader = () => {
 const removeImageCover = () => {
   previewImageUrl.value = ''
   form.coverImage = null
+  isDeletingCover.value = true
 }
 
 onMounted(() => {
