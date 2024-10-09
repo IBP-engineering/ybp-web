@@ -2,6 +2,10 @@
 import type { Database } from '~/types/database.types'
 import type { Tag } from '~/types/entities'
 
+definePageMeta({
+  middleware: 'need-auth',
+})
+
 const toast = useToast()
 const supabase = useSupabaseClient<Database>()
 const user = useSupabaseUser()
@@ -12,7 +16,6 @@ const { data: currentStory } = await useAsyncData(`story/${slug}`, async () => {
     .from('stories')
     .select('*, tags:story_tags!id(tag:tag_id(*), id)')
     .eq('slug', slug)
-    .eq('user_id', user.value.id)
     .single()
 
   if (error) {
@@ -22,6 +25,11 @@ const { data: currentStory } = await useAsyncData(`story/${slug}`, async () => {
 
   return data
 })
+
+if (currentStory?.value.user_id !== user?.value.id) {
+  throw createError({ statusCode: 404, statusMessage: 'Page not found' })
+}
+
 const { data: tags } = await useAsyncData('tags', async () => {
   const { data, error } = await supabase
     .from('tags')
@@ -41,7 +49,7 @@ const form = reactive<{
   coverImage: File
   selectedTags: Partial<Tag>[]
 }>({
-  title: currentStory.value.title,
+  title: currentStory?.value.title,
   selectedTags: [],
   coverImage: null,
 })
