@@ -32,7 +32,7 @@ await useAsyncData(
 </script>
 
 <template>
-  <div class="flex h-full w-full flex-auto flex-col bg-gray-100">
+  <div class="flex min-h-full flex-auto flex-col bg-gray-100">
     <slot />
   </div>
 </template>
