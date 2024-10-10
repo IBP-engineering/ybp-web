@@ -11,7 +11,7 @@ const { data: story } = await useAsyncData(`story/${slug}`, async () => {
     .select(
       `*,
       tags:story_tags!id(tag:tag_id(title)),
-      author:users(id, username, display_name)
+      author:users(id, username, display_name, created_at)
       `,
     )
     .eq('slug', slug)
@@ -40,7 +40,7 @@ const { data: story } = await useAsyncData(`story/${slug}`, async () => {
       </div>
 
       <div
-        class="w-full overflow-hidden rounded-lg border border-gray-300 bg-gray-50"
+        class="w-full overflow-hidden rounded-lg border border-gray-300 bg-gray-50 shadow"
       >
         <img
           :src="story.cover_path"
@@ -51,15 +51,14 @@ const { data: story } = await useAsyncData(`story/${slug}`, async () => {
         />
         <div class="px-10 py-4">
           <div class="my-4 flex items-center gap-4">
-            <img
-              src="https://api.dicebear.com/9.x/avataaars-neutral/svg?seed=heru"
-              width="35"
-              height="35"
-              alt="Avatar"
-              class="rounded-full"
-            />
+            <UserPicture :seed="story.author.username" width="35" height="35" />
             <div>
-              <b class="text-sm">{{ story.author.display_name }}</b>
+              <ULink
+                :to="`/${story.author.username}`"
+                class="text-sm font-semibold hover:underline"
+                title="To author page"
+                >{{ story.author.display_name }}</ULink
+              >
               <small
                 :title="format(story.created_at, 'full')"
                 class="block text-xs text-gray-600"
@@ -73,13 +72,31 @@ const { data: story } = await useAsyncData(`story/${slug}`, async () => {
         </div>
       </div>
 
-      <div class="h-[300px] w-full max-w-[370px] rounded-lg bg-yellow-500 p-4">
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia
-          voluptate inventore beatae minus, voluptatum, vel ea, atque voluptates
-          asperiores itaque incidunt odio illo? Odit mollitia repudiandae enim,
-          aliquam minima maiores!
+      <div
+        class="h-full w-full max-w-[370px] rounded-lg border border-gray-300 bg-gray-50 p-4 shadow"
+      >
+        <div class="mb-4 flex items-center gap-4">
+          <UserPicture :seed="story.author.username" width="40" height="40" />
+          <b>{{ story.author.display_name }}</b>
+        </div>
+
+        <p class="text-gray-600">
+          Programmer/System Admin. Currently working on media solutions. Love
+          learning new things :) Posts include a variety of topics, mostly
+          media/computer vision related.
         </p>
+        <ul class="mt-4 space-y-4 text-sm">
+          <li>
+            <b class="text-xs">DOMISILI</b>
+            <p class="text-gray-600">Indonesia</p>
+          </li>
+          <li>
+            <b class="text-xs">BERGABUNG</b>
+            <p class="text-gray-600">
+              {{ format(story.author.created_at, 'long', 'id') }}
+            </p>
+          </li>
+        </ul>
       </div>
     </div>
   </div>
