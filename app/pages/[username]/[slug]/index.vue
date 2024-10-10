@@ -10,7 +10,7 @@ const { data: story } = await useAsyncData(`story/${slug}`, async () => {
     .from('stories')
     .select(
       `*,
-      tags:story_tags!id(tag:tag_id(title)),
+      tags:story_tags!id(tag:tag_id(slug)),
       author:users(id, username, display_name, created_at)
       `,
     )
@@ -26,7 +26,11 @@ const { data: story } = await useAsyncData(`story/${slug}`, async () => {
     .from('story-cover')
     .getPublicUrl(data.cover_path).data.publicUrl
 
-  return { ...data, cover_path: coverWithPath }
+  return {
+    ...data,
+    cover_path: coverWithPath,
+    tags: data.tags.map(tag => (tag.tag as any).slug as string),
+  }
 })
 </script>
 
@@ -71,8 +75,16 @@ const { data: story } = await useAsyncData(`story/${slug}`, async () => {
           >
             {{ story.title }}
           </h1>
+          <div class="mt-2">
+            <NuxtLink
+              v-for="tag in story.tags"
+              class="hover:bg-primary-100 hover:border-primary-300 hover:text-primary-900 rounded border border-transparent px-2 py-1 transition"
+              to="/t/bener"
+              >#{{ tag }}</NuxtLink
+            >
+          </div>
 
-          <div class="prose mt-4" v-html="story.content" />
+          <div class="prose mt-8" v-html="story.content" />
         </div>
       </div>
 
