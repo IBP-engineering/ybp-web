@@ -31,7 +31,7 @@ const { data: story } = await useAsyncData(`story/${slug}`, async () => {
 </script>
 
 <template>
-  <div class="mx-auto w-full max-w-screen-xl px-4 lg:px-0">
+  <div class="mx-auto w-full max-w-screen-xl md:px-4 lg:px-0">
     <div class="mt-12 flex w-full flex-col gap-4 lg:flex-row">
       <div class="mt-8 hidden md:block">
         <UButton icon="i-heroicons-hand-thumb-up" variant="ghost" color="gray"
@@ -40,7 +40,7 @@ const { data: story } = await useAsyncData(`story/${slug}`, async () => {
       </div>
 
       <div
-        class="w-full overflow-hidden rounded-lg border border-gray-300 bg-gray-50 shadow"
+        class="w-full overflow-hidden shadow md:rounded-lg md:border md:border-gray-300 md:bg-gray-50"
       >
         <img
           :src="story.cover_path"
@@ -67,12 +67,12 @@ const { data: story } = await useAsyncData(`story/${slug}`, async () => {
             </div>
           </div>
           <h1
-            class="text-2xl font-bold md:text-3xl lg:text-5xl lg:leading-tight"
+            class="text-2xl font-bold md:text-3xl lg:text-4xl lg:leading-tight"
           >
             {{ story.title }}
           </h1>
 
-          <div class="prose" v-html="story.content" />
+          <div class="prose mt-4" v-html="story.content" />
         </div>
       </div>
 
