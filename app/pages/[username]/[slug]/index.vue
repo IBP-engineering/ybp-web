@@ -22,9 +22,10 @@ const { data: story } = await useAsyncData(`story/${slug}`, async () => {
     return null
   }
 
-  const coverWithPath = supabase.storage
-    .from('story-cover')
-    .getPublicUrl(data.cover_path).data.publicUrl
+  const coverWithPath = data.cover_path
+    ? supabase.storage.from('story-cover').getPublicUrl(data.cover_path).data
+        .publicUrl
+    : null
 
   return {
     ...data,
@@ -47,6 +48,7 @@ const { data: story } = await useAsyncData(`story/${slug}`, async () => {
         class="w-full overflow-hidden shadow md:rounded-lg md:border md:border-gray-300 md:bg-gray-50"
       >
         <img
+          v-if="story.cover_path"
           :src="story.cover_path"
           width="700"
           height="400"
