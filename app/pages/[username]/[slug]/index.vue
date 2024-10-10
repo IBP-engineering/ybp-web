@@ -67,7 +67,7 @@ const { data: story } = await useAsyncData(`story/${slug}`, async () => {
             </div>
           </div>
           <h1
-            class="text-2xl font-bold leading-relaxed md:text-3xl lg:text-5xl"
+            class="text-2xl font-bold md:text-3xl lg:text-5xl lg:leading-tight"
           >
             {{ story.title }}
           </h1>
