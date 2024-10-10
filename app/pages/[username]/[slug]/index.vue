@@ -68,7 +68,8 @@ const { data: story } = await useAsyncData(`story/${slug}`, async () => {
               <small
                 :title="format(story.created_at, 'full')"
                 class="block text-xs text-gray-600"
-                >Ditulis pada {{ format(story.created_at, 'DD MMM') }}</small
+                >Ditulis pada
+                {{ format(story.created_at, 'DD MMM', 'id') }}</small
               >
             </div>
           </div>
