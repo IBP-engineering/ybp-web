@@ -31,9 +31,9 @@ const { data: story } = await useAsyncData(`story/${slug}`, async () => {
 </script>
 
 <template>
-  <div class="mx-auto w-full max-w-screen-xl">
-    <div class="mt-12 flex w-full gap-4">
-      <div class="mt-8">
+  <div class="mx-auto w-full max-w-screen-xl px-4 lg:px-0">
+    <div class="mt-12 flex w-full flex-col gap-4 lg:flex-row">
+      <div class="mt-8 hidden md:block">
         <UButton icon="i-heroicons-hand-thumb-up" variant="ghost" color="gray"
           >20</UButton
         >
@@ -49,7 +49,7 @@ const { data: story } = await useAsyncData(`story/${slug}`, async () => {
           alt="Story cover"
           class="w-full"
         />
-        <div class="px-10 py-4">
+        <div class="px-4 py-4 md:px-10">
           <div class="my-4 flex items-center gap-4">
             <UserPicture :seed="story.author.username" width="35" height="35" />
             <div>
@@ -66,14 +66,18 @@ const { data: story } = await useAsyncData(`story/${slug}`, async () => {
               >
             </div>
           </div>
-          <h1 class="text-5xl font-bold leading-relaxed">{{ story.title }}</h1>
+          <h1
+            class="text-2xl font-bold leading-relaxed md:text-3xl lg:text-5xl"
+          >
+            {{ story.title }}
+          </h1>
 
           <div class="prose" v-html="story.content" />
         </div>
       </div>
 
       <div
-        class="h-full w-full max-w-[370px] rounded-lg border border-gray-300 bg-gray-50 p-4 shadow"
+        class="hidden h-full w-full rounded-lg border border-gray-300 bg-gray-50 p-4 shadow md:block lg:max-w-[370px]"
       >
         <div class="mb-4 flex items-center gap-4">
           <UserPicture :seed="story.author.username" width="40" height="40" />
