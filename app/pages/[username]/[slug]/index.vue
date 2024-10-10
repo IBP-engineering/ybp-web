@@ -11,7 +11,7 @@ const { data: story } = await useAsyncData(`story/${slug}`, async () => {
     .select(
       `*,
       tags:story_tags!id(tag:tag_id(slug)),
-      author:users(id, username, display_name, created_at)
+      author:users(id, username, bio, display_name, created_at)
       `,
     )
     .eq('slug', slug)
@@ -100,9 +100,7 @@ const { data: story } = await useAsyncData(`story/${slug}`, async () => {
         </div>
 
         <p class="text-gray-600">
-          Programmer/System Admin. Currently working on media solutions. Love
-          learning new things :) Posts include a variety of topics, mostly
-          media/computer vision related.
+          {{ story.author.bio }}
         </p>
         <ul class="mt-4 space-y-4 text-sm">
           <li>
