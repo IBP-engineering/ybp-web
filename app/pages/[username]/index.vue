@@ -104,7 +104,9 @@ const { data: stories } = await useAsyncData(
           >
             {{ story.title }}
           </NuxtLink>
-          <p>Tags</p>
+          <div v-if="story.tags.length > 0" class="mt-2 space-x-1">
+            <StoryTag v-for="tag in story.tags" :tag="tag" :key="tag" />
+          </div>
         </div>
       </div>
     </div>
