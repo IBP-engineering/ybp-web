@@ -15,6 +15,13 @@ const { data: user } = await useAsyncData(`users/${username}`, async () => {
   return data
 })
 
+if (!user.value) {
+  throw createError({
+    statusCode: 404,
+    statusMessage: 'User yang kamu cari tidak ditemukan',
+  })
+}
+
 const { data: stories } = await useAsyncData(
   `story/u/${username}`,
   async () => {
