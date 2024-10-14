@@ -8,12 +8,44 @@ const username = route.params.username
 const { data: user } = await useAsyncData(`users/${username}`, async () => {
   const { data } = await supabase
     .from('users')
-    .select('username, display_name, bio, created_at')
+    .select('id, username, display_name, bio, created_at')
     .eq('username', username)
     .single()
 
   return data
 })
+
+const { data: stories } = await useAsyncData(
+  `story/u/${username}`,
+  async () => {
+    const { data, error } = await supabase
+      .from('stories')
+      .select(
+        `*,
+      tags:story_tags!id(tag:tag_id(slug))
+      `,
+      )
+      .eq('user_id', user.value.id)
+
+    if (error) {
+      console.error(error)
+      return []
+    }
+
+    return data.map(story => {
+      const coverWithPath = story.cover_path
+        ? supabase.storage.from('story-cover').getPublicUrl(story.cover_path)
+            .data.publicUrl
+        : null
+
+      return {
+        ...story,
+        cover_path: coverWithPath,
+        tags: story.tags.map(tag => (tag.tag as any).slug as string),
+      }
+    })
+  },
+)
 </script>
 
 <template>
@@ -22,7 +54,7 @@ const { data: user } = await useAsyncData(`users/${username}`, async () => {
       class="mt-10 flex w-full flex-col items-center rounded-lg border-4 border-gray-300 bg-white px-4 pb-4 text-center"
     >
       <UserPicture
-        seed="kalwabed"
+        :seed="user.username"
         class="-mt-8 border-4 border-gray-300"
         width="80"
         height="80"
@@ -41,6 +73,39 @@ const { data: user } = await useAsyncData(`users/${username}`, async () => {
           ><UIcon name="heroicons:cake-solid" class="h-6 w-6" /> Bergabung pada
           {{ format(user.created_at, 'long', 'id') }}</span
         >
+      </div>
+    </div>
+
+    <div class="mt-4 space-y-2">
+      <div
+        v-for="story in stories"
+        :key="story.id"
+        class="border border-gray-300 bg-white p-4"
+      >
+        <div class="flex items-center gap-x-2">
+          <NuxtLink :to="`/${user.username}`">
+            <UserPicture :seed="user.username" width="35" height="35" />
+          </NuxtLink>
+          <div>
+            <NuxtLink
+              class="outline-none hover:bg-gray-200 focus:ring"
+              :to="`/${user.username}`"
+              >{{ user.display_name }}</NuxtLink
+            >
+            <small class="block text-gray-600">{{
+              format(story.created_at, 'medium', 'id')
+            }}</small>
+          </div>
+        </div>
+        <div class="ml-10 mt-1">
+          <NuxtLink
+            :to="`/${user.username}/${story.slug}`"
+            class="hover:text-primary-600 text-xl font-bold tracking-wide transition"
+          >
+            {{ story.title }}
+          </NuxtLink>
+          <p>Tags</p>
+        </div>
       </div>
     </div>
   </div>
