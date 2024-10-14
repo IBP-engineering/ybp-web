@@ -76,38 +76,46 @@ const { data: stories } = await useAsyncData(
       </div>
     </div>
 
-    <div class="mt-4 space-y-2">
-      <div
-        v-for="story in stories"
-        :key="story.id"
-        class="border border-gray-300 bg-white p-4"
-      >
-        <div class="flex items-center gap-x-2">
-          <NuxtLink :to="`/${user.username}`">
-            <UserPicture :seed="user.username" width="35" height="35" />
-          </NuxtLink>
-          <div>
+    <div class="mt-4">
+      <div class="space-y-2" v-if="stories.length > 0">
+        <div
+          v-for="story in stories"
+          :key="story.id"
+          class="rounded border border-gray-300 bg-white p-4 hover:border-gray-400"
+        >
+          <div class="flex items-center gap-x-2">
+            <NuxtLink :to="`/${user.username}`">
+              <UserPicture :seed="user.username" width="35" height="35" />
+            </NuxtLink>
+            <div>
+              <NuxtLink
+                class="outline-none hover:bg-gray-200 focus:ring"
+                :to="`/${user.username}`"
+                title="To user page"
+                >{{ user.display_name }}</NuxtLink
+              >
+              <small class="block text-gray-600">{{
+                format(story.created_at, 'medium', 'id')
+              }}</small>
+            </div>
+          </div>
+          <div class="ml-10 mt-1">
             <NuxtLink
-              class="outline-none hover:bg-gray-200 focus:ring"
-              :to="`/${user.username}`"
-              >{{ user.display_name }}</NuxtLink
+              :to="`/${user.username}/${story.slug}`"
+              class="hover:text-primary-600 text-xl font-bold tracking-wide transition"
+              :title="story.title"
             >
-            <small class="block text-gray-600">{{
-              format(story.created_at, 'medium', 'id')
-            }}</small>
+              {{ story.title }}
+            </NuxtLink>
+            <div v-if="story.tags.length > 0" class="mt-2 space-x-1">
+              <StoryTag v-for="tag in story.tags" :tag="tag" :key="tag" />
+            </div>
           </div>
         </div>
-        <div class="ml-10 mt-1">
-          <NuxtLink
-            :to="`/${user.username}/${story.slug}`"
-            class="hover:text-primary-600 text-xl font-bold tracking-wide transition"
-          >
-            {{ story.title }}
-          </NuxtLink>
-          <div v-if="story.tags.length > 0" class="mt-2 space-x-1">
-            <StoryTag v-for="tag in story.tags" :tag="tag" :key="tag" />
-          </div>
-        </div>
+      </div>
+      <div class="text-center font-medium" v-else>
+        <p>Pengguna belum menambahkan cerita</p>
+        <UIcon name="heroicons:flag-solid" />
       </div>
     </div>
   </div>
