@@ -79,12 +79,7 @@ const { data: story } = await useAsyncData(`story/${slug}`, async () => {
             {{ story.title }}
           </h1>
           <div class="mt-2">
-            <NuxtLink
-              v-for="tag in story.tags"
-              class="hover:bg-primary-100 hover:border-primary-300 hover:text-primary-900 rounded border border-transparent px-2 py-1 transition"
-              to="/t/bener"
-              >#{{ tag }}</NuxtLink
-            >
+            <StoryTag v-for="tag in story.tags" :tag="tag" :key="tag" />
           </div>
 
           <div class="prose mt-8" v-html="story.content" />
