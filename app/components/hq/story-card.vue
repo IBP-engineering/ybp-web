@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import { format } from '@formkit/tempo'
-import type { Story, Tag, User } from '~/types/entities'
+import type { Story, User } from '~/types/entities'
 
 const props = defineProps<{
   story: Story & {
-    tags: Tag[]
-    author: User
+    author: Partial<User>
   }
 }>()
 

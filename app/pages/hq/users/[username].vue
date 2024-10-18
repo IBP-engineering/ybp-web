@@ -78,7 +78,6 @@ const { data: stories, refresh: refreshStories } = await useAsyncData(
       .from('stories')
       .select(
         `*, 
-        tags:story_tags!id(tag:tag_id(title)), 
         author:users(id, username, display_name)
         `,
       )
