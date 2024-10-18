@@ -21,6 +21,7 @@ const { data: user } = await useAsyncData('current-user', async () => {
 
   return data
 })
+
 async function logout() {
   const { error } = await supabase.auth.signOut()
 

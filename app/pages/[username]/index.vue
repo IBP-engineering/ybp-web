@@ -23,7 +23,7 @@ if (!user.value) {
 }
 
 const { data: stories } = await useAsyncData(
-  `story/u/${username}`,
+  `users/${username}/stories`,
   async () => {
     const { data, error } = await supabase.from('stories').select(
       `*,
@@ -71,7 +71,7 @@ const { data: stories } = await useAsyncData(
     </div>
 
     <div class="mt-4">
-      <div class="space-y-2" v-if="stories.length > 0">
+      <div class="space-y-2" v-if="stories?.length > 0">
         <div
           v-for="story in stories"
           :key="story.id"
