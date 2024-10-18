@@ -227,7 +227,11 @@ onMounted(() => {
       <div class="mt-4 space-y-4 px-4">
         <h2 class="text-lg font-semibold">DAFTAR CERITA</h2>
         <div class="space-y-4" v-if="stories.length > 0">
-          <StoryCard v-for="v in stories" :story="v" :key="v.id" />
+          <HqStoryCard
+            v-for="story in stories"
+            :story="story"
+            :key="story.id"
+          />
         </div>
         <p class="text-gray-600" v-else>Belum ada cerita yang ditambahkan</p>
       </div>

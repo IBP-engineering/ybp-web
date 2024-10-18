@@ -18,6 +18,33 @@ if (!tag.value) {
     statusMessage: 'Halaman yang dituju tidak ditemukan',
   })
 }
+
+const { data: stories } = await useAsyncData(
+  `tags/${slug}/stories`,
+  async () => {
+    const { data, error } = await supabase
+      .from('stories')
+      .select(
+        `*,
+      tags:story_tags!id(tag:tag_id(slug)),
+      author:users(id, username, display_name)
+      `,
+      )
+      .order('created_at', { ascending: false })
+
+    if (error) {
+      console.error(error)
+      return []
+    }
+
+    // @ts-ignore
+    const mappedStories = mapStoryTag(data)
+
+    return mappedStories.filter(story =>
+      story.tags.some(tg => tg.slug === tag.value.slug),
+    )
+  },
+)
 </script>
 
 <template>
@@ -29,6 +56,13 @@ if (!tag.value) {
       <p class="font-thin">{{ tag.description }}</p>
     </div>
 
-    <div>stories</div>
+    <div class="mx-auto mt-8 w-full max-w-screen-xl space-y-4 px-4">
+      <StoryCard
+        v-for="story in stories"
+        :story="story"
+        :author="story.author"
+        :key="story.id"
+      />
+    </div>
   </div>
 </template>
