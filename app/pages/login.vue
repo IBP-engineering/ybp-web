@@ -34,44 +34,48 @@ const state = reactive({
 
 async function login(event: FormSubmitEvent<Schema>) {
   isLoading.value = true
-  const { data, error } = await supabase.auth.signInWithPassword({
-    email: event.data.email,
-    password: event.data.password,
-  })
-  isLoading.value = false
-
-  if (error) {
-    toast.add({
-      title: 'Terjadi kesalahan',
-      description: error.message,
-      color: 'red',
-      icon: 'i-heroicons-x-mark-solid',
+  try {
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email: event.data.email,
+      password: event.data.password,
     })
-    console.error(error.cause, error)
-    return
-  }
+    isLoading.value = false
 
-  const { data: userRole, error: errorUser } = await supabase
-    .from('users')
-    .select('role_id')
-    .eq('id', data.user.id)
-    .eq('is_active', true)
-    .single()
+    if (error) {
+      toast.add({
+        title: 'Terjadi kesalahan',
+        description: error.message,
+        color: 'red',
+        icon: 'i-heroicons-x-mark-solid',
+      })
+      console.error(error.cause, error)
+      return
+    }
 
-  if (!userRole) {
-    toast.add({
-      title: 'Terjadi kesalahan',
-      description: errorUser.message,
-      color: 'red',
-      icon: 'i-heroicons-x-mark-solid',
-    })
-    return
-  }
+    const { data: userRole, error: errorUser } = await supabase
+      .from('users')
+      .select('role_id')
+      .eq('id', data.user.id)
+      .eq('is_active', true)
+      .single()
 
-  if (userRole.role_id === 1) {
-    await navigateTo('/')
-  } else {
-    await navigateTo('/hq')
+    if (!userRole) {
+      toast.add({
+        title: 'Terjadi kesalahan',
+        description: errorUser.message,
+        color: 'red',
+        icon: 'i-heroicons-x-mark-solid',
+      })
+      return
+    }
+
+    if (userRole.role_id === 1) {
+      await navigateTo('/')
+    } else {
+      await navigateTo('/hq')
+    }
+  } catch (error) {
+    console.error(error)
   }
 }
 </script>

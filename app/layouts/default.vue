@@ -1,17 +1,17 @@
 <script setup lang="ts">
 import { currentUser } from '~/store/session'
 
-const session = useSupabaseSession()
+const user = useSupabaseUser()
 const supabase = useSupabaseClient()
 
 await useAsyncData(
   'current-user',
   async () => {
-    if (session.value.user) {
+    if (user.value) {
       const { data, error } = await supabase
         .from('users')
         .select('username, id, display_name, created_at, roles(id, name)')
-        .eq('id', session.value.user.id)
+        .eq('id', user.value.id)
         .eq('is_active', true)
         .single()
 
@@ -27,7 +27,7 @@ await useAsyncData(
 
     return null
   },
-  { watch: [session] },
+  { watch: [user] },
 )
 </script>
 

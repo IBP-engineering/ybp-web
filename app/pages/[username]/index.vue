@@ -23,36 +23,27 @@ if (!user.value) {
 }
 
 const { data: stories } = await useAsyncData(
-  `story/u/${username}`,
+  `users/${username}/stories`,
   async () => {
-    const { data, error } = await supabase
-      .from('stories')
-      .select(
-        `*,
+    const { data, error } = await supabase.from('stories').select(
+      `*,
       tags:story_tags!id(tag:tag_id(slug))
       `,
-      )
-      .eq('user_id', user.value.id)
+    )
 
     if (error) {
       console.error(error)
       return []
     }
 
-    return data.map(story => {
-      const coverWithPath = story.cover_path
-        ? supabase.storage.from('story-cover').getPublicUrl(story.cover_path)
-            .data.publicUrl
-        : null
-
-      return {
-        ...story,
-        cover_path: coverWithPath,
-        tags: story.tags.map(tag => (tag.tag as any).slug as string),
-      }
-    })
+    return data
   },
 )
+
+const storiesFiltered = computed(() => {
+  // @ts-ignore
+  return mapStoryTag(stories.value)
+})
 </script>
 
 <template>
@@ -84,9 +75,9 @@ const { data: stories } = await useAsyncData(
     </div>
 
     <div class="mt-4">
-      <div class="space-y-2" v-if="stories.length > 0">
+      <div class="space-y-2" v-if="storiesFiltered?.length > 0">
         <div
-          v-for="story in stories"
+          v-for="story in storiesFiltered"
           :key="story.id"
           class="rounded border border-gray-300 bg-white p-4 hover:border-gray-400"
         >
@@ -115,7 +106,11 @@ const { data: stories } = await useAsyncData(
               {{ story.title }}
             </NuxtLink>
             <div v-if="story.tags.length > 0" class="mt-2 space-x-1">
-              <StoryTag v-for="tag in story.tags" :tag="tag" :key="tag" />
+              <StoryTag
+                v-for="tag in story.tags"
+                :tag="tag.slug"
+                :key="tag.slug"
+              />
             </div>
           </div>
         </div>
