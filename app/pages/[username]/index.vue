@@ -36,10 +36,14 @@ const { data: stories } = await useAsyncData(
       return []
     }
 
-    // @ts-ignore
-    return mapStoryTag(data)
+    return data
   },
 )
+
+const storiesFiltered = computed(() => {
+  // @ts-ignore
+  return mapStoryTag(stories.value)
+})
 </script>
 
 <template>
@@ -71,9 +75,9 @@ const { data: stories } = await useAsyncData(
     </div>
 
     <div class="mt-4">
-      <div class="space-y-2" v-if="stories?.length > 0">
+      <div class="space-y-2" v-if="storiesFiltered?.length > 0">
         <div
-          v-for="story in stories"
+          v-for="story in storiesFiltered"
           :key="story.id"
           class="rounded border border-gray-300 bg-white p-4 hover:border-gray-400"
         >

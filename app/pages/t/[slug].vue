@@ -2,7 +2,6 @@
 const supabase = useSupabaseClient()
 const route = useRoute()
 const { slug } = route.params
-// TODO: Fix ketika halaman di refresh di beberapa halaman yang punya async data lebih dari satu
 const { data: tag } = await useAsyncData(`tags/${slug}`, async () => {
   const { data } = await supabase
     .from('tags')
@@ -38,14 +37,18 @@ const { data: stories } = await useAsyncData(
       return []
     }
 
-    // @ts-ignore
-    const mappedStories = mapStoryTag(data)
-
-    return mappedStories.filter(story =>
-      story.tags.some(tg => tg.slug === tag.value.slug),
-    )
+    return data
   },
 )
+
+const storiesFiltered = computed(() => {
+  // @ts-ignore
+  const mappedStories = mapStoryTag(stories.value)
+
+  return mappedStories.filter(story =>
+    story.tags.some(tg => tg.slug === tag.value.slug),
+  )
+})
 </script>
 
 <template>
@@ -58,11 +61,11 @@ const { data: stories } = await useAsyncData(
     </div>
 
     <div
-      v-if="stories?.length > 0"
+      v-if="storiesFiltered?.length > 0"
       class="mx-auto mt-8 w-full max-w-screen-xl space-y-4 px-4"
     >
       <StoryCard
-        v-for="story in stories"
+        v-for="story in storiesFiltered"
         :story="story"
         :author="story.author"
         :key="story.id"
