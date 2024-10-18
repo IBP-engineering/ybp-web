@@ -8,6 +8,32 @@ const activityCards = [
   { header: 'Pekan Membaca', content: 'https://picsum.photos/500/500' },
   { header: 'JBP Berpuisi', content: 'https://picsum.photos/600/600' },
 ]
+const supabase = useSupabaseClient()
+
+const { data: stories } = await useAsyncData('stories/favorites', async () => {
+  const { data, error } = await supabase
+    .from('stories')
+    .select(
+      `*,
+      tags:story_tags!id(tag:tag_id(slug)),
+      author:users(id, username, display_name)
+      `,
+    )
+    .order('created_at', { ascending: false })
+    .limit(3)
+
+  if (error) {
+    console.error(error)
+    return []
+  }
+
+  return data
+})
+
+const storiesFiltered = computed(() => {
+  // @ts-ignore
+  return mapStoryTag(stories.value)
+})
 </script>
 
 <template>
@@ -70,7 +96,7 @@ const activityCards = [
     <!--   </div> -->
     <!-- </div> -->
 
-    <div class="container mx-auto mt-24 px-4">
+    <div class="container mx-auto mt-24 px-4 md:px-0">
       <h2 class="mb-14 text-center text-2xl font-medium text-gray-500">
         Agenda Kami
       </h2>
@@ -93,22 +119,28 @@ const activityCards = [
       </div>
     </div>
 
-    <!-- <div class="container mx-auto mt-24 px-4">
-      <UButton
-        icon="i-heroicons:chevron-right"
-        size="lg"
-        color="gray"
-        variant="outline"
-        label="Button"
-        :trailing="true"
-        class="mb-14 cursor-default"
-      >
-        🔥 Cerita Unggulan
-      </UButton>
-      <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3"></div>
-    </div> -->
+    <div class="container mx-auto mt-24 px-4 md:px-0">
+      <h2 class="text-lg font-bold">🔥 Cerita Terbaru</h2>
+      <div class="my-4 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+        <StoryCard
+          v-for="story in storiesFiltered"
+          :key="story.id"
+          :story="story"
+          :author="story.author"
+        />
+      </div>
+      <div class="flex justify-end">
+        <UButton
+          variant="ghost"
+          trailing-icon="heroicons:arrow-small-right-20-solid"
+          color="gray"
+          to="/stories"
+          >Cerita lainnya</UButton
+        >
+      </div>
+    </div>
 
-    <div class="container mx-auto mt-24 px-4">
+    <div class="container mx-auto mt-24 px-4 md:px-0">
       <div
         class="grid-cols-reverse grid w-full grid-cols-1 gap-4 md:grid-cols-2"
       >
