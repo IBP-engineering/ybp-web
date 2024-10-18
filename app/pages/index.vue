@@ -12,21 +12,21 @@ const activityCards = [
 
 <template>
   <div>
-    <div class="py-20">
-      <div class="container mx-auto text-center">
-        <p class="mb-2 text-2xl text-gray-500">
-          Baca buku, diskusi, dan main-main bareng
-        </p>
-        <h1 class="mb-2 text-9xl font-bold text-gray-700">Jogja</h1>
-        <div class="mb-6 flex items-center justify-center">
-          <h1 class="text-8xl font-bold text-gray-700">Book</h1>
+    <div class="mt-20">
+      <div class="container mx-auto mb-20 text-center">
+        <b class="mb-2 text-6xl font-bold text-gray-700 lg:text-9xl">Jogja</b>
+        <div class="mb-8 flex items-center justify-center">
+          <b class="text-5xl font-bold text-gray-700 lg:text-8xl">Book</b>
           <img
             src="~/assets/images/tugu-jogja.png"
             alt="Image from Darmawan R. Dipo in Behance"
-            class="ml-2 mr-1 h-56"
+            class="ml-2 mr-1 h-32 md:h-56"
           />
-          <h1 class="text-8xl font-bold text-gray-700">Party</h1>
+          <b class="text-5xl font-bold text-gray-700 lg:text-8xl">Party</b>
         </div>
+        <p class="text-gray-500 md:text-xl">
+          Baca buku, diskusi, dan main bareng
+        </p>
       </div>
     </div>
     <div class="container mx-auto rounded-xl bg-gray-100 px-12 py-10">
