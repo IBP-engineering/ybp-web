@@ -1,44 +1,40 @@
 <script setup lang="ts">
-import heroTugu from '~/assets/images/tugu-jogja.png'
-
-import { ref } from 'vue'
-
 useHead({
   title: 'Home',
 })
 
-const navLinks = ref([
+const navLinks = [
   { text: 'Stories', to: '#' },
   { text: 'Activities', to: '#' },
   { text: 'Goodies', to: '#' },
   { text: 'About Us', to: '#' },
-])
+]
 
-const activityCards = ref([
+const activityCards = [
   { header: 'Malam Imajinasi', content: 'https://picsum.photos/400/400' },
   { header: 'Pekan Membaca', content: 'https://picsum.photos/500/500' },
   { header: 'JBP Berpuisi', content: 'https://picsum.photos/600/600' },
-])
+]
 </script>
 
 <template>
-  <div class="bg-gray-50">
+  <div>
     <nav class="py-10">
       <div class="container mx-auto flex items-center justify-between">
         <div class="flex items-center">
-          <div>
+          <NuxtLink to="/">
             <img
-              src="https://placehold.co/400x400.png"
-              loading="lazy"
+              src="~/assets/images/logo.png"
+              width="90"
+              class="h-full w-24"
               alt="YBP Logo"
-              class="h-12 rounded-full"
             />
-          </div>
-          <ul class="ml-12 flex space-x-8">
+          </NuxtLink>
+          <ul class="ml-4 flex items-center space-x-4">
             <li v-for="link in navLinks" :key="link.text">
               <NuxtLink
                 :to="link.to"
-                class="hover:bg-primary-50 gap-2 px-4 py-3 text-gray-600 transition md:w-auto"
+                class="px-4 py-3 text-gray-600 transition hover:underline focus:ring md:w-auto"
               >
                 {{ link.text }}
               </NuxtLink>
@@ -46,11 +42,7 @@ const activityCards = ref([
           </ul>
         </div>
         <div>
-          <button
-            class="hover:bg-primary-50 rounded border border-gray-600 px-4 py-3 text-gray-600 hover:border-gray-600"
-          >
-            Join Now
-          </button>
+          <UButton size="xl" variant="outline">Join Now</UButton>
         </div>
       </div>
     </nav>
@@ -64,7 +56,7 @@ const activityCards = ref([
         <div class="mb-6 flex items-center justify-center">
           <h1 class="text-8xl font-bold text-gray-700">Book</h1>
           <img
-            :src="heroTugu"
+            src="~/assets/images/tugu-jogja.png"
             alt="Image from Darmawan R. Dipo in Behance"
             class="ml-2 mr-1 h-56"
           />
