@@ -29,50 +29,52 @@ const activityCards = [
         </p>
       </div>
     </div>
-    <div class="container mx-auto rounded-xl bg-gray-100 px-12 py-10">
-      <div class="w-full overflow-hidden rounded">
-        <div class="flex items-center">
-          <div
-            class="border-primary-300 bg-primary-500 mr-2 h-5 w-5 rounded-full border"
-          />
-          <div class="text-2xl text-gray-500">Kegiatan yang Akan Datang</div>
-        </div>
-        <div class="mt-6 flex">
-          <div class="w-1/3">
-            <img
-              src="https://picsum.photos/300/200"
-              loading="lazy"
-              alt="Banner Image"
-              class="h-auto w-full rounded-xl"
-            />
-          </div>
-          <div class="ml-4 w-2/3 p-4">
-            <p class="text-2xl text-gray-500">
-              Membaca Bersama Jogja Book Party
-            </p>
-            <br />
-            <p class="text-lg text-gray-500">
-              Hari: 29 September 2024<br />
-              Waktu: 14.00 WIB - selesai<br />
-              Tempat: Taman Balairung UGM
-            </p>
-            <br />
-            <p class="text-lg text-gray-500">
-              Catatan:<br />
-              Seperti biasa, Yogya Book Party kembali hadir menyapa para
-              bookmates nih! Minggu ini kita bakal seru-seruan di Taman
-              Balairung UGM. Jangan sampai ketinggalan karena bakalan ada games
-              dengan hadiah yang menarik!🥳✨ Mau tau apalagi keseruan
-              bookparty? Stay Tuned terus ya Bookmates 🙌
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
+    <!-- <div class="container mx-auto rounded-xl bg-gray-100 px-12 py-10"> -->
+    <!--   <div class="w-full overflow-hidden rounded"> -->
+    <!--     <div class="flex items-center"> -->
+    <!--       <div -->
+    <!--         class="border-primary-300 bg-primary-500 mr-2 h-5 w-5 rounded-full border" -->
+    <!--       /> -->
+    <!--       <div class="text-2xl text-gray-500">Kegiatan yang Akan Datang</div> -->
+    <!--     </div> -->
+    <!--     <div class="mt-6 flex"> -->
+    <!--       <div class="w-1/3"> -->
+    <!--         <img -->
+    <!--           src="https://picsum.photos/300/200" -->
+    <!--           loading="lazy" -->
+    <!--           alt="Banner Image" -->
+    <!--           class="h-auto w-full rounded-xl" -->
+    <!--         /> -->
+    <!--       </div> -->
+    <!--       <div class="ml-4 w-2/3 p-4"> -->
+    <!--         <p class="text-2xl text-gray-500"> -->
+    <!--           Membaca Bersama Jogja Book Party -->
+    <!--         </p> -->
+    <!--         <br /> -->
+    <!--         <p class="text-lg text-gray-500"> -->
+    <!--           Hari: 29 September 2024<br /> -->
+    <!--           Waktu: 14.00 WIB - selesai<br /> -->
+    <!--           Tempat: Taman Balairung UGM -->
+    <!--         </p> -->
+    <!--         <br /> -->
+    <!--         <p class="text-lg text-gray-500"> -->
+    <!--           Catatan:<br /> -->
+    <!--           Seperti biasa, Yogya Book Party kembali hadir menyapa para -->
+    <!--           bookmates nih! Minggu ini kita bakal seru-seruan di Taman -->
+    <!--           Balairung UGM. Jangan sampai ketinggalan karena bakalan ada games -->
+    <!--           dengan hadiah yang menarik!🥳✨ Mau tau apalagi keseruan -->
+    <!--           bookparty? Stay Tuned terus ya Bookmates 🙌 -->
+    <!--         </p> -->
+    <!--       </div> -->
+    <!--     </div> -->
+    <!--   </div> -->
+    <!-- </div> -->
 
     <div class="container mx-auto mt-24 px-4">
-      <h2 class="mb-14 text-center text-2xl text-gray-500">Agenda Kami</h2>
-      <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <h2 class="mb-14 text-center text-2xl font-medium text-gray-500">
+        Agenda Kami
+      </h2>
+      <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
         <UCard
           v-for="(card, index) in activityCards"
           :key="index"
