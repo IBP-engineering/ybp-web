@@ -107,10 +107,12 @@ const activityCards = [
     </div> -->
 
     <div class="container mx-auto mt-24 px-4">
-      <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
-        <div class="flex flex-col justify-center">
-          <h2 class="mb-5 text-2xl text-gray-500">Tentang Kami</h2>
-          <p class="w-3/4 text-lg text-gray-500">
+      <div
+        class="grid-cols-reverse grid w-full grid-cols-1 gap-4 md:grid-cols-2"
+      >
+        <div class="flex flex-col justify-center md:w-3/4">
+          <h2 class="text-3xl font-semibold leading-relaxed">Tentang Kami</h2>
+          <p class="tracking-wide text-gray-600">
             Hydra is a Y Combinator-backed data processing company with a
             globally remote team. We are passionate PostgreSQL and backend
             engineers from Microsoft Azure, Heroku, and Citus Data. We set out
@@ -123,12 +125,15 @@ const activityCards = [
             production support and services for the system.
           </p>
         </div>
-        <div class="flex items-center justify-end px-5">
+        <div class="order-first md:order-last">
           <img
-            src="https://picsum.photos/600/300"
+            src="https://picsum.photos/1600/900"
             alt="Tentang Kami"
-            class="items-end rounded-lg object-cover"
+            class="w-full rounded-lg"
+            width="500"
+            height="600"
             loading="lazy"
+            decoding="async"
           />
         </div>
       </div>
