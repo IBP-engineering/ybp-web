@@ -5,16 +5,20 @@ const user = useSupabaseUser()
 const supabase = useSupabaseClient()
 const navlinks = [
   {
+    label: 'Stories',
+    to: '/stories',
+  },
+  {
     label: 'Activities',
-    to: '/activities',
+    to: '#',
   },
   {
     label: 'Goodies',
-    to: '/goodies',
+    to: '#',
   },
   {
     label: 'About Us',
-    to: '/about',
+    to: '/#about-us',
   },
 ]
 const openNavModal = ref(false)

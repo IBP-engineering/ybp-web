@@ -113,7 +113,9 @@ const activityCards = [
         class="grid-cols-reverse grid w-full grid-cols-1 gap-4 md:grid-cols-2"
       >
         <div class="flex flex-col justify-center md:w-3/4">
-          <h2 class="text-3xl font-semibold leading-relaxed">Tentang Kami</h2>
+          <h2 id="about-us" class="text-3xl font-semibold leading-relaxed">
+            Tentang Kami
+          </h2>
           <p class="tracking-wide text-gray-600">
             Hydra is a Y Combinator-backed data processing company with a
             globally remote team. We are passionate PostgreSQL and backend
