@@ -5,16 +5,18 @@ import {
   pipe,
   safeParser,
   string,
-  email,
   trim,
   forward,
-  minLength,
   maxLength,
-  regex,
   partialCheck,
   type InferInput,
 } from 'valibot'
 import type { FormSubmitEvent } from '#ui/types'
+import {
+  passwordValidator,
+  usernameValidator,
+  emailValidator,
+} from '~/utils/validator'
 
 definePageMeta({
   layout: 'auth',
@@ -25,35 +27,15 @@ useHead({
 
 const schema = pipe(
   object({
-    fullname: pipe(
+    displayName: pipe(
       string(),
       trim(),
       maxLength(120, 'Maksimal 120 karakter'),
       nonEmpty('Mohon masukkan nama lengkap anda'),
     ),
-    email: pipe(
-      string(),
-      trim(),
-      email('Format email tidak valid'),
-      nonEmpty('Mohon masukkan email anda'),
-    ),
-    username: pipe(
-      string(),
-      minLength(3, 'Minimal 3 karakter'),
-      maxLength(16, 'Maksimal 16 karakter'),
-      regex(
-        /^[a-zA-Z0-9._-]+$/,
-        'Username hanya boleh mengandung huruf (a-z, A-Z), angka (0-9), titik (.), garis bawah (_), dan tanda hubung (-)',
-      ),
-      trim(),
-      nonEmpty('Mohon masukkan username anda'),
-    ),
-    password: pipe(
-      string(),
-      minLength(8, 'Minimal 8 karakter'),
-      trim(),
-      nonEmpty('Mohon masukkan password anda'),
-    ),
+    email: emailValidator,
+    username: usernameValidator,
+    password: passwordValidator,
     repeatPassword: pipe(
       string(),
       trim(),
@@ -72,25 +54,64 @@ const schema = pipe(
 
 type Schema = InferInput<typeof schema>
 
+const toast = useToast()
+const supabase = useSupabaseClient()
 const isLoading = ref(false)
 const state = reactive<Partial<Schema>>({
-  fullname: '',
+  displayName: '',
   username: '',
   password: '',
   email: '',
   repeatPassword: '',
 })
 
-const toast = useToast()
-
 async function register(event: FormSubmitEvent<Schema>) {
   isLoading.value = true
-  await navigateTo('/hq')
+  const data = event.data
+
+  const existingUser = await supabase
+    .from('users')
+    .select()
+    .ilike('username', `%${data.username}%`)
+
+  if (existingUser?.data[0]) {
+    toast.add({
+      title: 'Gagal mendaftar',
+      icon: 'i-heroicons-exclamation-circle-solid',
+      description:
+        'Username telah ada digunakan. Mohon menggunakan username yang lain',
+      color: 'yellow',
+    })
+    isLoading.value = false
+    return
+  }
+
+  const { error } = await $fetch<{
+    error?: { message: string }
+  }>('/api/signup', {
+    method: 'post',
+    body: data,
+  })
+
+  if (error) {
+    toast.add({
+      icon: 'i-heroicons-x-mark-solid',
+      color: 'red',
+      title: 'Kesalahan ketika akan mendaftarkan akun',
+      description: error.message,
+    })
+    console.error(error)
+    isLoading.value = false
+    return
+  }
+
+  isLoading.value = false
+  await navigateTo('/')
 }
 </script>
 
 <template>
-  <div class="relative flex h-full w-full justify-center">
+  <div class="relative flex w-full justify-center">
     <div class="mx-auto mt-[10rem] flex w-full flex-col px-6 md:px-0">
       <div>
         <img
@@ -114,8 +135,12 @@ async function register(event: FormSubmitEvent<Schema>) {
           @submit="register"
           class="flex w-full flex-col gap-5"
         >
-          <UFormGroup required label="Nama lengkap" name="fullname">
-            <UInput v-model="state.fullname" :loading="isLoading" type="text" />
+          <UFormGroup required label="Nama" name="displayName">
+            <UInput
+              v-model="state.displayName"
+              :loading="isLoading"
+              type="text"
+            />
           </UFormGroup>
           <UFormGroup required label="Username" name="username">
             <UInput v-model="state.username" :loading="isLoading" type="text" />

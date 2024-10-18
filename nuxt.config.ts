@@ -2,7 +2,7 @@
 export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
   devtools: { enabled: true },
-  modules: ['@nuxt/ui', '@nuxt/eslint', '@nuxt/fonts'],
+  modules: ['@nuxt/ui', '@nuxt/eslint', '@nuxt/fonts', '@nuxtjs/supabase'],
   future: {
     compatibilityVersion: 4,
   },
@@ -10,14 +10,19 @@ export default defineNuxtConfig({
     viewTransition: true,
     asyncEntry: true,
   },
+  supabase: {
+    redirect: false,
+  },
   colorMode: {
     preference: 'light',
+  },
+  typescript: {
+    strict: false,
   },
   fonts: {
     provider: 'bunny',
     defaults: {
-      weights: [400, 500, 600, 700],
+      weights: [300, 400, 500, 600, 700],
     },
   },
 })
-

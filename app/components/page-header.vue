@@ -5,10 +5,12 @@ withDefaults(
     mode?: 'detail' | 'list'
     buttonText?: string
     backButtonText?: string
+    backButtonHref?: string
   }>(),
   {
     backButtonText: 'Back',
     mode: 'list',
+    backButtonHref: '/hq',
   },
 )
 defineEmits<{
@@ -30,13 +32,19 @@ const links = [
     to: '/hq',
     click: () => (openNavModal.value = false),
   },
-  {
+]
+
+const currentUser = useNuxtData('current-user')
+
+if (currentUser.data.value.roles.id === 3) {
+  // only user with role admin
+  links.push({
     label: 'Users',
     icon: 'i-heroicons-at-symbol',
-    to: '/users',
+    to: '/hq/users',
     click: () => (openNavModal.value = false),
-  },
-]
+  })
+}
 </script>
 
 <template>
@@ -63,8 +71,8 @@ const links = [
       <div class="flex flex-col gap-4">
         <ULink
           v-if="mode === 'detail'"
-          class="focue:ring inline-flex items-center gap-1 text-gray-600 outline-none hover:bg-gray-200"
-          to="/hq"
+          class="focue:ring inline-flex w-fit items-center gap-1 text-gray-600 outline-none hover:bg-gray-200"
+          :to="backButtonHref"
           ><UIcon name="i-heroicons:chevron-left" /> {{ backButtonText }}</ULink
         >
         <h1 class="text-3xl">
