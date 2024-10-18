@@ -70,7 +70,7 @@ await useAsyncData(
             </li>
           </ul>
         </div>
-        <UButton class="hidden md:flex" size="xl" variant="outline"
+        <UButton class="hidden md:flex" size="xl" variant="outline" to="/login"
           >Join Now</UButton
         >
         <UButton
@@ -106,7 +106,9 @@ await useAsyncData(
             >{{ link.label }}</UButton
           >
         </nav>
-        <UButton size="xl" block variant="outline">Join Now</UButton>
+        <UButton size="xl" block variant="outline" to="/login"
+          >Join Now</UButton
+        >
       </div>
     </USlideover>
     <slot />
