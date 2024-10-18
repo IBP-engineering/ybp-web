@@ -3,13 +3,6 @@ useHead({
   title: 'Home',
 })
 
-const navLinks = [
-  { text: 'Stories', to: '#' },
-  { text: 'Activities', to: '#' },
-  { text: 'Goodies', to: '#' },
-  { text: 'About Us', to: '#' },
-]
-
 const activityCards = [
   { header: 'Malam Imajinasi', content: 'https://picsum.photos/400/400' },
   { header: 'Pekan Membaca', content: 'https://picsum.photos/500/500' },
@@ -19,34 +12,6 @@ const activityCards = [
 
 <template>
   <div>
-    <nav class="py-10">
-      <div class="container mx-auto flex items-center justify-between">
-        <div class="flex items-center">
-          <NuxtLink to="/">
-            <img
-              src="~/assets/images/logo.png"
-              width="90"
-              class="h-full w-24"
-              alt="YBP Logo"
-            />
-          </NuxtLink>
-          <ul class="ml-4 flex items-center space-x-4">
-            <li v-for="link in navLinks" :key="link.text">
-              <NuxtLink
-                :to="link.to"
-                class="px-4 py-3 text-gray-600 transition hover:underline focus:ring md:w-auto"
-              >
-                {{ link.text }}
-              </NuxtLink>
-            </li>
-          </ul>
-        </div>
-        <div>
-          <UButton size="xl" variant="outline">Join Now</UButton>
-        </div>
-      </div>
-    </nav>
-
     <div class="py-20">
       <div class="container mx-auto text-center">
         <p class="mb-2 text-2xl text-gray-500">
