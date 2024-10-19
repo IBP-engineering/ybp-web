@@ -4,7 +4,7 @@ import { format } from '@formkit/tempo'
 import type { Database } from '~/types/database.types'
 
 definePageMeta({
-  layout: 'dashboard',
+  layout: 'hq',
 })
 
 const route = useRoute()

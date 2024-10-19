@@ -12,7 +12,7 @@ import type { FormSubmitEvent } from '#ui/types'
 import type { Database } from '~/types/database.types'
 
 definePageMeta({
-  layout: 'dashboard',
+  layout: 'hq',
 })
 
 useHead({

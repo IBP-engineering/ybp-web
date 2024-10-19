@@ -75,14 +75,14 @@ const items = [
 </script>
 
 <template>
-  <div class="flex min-h-full flex-col bg-gray-100">
+  <div class="flex min-h-full flex-col bg-gray-100 font-sans">
     <span class="bg-primary-700 h-2 w-full p-1" aria-label="top border" />
     <header class="w-full bg-white pb-2">
       <div class="mx-auto w-full max-w-screen-xl px-4 pt-4">
         <div class="flex items-center justify-between">
           <NuxtLink to="/hq" class="inline-flex items-center">
             <img
-              src="https://picsum.photos/200/200"
+              src="~/assets/images/logo.png"
               alt="YBP logo"
               width="65"
               height="65"

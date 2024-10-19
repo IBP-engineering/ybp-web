@@ -2,10 +2,10 @@
 import type { Database } from '~/types/database.types'
 
 useHead({
-  title: 'Dashboard',
+  title: 'Headquarter',
 })
 definePageMeta({
-  layout: 'dashboard',
+  layout: 'hq',
 })
 
 const supabase = useSupabaseClient<Database>()
