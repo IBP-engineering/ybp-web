@@ -85,11 +85,11 @@ async function login(event: FormSubmitEvent<Schema>) {
     <div class="mx-auto mt-[10rem] flex w-full flex-col px-6 md:px-0">
       <div>
         <img
-          src="https://picsum.photos/200/200"
+          src="~/assets/images/logo.png"
           decoding="async"
           loading="lazy"
-          width="200"
-          height="200"
+          width="300"
+          height="300"
           class="z-20 mx-auto"
           alt="YBP logo"
         />

@@ -82,7 +82,7 @@ const items = [
         <div class="flex items-center justify-between">
           <NuxtLink to="/hq" class="inline-flex items-center">
             <img
-              src="https://picsum.photos/200/200"
+              src="~/assets/images/logo.png"
               alt="YBP logo"
               width="65"
               height="65"
