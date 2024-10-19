@@ -127,7 +127,7 @@ const storiesFiltered = computed(() => {
     <!--   </div> -->
     <!-- </div> -->
     <div class="px-4 py-24 md:px-0 md:py-32">
-      <LazyGalleryMarquee />
+      <GalleryMarquee />
       <h2
         class="mt-4 text-center text-lg font-medium leading-8 text-gray-900 dark:text-white"
       >
