@@ -10,6 +10,7 @@ const { data: user } = await useAsyncData(`users/${username}`, async () => {
     .from('users')
     .select('id, username, display_name, bio, created_at')
     .eq('username', username)
+    .eq('is_active', true)
     .single()
 
   return data
@@ -25,11 +26,16 @@ if (!user.value) {
 const { data: stories } = await useAsyncData(
   `users/${username}/stories`,
   async () => {
-    const { data, error } = await supabase.from('stories').select(
-      `*,
+    const { data, error } = await supabase
+      .from('stories')
+      .select(
+        `*,
       tags:story_tags!id(tag:tag_id(slug))
       `,
-    )
+      )
+      .eq('status', 'approved')
+      .eq('is_active', true)
+      .order('created_at', { ascending: false })
 
     if (error) {
       console.error(error)
