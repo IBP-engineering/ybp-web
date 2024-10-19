@@ -42,7 +42,10 @@ const storiesFiltered = computed(() => {
       <p class="text-gray-600">
         Kumpulan tulisan cerita yang sudah melalui proses skrining oleh editor
       </p>
-      <div class="my-8 grid grid-cols-1 gap-4 md:grid-cols-2">
+      <div
+        v-if="storiesFiltered?.length > 0"
+        class="my-8 grid grid-cols-1 gap-4 md:grid-cols-2"
+      >
         <StoryCard
           v-for="story in storiesFiltered"
           :key="story.id"
@@ -50,6 +53,7 @@ const storiesFiltered = computed(() => {
           :author="story.author"
         />
       </div>
+      <p v-else class="mt-10 text-center">Belum ada cerita yang ditambahkan</p>
     </div>
   </div>
 </template>
