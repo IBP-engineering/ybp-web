@@ -3,10 +3,37 @@ useHead({
   title: 'Home',
 })
 
-const activityCards = [
-  { header: 'Malam Imajinasi', content: 'https://picsum.photos/400/400' },
-  { header: 'Pekan Membaca', content: 'https://picsum.photos/500/500' },
-  { header: 'JBP Berpuisi', content: 'https://picsum.photos/600/600' },
+const activities = [
+  {
+    title: 'Pekan Membaca',
+    desc: 'The seed determines the initial value for the built-in PRNG.',
+    icon: 'heroicons:book-open',
+  },
+  {
+    title: 'YBP Berpuisi',
+    desc: 'The seed determines the initial value for the built-in PRNG.',
+    icon: 'heroicons:chat-bubble-left-ellipsis',
+  },
+  {
+    title: 'Sports Club',
+    desc: 'The seed determines the initial value for the built-in PRNG.',
+    icon: 'ph:soccer-ball',
+  },
+  {
+    title: 'Malam Imajinasi',
+    desc: 'The seed determines the initial value for the built-in PRNG.',
+    icon: 'ph:cloud-moon',
+  },
+  {
+    title: 'YBP Collab',
+    desc: 'The seed determines the initial value for the built-in PRNG.',
+    icon: 'ph:handshake',
+  },
+  {
+    title: 'YBP Fomo',
+    desc: 'The seed determines the initial value for the built-in PRNG.',
+    icon: 'ph:rocket-launch',
+  },
 ]
 const supabase = useSupabaseClient()
 
@@ -96,30 +123,34 @@ const storiesFiltered = computed(() => {
     <!--   </div> -->
     <!-- </div> -->
 
-    <div class="container mx-auto mt-24 px-4 md:px-0">
-      <h2 class="mb-14 text-center text-2xl font-medium text-gray-500">
-        Agenda Kami
+    <div
+      class="container mx-auto mt-48 space-y-16 px-4 py-24 md:space-y-24 md:px-0 md:py-32"
+    >
+      <h2
+        class="text-center text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl lg:text-5xl dark:text-white"
+      >
+        Agenda Kami <br /><span class="text-primary-500">Yang Paling Seru</span>
       </h2>
-      <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-        <UCard
-          v-for="(card, index) in activityCards"
-          :key="index"
-          class="bg-gray-100"
+      <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+        <NuxtLink
+          v-for="act in activities"
+          :key="act.title"
+          to="#"
+          class="hover:ring-primary-500 group relative flex h-full flex-1 flex-col gap-x-8 gap-y-4 rounded-xl border border-gray-300 bg-white bg-gradient-to-b from-gray-50/50 to-gray-200/50 p-4 px-4 py-5 shadow ring-1 ring-gray-200 transition duration-150 hover:bg-gray-100/50 hover:ring-2 sm:p-6"
         >
-          <template #header>
-            <div class="text-center text-gray-500">{{ card.header }}</div>
-          </template>
-
-          <img
-            :src="card.content"
-            loading="lazy"
-            class="h-full w-full object-cover"
-          />
-        </UCard>
+          <UIcon :name="act.icon" class="text-primary-500 h-12 w-12" />
+          <b
+            class="flex items-center gap-1.5 truncate text-base font-semibold text-gray-900 dark:text-white"
+            >{{ act.title }}</b
+          >
+          <p class="text-[15px] text-gray-500 dark:text-gray-400">
+            {{ act.desc }}
+          </p>
+        </NuxtLink>
       </div>
     </div>
 
-    <div class="container mx-auto mt-24 px-4 md:px-0">
+    <div class="container mx-auto px-4 py-24 md:px-0 md:py-32">
       <h2 class="text-lg font-bold">🔥 Cerita Terbaru</h2>
       <div class="my-4 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
         <StoryCard
@@ -140,7 +171,7 @@ const storiesFiltered = computed(() => {
       </div>
     </div>
 
-    <div class="container mx-auto mt-24 px-4 md:px-0">
+    <div class="container mx-auto px-4 py-24 md:px-0 md:py-32">
       <div
         class="grid-cols-reverse grid w-full grid-cols-1 gap-4 md:grid-cols-2"
       >
