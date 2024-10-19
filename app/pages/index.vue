@@ -46,6 +46,7 @@ const { data: stories } = await useAsyncData('stories/favorites', async () => {
       author:users(id, username, display_name)
       `,
     )
+    .eq('is_active', true)
     .order('created_at', { ascending: false })
     .limit(3)
 
