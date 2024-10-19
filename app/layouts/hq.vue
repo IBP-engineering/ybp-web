@@ -75,7 +75,7 @@ const items = [
 </script>
 
 <template>
-  <div class="flex min-h-full flex-col bg-gray-100">
+  <div class="flex min-h-full flex-col bg-gray-100 font-sans">
     <span class="bg-primary-700 h-2 w-full p-1" aria-label="top border" />
     <header class="w-full bg-white pb-2">
       <div class="mx-auto w-full max-w-screen-xl px-4 pt-4">

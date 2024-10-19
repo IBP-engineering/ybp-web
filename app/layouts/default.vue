@@ -51,7 +51,7 @@ await useAsyncData(
 </script>
 
 <template>
-  <div class="flex min-h-full w-full flex-auto flex-col bg-gray-50">
+  <div class="flex min-h-full w-full flex-auto flex-col bg-gray-50 font-sans">
     <nav class="mb-4 mt-8 px-4 md:mb-10 md:px-0">
       <div class="container mx-auto flex items-center justify-between">
         <div class="flex items-center">
