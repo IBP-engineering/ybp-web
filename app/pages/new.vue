@@ -6,6 +6,10 @@ definePageMeta({
   middleware: 'need-auth',
 })
 
+useHead({
+  title: 'New story',
+})
+
 const toast = useToast()
 const supabase = useSupabaseClient<Database>()
 const user = useSupabaseUser()
@@ -289,6 +293,7 @@ const removeImageCover = () => {
           :loading="isLoading"
           icon="i-heroicons:chevron-left"
           variant="ghost"
+          to="/dashboard"
           >Kembali</UButton
         >
         <UButton :loading="isLoading" @click="submitStory">Simpan</UButton>
@@ -310,9 +315,7 @@ const removeImageCover = () => {
         <p v-if="modalAlert.isSuccess" class="mt-2 block text-gray-500">
           Untuk informasi lebih lanjut mengenai proses penerbitan Cerita kamu,
           bisa melalui halaman
-          <NuxtLink class="text-blue-500 hover:underline" to="/faq"
-            >FAQ</NuxtLink
-          >.
+          <NuxtLink class="text-blue-500 hover:underline" to="#">FAQ</NuxtLink>.
         </p>
 
         <template #footer>
@@ -322,9 +325,7 @@ const removeImageCover = () => {
             >
             <UButton
               icon="i-heroicons:chevron-right"
-              @click="
-                () => navigateTo(`/${currentUser.username}/${createdSlug}`)
-              "
+              :to="`/${currentUser.username}/${createdSlug}`"
               >Ke cerita</UButton
             >
           </div>

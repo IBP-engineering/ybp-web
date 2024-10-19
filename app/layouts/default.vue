@@ -68,6 +68,7 @@ const { data: userData } = await useAsyncData(
 const dropdownItems = [
   [
     { label: `@${userData?.value?.username}`, to: '/dashboard' },
+    { label: 'New story', to: '/new', icon: 'heroicons:plus' },
     {
       label: 'Logout',
       icon: 'i-heroicons-arrow-right-on-rectangle',
@@ -179,10 +180,12 @@ const dropdownItems = [
       </div>
     </nav>
 
-    <slot />
+    <main class="mb-24 h-full">
+      <slot />
+    </main>
 
     <footer
-      class="container mx-auto mt-24 rounded-lg border border-gray-300 bg-gray-100 px-8 py-12 md:mb-12"
+      class="container mx-auto mt-auto rounded-lg border border-gray-300 bg-gray-100 px-8 py-12 md:mb-12"
     >
       <div class="grid grid-cols-1 gap-12 md:grid-cols-3">
         <div class="col-span-1 flex h-full flex-col justify-between">
