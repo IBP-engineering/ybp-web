@@ -183,7 +183,7 @@ await useAsyncData(
           </NuxtLink>
         </div>
         <div class="flex">
-          <p class="font-medium text-gray-600">© 2024 Jogja Book Party</p>
+          <p class="font-medium text-gray-600">© 2024 Yogyakarta Book Party</p>
         </div>
       </div>
     </footer>

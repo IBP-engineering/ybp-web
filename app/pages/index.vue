@@ -67,7 +67,9 @@ const storiesFiltered = computed(() => {
   <div>
     <div class="mt-20">
       <div class="container mx-auto mb-20 text-center">
-        <b class="mb-2 text-6xl font-bold text-gray-700 md:text-9xl">Jogja</b>
+        <b class="mb-2 text-6xl font-bold text-gray-700 md:text-9xl"
+          >Yogyakarta</b
+        >
         <div class="mb-8 flex items-center justify-center">
           <b class="text-5xl font-bold text-gray-700 md:text-8xl">Book</b>
           <img
