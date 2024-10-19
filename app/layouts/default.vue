@@ -145,14 +145,11 @@ await useAsyncData(
               Designed in Sleman, Yogyakarta.<br />
               Built around the world. 🌎
             </p>
-            <p class="mt-2 text-base text-gray-500">
-              Contact: <br />ybp.engineering (at) gmail.com
-            </p>
           </div>
         </div>
         <div class="col-span-2">
           <div
-            class="grid grid-cols-2 gap-4 md:grid-cols-3 md:justify-items-end"
+            class="grid grid-cols-2 justify-items-stretch gap-4 lg:grid-cols-3 lg:justify-items-end"
           >
             <div class="text-gray-600">
               <p class="mb-2 font-medium">PRODUCTS</p>
@@ -181,7 +178,7 @@ await useAsyncData(
       </div>
       <div class="mt-20 flex items-center justify-between">
         <div class="flex">
-          <NuxtLink to="#" external>
+          <NuxtLink title="to YBP Instagram" to="#" external>
             <UIcon name="i-ph:instagram-logo" class="h-6 w-6" />
           </NuxtLink>
         </div>

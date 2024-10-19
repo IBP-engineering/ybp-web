@@ -67,18 +67,18 @@ const storiesFiltered = computed(() => {
   <div>
     <div class="mt-20">
       <div class="container mx-auto mb-20 text-center">
-        <b class="mb-2 text-6xl font-bold text-gray-700 lg:text-9xl">Jogja</b>
+        <b class="mb-2 text-6xl font-bold text-gray-700 md:text-9xl">Jogja</b>
         <div class="mb-8 flex items-center justify-center">
-          <b class="text-5xl font-bold text-gray-700 lg:text-8xl">Book</b>
+          <b class="text-5xl font-bold text-gray-700 md:text-8xl">Book</b>
           <img
             src="~/assets/images/tugu-jogja.png"
             alt="Image from Darmawan R. Dipo in Behance"
             class="ml-2 mr-1 h-32 md:h-56"
           />
-          <b class="text-5xl font-bold text-gray-700 lg:text-8xl">Party</b>
+          <b class="text-5xl font-bold text-gray-700 md:text-8xl">Party</b>
         </div>
         <p class="text-gray-500 md:text-xl">
-          Baca buku, diskusi, dan main bareng
+          Baca buku, diskusi, dan main-main bareng
         </p>
       </div>
     </div>
@@ -172,10 +172,8 @@ const storiesFiltered = computed(() => {
     </div>
 
     <div class="container mx-auto px-4 py-24 md:px-0 md:py-32">
-      <div
-        class="grid-cols-reverse grid w-full grid-cols-1 gap-4 md:grid-cols-2"
-      >
-        <div class="flex flex-col justify-center md:w-3/4">
+      <div class="grid w-full grid-cols-1 gap-4 lg:grid-cols-2">
+        <div class="flex flex-col justify-center lg:w-3/4">
           <h2 id="about-us" class="text-3xl font-semibold leading-relaxed">
             Tentang Kami
           </h2>
@@ -192,7 +190,7 @@ const storiesFiltered = computed(() => {
             production support and services for the system.
           </p>
         </div>
-        <div class="order-first md:order-last">
+        <div class="order-first lg:order-last">
           <img
             src="https://picsum.photos/1600/900"
             alt="Tentang Kami"
