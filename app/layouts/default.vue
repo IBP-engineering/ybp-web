@@ -3,6 +3,7 @@ import { currentUser } from '~/store/session'
 
 const user = useSupabaseUser()
 const supabase = useSupabaseClient()
+const toast = useToast()
 const navlinks = [
   {
     label: 'Stories',
@@ -23,7 +24,23 @@ const navlinks = [
 ]
 const openNavModal = ref(false)
 
-await useAsyncData(
+async function logout() {
+  const { error } = await supabase.auth.signOut()
+
+  if (error) {
+    toast.add({
+      title: 'Failed to sign out',
+      description: error.message,
+      color: 'red',
+      icon: 'i-heroicons-x-mark-solid',
+    })
+    return
+  }
+
+  reloadNuxtApp()
+}
+
+const { data: userData } = await useAsyncData(
   'current-user',
   async () => {
     if (user.value) {
@@ -48,6 +65,16 @@ await useAsyncData(
   },
   { watch: [user] },
 )
+const dropdownItems = [
+  [
+    { label: `@${userData?.value?.username}`, to: '/dashboard' },
+    {
+      label: 'Logout',
+      icon: 'i-heroicons-arrow-right-on-rectangle',
+      click: logout,
+    },
+  ],
+]
 </script>
 
 <template>
@@ -74,7 +101,28 @@ await useAsyncData(
             </li>
           </ul>
         </div>
-        <UButton class="hidden md:flex" size="xl" variant="outline" to="/login"
+
+        <UDropdown
+          v-if="userData"
+          :items="dropdownItems"
+          :popper="{ placement: 'bottom-start' }"
+        >
+          <UButton class="hidden md:flex" color="white" variant="ghost">
+            <span class="hidden md:block">
+              {{ userData?.display_name }}
+            </span>
+            <UAvatar
+              :src="`https://api.dicebear.com/9.x/shapes/svg?seed=${userData?.username}`"
+              alt="Avatar"
+            />
+          </UButton>
+        </UDropdown>
+        <UButton
+          v-else
+          class="hidden md:flex"
+          size="xl"
+          variant="outline"
+          to="/login"
           >Join Now</UButton
         >
         <UButton
@@ -108,7 +156,22 @@ await useAsyncData(
                 >{{ link.label }}</UButton
               >
             </nav>
-            <UButton size="xl" block variant="outline" to="/login"
+            <UDropdown
+              v-if="userData"
+              :items="dropdownItems"
+              :popper="{ placement: 'bottom-start' }"
+            >
+              <UButton color="white" block variant="ghost">
+                <span>
+                  {{ userData?.display_name }}
+                </span>
+                <UAvatar
+                  :src="`https://api.dicebear.com/9.x/shapes/svg?seed=${userData?.username}`"
+                  alt="Avatar"
+                />
+              </UButton>
+            </UDropdown>
+            <UButton v-else size="xl" block variant="outline" to="/login"
               >Join Now</UButton
             >
           </div>
