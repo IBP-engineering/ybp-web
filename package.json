@@ -16,6 +16,7 @@
     "@nuxt/ui": "^2.18.7",
     "@nuxtjs/supabase": "^1.4.1",
     "@paralleldrive/cuid2": "^2.2.2",
+    "@selemondev/vue3-marquee": "^0.0.8",
     "@sindresorhus/slugify": "^2.2.1",
     "@tiptap/extension-list-item": "^2.8.0",
     "@tiptap/extension-text-style": "^2.8.0",

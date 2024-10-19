@@ -82,7 +82,7 @@ await useAsyncData(
           square
           variant="ghost"
           size="lg"
-          class="flex md:hidden"
+          class="sm:flex md:hidden"
           color="gray"
           @click="openNavModal = true"
         />

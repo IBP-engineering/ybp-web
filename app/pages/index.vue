@@ -3,6 +3,10 @@ useHead({
   title: 'Home',
 })
 
+const markImages = Array.from({ length: 16 }).map(
+  (_, i) => `/marquee/${i + 1}.webp`,
+)
+
 const activities = [
   {
     title: 'Pekan Membaca',
@@ -67,17 +71,17 @@ const storiesFiltered = computed(() => {
   <div>
     <div class="mt-20">
       <div class="container mx-auto mb-20 text-center">
-        <b class="mb-2 text-6xl font-bold text-gray-700 md:text-9xl"
+        <b class="mb-2 text-6xl font-bold text-gray-900 md:text-9xl"
           >Yogyakarta</b
         >
         <div class="mb-8 flex items-center justify-center">
-          <b class="text-5xl font-bold text-gray-700 md:text-8xl">Book</b>
+          <b class="text-5xl font-bold text-gray-900 md:text-8xl">Book</b>
           <img
             src="~/assets/images/tugu-jogja.png"
             alt="Image from Darmawan R. Dipo in Behance"
             class="ml-2 mr-1 h-32 md:h-56"
           />
-          <b class="text-5xl font-bold text-gray-700 md:text-8xl">Party</b>
+          <b class="text-5xl font-bold text-gray-900 md:text-8xl">Party</b>
         </div>
         <p class="text-gray-500 md:text-xl">
           Baca buku, diskusi, dan main-main bareng
@@ -124,9 +128,25 @@ const storiesFiltered = computed(() => {
     <!--     </div> -->
     <!--   </div> -->
     <!-- </div> -->
+    <div class="px-4 py-24 md:px-0 md:py-32">
+      <Marquee fade class="grayscale transition duration-300 hover:grayscale-0">
+        <div v-for="path in markImages" :key="path" class="w-[250px]">
+          <img
+            :src="path"
+            alt="Momen di YBP"
+            class="h-full w-full rounded-lg"
+          />
+        </div>
+      </Marquee>
+      <h2
+        class="mt-4 text-center text-lg font-medium leading-8 text-gray-900 dark:text-white"
+      >
+        Lebih dari 300+ orang telah ikut berpartisipasi
+      </h2>
+    </div>
 
     <div
-      class="container mx-auto mt-48 space-y-16 px-4 py-24 md:space-y-24 md:px-0 md:py-32"
+      class="container mx-auto space-y-16 px-4 py-24 md:space-y-24 md:px-0 md:py-32"
     >
       <h2
         class="text-center text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl lg:text-5xl dark:text-white"
