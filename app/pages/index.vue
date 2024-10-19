@@ -3,10 +3,6 @@ useHead({
   title: 'Home',
 })
 
-const markImages = Array.from({ length: 16 }).map(
-  (_, i) => `/marquee/${i + 1}.webp`,
-)
-
 const activities = [
   {
     title: 'Pekan Membaca',
@@ -129,15 +125,7 @@ const storiesFiltered = computed(() => {
     <!--   </div> -->
     <!-- </div> -->
     <div class="px-4 py-24 md:px-0 md:py-32">
-      <Marquee fade class="grayscale transition duration-300 hover:grayscale-0">
-        <div v-for="path in markImages" :key="path" class="w-[250px]">
-          <img
-            :src="path"
-            alt="Momen di YBP"
-            class="h-full w-full rounded-lg"
-          />
-        </div>
-      </Marquee>
+      <LazyGalleryMarquee />
       <h2
         class="mt-4 text-center text-lg font-medium leading-8 text-gray-900 dark:text-white"
       >
