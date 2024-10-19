@@ -14,6 +14,7 @@ const { data: stories } = await useAsyncData('stories/all', async () => {
       author:users(id, username, display_name)
       `,
     )
+    .eq('status', 'approved')
     .eq('is_active', true)
     .order('created_at', { ascending: false })
 
