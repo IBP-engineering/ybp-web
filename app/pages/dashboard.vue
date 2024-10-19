@@ -2,6 +2,9 @@
 definePageMeta({
   middleware: 'need-auth',
 })
+useHead({
+  title: 'Dashboard',
+})
 
 const toast = useToast()
 const supabase = useSupabaseClient()

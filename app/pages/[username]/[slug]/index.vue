@@ -33,6 +33,10 @@ const { data: story } = await useAsyncData(`story/${slug}`, async () => {
     tags: data.tags.map(tag => (tag.tag as any).slug as string),
   }
 })
+
+useHead({
+  title: story.value?.title ?? 'upps',
+})
 </script>
 
 <template>

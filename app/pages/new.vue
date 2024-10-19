@@ -2,6 +2,10 @@
 import type { Database } from '~/types/database.types'
 import type { Tag, User } from '~/types/entities'
 
+definePageMeta({
+  middleware: 'need-auth',
+})
+
 const toast = useToast()
 const supabase = useSupabaseClient<Database>()
 const user = useSupabaseUser()
@@ -88,11 +92,6 @@ const removeTag = (tag: Partial<Tag>) => {
 const submitStory = async () => {
   isLoading.value = true
   try {
-    if (!user.value) {
-      alert('Tolong login dulu yaa')
-      return
-    }
-
     const slug = toSlug(form.title)
     let coverPath = ''
     if (form.coverImage?.size) {

@@ -6,6 +6,10 @@ definePageMeta({
   middleware: 'need-auth',
 })
 
+useHead({
+  title: 'Editing story',
+})
+
 const toast = useToast()
 const supabase = useSupabaseClient<Database>()
 const user = useSupabaseUser()
@@ -325,6 +329,7 @@ onMounted(() => {
           :loading="isLoading"
           icon="i-heroicons:chevron-left"
           variant="ghost"
+          to="/dashboard"
           >Kembali</UButton
         >
         <UButton :loading="isLoading" @click="submitStory">Simpan</UButton>
