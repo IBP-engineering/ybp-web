@@ -129,16 +129,20 @@ await useAsyncData(
               loading="lazy"
               decoding="async"
               alt="YBP Logo"
-              class="h-10"
+              height="100"
+              width="100"
             />
             <div class="mt-4 flex items-center">
-              <p class="text-base text-gray-600">Part of.</p>
+              <p class="text-base text-gray-600">Part of</p>
               <img
-                src="https://placehold.co/200x100.png"
+                src="~/assets/images/ibp.png"
                 loading="lazy"
                 decoding="async"
                 alt="IBP Logo"
-                class="ml-4 h-12 w-auto rounded-lg"
+                title="Indonesia Book Party"
+                width="45"
+                height="45"
+                class="ml-4 rounded-lg"
               />
             </div>
             <p class="mt-8 text-base text-gray-500">
