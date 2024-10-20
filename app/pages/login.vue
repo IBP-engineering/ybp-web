@@ -97,7 +97,7 @@ async function login(event: FormSubmitEvent<Schema>) {
       <div
         class="z-20 mx-auto mt-6 w-full space-y-4 rounded border bg-white p-4 shadow md:w-[24rem]"
       >
-        <b>Sign in to your account</b>
+        <b>Masuk dengan akunmu</b>
 
         <UForm
           :schema="safeParser(schema)"
@@ -116,7 +116,7 @@ async function login(event: FormSubmitEvent<Schema>) {
             />
           </UFormGroup>
 
-          <UButton block :loading="isLoading" type="submit"> Login </UButton>
+          <UButton block :loading="isLoading" type="submit"> Masuk </UButton>
           <p class="text-center">
             Belum memiliki akun?
             <ULink class="text-primary-600 hover:underline" to="/register"

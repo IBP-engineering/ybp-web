@@ -105,8 +105,13 @@ async function register(event: FormSubmitEvent<Schema>) {
     return
   }
 
+  toast.add({
+    icon: 'heroicons:check',
+    color: 'green',
+    title: 'Berhasil daftar',
+  })
   isLoading.value = false
-  await navigateTo('/')
+  reloadNuxtApp()
 }
 </script>
 
@@ -115,7 +120,7 @@ async function register(event: FormSubmitEvent<Schema>) {
     <div class="mx-auto mt-[10rem] flex w-full flex-col px-6 md:px-0">
       <div>
         <img
-          src="https://picsum.photos/200/200"
+          src="~/assets/images/logo.png"
           decoding="async"
           loading="lazy"
           width="200"
