@@ -2,6 +2,14 @@
 import type { Database } from '~/types/database.types'
 import type { Tag, User } from '~/types/entities'
 
+definePageMeta({
+  middleware: 'need-auth',
+})
+
+useHead({
+  title: 'New story',
+})
+
 const toast = useToast()
 const supabase = useSupabaseClient<Database>()
 const user = useSupabaseUser()
@@ -88,11 +96,6 @@ const removeTag = (tag: Partial<Tag>) => {
 const submitStory = async () => {
   isLoading.value = true
   try {
-    if (!user.value) {
-      alert('Tolong login dulu yaa')
-      return
-    }
-
     const slug = toSlug(form.title)
     let coverPath = ''
     if (form.coverImage?.size) {
@@ -126,9 +129,12 @@ const submitStory = async () => {
     }))
     await Promise.all([
       supabase.from('story_tags').insert(batchStoryWithTags),
-      supabase
-        .from('story_status_histories')
-        .insert({ story_id: createdStory.id, updated_by: user.value?.id }),
+      supabase.from('story_status_histories').insert({
+        story_id: createdStory.id,
+        status: 'pending',
+        reason: 'Adding new story',
+        updated_by: user.value?.id,
+      }),
     ])
 
     openModal.value = true
@@ -290,6 +296,7 @@ const removeImageCover = () => {
           :loading="isLoading"
           icon="i-heroicons:chevron-left"
           variant="ghost"
+          to="/dashboard"
           >Kembali</UButton
         >
         <UButton :loading="isLoading" @click="submitStory">Simpan</UButton>
@@ -311,9 +318,7 @@ const removeImageCover = () => {
         <p v-if="modalAlert.isSuccess" class="mt-2 block text-gray-500">
           Untuk informasi lebih lanjut mengenai proses penerbitan Cerita kamu,
           bisa melalui halaman
-          <NuxtLink class="text-blue-500 hover:underline" to="/faq"
-            >FAQ</NuxtLink
-          >.
+          <NuxtLink class="text-blue-500 hover:underline" to="#">FAQ</NuxtLink>.
         </p>
 
         <template #footer>
@@ -323,9 +328,7 @@ const removeImageCover = () => {
             >
             <UButton
               icon="i-heroicons:chevron-right"
-              @click="
-                () => navigateTo(`/${currentUser.username}/${createdSlug}`)
-              "
+              :to="`/${currentUser.username}/${createdSlug}`"
               >Ke cerita</UButton
             >
           </div>

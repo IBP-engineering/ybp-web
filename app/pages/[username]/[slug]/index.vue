@@ -33,6 +33,10 @@ const { data: story } = await useAsyncData(`story/${slug}`, async () => {
     tags: data.tags.map(tag => (tag.tag as any).slug as string),
   }
 })
+
+useHead({
+  title: story.value?.title ?? 'upps',
+})
 </script>
 
 <template>
@@ -40,7 +44,7 @@ const { data: story } = await useAsyncData(`story/${slug}`, async () => {
     <div class="mt-12 flex w-full flex-col gap-4 lg:flex-row">
       <div class="mt-8 hidden md:block">
         <UButton icon="i-heroicons-hand-thumb-up" variant="ghost" color="gray"
-          >20</UButton
+          >0</UButton
         >
       </div>
 
@@ -56,6 +60,24 @@ const { data: story } = await useAsyncData(`story/${slug}`, async () => {
           class="w-full"
         />
         <div class="px-4 py-4 md:px-10">
+          <UAlert
+            v-if="story.status !== 'approved'"
+            :color="story.status === 'pending' ? 'teal' : 'rose'"
+            title="Halo pembaca!"
+            icon="heroicons:exclamation-triangle"
+          >
+            <template #description>
+              <p v-if="story.status === 'pending'">
+                Cerita ini belum dipublikasikan dan masih dalam tahap pengecekan
+                oleh editor kami
+              </p>
+              <p v-else>
+                Cerita ini belum dipublikasikan dan masih ada yang perlu
+                diperbaiki oleh penulis
+              </p>
+            </template>
+          </UAlert>
+
           <div class="my-4 flex items-center gap-4">
             <UserPicture :seed="story.author.username" width="35" height="35" />
             <div>

@@ -70,7 +70,7 @@ async function login(event: FormSubmitEvent<Schema>) {
     }
 
     if (userRole.role_id === 1) {
-      await navigateTo('/')
+      await navigateTo('/dashboard')
     } else {
       await navigateTo('/hq')
     }

@@ -16,7 +16,7 @@ export default defineNuxtRouteMiddleware(async to => {
     const isMember = data?.role_id === 1
 
     if (isMember) {
-      return navigateTo('/')
+      return navigateTo('/dashboard')
     }
 
     return navigateTo('/hq')

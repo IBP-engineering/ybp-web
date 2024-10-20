@@ -2,6 +2,9 @@
 definePageMeta({
   middleware: 'need-auth',
 })
+useHead({
+  title: 'Dashboard',
+})
 
 const toast = useToast()
 const supabase = useSupabaseClient()
@@ -115,8 +118,16 @@ watch(
 
 <template>
   <div class="mx-auto w-full max-w-screen-lg px-4 md:px-0">
-    <h1 class="text-2xl font-bold leading-relaxed">Dashboard</h1>
-    <p class="text-gray-600">Kamu bisa temukan cerita yang kamu kirim disini</p>
+    <div class="flex items-center justify-between">
+      <section>
+        <h1 class="text-2xl font-bold leading-relaxed">Dashboard</h1>
+        <p class="text-gray-600">
+          Kamu bisa temukan cerita yang kamu kirim disini
+        </p>
+      </section>
+
+      <UButton trailing-icon="heroicons:plus" to="/new">New story</UButton>
+    </div>
 
     <div class="mt-8 flex w-full gap-8">
       <aside class="mt-8 hidden w-[300px] flex-col md:flex">
