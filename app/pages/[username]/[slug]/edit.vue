@@ -146,6 +146,7 @@ const submitStory = async () => {
         cover_path: coverPath,
         title: form.title,
         content: content.value,
+        status: 'pending',
       })
       .eq('id', currentStory.value.id)
 
@@ -158,6 +159,12 @@ const submitStory = async () => {
     await Promise.all([
       supabase.from('story_tags').delete().in('id', batchTagsToDelete),
       supabase.from('story_tags').insert(batchStoryWithTags),
+      supabase.from('story_status_histories').insert({
+        story_id: currentStory.value.id,
+        status: 'pending',
+        reason: 'Updating story',
+        updated_by: user.value?.id,
+      }),
     ])
 
     openModal.value = true
@@ -351,16 +358,15 @@ onMounted(() => {
         <p v-if="modalAlert.isSuccess" class="mt-2 block text-gray-500">
           Untuk informasi lebih lanjut mengenai proses penerbitan Cerita kamu,
           bisa melalui halaman
-          <NuxtLink class="text-blue-500 hover:underline" to="/faq"
-            >FAQ</NuxtLink
-          >.
+          <NuxtLink class="text-blue-500 hover:underline" to="#">FAQ</NuxtLink>.
         </p>
 
         <template #footer>
           <div class="flex items-center justify-end gap-4">
-            <UButton variant="ghost" @click="() => reloadNuxtApp()"
+            <UButton variant="ghost" color="gray" @click="openModal = false"
               >Tutup</UButton
             >
+            <UButton to="/dashboard">Dashboard</UButton>
           </div>
         </template>
       </UCard>

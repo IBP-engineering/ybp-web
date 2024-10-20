@@ -129,9 +129,12 @@ const submitStory = async () => {
     }))
     await Promise.all([
       supabase.from('story_tags').insert(batchStoryWithTags),
-      supabase
-        .from('story_status_histories')
-        .insert({ story_id: createdStory.id, updated_by: user.value?.id }),
+      supabase.from('story_status_histories').insert({
+        story_id: createdStory.id,
+        status: 'pending',
+        reason: 'Adding new story',
+        updated_by: user.value?.id,
+      }),
     ])
 
     openModal.value = true
