@@ -1,0 +1,21 @@
+<script setup lang="ts">
+useHead({
+  title: 'Official Goodies from YBP & IBP',
+})
+</script>
+
+<template>
+  <div class="mx-auto w-full max-w-7xl px-4 md:px-0">
+    <section class="text-center">
+      <h1 class="text-4xl font-bold !leading-relaxed md:text-5xl">
+        Coming Soon...
+      </h1>
+      <p class="mx-auto w-full md:w-1/2">
+        Haloo! Kami sedang mempersiapkan halaman ini supaya semua bisa memiliki
+        merchandise resmi dari YBP & IBP. Pantau terus perkembangannya melalui
+        media sosial kami, yaa! 👋
+      </p>
+      <UButton class="mt-8" to="/">Kembali ke beranda</UButton>
+    </section>
+  </div>
+</template>

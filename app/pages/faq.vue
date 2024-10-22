@@ -1,7 +1,13 @@
+<script setup lang="ts">
+useHead({
+  title: 'FAQ',
+})
+</script>
+
 <template>
   <div class="mx-auto w-full max-w-7xl px-4 md:px-0">
     <section class="mb-8">
-      <h1 class="text-4xl font-bold leading-relaxed md:text-5xl">FAQ</h1>
+      <h1 class="text-4xl font-bold !leading-relaxed md:text-5xl">FAQ</h1>
       <p class="text-gray-600">
         Lorem ipsum, dolor sit amet consectetur adipisicing elit. Facilis, nemo.
       </p>
