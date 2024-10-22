@@ -15,7 +15,7 @@ const navlinks = [
   },
   {
     label: 'Goodies',
-    to: '#',
+    to: '/goodies',
   },
   {
     label: 'About Us',
@@ -224,7 +224,7 @@ const dropdownItems = [
             <div class="text-gray-600">
               <p class="mb-2 font-medium">PRODUCTS</p>
               <ul class="space-y-2">
-                <li><a href="#" class="">Goodies</a></li>
+                <li><NuxtLink to="/goodies">Goodies</NuxtLink></li>
               </ul>
             </div>
             <div class="text-gray-600">
@@ -239,6 +239,7 @@ const dropdownItems = [
               <p class="mb-2 font-medium">ORGANIZATION</p>
               <ul class="space-y-2">
                 <li><a href="#" class="">About Us</a></li>
+                <li><NuxtLink to="/faq">FAQ</NuxtLink></li>
                 <li><a href="#" class="">Collaboration</a></li>
                 <li><a href="#" class="">Donation</a></li>
               </ul>
