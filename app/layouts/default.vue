@@ -239,6 +239,7 @@ const dropdownItems = [
               <p class="mb-2 font-medium">ORGANIZATION</p>
               <ul class="space-y-2">
                 <li><a href="#" class="">About Us</a></li>
+                <li><NuxtLink to="/faq">FAQ</NuxtLink></li>
                 <li><a href="#" class="">Collaboration</a></li>
                 <li><a href="#" class="">Donation</a></li>
               </ul>
