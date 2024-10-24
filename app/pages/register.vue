@@ -120,12 +120,12 @@ async function register(event: FormSubmitEvent<Schema>) {
     <div class="mx-auto mt-[10rem] flex w-full flex-col px-6 md:px-0">
       <div>
         <img
-          src="~/assets/images/logo.png"
+          src="~/assets/images/logo.jpg"
           decoding="async"
           loading="lazy"
-          width="200"
-          height="200"
-          class="z-20 mx-auto"
+          width="150"
+          height="150"
+          class="z-20 mx-auto rounded-full border"
           alt="YBP logo"
         />
       </div>
@@ -174,6 +174,8 @@ async function register(event: FormSubmitEvent<Schema>) {
 
           <UButton block :loading="isLoading" type="submit"> Daftar </UButton>
         </UForm>
+
+        <UDivider label="ATAU" />
         <p class="text-center">
           Sudah memiliki akun?
           <ULink to="/login" class="text-primary-600 hover:underline"

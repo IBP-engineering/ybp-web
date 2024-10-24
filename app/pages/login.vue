@@ -85,12 +85,12 @@ async function login(event: FormSubmitEvent<Schema>) {
     <div class="mx-auto mt-[10rem] flex w-full flex-col px-6 md:px-0">
       <div>
         <img
-          src="~/assets/images/logo.png"
+          src="~/assets/images/logo.jpg"
           decoding="async"
           loading="lazy"
-          width="300"
-          height="300"
-          class="z-20 mx-auto"
+          width="180"
+          height="180"
+          class="z-20 mx-auto rounded-full border"
           alt="YBP logo"
         />
       </div>
@@ -117,6 +117,7 @@ async function login(event: FormSubmitEvent<Schema>) {
           </UFormGroup>
 
           <UButton block :loading="isLoading" type="submit"> Masuk </UButton>
+          <UDivider label="ATAU" />
           <p class="text-center">
             Belum memiliki akun?
             <ULink class="text-primary-600 hover:underline" to="/register"

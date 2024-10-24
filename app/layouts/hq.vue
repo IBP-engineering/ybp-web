@@ -82,12 +82,13 @@ const items = [
         <div class="flex items-center justify-between">
           <NuxtLink to="/hq" class="inline-flex items-center">
             <img
-              src="~/assets/images/logo.png"
+              src="~/assets/images/logo.jpg"
               alt="YBP logo"
-              width="65"
-              height="65"
+              width="55"
+              height="55"
               decoding="async"
               loading="lazy"
+              class="rounded-full border"
             />
             <b class="ml-2 text-lg">| {{ user.roles.name.toUpperCase() }}</b>
           </NuxtLink>

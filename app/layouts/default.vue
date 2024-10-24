@@ -85,9 +85,9 @@ const dropdownItems = [
         <div class="flex items-center">
           <NuxtLink to="/">
             <img
-              src="~/assets/images/logo.png"
-              width="90"
-              class="h-full w-24"
+              src="~/assets/images/logo.jpg"
+              width="80"
+              class="h-full w-16 rounded-full border"
               alt="YBP Logo"
             />
           </NuxtLink>
@@ -191,27 +191,20 @@ const dropdownItems = [
         <div class="col-span-1 flex h-full flex-col justify-between">
           <div>
             <img
-              src="~/assets/images/logo.png"
+              src="~/assets/images/logo.jpg"
               loading="lazy"
               decoding="async"
               alt="YBP Logo"
-              height="100"
-              width="100"
+              height="70"
+              width="70"
+              class="rounded-full border"
             />
             <div class="mt-4 flex items-center">
-              <p class="text-base text-gray-600">Part of</p>
-              <img
-                src="~/assets/images/ibp.png"
-                loading="lazy"
-                decoding="async"
-                alt="IBP Logo"
-                title="Indonesia Book Party"
-                width="45"
-                height="45"
-                class="ml-4 rounded-lg"
-              />
+              <small class="text-gray-600">
+                Part of <b>Indonesia Book Party</b>
+              </small>
             </div>
-            <p class="mt-8 text-base text-gray-500">
+            <p class="mt-8 text-gray-500">
               Designed in Sleman, Yogyakarta.<br />
               Built around the world. 🌎
             </p>
@@ -238,7 +231,7 @@ const dropdownItems = [
             <div class="text-gray-600">
               <p class="mb-2 font-medium">ORGANIZATION</p>
               <ul class="space-y-2">
-                <li><a href="#" class="">About Us</a></li>
+                <li><NuxtLink to="/#about-us">About Us</NuxtLink></li>
                 <li><NuxtLink to="/faq">FAQ</NuxtLink></li>
                 <li><a href="#" class="">Collaboration</a></li>
                 <li><a href="#" class="">Donation</a></li>
