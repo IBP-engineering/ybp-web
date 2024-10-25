@@ -80,8 +80,17 @@ const dropdownItems = [
 </script>
 
 <template>
-  <div class="flex min-h-full w-full flex-auto flex-col bg-gray-50 font-sans">
-    <nav class="mb-4 mt-8 px-4 md:mb-10 md:px-0">
+  <div
+    class="relative flex min-h-full w-full flex-auto flex-col overflow-hidden bg-gray-50 font-sans"
+  >
+    <img
+      src="~/assets/images/main-bg-blur.svg"
+      width="300"
+      height="300"
+      class="absolute -left-48 top-0 z-[5] w-full md:-top-20 md:left-0"
+      alt="blur bg"
+    />
+    <nav class="z-20 mb-4 mt-8 px-4 md:mb-10 md:px-0">
       <div class="container mx-auto flex items-center justify-between">
         <div class="flex items-center">
           <NuxtLink to="/">
@@ -97,7 +106,7 @@ const dropdownItems = [
             <li v-for="link in navlinks" :key="link.to">
               <NuxtLink
                 :to="link.to"
-                class="px-4 py-3 text-gray-600 transition hover:underline focus:ring md:w-auto"
+                class="px-4 py-3 text-gray-900 transition hover:underline focus:ring md:w-auto"
               >
                 {{ link.label }}
               </NuxtLink>
@@ -123,7 +132,7 @@ const dropdownItems = [
         <UButton
           v-else
           class="hidden md:flex"
-          size="xl"
+          size="lg"
           variant="outline"
           to="/login"
           >Join Now</UButton
@@ -179,6 +188,7 @@ const dropdownItems = [
                       color="white"
                       block
                       icon="heroicons:home"
+                      @click="openNavModal = false"
                       to="/dashboard"
                     >
                       Dashboard
@@ -188,6 +198,7 @@ const dropdownItems = [
                     <UButton
                       color="white"
                       block
+                      @click="openNavModal = false"
                       icon="heroicons:plus"
                       to="/new"
                     >
@@ -216,7 +227,7 @@ const dropdownItems = [
       </div>
     </nav>
 
-    <main class="mb-24 h-full">
+    <main class="z-10 mb-24 h-full">
       <slot />
     </main>
 
