@@ -65,9 +65,10 @@ const { data: userData } = await useAsyncData(
   },
   { watch: [user] },
 )
+
 const dropdownItems = [
   [
-    { label: `@${userData?.value?.username}`, to: '/dashboard' },
+    { label: 'Dashboard', to: '/dashboard', icon: 'heroicons:home' },
     { label: 'New story', to: '/new', icon: 'heroicons:plus' },
     {
       label: 'Logout',
@@ -86,8 +87,9 @@ const dropdownItems = [
           <NuxtLink to="/">
             <img
               src="~/assets/images/logo.jpg"
-              width="80"
-              class="h-full w-16 rounded-full border"
+              width="50"
+              height="50"
+              class="h-full w-14 rounded-full border"
               alt="YBP Logo"
             />
           </NuxtLink>
@@ -157,21 +159,55 @@ const dropdownItems = [
                 >{{ link.label }}</UButton
               >
             </nav>
-            <UDropdown
-              v-if="userData"
-              :items="dropdownItems"
-              :popper="{ placement: 'bottom-start' }"
-            >
-              <UButton color="white" block variant="ghost">
-                <span>
-                  {{ userData?.display_name }}
-                </span>
+            <div v-if="userData" class="border-t-2 py-4">
+              <div class="flex items-center gap-2 text-black">
+                <p>
+                  Halo! <b>{{ userData?.display_name }}</b>
+                </p>
+
                 <UAvatar
                   :src="`https://api.dicebear.com/9.x/shapes/svg?seed=${userData?.username}`"
+                  size="xs"
                   alt="Avatar"
                 />
-              </UButton>
-            </UDropdown>
+              </div>
+              <div class="mt-4 flex flex-col">
+                <ul class="space-y-4">
+                  <li>
+                    <UButton
+                      variant="solid"
+                      color="white"
+                      block
+                      icon="heroicons:home"
+                      to="/dashboard"
+                    >
+                      Dashboard
+                    </UButton>
+                  </li>
+                  <li>
+                    <UButton
+                      color="white"
+                      block
+                      icon="heroicons:plus"
+                      to="/new"
+                    >
+                      New story
+                    </UButton>
+                  </li>
+                  <li>
+                    <UButton
+                      variant="ghost"
+                      color="red"
+                      block
+                      icon="i-heroicons-arrow-right-on-rectangle"
+                      @click="logout"
+                    >
+                      Logout
+                    </UButton>
+                  </li>
+                </ul>
+              </div>
+            </div>
             <UButton v-else size="xl" block variant="outline" to="/login"
               >Join Now</UButton
             >
