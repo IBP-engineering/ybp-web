@@ -67,24 +67,40 @@ const storiesFiltered = computed(() => {
 
 <template>
   <div>
-    <div class="mt-20 md:mt-28">
-      <div class="container mx-auto mb-20 text-center">
-        <section class="mx-auto px-4 text-center md:w-fit md:px-0 md:text-left">
-          <small class="block tracking-widest">KOMUNITAS</small>
-          <h1 class="text-5xl font-bold !leading-tight md:text-7xl lg:text-8xl">
-            Yogya<span
-              class="via-primary-400 to-primary-300 bg-gradient-to-tr from-black bg-clip-text text-transparent"
-              >karta</span
+    <div class="grid size-full place-items-center">
+      <div
+        class="relative mt-20 flex size-full items-center justify-center overflow-hidden xl:h-[400px]"
+      >
+        <div class="z-10 w-full">
+          <section
+            class="mx-auto px-4 text-center md:w-fit md:px-0 md:text-left"
+          >
+            <small class="block tracking-widest">KOMUNITAS</small>
+            <h1
+              class="text-5xl font-bold !leading-tight md:text-7xl lg:text-8xl"
             >
-          </h1>
-          <span class="text-xl font-medium md:text-3xl">Book Party</span>
-          <p class="mt-8 text-sm text-gray-600 md:mt-6 md:text-lg">
-            #baca-buku #diskusi #main-bareng
-          </p>
-        </section>
+              Yogya<span
+                class="via-primary-400 to-primary-300 bg-gradient-to-tr from-black bg-clip-text text-transparent"
+                >karta</span
+              >
+            </h1>
+            <span class="text-xl font-medium md:text-3xl">Book Party</span>
+            <p class="mt-8 text-sm text-gray-600 md:mt-6 md:text-lg">
+              #baca-buku #diskusi #main-bareng
+            </p>
+          </section>
+        </div>
+        <SharedDotPattern
+          :class="
+            cn(
+              '[mask-image:radial-gradient(300px_circle_at_center,white,transparent)]',
+            )
+          "
+        />
       </div>
     </div>
-    <div class="px-4 py-24 md:px-0 md:py-32">
+
+    <div class="px-4 py-32 md:px-0">
       <GalleryMarquee />
       <h2
         class="mt-4 text-center text-lg font-medium leading-8 text-gray-900 dark:text-white"
