@@ -65,9 +65,10 @@ const { data: userData } = await useAsyncData(
   },
   { watch: [user] },
 )
+
 const dropdownItems = [
   [
-    { label: `@${userData?.value?.username}`, to: '/dashboard' },
+    { label: 'Dashboard', to: '/dashboard', icon: 'heroicons:home' },
     { label: 'New story', to: '/new', icon: 'heroicons:plus' },
     {
       label: 'Logout',
@@ -79,15 +80,25 @@ const dropdownItems = [
 </script>
 
 <template>
-  <div class="flex min-h-full w-full flex-auto flex-col bg-gray-50 font-sans">
-    <nav class="mb-4 mt-8 px-4 md:mb-10 md:px-0">
+  <div
+    class="relative flex min-h-full w-full flex-auto flex-col overflow-hidden bg-gray-50 font-sans"
+  >
+    <img
+      src="~/assets/images/main-bg-blur.svg"
+      width="300"
+      height="300"
+      class="absolute -left-48 top-0 z-[5] w-full md:-top-20 md:left-0"
+      alt="blur bg"
+    />
+    <nav class="z-20 mb-4 mt-8 px-4 md:mb-10 md:px-0">
       <div class="container mx-auto flex items-center justify-between">
         <div class="flex items-center">
           <NuxtLink to="/">
             <img
               src="~/assets/images/logo.jpg"
-              width="80"
-              class="h-full w-16 rounded-full border"
+              width="50"
+              height="50"
+              class="h-full w-14 rounded-full border"
               alt="YBP Logo"
             />
           </NuxtLink>
@@ -95,7 +106,7 @@ const dropdownItems = [
             <li v-for="link in navlinks" :key="link.to">
               <NuxtLink
                 :to="link.to"
-                class="px-4 py-3 text-gray-600 transition hover:underline focus:ring md:w-auto"
+                class="px-4 py-3 text-gray-900 transition hover:underline focus:ring md:w-auto"
               >
                 {{ link.label }}
               </NuxtLink>
@@ -121,7 +132,7 @@ const dropdownItems = [
         <UButton
           v-else
           class="hidden md:flex"
-          size="xl"
+          size="lg"
           variant="outline"
           to="/login"
           >Join Now</UButton
@@ -157,21 +168,57 @@ const dropdownItems = [
                 >{{ link.label }}</UButton
               >
             </nav>
-            <UDropdown
-              v-if="userData"
-              :items="dropdownItems"
-              :popper="{ placement: 'bottom-start' }"
-            >
-              <UButton color="white" block variant="ghost">
-                <span>
-                  {{ userData?.display_name }}
-                </span>
+            <div v-if="userData" class="border-t-2 py-4">
+              <div class="flex items-center gap-2 text-black">
+                <p>
+                  Halo! <b>{{ userData?.display_name }}</b>
+                </p>
+
                 <UAvatar
                   :src="`https://api.dicebear.com/9.x/shapes/svg?seed=${userData?.username}`"
+                  size="xs"
                   alt="Avatar"
                 />
-              </UButton>
-            </UDropdown>
+              </div>
+              <div class="mt-4 flex flex-col">
+                <ul class="space-y-4">
+                  <li>
+                    <UButton
+                      variant="solid"
+                      color="white"
+                      block
+                      icon="heroicons:home"
+                      @click="openNavModal = false"
+                      to="/dashboard"
+                    >
+                      Dashboard
+                    </UButton>
+                  </li>
+                  <li>
+                    <UButton
+                      color="white"
+                      block
+                      @click="openNavModal = false"
+                      icon="heroicons:plus"
+                      to="/new"
+                    >
+                      New story
+                    </UButton>
+                  </li>
+                  <li>
+                    <UButton
+                      variant="ghost"
+                      color="red"
+                      block
+                      icon="i-heroicons-arrow-right-on-rectangle"
+                      @click="logout"
+                    >
+                      Logout
+                    </UButton>
+                  </li>
+                </ul>
+              </div>
+            </div>
             <UButton v-else size="xl" block variant="outline" to="/login"
               >Join Now</UButton
             >
@@ -180,7 +227,7 @@ const dropdownItems = [
       </div>
     </nav>
 
-    <main class="mb-24 h-full">
+    <main class="z-10 mb-24 h-full">
       <slot />
     </main>
 

@@ -88,8 +88,8 @@ async function login(event: FormSubmitEvent<Schema>) {
           src="~/assets/images/logo.jpg"
           decoding="async"
           loading="lazy"
-          width="180"
-          height="180"
+          width="150"
+          height="150"
           class="z-20 mx-auto rounded-full border"
           alt="YBP logo"
         />

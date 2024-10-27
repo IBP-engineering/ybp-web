@@ -118,7 +118,7 @@ watch(
 
 <template>
   <div class="mx-auto w-full max-w-screen-lg px-4 md:px-0">
-    <div class="flex items-center justify-between">
+    <div class="flex items-start justify-between gap-8 md:items-center">
       <section>
         <h1 class="text-2xl font-bold leading-relaxed">Dashboard</h1>
         <p class="text-gray-600">
