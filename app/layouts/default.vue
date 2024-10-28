@@ -70,6 +70,7 @@ const dropdownItems = [
   [
     { label: 'Dashboard', to: '/dashboard', icon: 'heroicons:home' },
     { label: 'New story', to: '/new', icon: 'heroicons:plus' },
+    { label: 'Settings', to: '/settings', icon: 'heroicons:sparkles' },
     {
       label: 'Logout',
       icon: 'i-heroicons-arrow-right-on-rectangle',
@@ -184,7 +185,6 @@ const dropdownItems = [
                 <ul class="space-y-4">
                   <li>
                     <UButton
-                      variant="solid"
                       color="white"
                       block
                       icon="heroicons:home"
@@ -203,6 +203,17 @@ const dropdownItems = [
                       to="/new"
                     >
                       New story
+                    </UButton>
+                  </li>
+                  <li>
+                    <UButton
+                      color="white"
+                      block
+                      @click="openNavModal = false"
+                      icon="heroicons:sparkles"
+                      to="/settings"
+                    >
+                      Settings
                     </UButton>
                   </li>
                   <li>
