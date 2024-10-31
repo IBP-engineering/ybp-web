@@ -13,10 +13,10 @@ useHead({
 
 const schema = v.object({
   displayName: v.string(),
-  username: v.string(),
+  username: usernameValidator,
   location: v.string(),
   bio: v.string(),
-  email: v.pipe(v.string(), v.email('Invalid email')),
+  email: emailValidator,
 })
 
 type Schema = v.InferOutput<typeof schema>
@@ -41,10 +41,13 @@ const state = reactive<Schema>({
   bio: userProfile.value.bio,
   location: userProfile.value.location,
 })
+const usernameDebInput = ref(userProfile.value.username)
+const debouncedUsername = refDebounced(usernameDebInput, 500)
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
   const data = event.data
   try {
+    // TODO: add username and email validation
     await supabase
       .from('users')
       .update({
@@ -82,7 +85,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         <h2 class="mb-4 text-xl font-bold md:text-2xl">User</h2>
         <div class="mb-4">
           <UAvatar
-            :src="`https://api.dicebear.com/9.x/shapes/svg?seed=${userProfile?.username}`"
+            :src="`https://api.dicebear.com/9.x/shapes/svg?seed=${debouncedUsername}`"
             alt="Avatar"
             size="3xl"
           />
@@ -97,14 +100,17 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
           @submit="onSubmit"
           class="space-y-4"
         >
-          <UFormGroup label="Name" name="name">
+          <UFormGroup label="Name" name="name" required>
             <UInput v-model="state.displayName" />
           </UFormGroup>
-          <UFormGroup label="Email" name="email">
+          <UFormGroup label="Email" name="email" required>
             <UInput v-model="state.email" type="email" />
           </UFormGroup>
-          <UFormGroup label="Username" name="username">
-            <UInput v-model="state.username" />
+          <UFormGroup label="Username" name="username" required>
+            <UInput
+              v-model="state.username"
+              @change="value => (usernameDebInput = value)"
+            />
           </UFormGroup>
           <UFormGroup label="Location" name="location">
             <UInput v-model="state.location" />
