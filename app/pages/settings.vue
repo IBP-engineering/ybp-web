@@ -80,6 +80,17 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         class="rounded border border-neutral-300 bg-neutral-50 px-8 py-6 shadow"
       >
         <h2 class="mb-4 text-xl font-bold md:text-2xl">User</h2>
+        <div class="mb-4">
+          <UAvatar
+            :src="`https://api.dicebear.com/9.x/shapes/svg?seed=${userProfile?.username}`"
+            alt="Avatar"
+            size="3xl"
+          />
+          <small class="block text-gray-600"
+            >*akan berubah mengikuti username</small
+          >
+        </div>
+
         <UForm
           :schema="v.safeParser(schema)"
           :state="state"
