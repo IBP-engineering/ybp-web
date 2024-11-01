@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import * as v from 'valibot'
-import type { FormSubmitEvent } from '#ui/types'
+import type { Form, FormSubmitEvent } from '#ui/types'
 import type { Database } from '~/types/database.types'
 
 definePageMeta({
@@ -43,11 +43,34 @@ const state = reactive<Schema>({
 })
 const usernameDebInput = ref(userProfile.value.username)
 const debouncedUsername = refDebounced(usernameDebInput, 500)
+const isLoading = ref(false)
+const form = ref<Form<Schema>>()
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
   const data = event.data
+  isLoading.value = true
   try {
-    // TODO: add username and email validation
+    const existingUser = await supabase
+      .from('users')
+      .select('id, username')
+      .ilike('username', `%${data.username.trim()}%`)
+      .neq('id', user.value.id)
+
+    if (existingUser?.data[0]) {
+      toast.add({
+        title: 'Gagal mengubah',
+        icon: 'i-heroicons-exclamation-circle-solid',
+        description:
+          'Username telah ada digunakan. Mohon menggunakan username yang lain',
+        color: 'yellow',
+      })
+      isLoading.value = false
+      form.value.setErrors([
+        { message: 'Username telah digunakan', path: 'username' },
+      ])
+      return
+    }
+
     await supabase
       .from('users')
       .update({
@@ -68,6 +91,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     console.error(error)
   } finally {
     refreshNuxtData()
+    isLoading.value = false
   }
 }
 </script>
@@ -95,6 +119,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         </div>
 
         <UForm
+          ref="form"
           :schema="v.safeParser(schema)"
           :state="state"
           @submit="onSubmit"
@@ -118,7 +143,12 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
           <UFormGroup label="Bio" name="bio">
             <UTextarea v-model="state.bio" />
           </UFormGroup>
-          <UButton class="mt-8" size="lg" type="submit"
+          <UButton
+            class="mt-8"
+            trailing-icon="ph:floppy-disk-bold"
+            size="lg"
+            :loading="isLoading"
+            type="submit"
             >Simpan perubahan</UButton
           >
         </UForm>
