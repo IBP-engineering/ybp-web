@@ -65,6 +65,7 @@ if (user.value.roles.id === 3) {
 const items = [
   [
     { label: `@${user.value.username}` },
+    { label: 'Dashboard', to: '/dashboard', icon: 'heroicons:home' },
     {
       label: 'Logout',
       icon: 'i-heroicons-arrow-right-on-rectangle',
