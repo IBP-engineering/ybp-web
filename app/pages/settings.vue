@@ -50,13 +50,13 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
   const data = event.data
   isLoading.value = true
   try {
-    const existingUser = await supabase
+    const existingUsername = await supabase
       .from('users')
       .select('id, username')
       .ilike('username', `%${data.username.trim()}%`)
       .neq('id', user.value.id)
 
-    if (existingUser?.data[0]) {
+    if (existingUsername?.data[0]) {
       toast.add({
         title: 'Gagal mengubah',
         icon: 'i-heroicons-exclamation-circle-solid',
@@ -71,16 +71,42 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
       return
     }
 
-    await supabase
+    const existingEmail = await supabase
       .from('users')
-      .update({
-        display_name: data.displayName,
-        email: data.email,
-        username: data.username,
-        bio: data.bio,
-        location: data.location,
+      .select('id, username')
+      .ilike('email', `%${data.email.trim()}%`)
+      .neq('id', user.value.id)
+
+    if (existingEmail?.data[0]) {
+      toast.add({
+        title: 'Gagal mengubah',
+        icon: 'i-heroicons-exclamation-circle-solid',
+        description:
+          'Email telah ada digunakan. Mohon menggunakan email yang lain',
+        color: 'yellow',
       })
-      .eq('id', user.value.id)
+      isLoading.value = false
+      form.value.setErrors([
+        { message: 'Email telah digunakan', path: 'email' },
+      ])
+      return
+    }
+
+    await Promise.allSettled([
+      supabase
+        .from('users')
+        .update({
+          display_name: data.displayName,
+          email: data.email,
+          username: data.username,
+          bio: data.bio,
+          location: data.location,
+        })
+        .eq('id', user.value.id),
+      supabase.auth.updateUser({
+        email: data.email,
+      }),
+    ])
 
     toast.add({
       title: 'Berhasil',
