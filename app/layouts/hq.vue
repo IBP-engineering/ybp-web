@@ -46,17 +46,23 @@ const links = [
   },
   {
     label: 'Stories',
-    icon: 'i-heroicons-bookmark',
+    icon: 'heroicons:bookmark-square',
     to: '/hq',
+    click: () => (openNavModal.value = false),
+  },
+  {
+    label: 'Tags',
+    icon: 'heroicons:tag',
+    to: '/hq/tags',
     click: () => (openNavModal.value = false),
   },
 ]
 
-if (user.value.roles.id === 3) {
+if (user.value.roles.id === USER_ROLE.admin) {
   // only user with role admin
   links.push({
     label: 'Users',
-    icon: 'i-heroicons-at-symbol',
+    icon: 'heroicons:user-group',
     to: '/hq/users',
     click: () => (openNavModal.value = false),
   })
