@@ -69,6 +69,9 @@ const { data: userData } = await useAsyncData(
 const dropdownItems = [
   [
     { label: 'Dashboard', to: '/dashboard', icon: 'heroicons:home' },
+    userData?.value?.roles?.id !== USER_ROLE.member
+      ? { label: 'HQ', to: '/hq', icon: 'heroicons:bolt' }
+      : null,
     { label: 'New story', to: '/new', icon: 'heroicons:plus' },
     { label: 'Settings', to: '/settings', icon: 'heroicons:sparkles' },
     {
