@@ -16,6 +16,7 @@ const schema = v.object({
   title: v.string(),
   description: v.string(),
   isActive: v.boolean(),
+  slug: v.string(),
 })
 
 type Schema = v.InferOutput<typeof schema>
@@ -30,6 +31,7 @@ const state = reactive<Schema>({
   title: '',
   description: '',
   isActive: true,
+  slug: '',
 })
 
 const { data: tags, refresh } = await useAsyncData('hq/tags', async () => {
@@ -54,6 +56,7 @@ const { data: tag, status: tagDetailStatus } = await useLazyAsyncData(
       state.title = data.title
       state.description = data.description
       state.isActive = data.is_active
+      state.slug = data.slug
 
       return {
         ...data,
@@ -75,7 +78,6 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 
   try {
     isLoading.value = true
-    const slug = toSlug(data.title, false)
     if (isUpdating) {
       await supabase
         .from('tags')
@@ -83,7 +85,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
           title: data.title,
           description: data.description,
           is_active: data.isActive,
-          slug,
+          slug: data.slug,
         })
         .eq('id', selectedTagId.value)
       toast.add({
@@ -95,7 +97,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         title: data.title,
         description: data.description,
         is_active: data.isActive,
-        slug,
+        slug: data.slug,
         created_by: user.value.id,
       })
       toast.add({
@@ -126,6 +128,7 @@ const closeTagDetail = () => {
   state.title = ''
   state.description = ''
   state.isActive = true
+  state.slug = ''
 }
 </script>
 
@@ -210,9 +213,14 @@ const closeTagDetail = () => {
             <UInput
               :loading="tagDetailStatus === 'pending'"
               v-model="state.title"
-              icon="heroicons:hashtag-20-solid"
+              @input="e => (state.slug = e.target.value)"
             />
           </UFormGroup>
+
+          <div>
+            <b class="block text-sm text-gray-700">Slug</b>
+            <p>#{{ toSlug(state.slug, false) }}</p>
+          </div>
 
           <UFormGroup label="Deskripsi" required name="description">
             <UTextarea
