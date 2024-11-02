@@ -124,6 +124,13 @@ const closeTagDetail = () => {
           @click="() => openTagDetail(tag.id)"
           class="rounded border border-zinc-300 bg-zinc-50 p-2 text-left shadow transition hover:border-zinc-400 hover:bg-zinc-100"
         >
+          <UBadge
+            class="mr-1"
+            v-if="!tag.is_active"
+            color="red"
+            variant="soft"
+            label="Tidak aktif"
+          />
           <b>#{{ tag.slug }}</b>
           <p
             class="overflow-hidden text-ellipsis whitespace-nowrap text-zinc-600"
