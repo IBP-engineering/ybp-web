@@ -38,6 +38,7 @@ const { data: tags } = await useAsyncData('tags', async () => {
   const { data, error } = await supabase
     .from('tags')
     .select('id, title, slug, description')
+    .eq('is_active', true)
 
   if (error) {
     console.error(error)
