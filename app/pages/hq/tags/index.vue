@@ -20,18 +20,58 @@ const schema = v.object({
 
 type Schema = v.InferOutput<typeof schema>
 
+const supabase = useSupabaseClient()
 const isOpenDetail = ref(false)
+const selectedTagId = ref(null)
 const state = reactive<Schema>({
   title: '',
   description: '',
   isActive: true,
 })
 
+const { data: tags, refresh } = await useAsyncData('hq/tags', async () => {
+  const { data } = await supabase
+    .from('tags')
+    .select('*')
+    .order('created_at', { ascending: true })
+
+  return data ?? []
+})
+
+const { data: tag } = await useLazyAsyncData(
+  'hq/tags/detail',
+  async () => {
+    if (selectedTagId.value) {
+      const { data } = await supabase
+        .from('tags')
+        .select('*, createdBy:users(username, display_name)')
+        .eq('id', selectedTagId.value)
+        .single()
+
+      state.title = data.title
+      state.description = data.description
+      state.isActive = data.is_active
+
+      return {
+        ...data,
+        createdBy: data.createdBy as unknown as {
+          username: string
+          display_name: string
+        },
+      }
+    }
+
+    return null
+  },
+  { watch: [selectedTagId], immediate: false },
+)
+
 async function onSubmit(event: FormSubmitEvent<Schema>) {
   console.log(event.data)
 }
 
-const openTagDetail = () => {
+const openTagDetail = (id: string) => {
+  selectedTagId.value = id
   isOpenDetail.value = true
 }
 </script>
@@ -42,17 +82,18 @@ const openTagDetail = () => {
     <div class="mx-auto mt-4 w-full max-w-screen-xl px-4">
       <p>Total: 10</p>
 
-      <div class="mt-8 grid grid-cols-4 gap-4">
+      <div class="mt-8 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
         <button
-          @click="openTagDetail"
+          v-for="tag in tags"
+          :key="tag.id"
+          @click="() => openTagDetail(tag.id)"
           class="rounded border border-zinc-300 bg-zinc-50 p-2 text-left shadow transition hover:border-zinc-400 hover:bg-zinc-100"
         >
-          <b>#title</b>
+          <b>#{{ tag.slug }}</b>
           <p
             class="overflow-hidden text-ellipsis whitespace-nowrap text-zinc-600"
           >
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Voluptatibus, minima!
+            {{ tag.description }}
           </p>
         </button>
       </div>
@@ -72,7 +113,7 @@ const openTagDetail = () => {
             <h3
               class="text-base font-semibold leading-6 text-gray-900 dark:text-white"
             >
-              Edit tag #opini
+              Edit tag #{{ tag?.slug }}
             </h3>
             <UButton
               color="gray"
@@ -107,12 +148,16 @@ const openTagDetail = () => {
             <UToggle v-model="state.isActive" />
           </UFormGroup>
 
-          <div class="text-sm text-gray-600">
-            <p>Dibuat oleh: Kami</p>
+          <div v-if="tag" class="text-sm text-gray-600">
+            <p>
+              Dibuat oleh: {{ tag.createdBy.display_name }}(@{{
+                tag.createdBy.username
+              }})
+            </p>
             <p>
               {{
                 format(
-                  new Date(),
+                  new Date(tag?.created_at.toString()),
                   {
                     date: 'full',
                     time: 'short',

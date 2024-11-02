@@ -164,6 +164,7 @@ export type Database = {
       tags: {
         Row: {
           created_at: string
+          created_by: string | null
           description: string | null
           id: string
           is_active: boolean
@@ -173,6 +174,7 @@ export type Database = {
         }
         Insert: {
           created_at?: string
+          created_by?: string | null
           description?: string | null
           id?: string
           is_active?: boolean
@@ -182,6 +184,7 @@ export type Database = {
         }
         Update: {
           created_at?: string
+          created_by?: string | null
           description?: string | null
           id?: string
           is_active?: boolean
@@ -189,7 +192,15 @@ export type Database = {
           title?: string
           updated_at?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "tags_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       users: {
         Row: {
