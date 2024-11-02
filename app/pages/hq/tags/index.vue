@@ -20,6 +20,7 @@ const schema = v.object({
 
 type Schema = v.InferOutput<typeof schema>
 
+const toast = useToast()
 const supabase = useSupabaseClient()
 const isOpenDetail = ref(false)
 const selectedTagId = ref(null)
@@ -67,12 +68,46 @@ const { data: tag } = await useLazyAsyncData(
 )
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
-  console.log(event.data)
+  const data = event.data
+  const isUpdating = Boolean(selectedTagId.value)
+  const slug = toSlug(data.title, false)
+
+  try {
+    if (isUpdating) {
+      await supabase
+        .from('tags')
+        .update({
+          title: data.title,
+          description: data.description,
+          is_active: data.isActive,
+          slug,
+        })
+        .eq('id', selectedTagId.value)
+      toast.add({
+        title: 'Berhasil mengubah tag',
+        color: 'green',
+      })
+    }
+
+    closeTagDetail()
+  } catch (error) {
+    console.error(error)
+  } finally {
+    refresh()
+  }
 }
 
-const openTagDetail = (id: string) => {
+const openTagDetail = (id?: string) => {
   selectedTagId.value = id
   isOpenDetail.value = true
+}
+
+const closeTagDetail = () => {
+  selectedTagId.value = null
+  isOpenDetail.value = false
+  state.title = ''
+  state.description = ''
+  state.isActive = true
 }
 </script>
 
@@ -80,7 +115,7 @@ const openTagDetail = (id: string) => {
   <div>
     <PageHeader title="Tags" />
     <div class="mx-auto mt-4 w-full max-w-screen-xl px-4">
-      <p>Total: 10</p>
+      <p>Total: {{ tags.length ?? 0 }}</p>
 
       <div class="mt-8 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
         <button
@@ -120,7 +155,7 @@ const openTagDetail = (id: string) => {
               variant="ghost"
               icon="i-heroicons-x-mark-20-solid"
               class="-my-1"
-              @click="isOpenDetail = false"
+              @click="closeTagDetail"
             />
           </div>
         </template>
@@ -169,10 +204,7 @@ const openTagDetail = (id: string) => {
           </div>
 
           <div class="flex justify-end gap-4">
-            <UButton
-              @click="isOpenDetail = false"
-              variant="outline"
-              color="gray"
+            <UButton @click="closeTagDetail" variant="outline" color="gray"
               >Batal</UButton
             >
             <UButton type="submit">Update</UButton>
