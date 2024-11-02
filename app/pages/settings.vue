@@ -160,7 +160,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
           <UFormGroup label="Username" name="username" required>
             <UInput
               v-model="state.username"
-              @change="value => (usernameDebInput = value)"
+              @input="event => (usernameDebInput = event.target.value)"
             />
           </UFormGroup>
           <UFormGroup label="Location" name="location">
