@@ -41,7 +41,7 @@ useHead({
 </script>
 
 <template>
-  <div class="mx-auto w-full max-w-screen-xl md:px-4 lg:px-0">
+  <div class="mx-auto w-full max-w-screen-xl md:px-4 xl:px-0">
     <div class="mt-12 flex w-full flex-col gap-4 lg:flex-row">
       <div class="mt-8 hidden md:block">
         <UButton icon="i-heroicons-hand-thumb-up" variant="ghost" color="gray"
