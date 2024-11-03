@@ -8,7 +8,7 @@ const username = route.params.username
 const { data: user } = await useAsyncData(`users/${username}`, async () => {
   const { data } = await supabase
     .from('users')
-    .select('id, username, display_name, bio, created_at')
+    .select('id, username, display_name, location, bio, created_at')
     .eq('username', username)
     .eq('is_active', true)
     .single()
@@ -70,9 +70,9 @@ const storiesFiltered = computed(() => {
       </p>
 
       <div class="mt-8 space-x-4 text-gray-500">
-        <span class="inline-flex items-center gap-1"
+        <span v-if="user.location" class="inline-flex items-center gap-1"
           ><UIcon name="heroicons:map-pin-solid" class="h-6 w-6" />
-          Indonesia</span
+          {{ user.location }}</span
         >
         <span class="inline-flex items-center gap-1"
           ><UIcon name="heroicons:cake-solid" class="h-6 w-6" /> Bergabung pada
@@ -83,44 +83,12 @@ const storiesFiltered = computed(() => {
 
     <div class="mt-4">
       <div class="space-y-2" v-if="storiesFiltered?.length > 0">
-        <div
+        <StoryCard
           v-for="story in storiesFiltered"
+          :story="story"
+          :author="user"
           :key="story.id"
-          class="rounded border border-gray-300 bg-white p-4 hover:border-gray-400"
-        >
-          <div class="flex items-center gap-x-2">
-            <NuxtLink :to="`/${user.username}`">
-              <UserPicture :seed="user.username" width="35" height="35" />
-            </NuxtLink>
-            <div>
-              <NuxtLink
-                class="hover:text-primary-600 outline-none focus:ring"
-                :to="`/${user.username}`"
-                title="To author page"
-                >{{ user.display_name }}</NuxtLink
-              >
-              <small class="block text-gray-600">{{
-                format(story.created_at, 'medium', 'id')
-              }}</small>
-            </div>
-          </div>
-          <div class="ml-10 mt-1">
-            <NuxtLink
-              :to="`/${user.username}/${story.slug}`"
-              class="hover:text-primary-600 text-xl font-bold tracking-wide transition"
-              :title="story.title"
-            >
-              {{ story.title }}
-            </NuxtLink>
-            <div v-if="story.tags.length > 0" class="mt-2 space-x-1">
-              <StoryTag
-                v-for="tag in story.tags"
-                :tag="tag.slug"
-                :key="tag.slug"
-              />
-            </div>
-          </div>
-        </div>
+        />
       </div>
       <div class="text-center font-medium" v-else>
         <p>Pengguna belum menambahkan cerita</p>
