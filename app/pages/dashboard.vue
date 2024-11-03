@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type { Database } from '~/types/database.types'
+
 definePageMeta({
   middleware: 'need-auth',
 })
@@ -7,9 +9,11 @@ useHead({
 })
 
 const toast = useToast()
-const supabase = useSupabaseClient()
+const supabase = useSupabaseClient<Database>()
 const user = useSupabaseUser()
 const filterStatus = ref<'all' | 'rejected' | 'approved' | 'pending'>('all')
+const isOpenStatus = ref(false)
+const storyHistories = ref([])
 const filterCount = reactive({
   all: 0,
   rejected: 0,
@@ -105,6 +109,26 @@ const calculateStoryCount = () => {
   filterCount.all = stories.value.length
 }
 
+const openStatus = async (id: string) => {
+  try {
+    const { data } = await supabase
+      .from('story_status_histories')
+      .select('*, updated_by(display_name)')
+      .eq('story_id', id)
+      .order('created_at', { ascending: false })
+
+    storyHistories.value = data.map(his => ({
+      ...his,
+      updated_by: {
+        ...(his.updated_by as unknown as { display_name: string }),
+      },
+    }))
+    isOpenStatus.value = true
+  } catch (error) {
+    console.error(error)
+  }
+}
+
 watch(
   filterStatus,
   () => {
@@ -187,9 +211,33 @@ watch(
             :key="story.id"
             :story="story"
             @delete="deleteStory"
+            @status="openStatus"
           />
         </div>
       </div>
     </div>
+
+    <UModal v-model="isOpenStatus">
+      <UCard
+        :ui="{
+          ring: '',
+          divide: 'divide-y divide-gray-100 dark:divide-gray-800',
+        }"
+      >
+        <template #header>
+          <b>Status cerita</b>
+        </template>
+
+        <StoryHistories :story-histories="storyHistories" />
+
+        <template #footer>
+          <div class="flex justify-end">
+            <UButton @click="isOpenStatus = false" color="gray" variant="soft"
+              >Tutup</UButton
+            >
+          </div>
+        </template>
+      </UCard>
+    </UModal>
   </div>
 </template>

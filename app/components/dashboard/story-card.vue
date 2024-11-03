@@ -8,6 +8,7 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   delete: [id: string]
+  status: [id: string]
 }>()
 
 const { data: user } = useNuxtData<User>('current-user')
@@ -17,17 +18,24 @@ const storyUrl = `/${user.value.username}/${props.story.slug}`
 const storyOptions = [
   [
     {
-      label: 'Edit',
+      label: 'Cek status',
+      icon: 'heroicons:queue-list',
+      click: () => {
+        emit('status', props.story.id)
+      },
+    },
+    {
+      label: 'Ubah',
       icon: 'i-heroicons:pencil-square',
       click: () => navigateTo(storyUrl.concat('/edit')),
     },
     {
-      label: 'Archive',
+      label: 'Arsipkan',
       disabled: true,
       icon: 'i-heroicons:folder-open',
     },
     {
-      label: 'Delete',
+      label: 'Hapus',
       class: 'bg-red-100 hover:bg-red-200 text-red-900',
       iconClass: 'text-red-900',
       icon: 'i-heroicons:trash',

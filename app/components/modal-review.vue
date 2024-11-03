@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { format } from '@formkit/tempo'
+import type { Database } from '~/types/database.types'
 import type { StoryStatus } from '~/types/entities'
 
 const props = defineProps<{
@@ -27,7 +27,7 @@ const options: { value: StoryStatus; label: string }[] = [
 const selected = ref<StoryStatus>(props.status)
 const reason = ref('')
 const isLoading = ref(false)
-const supabase = useSupabaseClient()
+const supabase = useSupabaseClient<Database>()
 const user = useSupabaseUser()
 const toast = useToast()
 const { data: storyHistories } = await useAsyncData(
@@ -81,12 +81,6 @@ const saveStatus = async () => {
     isLoading.value = false
   }
 }
-
-const historyColor = {
-  approved: 'border-green-300 bg-green-100 text-green-900',
-  rejected: 'border-red-300 bg-red-100 text-red-900',
-  pending: 'border-blue-300 bg-blue-100 text-blue-900',
-}
 </script>
 
 <template>
@@ -112,23 +106,7 @@ const historyColor = {
 
       <div class="mt-4 border-t py-2">
         <b>Riwayat</b>
-        <div class="mt-4 max-h-[350px] space-y-3 overflow-auto pr-2">
-          <div
-            v-for="history in storyHistories"
-            :key="history.id"
-            class="rounded border px-2 py-1"
-            :class="historyColor[history.status]"
-          >
-            <StoryBadgeStatus :status="history.status" />
-            <p v-if="history.reason">Alasan: {{ history.reason }}</p>
-            <small class="block"
-              >Diupdate oleh: {{ history.updated_by.display_name }}</small
-            >
-            <small class="block">
-              {{ format(history.created_at, 'DD MMM YYYY, HH:mm', 'id') }}
-            </small>
-          </div>
-        </div>
+        <StoryHistories class="mt-4" :story-histories="storyHistories" />
       </div>
 
       <template #footer>

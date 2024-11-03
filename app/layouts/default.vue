@@ -91,7 +91,7 @@ const dropdownItems = [
       src="~/assets/images/main-bg-blur.svg"
       width="300"
       height="300"
-      class="absolute -left-48 top-0 z-[5] w-full md:-top-20 md:left-0"
+      class="absolute -left-48 top-0 z-[4] w-full md:-top-20 md:left-0"
       alt="blur bg"
     />
     <nav class="z-20 mb-4 mt-8 px-4 md:mb-10 md:px-0">
@@ -246,7 +246,7 @@ const dropdownItems = [
     </main>
 
     <footer
-      class="container z-10 mx-auto mt-auto rounded-lg border border-gray-300 bg-gray-100 px-8 py-12 md:mb-12"
+      class="container z-[5] mx-auto mt-auto rounded-lg border border-gray-300 bg-gray-100 px-8 py-12 md:mb-12"
     >
       <div class="grid grid-cols-1 gap-12 md:grid-cols-3">
         <div class="col-span-1 flex h-full flex-col justify-between">
