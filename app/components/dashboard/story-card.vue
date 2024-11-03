@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { format } from '@formkit/tempo'
 import type { Story, User } from '~/types/entities'
 
 const props = defineProps<{
@@ -48,7 +49,9 @@ const storyOptions = [
       >
         {{ story.title }}
       </h3>
-      <small class="text-gray-600">Diterbitkan: 20 Oktober 2020</small>
+      <small class="text-gray-600"
+        >Ditulis pada {{ format(story.created_at, 'long', 'id') }}</small
+      >
     </NuxtLink>
     <div>
       <UDropdown

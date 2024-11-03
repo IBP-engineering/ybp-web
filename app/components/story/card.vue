@@ -12,22 +12,23 @@ defineProps<{
   <div
     class="rounded border border-gray-300 bg-white p-4 hover:border-gray-400"
   >
-    <div class="flex items-center gap-x-2">
-      <NuxtLink :to="`/${author.username}`">
-        <UserPicture :seed="author.username" width="35" height="35" />
-      </NuxtLink>
+    <NuxtLink
+      :to="`/${author.username}`"
+      title="To author page"
+      class="group flex items-center gap-x-2"
+    >
       <div>
-        <NuxtLink
-          class="outline-none hover:bg-gray-200 focus:ring"
-          :to="`/${author.username}`"
-          title="To user page"
-          >{{ author.display_name }}</NuxtLink
-        >
+        <UserPicture :seed="author.username" width="35" height="35" />
+      </div>
+      <div>
+        <span class="group-hover:text-primary-600 outline-none focus:ring">{{
+          author.display_name
+        }}</span>
         <small class="block text-gray-600">{{
           format(story.created_at, 'medium', 'id')
         }}</small>
       </div>
-    </div>
+    </NuxtLink>
     <div class="ml-10 mt-1">
       <NuxtLink
         :to="`/${author.username}/${story.slug}`"

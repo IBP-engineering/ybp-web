@@ -4,6 +4,7 @@ import { format } from '@formkit/tempo'
 const supabase = useSupabaseClient()
 const route = useRoute()
 const slug = route.params.slug
+const authorUsername = route.params.username.toString()
 
 const { data: story } = await useAsyncData(`story/${slug}`, async () => {
   const { data, error } = await supabase
@@ -11,7 +12,7 @@ const { data: story } = await useAsyncData(`story/${slug}`, async () => {
     .select(
       `*,
       tags:story_tags!id(tag:tag_id(slug)),
-      author:users(id, username, bio, display_name, created_at)
+      author:users(id, bio, display_name, location, created_at)
       `,
     )
     .eq('slug', slug)
@@ -40,7 +41,7 @@ useHead({
 </script>
 
 <template>
-  <div class="mx-auto w-full max-w-screen-xl md:px-4 lg:px-0">
+  <div class="mx-auto w-full max-w-screen-xl md:px-4 xl:px-0">
     <div class="mt-12 flex w-full flex-col gap-4 lg:flex-row">
       <div class="mt-8 hidden md:block">
         <UButton icon="i-heroicons-hand-thumb-up" variant="ghost" color="gray"
@@ -79,10 +80,10 @@ useHead({
           </UAlert>
 
           <div class="my-4 flex items-center gap-4">
-            <UserPicture :seed="story.author.username" width="35" height="35" />
+            <UserPicture :seed="authorUsername" width="35" height="35" />
             <div>
               <ULink
-                :to="`/${story.author.username}`"
+                :to="`/${authorUsername}`"
                 class="text-sm font-semibold hover:underline"
                 title="To author page"
                 >{{ story.author.display_name }}</ULink
@@ -111,18 +112,24 @@ useHead({
       <div
         class="hidden h-full w-full rounded-lg border border-gray-300 bg-gray-50 p-4 shadow md:block lg:max-w-[370px]"
       >
-        <div class="mb-4 flex items-center gap-4">
-          <UserPicture :seed="story.author.username" width="40" height="40" />
-          <b>{{ story.author.display_name }}</b>
-        </div>
+        <NuxtLink
+          :to="`/${authorUsername}`"
+          class="group mb-4 flex items-center gap-4 rounded"
+          title="To author page"
+        >
+          <UserPicture :seed="authorUsername" width="40" height="40" />
+          <b class="group-hover:text-primary-600">{{
+            story.author.display_name
+          }}</b>
+        </NuxtLink>
 
         <p class="text-gray-600">
           {{ story.author.bio }}
         </p>
         <ul class="mt-4 space-y-4 text-sm">
-          <li>
+          <li v-if="story.author.location">
             <b class="text-xs">DOMISILI</b>
-            <p class="text-gray-600">Indonesia</p>
+            <p class="text-gray-600">{{ story.author.location }}</p>
           </li>
           <li>
             <b class="text-xs">BERGABUNG</b>
