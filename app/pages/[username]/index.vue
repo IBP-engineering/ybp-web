@@ -33,6 +33,7 @@ const { data: stories } = await useAsyncData(
       tags:story_tags!id(tag:tag_id(slug))
       `,
       )
+      .eq('user_id', user.value.id)
       .eq('status', 'approved')
       .eq('is_active', true)
       .order('created_at', { ascending: false })
@@ -93,9 +94,9 @@ const storiesFiltered = computed(() => {
             </NuxtLink>
             <div>
               <NuxtLink
-                class="outline-none hover:bg-gray-200 focus:ring"
+                class="hover:text-primary-600 outline-none focus:ring"
                 :to="`/${user.username}`"
-                title="To user page"
+                title="To author page"
                 >{{ user.display_name }}</NuxtLink
               >
               <small class="block text-gray-600">{{
