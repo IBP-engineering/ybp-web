@@ -14,18 +14,16 @@ defineProps<{
   >
     <NuxtLink
       :to="`/${author.username}`"
+      title="To author page"
       class="group flex items-center gap-x-2"
     >
       <div>
         <UserPicture :seed="author.username" width="35" height="35" />
       </div>
       <div>
-        <span
-          class="group-hover:text-primary-600 outline-none focus:ring"
-          :to="`/${author.username}`"
-          title="To author page"
-          >{{ author.display_name }}</span
-        >
+        <span class="group-hover:text-primary-600 outline-none focus:ring">{{
+          author.display_name
+        }}</span>
         <small class="block text-gray-600">{{
           format(story.created_at, 'medium', 'id')
         }}</small>

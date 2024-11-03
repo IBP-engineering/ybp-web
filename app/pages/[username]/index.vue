@@ -60,7 +60,7 @@ const storiesFiltered = computed(() => {
     >
       <UserPicture
         :seed="user.username"
-        class="-mt-8 border-4 border-gray-300"
+        class="-mt-8 border-4 border-white"
         width="80"
         height="80"
       />
