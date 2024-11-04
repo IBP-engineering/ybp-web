@@ -40,7 +40,6 @@ export type Database = {
           created_at: string
           id: string
           is_active: boolean
-          reaction: Json | null
           slug: string
           status: Database["public"]["Enums"]["Story status"]
           title: string
@@ -53,7 +52,6 @@ export type Database = {
           created_at?: string
           id?: string
           is_active?: boolean
-          reaction?: Json | null
           slug: string
           status?: Database["public"]["Enums"]["Story status"]
           title: string
@@ -66,7 +64,6 @@ export type Database = {
           created_at?: string
           id?: string
           is_active?: boolean
-          reaction?: Json | null
           slug?: string
           status?: Database["public"]["Enums"]["Story status"]
           title?: string
@@ -79,6 +76,45 @@ export type Database = {
             columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      story_reactions: {
+        Row: {
+          created_at: string
+          id: number
+          reacted_by: string | null
+          story: string | null
+          type: Database["public"]["Enums"]["Story reaction"]
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          reacted_by?: string | null
+          story?: string | null
+          type?: Database["public"]["Enums"]["Story reaction"]
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          reacted_by?: string | null
+          story?: string | null
+          type?: Database["public"]["Enums"]["Story reaction"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "story_reactions_reacted_by_fkey"
+            columns: ["reacted_by"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "story_reactions_story_fkey"
+            columns: ["story"]
+            isOneToOne: false
+            referencedRelation: "stories"
             referencedColumns: ["id"]
           },
         ]
@@ -260,6 +296,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
+      "Story reaction": "like"
       "Story status": "approved" | "rejected" | "pending"
     }
     CompositeTypes: {
