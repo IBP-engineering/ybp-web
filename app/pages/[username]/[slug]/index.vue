@@ -5,6 +5,7 @@ import { format } from '@formkit/tempo'
 const user = useSupabaseUser()
 const supabase = useSupabaseClient()
 const route = useRoute()
+const openLoginModal = ref(false)
 const slug = route.params.slug
 const authorUsername = route.params.username.toString()
 
@@ -57,6 +58,7 @@ const isUserHasReacted = computed(() => {
 
 const likeStory = async () => {
   if (!user.value) {
+    openLoginModal.value = true
     return
   }
 
@@ -188,5 +190,6 @@ useHead({
         </ul>
       </div>
     </div>
+    <LazySharedLoginModal v-model:open="openLoginModal" />
   </div>
 </template>
