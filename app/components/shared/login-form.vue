@@ -9,6 +9,13 @@ import {
 } from 'valibot'
 import type { FormSubmitEvent } from '#ui/types'
 
+const props = withDefaults(
+  defineProps<{
+    redirect?: boolean
+  }>(),
+  { redirect: true },
+)
+
 const schema = object({
   email: emailValidator,
   password: pipe(string(), nonEmpty('Mohon masukkan password anda')),
@@ -23,6 +30,8 @@ const state = reactive({
   email: '',
   password: '',
 })
+
+const injectOnSuccessLogin = inject(onSuccessLogin, () => null)
 
 async function login(event: FormSubmitEvent<Schema>) {
   isLoading.value = true
@@ -58,6 +67,12 @@ async function login(event: FormSubmitEvent<Schema>) {
         color: 'red',
         icon: 'i-heroicons-x-mark-solid',
       })
+      return
+    }
+
+    injectOnSuccessLogin()
+
+    if (!props.redirect) {
       return
     }
 

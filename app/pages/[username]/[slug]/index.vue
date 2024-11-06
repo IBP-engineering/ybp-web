@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-import type { UTooltip } from '#build/components'
 import { format } from '@formkit/tempo'
 
 const user = useSupabaseUser()
 const supabase = useSupabaseClient()
 const route = useRoute()
+const toast = useToast()
 const openLoginModal = ref(false)
 const slug = route.params.slug
 const authorUsername = route.params.username.toString()
@@ -78,6 +78,14 @@ const likeStory = async () => {
     refresh()
   }
 }
+
+provide(onSuccessLogin, () => {
+  openLoginModal.value = false
+  toast.add({
+    title: 'Berhasil login',
+    color: 'green',
+  })
+})
 
 useHead({
   title: story.value?.title ?? 'upps',

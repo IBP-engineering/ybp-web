@@ -20,7 +20,7 @@ const open = defineModel<boolean>('open')
         <div class="z-20 mx-auto mt-6 w-full space-y-4 md:w-[24rem]">
           <b>Masuk untuk melanjutkan</b>
 
-          <SharedLoginForm />
+          <SharedLoginForm :redirect="false" />
         </div>
       </div>
     </div>
