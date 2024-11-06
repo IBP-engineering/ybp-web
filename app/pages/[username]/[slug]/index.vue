@@ -94,8 +94,8 @@ useHead({
 
 <template>
   <div class="mx-auto w-full max-w-screen-xl md:px-4 xl:px-0">
-    <div class="mt-12 flex w-full flex-col gap-4 lg:flex-row">
-      <div class="mt-8 hidden w-24 md:block">
+    <div class="mt-12 flex w-full flex-col-reverse gap-4 lg:flex-row">
+      <div class="mt-8 w-24 px-4 md:px-0">
         <UTooltip text="Sukai cerita ini">
           <UButton
             @click="likeStory"
