@@ -55,15 +55,26 @@ async function login(event: FormSubmitEvent<Schema>) {
 
     const { data: userRole, error: errorUser } = await supabase
       .from('users')
-      .select('role_id')
+      .select('role_id, is_active')
       .eq('id', data.user.id)
-      .eq('is_active', true)
       .single()
 
     if (!userRole) {
+      supabase.auth.signOut()
       toast.add({
         title: 'Terjadi kesalahan',
         description: errorUser.message,
+        color: 'red',
+        icon: 'i-heroicons-x-mark-solid',
+      })
+      return
+    }
+
+    if (!userRole.is_active) {
+      supabase.auth.signOut()
+      toast.add({
+        title: 'Akun sudah tidak aktif kembali',
+        description: 'Mohon hubungi admin untuk info lebih lanjut',
         color: 'red',
         icon: 'i-heroicons-x-mark-solid',
       })
@@ -91,7 +102,7 @@ async function login(event: FormSubmitEvent<Schema>) {
   <UForm
     :schema="safeParser(schema)"
     :state="state"
-    @submit="login"
+    @submit.prevent="login"
     class="flex w-full flex-col gap-5"
   >
     <UFormGroup label="Email" name="email">
