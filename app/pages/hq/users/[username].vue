@@ -7,6 +7,7 @@ import {
   string,
   maxLength,
   type InferInput,
+  boolean,
 } from 'valibot'
 import type { FormSubmitEvent } from '#ui/types'
 import type { Database } from '~/types/database.types'
@@ -23,6 +24,7 @@ const schema = object({
   username: usernameValidator,
   displayName: pipe(string(), nonEmpty('Mohon masukkan nama anda')),
   location: string(),
+  isActive: boolean(),
   bio: pipe(string(), maxLength(250, 'Maksimal 250 karakter')),
   role: pipe(string(), nonEmpty('Mohon pilih role anda')),
 })
@@ -43,7 +45,7 @@ const { data: user, refresh: refreshUser } = await useAsyncData(
     const { data, error } = await supabase
       .from('users')
       .select(
-        'username, id, display_name, created_at, bio, location, roles(name, id)',
+        'username, id, display_name, created_at, is_active, bio, location, roles(name, id)',
       )
       .eq('username', usernameParams)
       .single()
@@ -100,8 +102,9 @@ const state = reactive<Schema>({
   username: user.value.username,
   displayName: user.value.display_name,
   bio: user.value.bio ?? '',
-  location: user.value.location ?? '',
   role: String(user.value.roles.id),
+  location: user.value.location ?? '',
+  isActive: user.value.is_active,
 })
 
 async function updateProfile(event: FormSubmitEvent<Schema>) {
@@ -133,6 +136,8 @@ async function updateProfile(event: FormSubmitEvent<Schema>) {
       username: data.username,
       display_name: data.displayName,
       bio: data.bio,
+      location: data.location,
+      is_active: data.isActive,
       role_id: Number(data.role),
       // @ts-ignore
       updated_at: new Date(),
@@ -185,7 +190,12 @@ onMounted(() => {
     <div class="mx-auto w-full max-w-screen-xl">
       <div class="flex w-full flex-col-reverse justify-between p-4 md:flex-row">
         <div class="md:w-3/4">
-          <RoleBadge :name="user.roles.name" />
+          <div class="inline-flex gap-2">
+            <RoleBadge :name="user.roles.name" />
+            <UBadge v-if="!user.is_active" color="fuchsia" size="xs"
+              >Tidak aktif</UBadge
+            >
+          </div>
           <h1 class="text-xl font-bold md:mb-1 md:text-4xl">
             {{ user.display_name }}
           </h1>
@@ -298,6 +308,9 @@ onMounted(() => {
             name="role"
           >
             <USelect v-model="state.role" :options="roleOptions" />
+          </UFormGroup>
+          <UFormGroup class="mt-4" label="Aktif" name="isActive">
+            <UToggle color="primary" v-model="state.isActive" />
           </UFormGroup>
           <UFormGroup class="mt-4" label="Bio" name="bio">
             <UTextarea v-model="state.bio" :loading="isLoading" />
