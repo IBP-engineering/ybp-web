@@ -41,7 +41,9 @@ const { data: user, refresh: refreshUser } = await useAsyncData(
   async () => {
     const { data, error } = await supabase
       .from('users')
-      .select('username, id, display_name, created_at, bio, roles(name, id)')
+      .select(
+        'username, id, display_name, created_at, bio, location, roles(name, id)',
+      )
       .eq('username', usernameParams)
       .single()
 
@@ -189,19 +191,28 @@ onMounted(() => {
           <p class="mt-1 text-balance">
             {{ user.bio }}
           </p>
-          <p
-            :title="new Date(user.created_at).toString()"
-            class="my-3 inline-flex items-center gap-1 text-gray-600"
-          >
-            <UIcon name="i-heroicons:calendar-days" class="h-5 w-5" /> Bergabung
-            pada
-            {{
-              new Intl.DateTimeFormat('id', {
-                month: 'long',
-                year: 'numeric',
-              }).format(new Date(user.created_at))
-            }}
-          </p>
+          <div class="my-3 flex flex-col gap-x-3 gap-y-1 md:flex-row">
+            <p
+              :title="new Date(user.created_at).toString()"
+              class="inline-flex items-center gap-1 text-gray-600"
+            >
+              <UIcon name="i-heroicons:calendar-days" class="h-5 w-5" />
+              Bergabung pada
+              {{
+                new Intl.DateTimeFormat('id', {
+                  month: 'long',
+                  year: 'numeric',
+                }).format(new Date(user.created_at))
+              }}
+            </p>
+            <p
+              v-if="Boolean(user.location)"
+              class="inline-flex items-center gap-1 text-gray-600"
+            >
+              <UIcon name="heroicons:map-pin" class="h-5 w-5" />
+              {{ user.location }}
+            </p>
+          </div>
           <UButton
             block
             class="inline-flex md:hidden"
