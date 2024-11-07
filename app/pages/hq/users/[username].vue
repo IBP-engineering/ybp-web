@@ -22,6 +22,7 @@ useHead({
 const schema = object({
   username: usernameValidator,
   displayName: pipe(string(), nonEmpty('Mohon masukkan nama anda')),
+  location: string(),
   bio: pipe(string(), maxLength(250, 'Maksimal 250 karakter')),
   role: pipe(string(), nonEmpty('Mohon pilih role anda')),
 })
@@ -95,10 +96,11 @@ const { data: stories, refresh: refreshStories } = await useAsyncData(
   },
 )
 
-const state = reactive({
+const state = reactive<Schema>({
   username: user.value.username,
   displayName: user.value.display_name,
   bio: user.value.bio ?? '',
+  location: user.value.location ?? '',
   role: String(user.value.roles.id),
 })
 
@@ -284,6 +286,9 @@ onMounted(() => {
           </UFormGroup>
           <UFormGroup required class="mt-4" label="Nama" name="displayName">
             <UInput v-model="state.displayName" :loading="isLoading" />
+          </UFormGroup>
+          <UFormGroup class="mt-4" label="Domisili" name="location">
+            <UInput v-model="state.location" :loading="isLoading" />
           </UFormGroup>
           <UFormGroup
             required
