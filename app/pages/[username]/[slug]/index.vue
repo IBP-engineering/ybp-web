@@ -1,38 +1,90 @@
 <script lang="ts" setup>
 import { format } from '@formkit/tempo'
 
+const user = useSupabaseUser()
 const supabase = useSupabaseClient()
 const route = useRoute()
+const toast = useToast()
+const openLoginModal = ref(false)
 const slug = route.params.slug
 const authorUsername = route.params.username.toString()
 
-const { data: story } = await useAsyncData(`story/${slug}`, async () => {
-  const { data, error } = await supabase
-    .from('stories')
-    .select(
-      `*,
+const { data: story, refresh } = await useAsyncData(
+  `story/${slug}`,
+  async () => {
+    const { data, error } = await supabase
+      .from('stories')
+      .select(
+        `*,
       tags:story_tags!id(tag:tag_id(slug)),
-      author:users(id, bio, display_name, location, created_at)
+      author:users(id, bio, display_name, location, created_at),
+      reactions:story_reactions!id(*)
       `,
-    )
-    .eq('slug', slug)
-    .single()
+      )
+      .eq('slug', slug)
+      .single()
 
-  if (error) {
+    if (error) {
+      console.error(error)
+      return null
+    }
+
+    const coverWithPath = data.cover_path
+      ? supabase.storage.from('story-cover').getPublicUrl(data.cover_path).data
+          .publicUrl
+      : null
+
+    return {
+      ...data,
+      cover_path: coverWithPath,
+      tags: data.tags.map(tag => (tag.tag as any).slug as string),
+    }
+  },
+)
+
+const isUserHasReacted = computed(() => {
+  const userId = user.value?.id
+
+  if (!userId || !story.value) {
+    return false
+  }
+
+  const hasReacted = story.value.reactions.some(
+    react => react.reacted_by === userId,
+  )
+
+  return hasReacted
+})
+
+const likeStory = async () => {
+  if (!user.value) {
+    openLoginModal.value = true
+    return
+  }
+
+  const userId = user.value.id
+
+  try {
+    if (isUserHasReacted.value) {
+      await supabase.from('story_reactions').delete().eq('reacted_by', userId)
+    } else {
+      await supabase
+        .from('story_reactions')
+        .insert({ story: story.value.id, reacted_by: userId })
+    }
+  } catch (error) {
     console.error(error)
-    return null
+  } finally {
+    refresh()
   }
+}
 
-  const coverWithPath = data.cover_path
-    ? supabase.storage.from('story-cover').getPublicUrl(data.cover_path).data
-        .publicUrl
-    : null
-
-  return {
-    ...data,
-    cover_path: coverWithPath,
-    tags: data.tags.map(tag => (tag.tag as any).slug as string),
-  }
+provide(onSuccessLogin, () => {
+  openLoginModal.value = false
+  toast.add({
+    title: 'Berhasil login',
+    color: 'green',
+  })
 })
 
 useHead({
@@ -42,11 +94,17 @@ useHead({
 
 <template>
   <div class="mx-auto w-full max-w-screen-xl md:px-4 xl:px-0">
-    <div class="mt-12 flex w-full flex-col gap-4 lg:flex-row">
-      <div class="mt-8 hidden md:block">
-        <UButton icon="i-heroicons-hand-thumb-up" variant="ghost" color="gray"
-          >0</UButton
-        >
+    <div class="mt-12 flex w-full flex-col-reverse gap-4 lg:flex-row">
+      <div class="mt-8 w-24 px-4 md:px-0">
+        <UTooltip text="Sukai cerita ini">
+          <UButton
+            @click="likeStory"
+            icon="i-heroicons-hand-thumb-up-solid"
+            :variant="isUserHasReacted ? 'solid' : 'outline'"
+            color="primary"
+            >{{ story.reactions.length }}</UButton
+          >
+        </UTooltip>
       </div>
 
       <div
@@ -140,5 +198,6 @@ useHead({
         </ul>
       </div>
     </div>
+    <LazySharedLoginModal v-model:open="openLoginModal" />
   </div>
 </template>
