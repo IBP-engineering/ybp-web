@@ -113,6 +113,7 @@ const storiesFiltered = computed(() => {
       class="container mx-auto space-y-16 px-4 py-24 md:space-y-24 md:px-0 md:py-32"
     >
       <h2
+        id="activities"
         class="text-center text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl lg:text-5xl dark:text-white"
       >
         Agenda Kami <br /><span class="text-primary-500">Yang Paling Seru</span>

@@ -8,6 +8,7 @@ export default defineNuxtConfig({
     '@nuxt/fonts',
     '@nuxtjs/supabase',
     '@vueuse/nuxt',
+    '@nuxtjs/seo',
   ],
   future: {
     compatibilityVersion: 4,
@@ -29,6 +30,23 @@ export default defineNuxtConfig({
     provider: 'bunny',
     defaults: {
       weights: [300, 400, 500, 600, 700],
+    },
+  },
+  site: {
+    url: 'https://ybp-web.netlify.app',
+    name: 'Yogyakarta Book Party',
+    locale: 'id',
+    description:
+      'Yogyakarta Book Party Official Website. #baca-buku #diskusi #main-bareng',
+  },
+  robots: {
+    disallow: ['/hq', '/hq/*'],
+  },
+  schemaOrg: {
+    identity: {
+      type: 'Organization',
+      name: 'Yogyakarta Book Party',
+      logo: '/logo.jpg',
     },
   },
 })
