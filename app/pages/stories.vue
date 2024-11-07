@@ -39,9 +39,6 @@ const storiesFiltered = computed(() => {
         <UIcon name="heroicons:book-open-solid" class="text-primary-500" />
         Stories
       </h1>
-      <p class="text-gray-600">
-        Kumpulan tulisan cerita yang sudah melalui proses skrining oleh editor
-      </p>
       <div
         v-if="storiesFiltered?.length > 0"
         class="my-8 grid grid-cols-1 gap-4 md:grid-cols-2"
