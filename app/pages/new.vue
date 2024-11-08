@@ -6,8 +6,10 @@ definePageMeta({
   middleware: 'need-auth',
 })
 
-useHead({
-  title: 'New story',
+useSeoMeta({
+  title: 'Tambah cerita baru',
+  description:
+    'Halaman untuk para anggota supaya bisa menambahkan cerita terbaru mereka',
 })
 
 const toast = useToast()

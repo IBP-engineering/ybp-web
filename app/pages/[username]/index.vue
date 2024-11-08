@@ -51,6 +51,11 @@ const storiesFiltered = computed(() => {
   // @ts-ignore
   return mapStoryTag(stories.value)
 })
+
+useSeoMeta({
+  title: user.value.display_name,
+  description: `Halaman profil ${user.value.display_name}`,
+})
 </script>
 
 <template>

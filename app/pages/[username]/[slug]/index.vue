@@ -17,7 +17,7 @@ const { data: story, refresh } = await useAsyncData(
       .select(
         `*,
       tags:story_tags!id(tag:tag_id(slug)),
-      author:users(id, bio, display_name, location, created_at),
+      author:users(id, bio, display_name, username, location, created_at),
       reactions:story_reactions!id(*)
       `,
       )
@@ -41,6 +41,13 @@ const { data: story, refresh } = await useAsyncData(
     }
   },
 )
+
+if (!story.value) {
+  throw createError({
+    statusCode: 404,
+    statusMessage: 'Halaman tidak ditemukan',
+  })
+}
 
 const isUserHasReacted = computed(() => {
   const userId = user.value?.id
@@ -87,8 +94,9 @@ provide(onSuccessLogin, () => {
   })
 })
 
-useHead({
-  title: story.value?.title ?? 'upps',
+useSeoMeta({
+  title: `${story.value?.title} @${story.value.author.username}`,
+  description: `Cerita berjudul ${story.value.title} dari penulis ${story.value.author.display_name}`,
 })
 </script>
 

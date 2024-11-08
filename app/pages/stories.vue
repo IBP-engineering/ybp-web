@@ -1,6 +1,8 @@
 <script setup lang="ts">
-useHead({
-  title: 'Stories',
+useSeoMeta({
+  title: 'Kumpulan cerita',
+  description:
+    'Kumpulan cerita dari para kontributor dan anggota Yogyakarta Book Party',
 })
 
 const supabase = useSupabaseClient()

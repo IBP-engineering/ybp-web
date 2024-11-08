@@ -51,6 +51,11 @@ const storiesFiltered = computed(() => {
     story.tags.some(tg => tg.slug === tag.value.slug),
   )
 })
+
+useSeoMeta({
+  title: `Cerita berdasarkan tag ${tag.value.title}`,
+  description: tag.value.description,
+})
 </script>
 
 <template>
