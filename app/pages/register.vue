@@ -21,8 +21,10 @@ import {
 definePageMeta({
   layout: 'auth',
 })
-useHead({
+useSeoMeta({
   title: 'Buat akun baru',
+  description:
+    'Buat akun baru untuk melanjutkan proses registrasi sebagai anggota',
 })
 
 const schema = pipe(
