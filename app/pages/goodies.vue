@@ -1,6 +1,8 @@
 <script setup lang="ts">
-useHead({
+useSeoMeta({
   title: 'Official Goodies from YBP & IBP',
+  description:
+    'Dapatkan merchandise resmi dari komunitas Yogyakarta Book Party',
 })
 </script>
 

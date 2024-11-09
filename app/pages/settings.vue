@@ -7,8 +7,9 @@ definePageMeta({
   middleware: 'need-auth',
 })
 
-useHead({
-  title: 'Settings',
+useSeoMeta({
+  title: 'Pengaturan pengguna',
+  description: 'Ubah nama, profil, ataupun bio dari halaman ini',
 })
 
 const schema = v.object({

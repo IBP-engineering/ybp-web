@@ -1,6 +1,8 @@
 <script setup lang="ts">
-useHead({
+useSeoMeta({
   title: 'FAQ',
+  description:
+    'Menjawab pertanyaan-pertanyaan yang sering muncul dan ditanyakan',
 })
 </script>
 

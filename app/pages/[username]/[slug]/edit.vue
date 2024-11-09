@@ -6,10 +6,6 @@ definePageMeta({
   middleware: 'need-auth',
 })
 
-useHead({
-  title: 'Editing story',
-})
-
 const toast = useToast()
 const supabase = useSupabaseClient<Database>()
 const user = useSupabaseUser()
@@ -235,6 +231,11 @@ const removeImageCover = () => {
   form.coverImage = null
   isDeletingCover.value = true
 }
+
+useSeoMeta({
+  title: `Sedang mengubah cerita ${currentStory.value.title}`,
+  description: `Sedang mengubah cerita ${currentStory.value.title}`,
+})
 
 onMounted(() => {
   for (const fromTag of currentStory.value.tags) {

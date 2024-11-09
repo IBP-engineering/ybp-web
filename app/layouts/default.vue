@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import { currentUser } from '~/store/session'
 
+useHead({
+  htmlAttrs: {
+    lang: 'id',
+  },
+})
 const user = useSupabaseUser()
 const supabase = useSupabaseClient()
 const toast = useToast()
@@ -11,7 +16,7 @@ const navlinks = [
   },
   {
     label: 'Activities',
-    to: '#',
+    to: '/#activities',
   },
   {
     label: 'Goodies',
@@ -97,7 +102,7 @@ const dropdownItems = [
     <nav class="z-20 mb-4 mt-8 px-4 md:mb-10 md:px-0">
       <div class="container mx-auto flex items-center justify-between">
         <div class="flex items-center">
-          <NuxtLink to="/">
+          <NuxtLink to="/" title="To home page">
             <img
               src="~/assets/images/logo.jpg"
               width="50"

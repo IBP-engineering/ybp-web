@@ -2,8 +2,10 @@
 definePageMeta({
   layout: 'auth',
 })
-useHead({
+useSeoMeta({
   title: 'Masuk',
+  description:
+    'Masuk sebagai anggota atau editor menggunakan email dan password',
 })
 </script>
 
