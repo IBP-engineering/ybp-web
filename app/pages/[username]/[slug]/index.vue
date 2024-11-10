@@ -100,7 +100,7 @@ provide(onSuccessLogin, () => {
 })
 
 useSeoMeta({
-  title: `${story.value?.title} @${story.value.author.username}`,
+  title: story.value?.title,
   description: `Cerita berjudul ${story.value.title} dari penulis ${story.value.author.display_name}`,
 })
 </script>
@@ -224,6 +224,9 @@ useSeoMeta({
       </div>
     </div>
     <LazySharedLoginModal v-model:open="openLoginModal" />
-    <LazySharedShareStoryModal v-model:open="openShareModal" />
+    <LazySharedShareStoryModal
+      :title="story.title"
+      v-model:open="openShareModal"
+    />
   </div>
 </template>
