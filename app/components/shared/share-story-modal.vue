@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useQRCode } from '@vueuse/integrations/useQRCode'
 
-defineProps<{
+const props = defineProps<{
   title: string
   author: string
 }>()
@@ -10,6 +10,11 @@ const isOpen = defineModel<boolean>('open')
 const url = useRequestURL()
 const { copy, copied } = useClipboard()
 const qrCode = useQRCode(url.href)
+const { share, isSupported } = useShare({
+  url: url.href,
+  title: props.title,
+  text: url.href,
+})
 </script>
 
 <template>
@@ -36,20 +41,25 @@ const qrCode = useQRCode(url.href)
         >
           {{ url.href }}
         </p>
-        <UButton
-          variant="outline"
-          :trailing-icon="
-            copied
-              ? 'heroicons:clipboard-document-check'
-              : 'heroicons:clipboard-document'
-          "
-          color="gray"
-          @click="() => copy(url.href)"
-          block
-        >
-          <span v-if="!copied">Salin</span>
-          <span v-else>Tersalin!</span>
-        </UButton>
+        <div class="flex items-center justify-end gap-4">
+          <UButton
+            variant="soft"
+            :trailing-icon="
+              copied
+                ? 'heroicons:clipboard-document-check'
+                : 'heroicons:clipboard-document'
+            "
+            color="gray"
+            @click="() => copy(url.href)"
+          />
+          <UButton
+            v-if="isSupported"
+            color="gray"
+            @click="share"
+            trailing-icon="heroicons:arrow-up-right-20-solid"
+            >Bagikan</UButton
+          >
+        </div>
       </div>
 
       <template #footer>

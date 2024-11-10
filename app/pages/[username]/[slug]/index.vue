@@ -125,7 +125,7 @@ useSeoMeta({
         <UTooltip text="Bagikan cerita">
           <UButton
             @click="shareStory"
-            icon="ph:share-network"
+            icon="heroicons:share"
             variant="soft"
             color="gray"
           />
