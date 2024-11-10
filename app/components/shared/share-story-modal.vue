@@ -36,30 +36,35 @@ const { share, isSupported } = useShare({
           </p>
         </div>
         <img :src="qrCode" class="mx-auto h-64 w-64" />
-        <p
-          class="mb-2 block w-full border bg-slate-100 p-1 text-center font-mono"
-        >
-          {{ url.href }}
-        </p>
-        <div class="flex items-center justify-end gap-4">
+        <div class="group relative w-full">
+          <p
+            class="mb-2 block w-full border bg-slate-100 p-1 text-center font-mono transition group-hover:text-gray-500"
+          >
+            {{ url.href }}
+          </p>
           <UButton
-            variant="soft"
             :trailing-icon="
               copied
                 ? 'heroicons:clipboard-document-check'
                 : 'heroicons:clipboard-document'
             "
             color="gray"
+            size="sm"
+            class="absolute right-1 top-1 hidden group-hover:flex"
             @click="() => copy(url.href)"
-          />
-          <UButton
-            v-if="isSupported"
-            color="gray"
-            @click="share"
-            trailing-icon="heroicons:arrow-up-right-20-solid"
-            >Bagikan</UButton
           >
+            <span v-if="copied"> Tersalin! </span>
+          </UButton>
         </div>
+        <UButton
+          v-if="isSupported"
+          color="gray"
+          class="flex lg:hidden"
+          @click="share"
+          block
+          trailing-icon="heroicons:arrow-up-right-20-solid"
+          >Bagikan</UButton
+        >
       </div>
 
       <template #footer>
