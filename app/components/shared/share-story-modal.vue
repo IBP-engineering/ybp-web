@@ -1,11 +1,15 @@
 <script setup lang="ts">
+import { useQRCode } from '@vueuse/integrations/useQRCode'
+
 defineProps<{
   title: string
+  author: string
 }>()
 const isOpen = defineModel<boolean>('open')
 
 const url = useRequestURL()
 const { copy, copied } = useClipboard()
+const qrCode = useQRCode(url.href)
 </script>
 
 <template>
@@ -16,11 +20,17 @@ const { copy, copied } = useClipboard()
         divide: 'divide-y divide-gray-100 dark:divide-gray-800',
       }"
     >
-      <template #header>
-        <b>{{ title }}</b>
-      </template>
-
       <div class="w-full p-4">
+        <div class="text-center">
+          <b class="block text-2xl">{{ title }}</b>
+          <p>
+            oleh
+            <span class="border-primary-400 text-primary-900 border-b-4">
+              {{ author }}
+            </span>
+          </p>
+        </div>
+        <img :src="qrCode" class="mx-auto h-64 w-64" />
         <p
           class="mb-2 block w-full border bg-slate-100 p-1 text-center font-mono"
         >
@@ -28,19 +38,25 @@ const { copy, copied } = useClipboard()
         </p>
         <UButton
           variant="outline"
-          trailing-icon="heroicons:clipboard"
-          color="sky"
+          :trailing-icon="
+            copied
+              ? 'heroicons:clipboard-document-check'
+              : 'heroicons:clipboard-document'
+          "
+          color="gray"
           @click="() => copy(url.href)"
           block
         >
-          <span v-if="!copied">Salin link</span>
+          <span v-if="!copied">Salin</span>
           <span v-else>Tersalin!</span>
         </UButton>
       </div>
 
       <template #footer>
         <div class="flex w-full justify-end">
-          <UButton variant="soft" color="gray">Tutup</UButton>
+          <UButton variant="soft" color="gray" @click="isOpen = false"
+            >Tutup</UButton
+          >
         </div>
       </template>
     </UCard>

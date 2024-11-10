@@ -125,7 +125,7 @@ useSeoMeta({
         <UTooltip text="Bagikan cerita">
           <UButton
             @click="shareStory"
-            icon="heroicons:ellipsis-horizontal"
+            icon="ph:share-network"
             variant="soft"
             color="gray"
           />
@@ -226,6 +226,7 @@ useSeoMeta({
     <LazySharedLoginModal v-model:open="openLoginModal" />
     <LazySharedShareStoryModal
       :title="story.title"
+      :author="story.author.display_name"
       v-model:open="openShareModal"
     />
   </div>
