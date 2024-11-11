@@ -6,6 +6,7 @@ const supabase = useSupabaseClient()
 const route = useRoute()
 const toast = useToast()
 const openLoginModal = ref(false)
+const openShareModal = ref(false)
 const slug = route.params.slug
 const authorUsername = route.params.username.toString()
 
@@ -86,6 +87,10 @@ const likeStory = async () => {
   }
 }
 
+const shareStory = () => {
+  openShareModal.value = true
+}
+
 provide(onSuccessLogin, () => {
   openLoginModal.value = false
   toast.add({
@@ -95,7 +100,7 @@ provide(onSuccessLogin, () => {
 })
 
 useSeoMeta({
-  title: `${story.value?.title} @${story.value.author.username}`,
+  title: story.value?.title,
   description: `Cerita berjudul ${story.value.title} dari penulis ${story.value.author.display_name}`,
 })
 </script>
@@ -103,15 +108,27 @@ useSeoMeta({
 <template>
   <div class="mx-auto w-full max-w-screen-xl md:px-4 xl:px-0">
     <div class="mt-12 flex w-full flex-col-reverse gap-4 lg:flex-row">
-      <div class="mt-8 w-24 px-4 md:px-0">
-        <UTooltip text="Sukai cerita ini">
+      <div class="mt-8 flex w-24 items-center gap-2 px-4 md:flex-col md:px-0">
+        <UTooltip text="Sukai cerita">
           <UButton
             @click="likeStory"
             icon="i-heroicons-hand-thumb-up-solid"
-            :variant="isUserHasReacted ? 'solid' : 'outline'"
-            color="primary"
-            >{{ story.reactions.length }}</UButton
+            variant="soft"
+            :color="isUserHasReacted ? 'primary' : 'gray'"
+            class="flex md:flex-col"
           >
+            <span class="block">
+              {{ story.reactions.length }}
+            </span>
+          </UButton>
+        </UTooltip>
+        <UTooltip text="Bagikan cerita">
+          <UButton
+            @click="shareStory"
+            icon="heroicons:share"
+            variant="soft"
+            color="gray"
+          />
         </UTooltip>
       </div>
 
@@ -207,5 +224,10 @@ useSeoMeta({
       </div>
     </div>
     <LazySharedLoginModal v-model:open="openLoginModal" />
+    <LazySharedShareStoryModal
+      :title="story.title"
+      :author="story.author.display_name"
+      v-model:open="openShareModal"
+    />
   </div>
 </template>
