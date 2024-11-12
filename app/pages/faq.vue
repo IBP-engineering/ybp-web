@@ -11,7 +11,7 @@ useSeoMeta({
     <section class="mb-8">
       <h1 class="text-4xl font-bold !leading-relaxed md:text-5xl">FAQ</h1>
       <p class="text-gray-600">
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Facilis, nemo.
+        Menjawab pertanyaan-pertanyaan yang sering muncul dan ditanyakan
       </p>
     </section>
 
@@ -45,16 +45,9 @@ useSeoMeta({
         hubungi kami melalui DM di
         <NuxtLink
           external
-          to="https://instagram.com"
+          to="https://www.instagram.com/yogbookparty"
           class="text-blue-500 underline hover:text-blue-600"
           >Instagram</NuxtLink
-        >
-        atau
-        <NuxtLink
-          external
-          to="https://whatsapp.com"
-          class="text-blue-500 underline hover:text-blue-600"
-          >Whatsapp</NuxtLink
         >!
       </p>
     </div>

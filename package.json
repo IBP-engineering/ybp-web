@@ -15,7 +15,7 @@
     "@nuxt/fonts": "^0.10.2",
     "@nuxt/ui": "^2.19.2",
     "@nuxtjs/seo": "2.0.0-rc.23",
-    "@nuxtjs/supabase": "^1.4.1",
+    "@nuxtjs/supabase": "^1.4.2",
     "@paralleldrive/cuid2": "^2.2.2",
     "@sindresorhus/slugify": "^2.2.1",
     "@tiptap/extension-list-item": "^2.9.1",
