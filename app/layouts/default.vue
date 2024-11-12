@@ -283,24 +283,35 @@ const dropdownItems = [
             <div class="text-gray-600">
               <p class="mb-2 font-medium">PRODUCTS</p>
               <ul class="space-y-2">
-                <li><NuxtLink to="/goodies">Goodies</NuxtLink></li>
+                <li>
+                  <NuxtLink to="/goodies" class="hover:underline"
+                    >Goodies</NuxtLink
+                  >
+                </li>
               </ul>
             </div>
             <div class="text-gray-600">
               <p class="mb-2 font-medium">ACTIVITIES</p>
               <ul class="space-y-2">
-                <li><a href="#" class="">Pekan Membaca</a></li>
-                <li><a href="#" class="">Malam Imajinasi</a></li>
-                <li><a href="#" class="">YBP Berpuisi</a></li>
+                <li><a href="#" class="hover:underline">Book Party</a></li>
+                <li><a href="#" class="hover:underline">Malam Imajinasi</a></li>
+                <li><a href="#" class="hover:underline">Sports Club</a></li>
+                <li><a href="#" class="hover:underline">Reading Habits</a></li>
               </ul>
             </div>
             <div class="text-gray-600">
               <p class="mb-2 font-medium">ORGANIZATION</p>
               <ul class="space-y-2">
-                <li><NuxtLink to="/#about-us">About Us</NuxtLink></li>
-                <li><NuxtLink to="/faq">FAQ</NuxtLink></li>
-                <li><a href="#" class="">Collaboration</a></li>
-                <li><a href="#" class="">Donation</a></li>
+                <li>
+                  <NuxtLink to="/#about-us" class="hover:underline"
+                    >About Us</NuxtLink
+                  >
+                </li>
+                <li>
+                  <NuxtLink to="/faq" class="hover:underline">FAQ</NuxtLink>
+                </li>
+                <li><a href="#" class="hover:underline">Collaboration</a></li>
+                <li><a href="#" class="hover:underline">Donation</a></li>
               </ul>
             </div>
           </div>
