@@ -5,7 +5,7 @@ useHead({
 
 const activities = [
   {
-    title: 'Pekan Membaca',
+    title: 'Book Party',
     desc: 'The seed determines the initial value for the built-in PRNG.',
     icon: 'heroicons:book-open',
   },
@@ -33,6 +33,11 @@ const activities = [
     title: 'YBP Fomo',
     desc: 'The seed determines the initial value for the built-in PRNG.',
     icon: 'ph:rocket-launch',
+  },
+  {
+    title: 'Reading Habits',
+    desc: 'The seed determines the initial value for the built-in PRNG.',
+    icon: 'ph:cactus',
   },
 ]
 const supabase = useSupabaseClient()
@@ -123,7 +128,7 @@ const storiesFiltered = computed(() => {
           v-for="act in activities"
           :key="act.title"
           to="#"
-          class="hover:ring-primary-500 group relative flex h-full flex-1 flex-col gap-x-8 gap-y-4 rounded-xl border border-gray-300 bg-white bg-gradient-to-b from-gray-50/50 to-gray-200/50 p-4 px-4 py-5 shadow ring-1 ring-gray-200 transition duration-150 hover:bg-gray-100/50 hover:ring-2 sm:p-6"
+          class="hover:ring-primary-500 group relative flex h-full flex-1 flex-col gap-x-8 gap-y-4 rounded-xl border border-gray-300 bg-white bg-gradient-to-b from-gray-50/50 to-gray-200/50 p-4 px-4 py-5 shadow ring-1 ring-gray-200 transition duration-150 hover:bg-gray-100/50 hover:ring-2 sm:p-6 last:md:col-span-2 last:lg:col-span-3"
         >
           <UIcon :name="act.icon" class="text-primary-500 h-12 w-12" />
           <b
