@@ -6,37 +6,37 @@ useHead({
 const activities = [
   {
     title: 'Book Party',
-    desc: 'The seed determines the initial value for the built-in PRNG.',
+    desc: 'Bookparty adalah kegiatan membaca buku di tempat umum yang di agendakan setiap weekend oleh YBP. Kegiatan ini bertujuan untuk menampung teman-teman yang sedang bingung ingin membaca buku dimana dan dengan siapa.',
     icon: 'heroicons:book-open',
   },
   {
-    title: 'YBP Berpuisi',
-    desc: 'The seed determines the initial value for the built-in PRNG.',
+    title: 'Deklamasi Puisi',
+    desc: 'Agenda yang diagendakan pada malam hari dengan acara membaca puisi. Entah puisi yang sudah pernah dituliskan atau puisi ciptaan sendiri. Agenda ini bertujuan untuk mengasah kreatifitas dan kepercayaan diri bookmates.',
     icon: 'heroicons:chat-bubble-left-ellipsis',
   },
   {
     title: 'Sports Club',
-    desc: 'The seed determines the initial value for the built-in PRNG.',
+    desc: 'Selain mengisi otak dengan Bacaan yang bermanfaat, fisik juga harus dijaga. Agenda ini bertujuan untuk bookmates yang ingin berolahraga namun tidak ada teman.',
     icon: 'ph:soccer-ball',
   },
   {
     title: 'Malam Imajinasi',
-    desc: 'The seed determines the initial value for the built-in PRNG.',
+    desc: 'Adalah event online yang dilakukan YBP untuk bookmates yang sedang overthingking dan insomnia. Dipandu oleh mentor psikologi yang berpengalaman, diharapkan agenda ini mampu mengurangi beban pikiran bookmates.',
     icon: 'ph:cloud-moon',
   },
   {
     title: 'YBP Collab',
-    desc: 'The seed determines the initial value for the built-in PRNG.',
+    desc: 'Adalah salah satu cara YBP untuk membuka kerjasama dengan semua pihak dari berbagai kalangan di masyarakat. Bertujuan untuk memperluas lagi jaringan persahabatan antar komunitas.',
     icon: 'ph:handshake',
   },
   {
     title: 'YBP Fomo',
-    desc: 'The seed determines the initial value for the built-in PRNG.',
+    desc: 'Adalah sebuah kegiatan bookparty yang dilakukan di tempat publik yang tidak biasanya, contohnya di KRL. Bertujuan untuk memperluas jaringan literasi di masyarakat.',
     icon: 'ph:rocket-launch',
   },
   {
     title: 'Reading Habits',
-    desc: 'The seed determines the initial value for the built-in PRNG.',
+    desc: 'Challenge yang diselenggarakan bookparty untuk kegiatan baca buku rutin setiap harinya, dengan doorprize menarik untuk pemenang challenge nya.',
     icon: 'ph:cactus',
   },
 ]
