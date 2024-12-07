@@ -168,8 +168,8 @@ const submitStory = async () => {
   }
 }
 
-const previewImage = (event: any) => {
-  const file = event.target.files[0] as File
+const previewImage = (event: Event & { target: { files: File[] } }) => {
+  const file = event.target.files[0]
   if (!file) {
     return
   }
@@ -225,16 +225,16 @@ const removeImageCover = () => {
         <div class="flex items-start gap-4">
           <UButton
             variant="outline"
-            @click="showFileUploader"
             icon="i-ph:image-square"
+            @click="showFileUploader"
           >
             {{ Boolean(previewImageUrl) ? 'Ubah' : 'Unggah sampul' }}
           </UButton>
           <UButton
             v-if="Boolean(previewImageUrl)"
-            @click="removeImageCover"
             variant="soft"
             color="red"
+            @click="removeImageCover"
             >Hapus
           </UButton>
         </div>
@@ -247,14 +247,14 @@ const removeImageCover = () => {
         @change="previewImage"
       />
       <UInput
+        v-model="form.title"
         placeholder="Judulnyaaa"
         variant="none"
         color="gray"
         padded
         input-class="mb-2 font-bold text-4xl"
-        v-model="form.title"
-        @focus="showTags = false"
         required
+        @focus="showTags = false"
       />
       <div class="mb-4 flex w-full items-center gap-2">
         <UButton
@@ -285,8 +285,8 @@ const removeImageCover = () => {
         <div v-for="tag in tagsOrigin" :key="tag.id">
           <button
             v-if="!tag.alreadySelect"
-            @click="() => selectTag(tag)"
             class="flex w-full flex-col items-start p-2 text-start transition hover:bg-gray-100"
+            @click="() => selectTag(tag)"
           >
             <p>#{{ tag.slug }}</p>
             <small class="text-gray-600">{{ tag.description }}</small>
