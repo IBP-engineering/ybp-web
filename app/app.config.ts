@@ -1,3 +1,53 @@
 export default defineAppConfig({
   appVersion: '0.1-beta',
+  socials: [
+    {
+      id: 'wa',
+      link: '#',
+      label: 'Grup Whatsapp',
+      title: 'YBP Whatsapp group',
+      logoFill: 'ph:whatsapp-logo-fill',
+      logo: 'ph:whatsapp-logo',
+      theme: 'border-green-300 bg-green-200 hover:bg-green-100 text-green-900',
+    },
+    {
+      id: 'ig',
+      link: 'https://www.instagram.com/yogbookparty',
+      label: 'Ikuti di Instagram',
+      title: 'YBP Instagram page',
+      logoFill: 'ph:instagram-logo-fill',
+      logo: 'ph:instagram-logo',
+      theme:
+        'border-fuchsia-300 bg-fuchsia-200 hover:bg-fuchsia-100 text-fuchsia-900',
+    },
+    {
+      id: 'x',
+      link: 'https://x.com/yogyabookparty',
+      label: 'Ikuti di X',
+      title: 'YBP X page',
+      logoFill: 'ph:x-logo-fill',
+      logo: 'ph:x-logo',
+      theme: 'border-sky-300 bg-sky-200 hover:bg-sky-100 text-sky-900',
+    },
+    {
+      id: 'sp',
+      link: 'https://open.spotify.com/show/7eKH6ulaGTnGB6ZMCy1pbS',
+      label: 'YBP Malam Imajinasi',
+      title: 'YBP Spotify page',
+      logoFill: 'ph:spotify-logo-fill',
+      logo: 'ph:spotify-logo',
+      theme:
+        'border-emerald-300 bg-emerald-200 hover:bg-emerald-100 text-emerald-900',
+    },
+    {
+      id: 'dc',
+      link: 'https://discord.com/invite/V4G7Byd9Z4',
+      label: 'Server Indonesia Book Party',
+      title: 'IBP Discord server',
+      logoFill: 'ph:discord-logo-fill',
+      logo: 'ph:discord-logo',
+      theme:
+        'border-indigo-300 bg-indigo-200 hover:bg-indigo-100 text-indigo-900',
+    },
+  ],
 })
