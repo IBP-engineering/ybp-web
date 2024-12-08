@@ -6,6 +6,8 @@ useHead({
     lang: 'id',
   },
 })
+
+const { socials } = useAppConfig()
 const user = useSupabaseUser()
 const supabase = useSupabaseClient()
 const toast = useToast()
@@ -308,14 +310,22 @@ const dropdownItems = [
           </div>
         </div>
       </div>
-      <div class="mt-20 flex items-center justify-between">
-        <div class="flex">
-          <NuxtLink title="to YBP Instagram" to="#" external>
-            <UIcon name="i-ph:instagram-logo" class="h-6 w-6" />
+      <div
+        class="mt-20 flex flex-col items-center justify-between text-gray-600 md:flex-row"
+      >
+        <div class="flex gap-1">
+          <NuxtLink
+            v-for="social in socials"
+            :key="social.id"
+            :title="social.title"
+            :to="social.link"
+            external
+          >
+            <UIcon :name="social.logo" class="h-6 w-6" />
           </NuxtLink>
         </div>
         <div class="flex">
-          <p class="font-medium text-gray-600">© 2024 Yogyakarta Book Party</p>
+          <p class="font-medium">© 2024 Yogyakarta Book Party</p>
         </div>
       </div>
     </footer>
