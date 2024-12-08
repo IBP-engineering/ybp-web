@@ -68,14 +68,7 @@ const storiesFiltered = computed(() => {
       </div>
     </div>
 
-    <div class="px-4 py-32 md:px-0">
-      <GalleryMarquee />
-      <h2
-        class="mt-4 text-center text-lg font-medium leading-8 text-gray-900 dark:text-white"
-      >
-        Lebih dari 300+ orang telah ikut berpartisipasi
-      </h2>
-    </div>
+    <HeroGallery />
 
     <OurAgenda />
 
