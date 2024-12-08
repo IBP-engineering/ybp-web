@@ -167,12 +167,12 @@ const dropdownItems = [
             >
             <nav class="mb-8 mt-4 flex flex-col gap-1">
               <UButton
+                v-for="link in navlinks"
+                :key="link.to"
                 size="lg"
                 variant="link"
-                v-for="link in navlinks"
                 color="gray"
                 trailing-icon="heroicons:arrow-small-right-20-solid"
-                :key="link.to"
                 :to="link.to"
                 >{{ link.label }}</UButton
               >
@@ -196,8 +196,8 @@ const dropdownItems = [
                       color="white"
                       block
                       icon="heroicons:home"
-                      @click="openNavModal = false"
                       to="/dashboard"
+                      @click="openNavModal = false"
                     >
                       Dashboard
                     </UButton>
@@ -206,9 +206,9 @@ const dropdownItems = [
                     <UButton
                       color="white"
                       block
-                      @click="openNavModal = false"
                       icon="heroicons:plus"
                       to="/new"
+                      @click="openNavModal = false"
                     >
                       New story
                     </UButton>
@@ -217,9 +217,9 @@ const dropdownItems = [
                     <UButton
                       color="white"
                       block
-                      @click="openNavModal = false"
                       icon="heroicons:sparkles"
                       to="/settings"
+                      @click="openNavModal = false"
                     >
                       Settings
                     </UButton>
@@ -278,25 +278,16 @@ const dropdownItems = [
         </div>
         <div class="col-span-2">
           <div
-            class="grid grid-cols-2 justify-items-stretch gap-4 lg:grid-cols-3 lg:justify-items-end"
+            class="grid grid-cols-2 justify-items-stretch gap-4 md:grid-cols-3 md:justify-items-end"
           >
-            <div class="text-gray-600">
+            <div class="text-gray-600 md:col-span-2">
               <p class="mb-2 font-medium">PRODUCTS</p>
               <ul class="space-y-2">
                 <li>
                   <NuxtLink to="/goodies" class="hover:underline"
-                    >Goodies</NuxtLink
+                    >Goodies (coming soon)</NuxtLink
                   >
                 </li>
-              </ul>
-            </div>
-            <div class="text-gray-600">
-              <p class="mb-2 font-medium">ACTIVITIES</p>
-              <ul class="space-y-2">
-                <li><a href="#" class="hover:underline">Book Party</a></li>
-                <li><a href="#" class="hover:underline">Malam Imajinasi</a></li>
-                <li><a href="#" class="hover:underline">Sports Club</a></li>
-                <li><a href="#" class="hover:underline">Reading Habits</a></li>
               </ul>
             </div>
             <div class="text-gray-600">
