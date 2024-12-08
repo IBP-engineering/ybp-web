@@ -68,9 +68,7 @@ const storiesFiltered = computed(() => {
       </div>
     </div>
 
-    <div class="px-4 py-32 md:px-0">
-      <HeroGallery />
-    </div>
+    <HeroGallery />
 
     <OurAgenda />
 
