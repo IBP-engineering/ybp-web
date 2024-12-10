@@ -1,4 +1,5 @@
 <script setup lang="ts">
+defineOgImageComponent('NuxtSeo')
 useSeoMeta({
   title: 'FAQ',
   description:

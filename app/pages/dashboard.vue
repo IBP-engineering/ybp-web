@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { Database } from '~/types/database.types'
 
+defineOgImageComponent('NuxtSeo')
 definePageMeta({
   middleware: 'need-auth',
 })
@@ -156,41 +157,41 @@ watch(
     <div class="mt-8 flex w-full gap-8">
       <aside class="mt-8 hidden w-[300px] flex-col md:flex">
         <UButton
-          @click="filterStatus = 'all'"
           :variant="filterStatus === 'all' ? 'solid' : 'ghost'"
           class="flex justify-between"
           size="lg"
           color="gray"
+          @click="filterStatus = 'all'"
         >
           <span>Stories</span>
           <span>{{ filterCount.all }}</span>
         </UButton>
         <UButton
-          @click="filterStatus = 'pending'"
           :variant="filterStatus === 'pending' ? 'solid' : 'ghost'"
           class="flex justify-between"
           size="lg"
           color="gray"
+          @click="filterStatus = 'pending'"
         >
           <span>Pending</span>
           <span>{{ filterCount.pending }}</span>
         </UButton>
         <UButton
-          @click="filterStatus = 'approved'"
           :variant="filterStatus === 'approved' ? 'solid' : 'ghost'"
           class="flex justify-between"
           size="lg"
           color="gray"
+          @click="filterStatus = 'approved'"
         >
           <span>Approved</span>
           <span>{{ filterCount.approved }}</span>
         </UButton>
         <UButton
-          @click="filterStatus = 'rejected'"
           :variant="filterStatus === 'rejected' ? 'solid' : 'ghost'"
           class="flex justify-between"
           size="lg"
           color="gray"
+          @click="filterStatus = 'rejected'"
         >
           <span>Rejected</span>
           <span>{{ filterCount.rejected }}</span>
@@ -199,7 +200,7 @@ watch(
 
       <div class="w-full">
         <h2 class="font-bold">Stories</h2>
-        <p class="mt-4" v-if="stories.length === 0">
+        <p v-if="stories.length === 0" class="mt-4">
           Belum ada Cerita yang ditambahkan
         </p>
         <div
@@ -232,7 +233,7 @@ watch(
 
         <template #footer>
           <div class="flex justify-end">
-            <UButton @click="isOpenStatus = false" color="gray" variant="soft"
+            <UButton color="gray" variant="soft" @click="isOpenStatus = false"
               >Tutup</UButton
             >
           </div>

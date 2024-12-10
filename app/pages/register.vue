@@ -18,6 +18,7 @@ import {
   emailValidator,
 } from '~/utils/validator'
 
+defineOgImageComponent('NuxtSeo')
 definePageMeta({
   layout: 'auth',
 })
@@ -139,8 +140,8 @@ async function register(event: FormSubmitEvent<Schema>) {
         <UForm
           :schema="safeParser(schema)"
           :state="state"
-          @submit="register"
           class="flex w-full flex-col gap-5"
+          @submit="register"
         >
           <UFormGroup required label="Nama" name="displayName">
             <UInput

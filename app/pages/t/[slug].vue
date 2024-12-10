@@ -1,4 +1,5 @@
 <script setup lang="ts">
+defineOgImageComponent('NuxtSeo')
 const supabase = useSupabaseClient()
 const route = useRoute()
 const { slug } = route.params
@@ -44,7 +45,7 @@ const { data: stories } = await useAsyncData(
 )
 
 const storiesFiltered = computed(() => {
-  // @ts-ignore
+  // @ts-expect-error give proper types later
   const mappedStories = mapStoryTag(stories.value)
 
   return mappedStories.filter(story =>
@@ -73,9 +74,9 @@ useSeoMeta({
     >
       <StoryCard
         v-for="story in storiesFiltered"
+        :key="story.id"
         :story="story"
         :author="story.author"
-        :key="story.id"
       />
     </div>
     <p v-else class="mt-8 text-center">Belum ada cerita yang ditambahkan</p>
