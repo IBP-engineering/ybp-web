@@ -2,6 +2,10 @@
 export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
   devtools: { enabled: true },
+  routeRules: {
+    '/faq': { prerender: true },
+    '/goodies': { prerender: true },
+  },
   modules: [
     '@nuxt/ui',
     '@nuxt/eslint',
@@ -47,12 +51,6 @@ export default defineNuxtConfig({
       type: 'Organization',
       name: 'Yogyakarta Book Party',
       logo: '/logo.jpg',
-    },
-  },
-  nitro: {
-    prerender: {
-      crawlLinks: true,
-      routes: ['/faq', '/goodies'],
     },
   },
   ogImage: {
