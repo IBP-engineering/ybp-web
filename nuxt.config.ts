@@ -33,7 +33,7 @@ export default defineNuxtConfig({
     },
   },
   site: {
-    url: 'https://ybp-web.netlify.app',
+    url: 'https://yogyakarta.bookparty.id',
     name: 'Yogyakarta Book Party',
     locale: 'id',
     description:
@@ -48,5 +48,14 @@ export default defineNuxtConfig({
       name: 'Yogyakarta Book Party',
       logo: '/logo.jpg',
     },
+  },
+  nitro: {
+    prerender: {
+      crawlLinks: true,
+      routes: ['/faq', '/goodies'],
+    },
+  },
+  ogImage: {
+    zeroRuntime: true,
   },
 })
