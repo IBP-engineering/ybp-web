@@ -1,4 +1,5 @@
 <script setup lang="ts">
+defineOgImageComponent('default')
 useSeoMeta({
   title: 'Kumpulan cerita',
   description:
@@ -29,7 +30,7 @@ const { data: stories } = await useAsyncData('stories/all', async () => {
 })
 
 const storiesFiltered = computed(() => {
-  // @ts-ignore
+  // @ts-expect-error move forward for now
   return mapStoryTag(stories.value)
 })
 </script>

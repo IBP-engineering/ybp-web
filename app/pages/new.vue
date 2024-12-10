@@ -2,6 +2,7 @@
 import type { Database } from '~/types/database.types'
 import type { Tag, User } from '~/types/entities'
 
+defineOgImageComponent('default')
 definePageMeta({
   middleware: 'need-auth',
 })

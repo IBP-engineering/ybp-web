@@ -1,4 +1,5 @@
 <script setup lang="ts">
+defineOgImageComponent('default')
 useSeoMeta({
   title: 'Official Goodies from YBP & IBP',
   description:
@@ -7,7 +8,7 @@ useSeoMeta({
 </script>
 
 <template>
-  <div class="mx-auto w-full max-w-7xl px-4 md:px-0">
+  <div class="container mx-auto px-4 md:px-0">
     <section class="text-center">
       <h1 class="text-4xl font-bold !leading-relaxed md:text-5xl">
         Coming Soon...

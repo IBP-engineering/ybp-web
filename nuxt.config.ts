@@ -2,6 +2,10 @@
 export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
   devtools: { enabled: true },
+  routeRules: {
+    '/faq': { prerender: true },
+    '/goodies': { prerender: true },
+  },
   modules: [
     '@nuxt/ui',
     '@nuxt/eslint',
@@ -33,7 +37,7 @@ export default defineNuxtConfig({
     },
   },
   site: {
-    url: 'https://ybp-web.netlify.app',
+    url: 'https://yogyakarta.bookparty.id',
     name: 'Yogyakarta Book Party',
     locale: 'id',
     description:
@@ -48,5 +52,8 @@ export default defineNuxtConfig({
       name: 'Yogyakarta Book Party',
       logo: '/logo.jpg',
     },
+  },
+  ogImage: {
+    zeroRuntime: true,
   },
 })

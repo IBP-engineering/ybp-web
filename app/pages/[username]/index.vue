@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { format } from '@formkit/tempo'
 
+defineOgImageComponent('default')
+
 const route = useRoute()
 const supabase = useSupabaseClient()
 const username = route.params.username
@@ -48,7 +50,7 @@ const { data: stories } = await useAsyncData(
 )
 
 const storiesFiltered = computed(() => {
-  // @ts-ignore
+  // @ts-expect-error give proper types
   return mapStoryTag(stories.value)
 })
 
@@ -87,15 +89,15 @@ useSeoMeta({
     </div>
 
     <div class="mt-4">
-      <div class="space-y-2" v-if="storiesFiltered?.length > 0">
+      <div v-if="storiesFiltered?.length > 0" class="space-y-2">
         <StoryCard
           v-for="story in storiesFiltered"
+          :key="story.id"
           :story="story"
           :author="user"
-          :key="story.id"
         />
       </div>
-      <div class="text-center font-medium" v-else>
+      <div v-else class="text-center font-medium">
         <p>Pengguna belum menambahkan cerita</p>
         <UIcon name="heroicons:flag-solid" />
       </div>

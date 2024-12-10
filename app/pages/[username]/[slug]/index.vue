@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import { format } from '@formkit/tempo'
 
+defineOgImageComponent('default')
+
 const user = useSupabaseUser()
 const supabase = useSupabaseClient()
 const route = useRoute()
@@ -38,7 +40,9 @@ const { data: story, refresh } = await useAsyncData(
     return {
       ...data,
       cover_path: coverWithPath,
-      tags: data.tags.map(tag => (tag.tag as any).slug as string),
+      tags: data.tags.map(
+        tag => (tag.tag as unknown as { slug: string }).slug as string,
+      ),
     }
   },
 )
@@ -111,11 +115,11 @@ useSeoMeta({
       <div class="mt-8 flex w-24 items-center gap-2 px-4 md:flex-col md:px-0">
         <UTooltip text="Sukai cerita">
           <UButton
-            @click="likeStory"
             icon="i-heroicons-hand-thumb-up-solid"
             variant="soft"
             :color="isUserHasReacted ? 'primary' : 'gray'"
             class="flex md:flex-col"
+            @click="likeStory"
           >
             <span class="block">
               {{ story.reactions.length }}
@@ -124,10 +128,10 @@ useSeoMeta({
         </UTooltip>
         <UTooltip text="Bagikan cerita">
           <UButton
-            @click="shareStory"
             icon="heroicons:share"
             variant="soft"
             color="gray"
+            @click="shareStory"
           />
         </UTooltip>
       </div>
@@ -185,7 +189,7 @@ useSeoMeta({
             {{ story.title }}
           </h1>
           <div class="mt-2">
-            <StoryTag v-for="tag in story.tags" :tag="tag" :key="tag" />
+            <StoryTag v-for="tag in story.tags" :key="tag" :tag="tag" />
           </div>
 
           <div class="prose mt-8" v-html="story.content" />
@@ -225,9 +229,9 @@ useSeoMeta({
     </div>
     <LazySharedLoginModal v-model:open="openLoginModal" />
     <LazySharedShareStoryModal
+      v-model:open="openShareModal"
       :title="story.title"
       :author="story.author.display_name"
-      v-model:open="openShareModal"
     />
   </div>
 </template>

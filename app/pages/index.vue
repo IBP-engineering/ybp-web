@@ -1,4 +1,5 @@
 <script setup lang="ts">
+defineOgImageComponent('default')
 useHead({
   title: 'Home',
 })

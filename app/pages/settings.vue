@@ -3,6 +3,7 @@ import * as v from 'valibot'
 import type { Form, FormSubmitEvent } from '#ui/types'
 import type { Database } from '~/types/database.types'
 
+defineOgImageComponent('default')
 definePageMeta({
   middleware: 'need-auth',
 })
@@ -149,8 +150,8 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
           ref="form"
           :schema="v.safeParser(schema)"
           :state="state"
-          @submit="onSubmit"
           class="space-y-4"
+          @submit="onSubmit"
         >
           <UFormGroup label="Name" name="name" required>
             <UInput v-model="state.displayName" />
