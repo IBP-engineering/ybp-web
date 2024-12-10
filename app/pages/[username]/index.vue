@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { format } from '@formkit/tempo'
 
-defineOgImageComponent('NuxtSeo')
+defineOgImageComponent('default')
 
 const route = useRoute()
 const supabase = useSupabaseClient()

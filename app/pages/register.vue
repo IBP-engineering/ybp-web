@@ -18,7 +18,7 @@ import {
   emailValidator,
 } from '~/utils/validator'
 
-defineOgImageComponent('NuxtSeo')
+defineOgImageComponent('default')
 definePageMeta({
   layout: 'auth',
 })

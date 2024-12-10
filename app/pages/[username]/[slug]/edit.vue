@@ -2,7 +2,7 @@
 import type { Database } from '~/types/database.types'
 import type { Tag } from '~/types/entities'
 
-defineOgImageComponent('NuxtSeo')
+defineOgImageComponent('default')
 definePageMeta({
   middleware: 'need-auth',
 })

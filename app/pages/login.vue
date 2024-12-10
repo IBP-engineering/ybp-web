@@ -1,5 +1,5 @@
 <script setup lang="ts">
-defineOgImageComponent('NuxtSeo')
+defineOgImageComponent('default')
 definePageMeta({
   layout: 'auth',
 })

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-defineOgImageComponent('NuxtSeo')
+defineOgImageComponent('default')
 useSeoMeta({
   title: 'Official Goodies from YBP & IBP',
   description:

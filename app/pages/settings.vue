@@ -3,7 +3,7 @@ import * as v from 'valibot'
 import type { Form, FormSubmitEvent } from '#ui/types'
 import type { Database } from '~/types/database.types'
 
-defineOgImageComponent('NuxtSeo')
+defineOgImageComponent('default')
 definePageMeta({
   middleware: 'need-auth',
 })

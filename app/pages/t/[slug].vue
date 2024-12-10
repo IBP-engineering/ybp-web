@@ -1,5 +1,5 @@
 <script setup lang="ts">
-defineOgImageComponent('NuxtSeo')
+defineOgImageComponent('default')
 const supabase = useSupabaseClient()
 const route = useRoute()
 const { slug } = route.params

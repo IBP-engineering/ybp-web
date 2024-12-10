@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { Database } from '~/types/database.types'
 
-defineOgImageComponent('NuxtSeo')
+defineOgImageComponent('default')
 definePageMeta({
   middleware: 'need-auth',
 })
