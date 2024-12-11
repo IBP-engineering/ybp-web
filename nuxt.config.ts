@@ -53,7 +53,4 @@ export default defineNuxtConfig({
       logo: '/logo.jpg',
     },
   },
-  ogImage: {
-    zeroRuntime: true,
-  },
 })
