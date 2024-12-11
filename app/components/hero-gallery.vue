@@ -14,11 +14,12 @@ const markImages = Array.from({ length: 5 }).map(
         :key="path"
         class="w-[220px] flex-shrink-0 py-3 odd:-rotate-3 even:rotate-3 lg:w-auto"
       >
-        <img
+        <NuxtImg
           :src="path"
           alt="Momen di YBP"
           width="380"
           height="270"
+          loading="lazy"
           class="bg-primary-200 rounded-lg"
         />
       </li>
