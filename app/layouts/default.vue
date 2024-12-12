@@ -125,7 +125,7 @@ const dropdownItems = [
           </ul>
         </div>
 
-        <UDropdown
+        <LazyUDropdown
           v-if="userData"
           :items="dropdownItems"
           :popper="{ placement: 'bottom-start' }"
@@ -139,7 +139,7 @@ const dropdownItems = [
               alt="Avatar"
             />
           </UButton>
-        </UDropdown>
+        </LazyUDropdown>
         <UButton
           v-else
           class="hidden md:flex"
@@ -157,7 +157,7 @@ const dropdownItems = [
           color="gray"
           @click="openNavModal = true"
         />
-        <USlideover v-model="openNavModal">
+        <LazyUSlideover v-model="openNavModal">
           <div class="p-4">
             <UButton
               icon="i-heroicons-x-mark"
@@ -245,7 +245,7 @@ const dropdownItems = [
               >Join Now</UButton
             >
           </div>
-        </USlideover>
+        </LazyUSlideover>
       </div>
     </nav>
 
