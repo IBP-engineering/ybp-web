@@ -2,6 +2,9 @@
 export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
   devtools: { enabled: true },
+  image: {
+    format: ['avif', 'webp'],
+  },
   routeRules: {
     '/faq': { prerender: true },
     '/goodies': { prerender: true },
@@ -13,6 +16,7 @@ export default defineNuxtConfig({
     '@nuxtjs/supabase',
     '@vueuse/nuxt',
     '@nuxtjs/seo',
+    '@nuxt/image',
   ],
   future: {
     compatibilityVersion: 4,
@@ -54,3 +58,4 @@ export default defineNuxtConfig({
     },
   },
 })
+

@@ -38,7 +38,7 @@ const { share, isSupported } = useShare({
         <img :src="qrCode" class="mx-auto h-64 w-64" />
         <div class="group relative w-full">
           <p
-            class="mb-2 block w-full border bg-slate-100 p-1 text-center font-mono transition group-hover:text-gray-500"
+            class="mb-2 block w-full break-words border bg-slate-100 p-1 text-center font-mono transition group-hover:text-gray-500"
           >
             {{ url.href }}
           </p>
@@ -60,9 +60,9 @@ const { share, isSupported } = useShare({
           v-if="isSupported"
           color="gray"
           class="flex lg:hidden"
-          @click="share"
           block
           trailing-icon="heroicons:arrow-up-right-20-solid"
+          @click="share"
           >Bagikan</UButton
         >
       </div>

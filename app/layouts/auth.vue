@@ -1,3 +1,11 @@
+<script setup lang="ts">
+useHead({
+  htmlAttrs: {
+    lang: 'id',
+  },
+})
+</script>
+
 <template>
   <div class="flex h-full w-full flex-auto flex-col bg-gray-100 font-sans">
     <slot />

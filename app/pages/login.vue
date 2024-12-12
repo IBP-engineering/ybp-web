@@ -14,10 +14,8 @@ useSeoMeta({
   <div class="relative flex h-full w-full justify-center">
     <div class="mx-auto mt-[10rem] flex w-full flex-col px-6 md:px-0">
       <div>
-        <img
-          src="~/assets/images/logo.jpg"
-          decoding="async"
-          loading="lazy"
+        <NuxtImg
+          src="/assets/logo.jpg"
           width="150"
           height="150"
           class="z-20 mx-auto rounded-full border"

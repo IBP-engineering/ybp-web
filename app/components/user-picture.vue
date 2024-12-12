@@ -16,5 +16,7 @@ withDefaults(
     class="rounded-full border-2 border-gray-300 bg-gray-50"
     width="110"
     height="110"
+    loading="lazy"
+    decoding="async"
   />
 </template>
