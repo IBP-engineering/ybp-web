@@ -155,6 +155,7 @@ const dropdownItems = [
           size="lg"
           class="flex md:hidden"
           color="gray"
+          aria-label="Menu button"
           @click="openNavModal = true"
         />
         <LazyUSlideover v-model="openNavModal">
