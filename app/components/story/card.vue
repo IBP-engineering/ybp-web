@@ -10,7 +10,7 @@ defineProps<{
 
 <template>
   <div
-    class="rounded border border-gray-300 bg-white p-4 hover:border-gray-400"
+    class="rounded border border-gray-300 bg-gray-50 p-4 hover:border-gray-400"
   >
     <NuxtLink
       :to="`/${author.username}`"

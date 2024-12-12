@@ -72,7 +72,7 @@ const storiesFiltered = computed(() => {
       </div>
     </div>
 
-    <HeroGallery />
+    <LazyHeroGallery />
 
     <OurAgenda />
 
@@ -121,11 +121,11 @@ const storiesFiltered = computed(() => {
         </div>
         <div class="order-first lg:order-last">
           <img
-            src="https://picsum.photos/1600/900"
-            alt="Tentang Kami"
-            class="w-full rounded-lg"
-            width="500"
-            height="600"
+            src="https://placehold.co/1600x1200/000000/FFFFFF.webp"
+            alt="Foto pengurus dan supporter dari YBP"
+            class="bg-primary-100 w-full rounded-lg"
+            width="1600"
+            height="1200"
             loading="lazy"
             decoding="async"
           />
