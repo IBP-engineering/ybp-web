@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const markImages = Array.from({ length: 5 }).map(
-  (_, i) => `/marquee/${i + 1}.webp`,
+  (_, i) => `/assets/gallery/hero/${i + 1}.jpg`,
 )
 </script>
 
