@@ -131,6 +131,7 @@ useSeoMeta({
             icon="heroicons:share"
             variant="soft"
             color="gray"
+            aria-label="Button to share this article"
             @click="shareStory"
           />
         </UTooltip>
