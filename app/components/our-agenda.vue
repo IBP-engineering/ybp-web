@@ -55,7 +55,7 @@ const activitiesSpan = ['md:col-span-1', 'md:col-span-2', 'md:col-span-3']
       id="activities"
       class="text-center text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl lg:text-5xl dark:text-white"
     >
-      Agenda Kami <br /><span class="text-primary-500">Yang Paling Seru</span>
+      Agenda Kami <br /><span class="text-primary-600">Yang Paling Seru</span>
     </h2>
     <div class="grid grid-cols-1 gap-8 md:grid-cols-3">
       <div

@@ -13,6 +13,7 @@
     "@formkit/tempo": "^0.1.2",
     "@node-rs/argon2": "^2.0.2",
     "@nuxt/fonts": "^0.10.3",
+    "@nuxt/image": "1.8.1",
     "@nuxt/ui": "^2.20.0",
     "@nuxtjs/seo": "2.0.2",
     "@nuxtjs/supabase": "^1.4.4",
@@ -29,8 +30,7 @@
     "qrcode": "^1.5.4",
     "tailwind-merge": "^2.5.5",
     "vue": "^3.5.13",
-    "vue-router": "^4.5.0",
-    "vue3-marquee": "^4.2.2"
+    "vue-router": "^4.5.0"
   },
   "packageManager": "pnpm@9.6.0+sha512.38dc6fba8dba35b39340b9700112c2fe1e12f10b17134715a4aa98ccf7bb035e76fd981cf0bb384dfa98f8d6af5481c2bef2f4266a24bfa20c34eb7147ce0b5e",
   "devDependencies": {

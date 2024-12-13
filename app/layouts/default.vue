@@ -92,10 +92,10 @@ const dropdownItems = [
 
 <template>
   <div
-    class="relative flex min-h-full w-full flex-auto flex-col overflow-hidden bg-gray-50 font-sans"
+    class="relative flex min-h-full w-full flex-auto flex-col overflow-hidden font-sans"
   >
-    <img
-      src="~/assets/images/main-bg-blur.svg"
+    <NuxtImg
+      src="/assets/main-bg-blur.svg"
       width="300"
       height="300"
       class="absolute -left-48 top-0 z-[4] w-full md:-top-20 md:left-0"
@@ -105,11 +105,11 @@ const dropdownItems = [
       <div class="container mx-auto flex items-center justify-between">
         <div class="flex items-center">
           <NuxtLink to="/" title="To home page">
-            <img
-              src="~/assets/images/logo.jpg"
-              width="50"
-              height="50"
-              class="h-full w-14 rounded-full border"
+            <NuxtImg
+              src="/assets/logo.jpg"
+              width="55"
+              height="55"
+              class="rounded-full border"
               alt="YBP Logo"
             />
           </NuxtLink>
@@ -125,7 +125,7 @@ const dropdownItems = [
           </ul>
         </div>
 
-        <UDropdown
+        <LazyUDropdown
           v-if="userData"
           :items="dropdownItems"
           :popper="{ placement: 'bottom-start' }"
@@ -139,7 +139,7 @@ const dropdownItems = [
               alt="Avatar"
             />
           </UButton>
-        </UDropdown>
+        </LazyUDropdown>
         <UButton
           v-else
           class="hidden md:flex"
@@ -153,17 +153,19 @@ const dropdownItems = [
           square
           variant="ghost"
           size="lg"
-          class="sm:flex md:hidden"
+          class="flex md:hidden"
           color="gray"
+          aria-label="Menu button"
           @click="openNavModal = true"
         />
-        <USlideover v-model="openNavModal">
+        <LazyUSlideover v-model="openNavModal">
           <div class="p-4">
             <UButton
               icon="i-heroicons-x-mark"
               variant="ghost"
               color="gray"
               size="lg"
+              aria-label="Button to close mobile navigation modal"
               @click="openNavModal = false"
               >Close</UButton
             >
@@ -244,7 +246,7 @@ const dropdownItems = [
               >Join Now</UButton
             >
           </div>
-        </USlideover>
+        </LazyUSlideover>
       </div>
     </nav>
 
@@ -258,8 +260,8 @@ const dropdownItems = [
       <div class="grid grid-cols-1 gap-12 md:grid-cols-3">
         <div class="col-span-1 flex h-full flex-col justify-between">
           <div>
-            <img
-              src="~/assets/images/logo.jpg"
+            <NuxtImg
+              src="/assets/logo.jpg"
               loading="lazy"
               decoding="async"
               alt="YBP Logo"
@@ -272,7 +274,7 @@ const dropdownItems = [
                 Part of <b>Indonesia Book Party</b>
               </small>
             </div>
-            <p class="mt-8 text-gray-500">
+            <p class="mt-8 text-gray-600">
               Designed in Sleman, Yogyakarta.<br />
               Built around the world. 🌎
             </p>

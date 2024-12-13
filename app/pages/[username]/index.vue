@@ -63,7 +63,7 @@ useSeoMeta({
 <template>
   <div class="mx-auto w-full max-w-screen-lg">
     <div
-      class="mt-10 flex w-full flex-col items-center rounded-lg border-4 border-gray-300 bg-white px-4 pb-4 text-center"
+      class="mt-10 flex w-full flex-col items-center rounded-lg border-4 border-gray-300 bg-gray-50 px-4 pb-4 text-center"
     >
       <UserPicture
         :seed="user.username"

@@ -10,7 +10,7 @@ defineProps<{
 
 <template>
   <div
-    class="rounded border border-gray-300 bg-white p-4 hover:border-gray-400"
+    class="rounded border border-gray-300 bg-gray-50 p-4 hover:border-gray-400"
   >
     <NuxtLink
       :to="`/${author.username}`"
@@ -38,7 +38,7 @@ defineProps<{
         {{ story.title }}
       </NuxtLink>
       <div v-if="story.tags.length > 0" class="mt-2 space-x-1">
-        <StoryTag v-for="tag in story.tags" :tag="tag.slug" :key="tag.slug" />
+        <StoryTag v-for="tag in story.tags" :key="tag.slug" :tag="tag.slug" />
       </div>
     </div>
   </div>

@@ -1,6 +1,12 @@
 <script setup lang="ts">
 import type { Database } from '~/types/database.types'
 
+useHead({
+  htmlAttrs: {
+    lang: 'id',
+  },
+})
+
 const openNavModal = ref(false)
 
 const supabase = useSupabaseClient<Database>()

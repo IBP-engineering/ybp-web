@@ -47,7 +47,7 @@ useSeoMeta({
         <NuxtLink
           external
           to="https://www.instagram.com/yogbookparty"
-          class="text-blue-500 underline hover:text-blue-600"
+          class="text-blue-600 underline hover:text-blue-500"
           >Instagram</NuxtLink
         >!
       </p>

@@ -6,27 +6,30 @@ useHead({
 
 const supabase = useSupabaseClient()
 
-const { data: stories } = await useAsyncData('stories/favorites', async () => {
-  const { data, error } = await supabase
-    .from('stories')
-    .select(
-      `*,
+const { data: stories } = await useLazyAsyncData(
+  'stories/favorites',
+  async () => {
+    const { data, error } = await supabase
+      .from('stories')
+      .select(
+        `*,
       tags:story_tags!id(tag:tag_id(slug)),
-      author:users(id, username, display_name)
+      author:users(username, display_name)
       `,
-    )
-    .eq('status', 'approved')
-    .eq('is_active', true)
-    .order('created_at', { ascending: false })
-    .limit(3)
+      )
+      .eq('status', 'approved')
+      .eq('is_active', true)
+      .order('created_at', { ascending: false })
+      .limit(3)
 
-  if (error) {
-    console.error(error)
-    return []
-  }
+    if (error) {
+      console.error(error)
+      return []
+    }
 
-  return data
-})
+    return data
+  },
+)
 
 const storiesFiltered = computed(() => {
   // @ts-expect-error need to fix later
@@ -69,13 +72,16 @@ const storiesFiltered = computed(() => {
       </div>
     </div>
 
-    <HeroGallery />
+    <LazyHeroGallery />
 
     <OurAgenda />
 
     <div class="container mx-auto px-4 py-24 md:px-0 md:py-32">
       <h2 class="text-lg font-bold">🔥 Cerita Terbaru</h2>
-      <div class="my-4 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+      <div
+        v-if="storiesFiltered.length > 0"
+        class="my-4 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3"
+      >
         <StoryCard
           v-for="story in storiesFiltered"
           :key="story.id"
@@ -115,11 +121,11 @@ const storiesFiltered = computed(() => {
         </div>
         <div class="order-first lg:order-last">
           <img
-            src="https://picsum.photos/1600/900"
-            alt="Tentang Kami"
-            class="w-full rounded-lg"
-            width="500"
-            height="600"
+            src="https://placehold.co/1600x1200/000000/FFFFFF.webp"
+            alt="Foto pengurus dan supporter dari YBP"
+            class="bg-primary-100 w-full rounded-lg"
+            width="1600"
+            height="1200"
             loading="lazy"
             decoding="async"
           />
