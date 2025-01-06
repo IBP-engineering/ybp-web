@@ -52,7 +52,7 @@ const faqs = [
     </section>
 
     <div class="md:w-1/2">
-      <UAccordion color="primary" variant="soft" :items="faqs" />
+      <UAccordion color="primary" variant="soft" :items="faqs" multiple />
       <UDivider class="my-2" label="ATAU" />
       <p>
         Gimana? Udah siap buat gabung di Yogyakarta Book Party? 🎉 Masih ada
