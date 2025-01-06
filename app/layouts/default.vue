@@ -21,12 +21,12 @@ const navlinks = [
     to: '/#activities',
   },
   {
-    label: 'Goodies',
-    to: '/goodies',
-  },
-  {
     label: 'About Us',
     to: '/#about-us',
+  },
+  {
+    label: 'FAQ',
+    to: '/faq',
   },
 ]
 const openNavModal = ref(false)
@@ -287,6 +287,11 @@ const dropdownItems = [
             <div class="text-gray-600 md:col-span-2">
               <p class="mb-2 font-medium">PRODUCTS</p>
               <ul class="space-y-2">
+                <li>
+                  <NuxtLink to="/stories" class="hover:underline"
+                    >Stories</NuxtLink
+                  >
+                </li>
                 <li>
                   <NuxtLink to="/goodies" class="hover:underline"
                     >Goodies (coming soon)</NuxtLink
