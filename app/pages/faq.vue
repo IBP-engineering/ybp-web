@@ -11,7 +11,7 @@ const faqs = [
     label: 'Gimana caranya ikutan Yogyakarta Book Party?',
     defaultOpen: true,
     content:
-      'Gampang banget! Langsung aja dateng ke acara rutin Yogyakarta Book Party. Gak perlu registrasi, kecuali ada info khusus di media sosial kita. Cek terus info terbarunya di media sosial kita ya! 😉',
+      'Gampang banget! Langsung aja dateng ke acara rutin Yogyakarta Book Party. Gak perlu registrasi, kecuali ada info khusus di media sosial kita. Cek terus info terbarunya ya! 😉',
   },
   {
     label: 'Harus bawa apa aja nih pas ikutan Book Party?',
