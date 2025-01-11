@@ -107,21 +107,19 @@ const storiesFiltered = computed(() => {
             Tentang Kami
           </h2>
           <p class="tracking-wide text-gray-600">
-            Hydra is a Y Combinator-backed data processing company with a
-            globally remote team. We are passionate PostgreSQL and backend
-            engineers from Microsoft Azure, Heroku, and Citus Data. We set out
-            to build the best all-in-one database for app development. We
-            believe DuckDB is a remarkable technology made revolutionary within
-            Postgres.<br />
+            Kami hadir untuk memenuhi visi, yaitu menjadikan literasi, terutama
+            membaca buku, menjadi kebiasaan baru di masyarakat, khususnya di
+            Yogyakarta. Yogyakarta Book Party berdiri pada tahun 2023 hingga
+            saat ini memiliki lebih dari 800+ anggota dengan 4 organisasi yang
+            berjalan di dalamnya.<br />
             <br />
-            Hydra authored pg_duckdb, the official PostgreSQL extension for
-            DuckDB, and employs the project's main contributors. We offer
-            production support and services for the system.
+            Komunitas ini adalah salah satu dari 63 Komunitas Book Party di
+            bawah naungan Indonesia Book Party (IBP).
           </p>
         </div>
         <div class="order-first lg:order-last">
           <img
-            src="https://placehold.co/1600x1200/000000/FFFFFF.webp"
+            src="~/assets/images/about-us.jpeg"
             alt="Foto pengurus dan supporter dari YBP"
             class="bg-primary-100 w-full rounded-lg"
             width="1600"

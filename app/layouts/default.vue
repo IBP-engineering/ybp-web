@@ -326,6 +326,7 @@ const dropdownItems = [
             :key="social.id"
             :title="social.title"
             :to="social.link"
+            target="_blank"
             external
           >
             <UIcon :name="social.logo" class="h-6 w-6" />
