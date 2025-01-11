@@ -100,7 +100,7 @@ const storiesFiltered = computed(() => {
       </div>
     </div>
 
-    <div class="container mx-auto px-4 py-24 md:px-0 md:py-32">
+    <div class="container mx-auto px-4 py-24 md:px-0 md:py-28">
       <div class="grid w-full grid-cols-1 gap-4 lg:grid-cols-2">
         <div class="flex flex-col justify-center lg:w-3/4">
           <h2 id="about-us" class="text-3xl font-semibold leading-relaxed">
@@ -129,9 +129,11 @@ const storiesFiltered = computed(() => {
           />
         </div>
       </div>
+
+      <FaqSection />
     </div>
 
-    <div class="container mx-auto px-4 py-24 md:px-0 md:py-32">
+    <div class="container mx-auto px-4 py-24 md:px-0">
       <LazyMoreInfo />
     </div>
   </div>
