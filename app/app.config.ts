@@ -4,8 +4,8 @@ export default defineAppConfig({
     {
       id: 'wa',
       link: 'https://wa.me/6283171074486',
-      label: 'Grup Whatsapp',
-      title: 'to YBP Whatsapp group',
+      label: 'Hotline YBP',
+      title: 'to Hotline YBP Number',
       logoFill: 'ph:whatsapp-logo-fill',
       logo: 'ph:whatsapp-logo',
       theme: 'border-green-300 bg-green-200 hover:bg-green-100 text-green-900',
