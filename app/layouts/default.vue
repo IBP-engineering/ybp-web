@@ -26,7 +26,7 @@ const navlinks = [
   },
   {
     label: 'FAQ',
-    to: '/faq',
+    to: '/#faq',
   },
 ]
 const openNavModal = ref(false)
@@ -308,7 +308,7 @@ const dropdownItems = [
                   >
                 </li>
                 <li>
-                  <NuxtLink to="/faq" class="hover:underline">FAQ</NuxtLink>
+                  <NuxtLink to="/#faq" class="hover:underline">FAQ</NuxtLink>
                 </li>
                 <li><a href="#" class="hover:underline">Collaboration</a></li>
                 <li><a href="#" class="hover:underline">Donation</a></li>

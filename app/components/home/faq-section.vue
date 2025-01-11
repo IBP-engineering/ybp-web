@@ -1,11 +1,4 @@
 <script setup lang="ts">
-defineOgImageComponent('default')
-useSeoMeta({
-  title: 'FAQ',
-  description:
-    'Menjawab pertanyaan-pertanyaan yang sering muncul dan ditanyakan',
-})
-
 const faqs = [
   {
     label: 'Gimana caranya ikutan Yogyakarta Book Party?',
@@ -42,30 +35,26 @@ const faqs = [
 </script>
 
 <template>
-  <div class="container mx-auto px-4 md:px-0">
-    <section class="mb-8">
-      <h1 class="text-4xl font-bold !leading-relaxed md:text-5xl">FAQ</h1>
-      <p class="text-gray-600">
-        Hai Bookmates! 👋 Punya pertanyaan seputar Yogyakarta Book Party? Yuk,
-        cekidot FAQ-nya! 👇
-      </p>
-    </section>
+  <section class="mb-4 mt-24">
+    <h2 id="faq" class="text-3xl font-semibold leading-relaxed">FAQ</h2>
+    <p class="text-gray-600">
+      Punya pertanyaan seputar Yogyakarta Book Party? Yuk, cekidot FAQ-nya! 👇
+    </p>
+  </section>
 
-    <div class="md:w-1/2">
-      <UAccordion color="primary" variant="soft" :items="faqs" multiple />
-      <UDivider class="my-2" label="ATAU" />
-      <p>
-        Gimana? Udah siap buat gabung di Yogyakarta Book Party? 🎉 Masih ada
-        yang mau ditanyain? 🤔 Kalo ada, langsung aja sampein ke kita lewat
-        Instagram
-        <NuxtLink
-          external
-          to="https://www.instagram.com/yogbookparty"
-          class="text-blue-600 underline hover:text-blue-500"
-          >@yogbookparty</NuxtLink
-        >
-        ya! 😉 See you there! 👋
-      </p>
-    </div>
+  <div class="md:w-1/2">
+    <UAccordion color="primary" variant="soft" :items="faqs" multiple />
+    <UDivider class="my-2" label="ATAU" />
+    <p>
+      Gimana? Udah siap buat gabung di Yogyakarta Book Party? 🎉 Masih ada yang
+      mau ditanyain? 🤔 Kalo ada, langsung aja sampein ke kita lewat Instagram
+      <NuxtLink
+        external
+        to="https://www.instagram.com/yogbookparty"
+        class="text-blue-600 underline hover:text-blue-500"
+        >@yogbookparty</NuxtLink
+      >
+      ya! 😉 Sampai jumpa! 👋
+    </p>
   </div>
 </template>
