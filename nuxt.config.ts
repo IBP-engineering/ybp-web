@@ -6,7 +6,6 @@ export default defineNuxtConfig({
     format: ['avif', 'webp'],
   },
   routeRules: {
-    '/faq': { prerender: true },
     '/goodies': { prerender: true },
   },
   modules: [
@@ -58,4 +57,3 @@ export default defineNuxtConfig({
     },
   },
 })
-
