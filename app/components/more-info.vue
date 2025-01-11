@@ -10,7 +10,7 @@ const { socials } = useAppConfig()
       <NuxtLink
         v-for="social in socials"
         :key="social.link"
-        :to="social.link"
+        :to="social.id === 'wa' ? 'http://bit.ly/GabungYBP' : social.link"
         class="flex w-fit items-center gap-2 rounded-lg border p-2 font-medium transition"
         :class="social.theme"
         target="_blank"

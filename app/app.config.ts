@@ -3,7 +3,7 @@ export default defineAppConfig({
   socials: [
     {
       id: 'wa',
-      link: '#',
+      link: 'https://wa.me/6283171074486',
       label: 'Grup Whatsapp',
       title: 'to YBP Whatsapp group',
       logoFill: 'ph:whatsapp-logo-fill',
