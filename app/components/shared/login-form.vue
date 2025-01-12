@@ -102,8 +102,8 @@ async function login(event: FormSubmitEvent<Schema>) {
   <UForm
     :schema="safeParser(schema)"
     :state="state"
-    @submit.prevent="login"
     class="flex w-full flex-col gap-5"
+    @submit.prevent="login"
   >
     <UFormGroup label="Email" name="email">
       <UInput v-model="state.email" :loading="isLoading" type="email" />
