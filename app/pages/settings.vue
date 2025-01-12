@@ -157,7 +157,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
             <UInput v-model="state.displayName" />
           </UFormGroup>
           <UFormGroup label="Email" name="email" required>
-            <UInput v-model="state.email" type="email" />
+            <UInput v-model="state.email" type="email" disabled />
           </UFormGroup>
           <UFormGroup label="Username" name="username" required>
             <UInput
