@@ -17,8 +17,8 @@ const navlinks = [
     to: '/stories',
   },
   {
-    label: 'Activities',
-    to: '/#activities',
+    label: 'Reading Habits',
+    to: '/reading-habits',
   },
   {
     label: 'About Us',
