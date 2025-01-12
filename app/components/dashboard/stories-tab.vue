@@ -1,14 +1,6 @@
 <script setup lang="ts">
 import type { Database } from '~/types/database.types'
 
-defineOgImageComponent('default')
-definePageMeta({
-  middleware: 'need-auth',
-})
-useHead({
-  title: 'Dashboard',
-})
-
 const toast = useToast()
 const supabase = useSupabaseClient<Database>()
 const user = useSupabaseUser()
@@ -142,18 +134,7 @@ watch(
 </script>
 
 <template>
-  <div class="mx-auto w-full max-w-screen-lg px-4 md:px-0">
-    <div class="flex items-start justify-between gap-8 md:items-center">
-      <section>
-        <h1 class="text-2xl font-bold leading-relaxed">Dashboard</h1>
-        <p class="text-gray-600">
-          Kamu bisa temukan cerita yang kamu kirim disini
-        </p>
-      </section>
-
-      <UButton trailing-icon="heroicons:plus" to="/new">New story</UButton>
-    </div>
-
+  <div>
     <div class="mt-8 flex w-full gap-8">
       <aside class="mt-8 hidden w-[300px] flex-col md:flex">
         <UButton
@@ -163,7 +144,7 @@ watch(
           color="gray"
           @click="filterStatus = 'all'"
         >
-          <span>Stories</span>
+          <span>All Story</span>
           <span>{{ filterCount.all }}</span>
         </UButton>
         <UButton
