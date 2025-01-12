@@ -62,13 +62,10 @@ function onChange(index: number) {
         </template>
 
         <template #item="{ item }">
-          <DashboardStoriesTab v-if="item.key === 'stories'" />
-          <p v-else>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis
-            illo, maxime saepe quia libero veniam inventore numquam vitae, sint,
-            doloremque sed? Aliquam corrupti labore doloremque eveniet nulla non
-            ducimus ipsa!
-          </p>
+          <div class="mt-8">
+            <DashboardStoriesTab v-if="item.key === 'stories'" />
+            <DashboardReadingTabs v-else />
+          </div>
         </template>
       </UTabs>
     </div>
