@@ -37,5 +37,9 @@ const date = ref(new Date())
         >Lihat klasemen</UButton
       >
     </div>
+
+    <div class="mt-8">
+      <ReadingHabitTable />
+    </div>
   </div>
 </template>
