@@ -7,6 +7,9 @@ useHead({
   title: 'Dashboard',
 })
 
+const route = useRoute()
+const router = useRouter()
+
 const tabs = [
   {
     key: 'stories',
@@ -19,6 +22,10 @@ const tabs = [
     icon: 'ph:clover-duotone',
   },
 ]
+
+function onChange(index: number) {
+  router.replace({ query: { tab: index } })
+}
 </script>
 
 <template>
@@ -30,7 +37,22 @@ const tabs = [
     </div>
 
     <div class="mt-4">
-      <UTabs :items="tabs" class="w-full">
+      <UTabs
+        :items="tabs"
+        :default-index="+route.query?.tab || 0"
+        class="w-full"
+        @change="onChange"
+      >
+        <template #default="{ item }">
+          <UBadge
+            v-if="item.key === 'readingHabits'"
+            color="primary"
+            size="xs"
+            class="mr-1"
+            >New</UBadge
+          >
+          <span class="truncate">{{ item.label }}</span>
+        </template>
         <template #icon="{ item, selected }">
           <UIcon
             :name="item.icon"
