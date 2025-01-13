@@ -1,4 +1,11 @@
 <script setup lang="ts">
+const props = withDefaults(
+  defineProps<{
+    withName?: boolean
+  }>(),
+  { withName: true },
+)
+
 const dummyData = [
   {
     number: 1,
@@ -135,14 +142,26 @@ const columns = [
 ]
 
 const expand = ref({
-  openedRows: [dummyData[0]],
+  openedRows: [],
   row: {},
+})
+
+const filteredColumns = computed(() => {
+  if (props.withName) {
+    return columns
+  }
+
+  return columns.filter(col => col.key !== 'name')
 })
 </script>
 
 <template>
   <div class="rounded-lg border border-gray-300 bg-white py-2 shadow">
-    <UTable v-model:expand="expand" :columns="columns" :rows="dummyData">
+    <UTable
+      v-model:expand="expand"
+      :columns="filteredColumns"
+      :rows="dummyData"
+    >
       <template #expand="{ row }">
         <div class="p-4">
           <pre>{{ row.summary }}</pre>
