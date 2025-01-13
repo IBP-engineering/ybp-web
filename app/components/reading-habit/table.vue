@@ -141,7 +141,7 @@ const expand = ref({
 </script>
 
 <template>
-  <div>
+  <div class="rounded-lg border border-gray-300 bg-white py-2 shadow">
     <UTable v-model:expand="expand" :columns="columns" :rows="dummyData">
       <template #expand="{ row }">
         <div class="p-4">
