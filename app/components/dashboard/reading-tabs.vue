@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import * as v from 'valibot'
 import type { Form, FormSubmitEvent } from '#ui/types'
+import type { User } from '~/types/entities'
 
 const schema = v.object({
   title: v.pipe(v.string(), v.trim(), v.nonEmpty('Judul tidak boleh kosong')),
@@ -15,17 +16,26 @@ const schema = v.object({
 
 type Schema = v.InferOutput<typeof schema>
 
-const genres = [
-  { value: 0, label: 'Fiksi' },
-  { value: 1, label: 'Non-Fiksi' },
-]
+const supabase = useSupabaseClient()
+const toast = useToast()
+const { data: currentUser } = useNuxtData<User>('current-user')
+const { data: genres } = await useLazyAsyncData('genres', async () => {
+  const { data, error } = await supabase.from('book_genres').select('id, label')
+
+  if (error) {
+    console.error(error)
+    return []
+  }
+
+  return data.map(gen => ({ value: gen.id, label: gen.label }))
+})
 
 const form = ref<Form<Schema>>()
 const openConfirmation = ref(false)
 const openNewReadingRecord = ref(false)
 const state = reactive<Schema>({
   title: '',
-  genre: 0,
+  genre: 1,
   pageCount: 0,
   summary: '',
 })
@@ -40,6 +50,47 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 
 async function sendNewHabit() {
   openConfirmation.value = false
+
+  try {
+    const res = await $fetch<{ data: unknown; error?: string }>(
+      '/api/reading-habits',
+      {
+        method: 'post',
+        body: {
+          ...state,
+          user: currentUser.value.id,
+        },
+      },
+    )
+
+    if (res.error) {
+      toast.add({
+        title: 'Terjadi kesalahan',
+        description: res.error,
+        color: 'red',
+        icon: 'i-heroicons-x-mark-solid',
+      })
+      console.error(res.error)
+      return
+    }
+
+    openNewReadingRecord.value = false
+    toast.add({
+      title: 'OK',
+      description: 'Berhasil menambahkan record baru',
+      color: 'green',
+      icon: 'ph:check-fat',
+    })
+  } catch (error) {
+    toast.add({
+      title: 'Terjadi kesalahan',
+      description: error.message,
+      color: 'red',
+      icon: 'i-heroicons-x-mark-solid',
+    })
+    console.error(error)
+    return
+  }
 }
 </script>
 
