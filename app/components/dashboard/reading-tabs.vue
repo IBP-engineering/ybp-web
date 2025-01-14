@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import * as v from 'valibot'
+import type { Form, FormSubmitEvent } from '#ui/types'
 
 const schema = v.object({
   title: v.pipe(v.string(), v.trim(), v.nonEmpty('Judul tidak boleh kosong')),
@@ -19,6 +20,7 @@ const genres = [
   { value: 1, label: 'Non-Fiksi' },
 ]
 
+const form = ref<Form<Schema>>()
 const openConfirmation = ref(false)
 const openNewReadingRecord = ref(false)
 const state = reactive<Schema>({
@@ -28,8 +30,11 @@ const state = reactive<Schema>({
   summary: '',
 })
 
-async function onSubmit() {
-  // Do something with event.data
+async function onSubmit(event: FormSubmitEvent<Schema>) {
+  const isErrors = form.value.getErrors().length > 0
+
+  if (isErrors) return
+
   openConfirmation.value = true
 }
 
@@ -42,7 +47,9 @@ async function sendNewHabit() {
   <div>
     <section class="flex items-center justify-between">
       <h2 class="font-medium">Personal Reading Habits</h2>
-      <UButton trailing-icon="ph:plus">Tambah baru</UButton>
+      <UButton @click="openNewReadingRecord = true" trailing-icon="ph:plus"
+        >Tambah baru</UButton
+      >
     </section>
 
     <div class="my-4 grid grid-cols-2 gap-4 md:grid-cols-4">
@@ -85,38 +92,57 @@ async function sendNewHabit() {
     </div>
 
     <UModal v-model="openNewReadingRecord">
-      <template #header>
-        <b>Record Baru</b>
-      </template>
-      <UForm
-        :schema="v.safeParser(schema)"
-        :state="state"
-        class="space-y-4"
-        @submit.prevent="onSubmit"
+      <UCard
+        :ui="{
+          ring: '',
+          divide: 'divide-y divide-gray-100 dark:divide-gray-800',
+        }"
       >
-        <div class="grid grid-cols-2 gap-8">
+        <template #header>
+          <b>Record Baru</b>
+        </template>
+        <UForm
+          ref="form"
+          :schema="v.safeParser(schema)"
+          :state="state"
+          class="space-y-4"
+          @submit.prevent="onSubmit"
+        >
           <UFormGroup required label="Judul Buku" name="title">
             <UInput v-model="state.title" />
           </UFormGroup>
-          <UFormGroup required label="Jumlah Halaman" name="pageCount">
+          <UFormGroup
+            required
+            label="Jumlah Halaman"
+            help="Jumlah halaman buku yang dibaca"
+            name="pageCount"
+          >
             <UInput v-model="state.pageCount" type="number" />
           </UFormGroup>
-        </div>
-        <UFormGroup required label="Jenis" name="genre">
-          <URadioGroup v-model="state.genre" :options="genres" />
-        </UFormGroup>
-        <UFormGroup required label="Kesimpulan" name="summary">
-          <UTextarea v-model="state.summary" autoresize />
-        </UFormGroup>
-      </UForm>
-      <template #footer>
-        <div class="flex justify-end gap-4">
-          <UButton color="gray" variant="soft" @click="openConfirmation = false"
-            >Tutup</UButton
-          >
-          <UButton trailing-icon="ph:floppy-disk-fill">Simpan</UButton>
-        </div>
-      </template>
+          <UFormGroup required label="Jenis" name="genre">
+            <URadioGroup v-model="state.genre" :options="genres" />
+          </UFormGroup>
+          <UFormGroup required label="Kesimpulan" name="summary">
+            <UTextarea v-model="state.summary" autoresize />
+          </UFormGroup>
+        </UForm>
+        <template #footer>
+          <div class="flex justify-end gap-4">
+            <UButton
+              color="gray"
+              variant="soft"
+              @click="openNewReadingRecord = false"
+              >Tutup</UButton
+            >
+            <UButton
+              type="submit"
+              @click="onSubmit"
+              trailing-icon="ph:floppy-disk-fill"
+              >Simpan</UButton
+            >
+          </div>
+        </template>
+      </UCard>
 
       <UModal v-model="openConfirmation">
         <UCard
