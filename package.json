@@ -9,7 +9,6 @@
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
   },
-  "packageManager": "pnpm@10.0.0",
   "pnpm": {
     "onlyBuiltDependencies": [
       "@parcel/watcher",
