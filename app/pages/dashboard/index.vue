@@ -30,11 +30,7 @@ function onChange(index: number) {
 
 <template>
   <div class="mx-auto w-full max-w-screen-lg px-4 md:px-0">
-    <div class="flex items-start justify-between gap-8 md:items-center">
-      <h1 class="text-2xl font-bold leading-relaxed">Dashboard</h1>
-
-      <UButton trailing-icon="heroicons:plus" to="/new">New story</UButton>
-    </div>
+    <h1 class="text-2xl font-bold leading-relaxed">Dashboard</h1>
 
     <div class="mt-4">
       <UTabs
