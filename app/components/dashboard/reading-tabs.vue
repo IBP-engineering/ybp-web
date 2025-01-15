@@ -99,7 +99,7 @@ async function sendNewHabit() {
     <section class="flex items-center justify-between">
       <h2 class="font-medium">Personal Reading Habits</h2>
       <UButton @click="openNewReadingRecord = true" trailing-icon="ph:plus"
-        >Tambah baru</UButton
+        >Record baru</UButton
       >
     </section>
 

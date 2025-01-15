@@ -180,9 +180,16 @@ watch(
       </aside>
 
       <div class="w-full">
-        <h2 class="font-medium">Stories</h2>
+        <div class="flex items-center justify-between">
+          <h2 class="font-medium">Stories</h2>
+          <UButton
+            to="/new"
+            trailing-icon="heroicons:arrow-small-right-20-solid"
+            >Story baru</UButton
+          >
+        </div>
         <p v-if="stories.length === 0" class="mt-4">
-          Belum ada Cerita yang ditambahkan
+          Belum ada Story yang ditambahkan
         </p>
         <div
           v-else
