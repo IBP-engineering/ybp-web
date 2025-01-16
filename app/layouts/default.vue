@@ -80,6 +80,7 @@ const dropdownItems = [
       : { label: `Halo @${userData.value.username} 👋` },
     { label: 'Dashboard', to: '/dashboard', icon: 'heroicons:home' },
     { label: 'New story', to: '/new', icon: 'heroicons:plus' },
+    { label: 'My reading habits', to: '/dashboard?tab=1', icon: 'ph:clover' },
     { label: 'Settings', to: '/settings', icon: 'heroicons:sparkles' },
     {
       label: 'Logout',
@@ -195,37 +196,16 @@ const dropdownItems = [
               </div>
               <div class="mt-4 flex flex-col">
                 <ul class="space-y-4">
-                  <li>
+                  <li v-for="item in dropdownItems[0]" :key="item.label">
                     <UButton
+                      v-if="item.to || item.label.toLowerCase() !== 'logout'"
                       color="white"
                       block
-                      icon="heroicons:home"
-                      to="/dashboard"
+                      :icon="item.icon"
+                      :to="item.to"
                       @click="openNavModal = false"
                     >
-                      Dashboard
-                    </UButton>
-                  </li>
-                  <li>
-                    <UButton
-                      color="white"
-                      block
-                      icon="heroicons:plus"
-                      to="/new"
-                      @click="openNavModal = false"
-                    >
-                      New story
-                    </UButton>
-                  </li>
-                  <li>
-                    <UButton
-                      color="white"
-                      block
-                      icon="heroicons:sparkles"
-                      to="/settings"
-                      @click="openNavModal = false"
-                    >
-                      Settings
+                      {{ item.label }}
                     </UButton>
                   </li>
                   <li>
