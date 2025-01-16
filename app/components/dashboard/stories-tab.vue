@@ -185,7 +185,7 @@ watch(
           <UButton
             to="/new"
             trailing-icon="heroicons:arrow-small-right-20-solid"
-            >Story baru</UButton
+            >New story</UButton
           >
         </div>
         <p v-if="stories.length === 0" class="mt-4">
