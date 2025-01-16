@@ -29,6 +29,31 @@ const { data: genres } = await useLazyAsyncData('genres', async () => {
 
   return data.map(gen => ({ value: gen.id, label: gen.label }))
 })
+const { data: habits } = await useLazyAsyncData(
+  `habits/${currentUser.value.id}`,
+  async () => {
+    if (!currentUser.value) return []
+
+    const { data, error } = await supabase
+      .from('reading_habits')
+      .select(
+        `id,
+        title,
+        page_count,
+        summary,
+        created_at,
+        genre(label,multiple)`,
+      )
+      .eq('created_by', currentUser.value?.id)
+
+    if (error) {
+      console.error(error)
+      return []
+    }
+
+    return data
+  },
+)
 
 const form = ref<Form<Schema>>()
 const openConfirmation = ref(false)
@@ -227,6 +252,6 @@ async function sendNewHabit() {
       </UModal>
     </UModal>
 
-    <ReadingHabitTable :with-name="false" />
+    <ReadingHabitTable :data="habits" :with-name="false" />
   </div>
 </template>
