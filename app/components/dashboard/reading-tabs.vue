@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import * as v from 'valibot'
-import type { Form, FormSubmitEvent } from '#ui/types'
+import type { Form } from '#ui/types'
 import type { User } from '~/types/entities'
 
 const schema = v.object({
@@ -29,31 +29,20 @@ const { data: genres } = await useLazyAsyncData('genres', async () => {
 
   return data.map(gen => ({ value: gen.id, label: gen.label }))
 })
-const { data: habits } = await useLazyAsyncData(
-  `habits/${currentUser.value.id}`,
-  async () => {
-    if (!currentUser.value) return []
-
-    const { data, error } = await supabase
-      .from('reading_habits')
-      .select(
-        `id,
-        title,
-        page_count,
-        summary,
-        created_at,
-        genre(label,multiple)`,
-      )
-      .eq('created_by', currentUser.value?.id)
-
-    if (error) {
-      console.error(error)
-      return []
-    }
-
-    return data
+const { data: statistic } = await useFetch('/api/reading-habits/statistic', {
+  query: {
+    date: new Date().toString(),
+    userId: currentUser?.value?.id,
   },
-)
+  key: `habits/${currentUser.value.id}/statistic`,
+})
+const { data: habits } = await useFetch('/api/reading-habits', {
+  query: {
+    date: new Date().toString(),
+    userId: currentUser?.value?.id,
+  },
+  key: `habits/${currentUser.value.id}`,
+})
 
 const form = ref<Form<Schema>>()
 const openConfirmation = ref(false)
@@ -65,7 +54,7 @@ const state = reactive<Schema>({
   summary: '',
 })
 
-async function onSubmit(event: FormSubmitEvent<Schema>) {
+async function onSubmit() {
   const isErrors = form.value.getErrors().length > 0
 
   if (isErrors) return
@@ -136,7 +125,7 @@ async function sendNewHabit() {
           <UIcon name="ph:bowl-steam-duotone" class="h-5 w-5" />
           <small>GENRE TERBANYAK</small>
         </div>
-        <p class="text-lg font-semibold">Fiksi</p>
+        <p class="text-lg font-semibold">{{ statistic.mostGenre }}</p>
       </div>
       <div
         class="flex flex-col rounded border border-teal-300 bg-teal-50 px-4 py-2 text-teal-900"
@@ -145,7 +134,9 @@ async function sendNewHabit() {
           <UIcon name="ph:lamp-pendant-duotone" class="h-5 w-5" />
           <small>TOTAL RECORD</small>
         </div>
-        <p class="text-lg font-semibold">12</p>
+        <p class="text-lg font-semibold">
+          {{ statistic.totalRecord }}
+        </p>
       </div>
       <div
         class="flex flex-col rounded border border-orange-300 bg-orange-50 px-4 py-2 text-orange-900"
@@ -154,7 +145,7 @@ async function sendNewHabit() {
           <UIcon name="ph:clover-duotone" class="h-5 w-5" />
           <small>TOTAL POIN</small>
         </div>
-        <p class="text-lg font-semibold">1800</p>
+        <p class="text-lg font-semibold">{{ statistic.totalPoint }}</p>
       </div>
       <div
         class="flex flex-col rounded border border-rose-300 bg-rose-50 px-4 py-2 text-rose-900"
@@ -163,7 +154,7 @@ async function sendNewHabit() {
           <UIcon name="ph:paragraph-duotone" class="h-5 w-5" />
           <small>TOTAL HALAMAN</small>
         </div>
-        <p class="text-lg font-semibold">82</p>
+        <p class="text-lg font-semibold">{{ statistic.pageCountTotal }}</p>
       </div>
     </div>
 
@@ -252,6 +243,6 @@ async function sendNewHabit() {
       </UModal>
     </UModal>
 
-    <ReadingHabitTable :data="habits" :with-name="false" />
+    <ReadingHabitTable :data="habits.data" :with-name="false" />
   </div>
 </template>
