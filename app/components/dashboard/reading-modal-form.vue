@@ -81,7 +81,6 @@ async function sendNewHabit() {
         method: 'post',
         body: {
           ...state,
-          user: currentUser.value.id,
         },
       },
     )
@@ -126,7 +125,6 @@ const updateHabit = async () => {
       body: {
         ...state,
         id: providedId.value,
-        page_count: state.pageCount,
       },
     })
 
