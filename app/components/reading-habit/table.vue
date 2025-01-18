@@ -106,7 +106,9 @@ Ditambahkan pada {{ row.created_at }}</pre
         <UButton
           color="gray"
           variant="ghost"
+          size="xs"
           icon="i-heroicons-pencil-square-20-solid"
+          :disabled="row.update_count > 0"
           @click="() => handleOpenModal(row.id)"
         />
       </template>

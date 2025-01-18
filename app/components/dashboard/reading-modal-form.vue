@@ -105,6 +105,7 @@ async function sendNewHabit() {
       icon: 'ph:check-fat',
     })
     resetValue()
+    await refreshData()
   } catch (error) {
     toast.add({
       title: 'Terjadi kesalahan',
@@ -113,8 +114,6 @@ async function sendNewHabit() {
       icon: 'i-heroicons-x-mark-solid',
     })
     console.error(error)
-  } finally {
-    await refreshData()
   }
 }
 
@@ -139,6 +138,7 @@ const updateHabit = async () => {
       icon: 'ph:check-fat',
     })
     resetValue()
+    await refreshData()
   } catch (error) {
     toast.add({
       title: 'Terjadi kesalahan',
@@ -147,8 +147,6 @@ const updateHabit = async () => {
       icon: 'i-heroicons-x-mark-solid',
     })
     console.error(error)
-  } finally {
-    await refreshData()
   }
 }
 

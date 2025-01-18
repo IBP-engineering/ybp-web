@@ -29,6 +29,7 @@ export default defineEventHandler(
         page_count,
         summary,
         created_at,
+        update_count,
         created_by(display_name,username),
         genre(label,multiple)`,
         )
