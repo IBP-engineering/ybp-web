@@ -19,9 +19,13 @@ const calculatedData = computed(() => {
     return {
       ...data,
       number: i + 1,
-      name: 'albed',
+      name: data.created_by.display_name,
       genre: data.genre.label,
       point: data.page_count * data.genre.multiple,
+      created_at: new Intl.DateTimeFormat('id', {
+        dateStyle: 'long',
+        timeStyle: 'long',
+      }).format(new Date(data.created_at)),
     }
   })
 })
@@ -81,7 +85,10 @@ const filteredColumns = computed(() => {
     >
       <template #expand="{ row }">
         <div class="p-4">
-          <pre>{{ row.summary }}</pre>
+          <p class="text-sm">{{ row.summary }}</p>
+          <pre class="border border-gray-300 p-1 text-xs">
+Ditambahkan pada {{ row.created_at }}</pre
+          >
         </div>
       </template>
     </UTable>
