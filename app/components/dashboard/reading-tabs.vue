@@ -5,7 +5,7 @@ const { data: currentUser } = useNuxtData<User>('current-user')
 const { data: statistic } = await useFetch(
   `/api/reading-habits/${currentUser.value.id}/statistic`,
   {
-    key: `habits/${currentUser.value.id}/statistic`,
+    key: `habits/user/${currentUser.value.id}/statistic`,
   },
 )
 const { data: habits } = await useFetch(
@@ -15,7 +15,7 @@ const { data: habits } = await useFetch(
       page: 1,
       limit: 10,
     },
-    key: `habits/${currentUser.value.id}`,
+    key: `habits/user/${currentUser.value.id}`,
   },
 )
 
