@@ -7,6 +7,15 @@ useHead({
 })
 
 const date = ref(new Date())
+
+const { data: habits } = await useFetch('/api/reading-habits', {
+  query: {
+    date: date.value.toISOString(),
+    page: 1,
+    limit: 10,
+  },
+  key: 'habits',
+})
 </script>
 
 <template>
@@ -39,7 +48,7 @@ const date = ref(new Date())
     </div>
 
     <div class="mt-8">
-      <ReadingHabitTable />
+      <ReadingHabitTable :view-only="true" :data="habits.data" />
     </div>
   </div>
 </template>

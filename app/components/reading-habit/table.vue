@@ -4,6 +4,7 @@ import type { BookGenre, ReadingHabit, User } from '~/types/entities'
 const props = withDefaults(
   defineProps<{
     withName?: boolean
+    viewOnly?: boolean
     data: Partial<
       Omit<ReadingHabit, 'genre' | 'created_by'> & {
         genre: Partial<BookGenre>
@@ -11,7 +12,7 @@ const props = withDefaults(
       }
     >[]
   }>(),
-  { withName: true },
+  { withName: true, viewOnly: false },
 )
 
 const calculatedData = computed(() => {
@@ -60,6 +61,9 @@ const columns = [
     key: 'point',
     label: 'Poin',
   },
+  {
+    key: 'actions',
+  },
 ]
 
 const expand = ref({
@@ -90,6 +94,13 @@ const filteredColumns = computed(() => {
 Ditambahkan pada {{ row.created_at }}</pre
           >
         </div>
+      </template>
+      <template v-if="!viewOnly" #actions-data="{ row }">
+        <UButton
+          color="gray"
+          variant="ghost"
+          icon="i-heroicons-pencil-square-20-solid"
+        />
       </template>
     </UTable>
   </div>

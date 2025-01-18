@@ -17,12 +17,12 @@ export default defineEventHandler(
     pagination: { total: number; page: number }
   }> => {
     const supabase = await serverSupabaseClient<Database>(event)
-    const { userId, date, page = 1, limit = 10 } = getQuery(event)
+    const { date, page = 1, limit = 10 } = getQuery(event)
     const startDate = startOfDay(new Date(date?.toString())).toISOString()
     const endDate = endOfDay(new Date(date?.toString())).toISOString()
     const startIndex = (+page - 1) * +limit
 
-    const base = supabase
+    const { error, data } = await supabase
       .from('reading_habits')
       .select(
         `id,
@@ -38,28 +38,20 @@ export default defineEventHandler(
       .order('created_at', { ascending: false })
       .range(startIndex, startIndex + +limit - 1)
 
-    if (userId) {
-      const { error, data } = await base.eq('created_by', userId.toString())
-      const { count } = await supabase
-        .from('reading_habits')
-        .select('id', { count: 'exact' })
-        .gte('created_at', startDate)
-        .lte('created_at', endDate)
-        .eq('created_by', userId.toString())
+    const { count } = await supabase
+      .from('reading_habits')
+      .select('id', { count: 'exact' })
+      .gte('created_at', startDate)
+      .lte('created_at', endDate)
 
-      if (error) {
-        throw createError({
-          message: error.message,
-          statusCode: 400,
-          statusMessage: error.code,
-          statusText: error.details,
-        })
-      }
-
-      return { data, pagination: { total: count, page: +page }, error: null }
+    if (error) {
+      throw createError({
+        message: error.message,
+        statusCode: 400,
+        statusMessage: error.code,
+        statusText: error.details,
+      })
     }
-
-    const { data, count } = await base
 
     return { data, pagination: { total: count, page: +page }, error: null }
   },
