@@ -13,8 +13,7 @@ export default defineEventHandler(
     pageCountTotal: number
   }> => {
     const supabase = await serverSupabaseClient<Database>(event)
-    const { userId } = getQuery(event)
-
+    const userId = getRouterParam(event, 'userId')
     const { count, data, error } = await supabase
       .from('reading_habits')
       .select('page_count,genre(id,label,multiple)', { count: 'exact' })

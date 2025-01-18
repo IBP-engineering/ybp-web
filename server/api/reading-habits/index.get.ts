@@ -33,8 +33,8 @@ export default defineEventHandler(
         created_by(display_name,username),
         genre(label,multiple)`,
       )
-      // .gte('created_at', startDate)
-      // .lte('created_at', endDate)
+      .gte('created_at', startDate)
+      .lte('created_at', endDate)
       .order('created_at', { ascending: false })
       .range(startIndex, startIndex + +limit - 1)
 
@@ -43,8 +43,8 @@ export default defineEventHandler(
       const { count } = await supabase
         .from('reading_habits')
         .select('id', { count: 'exact' })
-        // .gte('created_at', startDate)
-        // .lte('created_at', endDate)
+        .gte('created_at', startDate)
+        .lte('created_at', endDate)
         .eq('created_by', userId.toString())
 
       if (error) {

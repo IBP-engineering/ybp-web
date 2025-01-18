@@ -29,20 +29,22 @@ const { data: genres } = await useLazyAsyncData('genres', async () => {
 
   return data.map(gen => ({ value: gen.id, label: gen.label }))
 })
-const { data: statistic } = await useFetch('/api/reading-habits/statistic', {
-  query: {
-    date: new Date().toString(),
-    userId: currentUser?.value?.id,
+const { data: statistic } = await useFetch(
+  `/api/reading-habits/${currentUser.value.id}/statistic`,
+  {
+    key: `habits/${currentUser.value.id}/statistic`,
   },
-  key: `habits/${currentUser.value.id}/statistic`,
-})
-const { data: habits } = await useFetch('/api/reading-habits', {
-  query: {
-    date: new Date().toString(),
-    userId: currentUser?.value?.id,
+)
+const { data: habits } = await useFetch(
+  `/api/reading-habits/${currentUser?.value?.id}`,
+  {
+    query: {
+      page: 1,
+      limit: 10,
+    },
+    key: `habits/${currentUser.value.id}`,
   },
-  key: `habits/${currentUser.value.id}`,
-})
+)
 
 const form = ref<Form<Schema>>()
 const openConfirmation = ref(false)
