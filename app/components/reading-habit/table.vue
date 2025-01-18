@@ -70,6 +70,8 @@ const expand = ref({
   openedRows: [],
   row: {},
 })
+const openModal = ref(false)
+const idToUpdate = ref('')
 
 const filteredColumns = computed(() => {
   if (props.withName) {
@@ -78,6 +80,11 @@ const filteredColumns = computed(() => {
 
   return columns.filter(col => col.key !== 'name')
 })
+
+const handleOpenModal = (id: string) => {
+  openModal.value = true
+  idToUpdate.value = id
+}
 </script>
 
 <template>
@@ -100,8 +107,14 @@ Ditambahkan pada {{ row.created_at }}</pre
           color="gray"
           variant="ghost"
           icon="i-heroicons-pencil-square-20-solid"
+          @click="() => handleOpenModal(row.id)"
         />
       </template>
     </UTable>
+
+    <LazyDashboardReadingModalForm
+      v-model:id="idToUpdate"
+      v-model:open="openModal"
+    />
   </div>
 </template>
