@@ -58,12 +58,12 @@ onMounted(() => {
                 name="heroicons:check-circle-16-solid"
                 class="text-primary-500"
               />
-              <span>Tulis, publikasi, enjoy!</span>
+              <span>Tulis Kisahmu</span>
             </div>
             <p class="text-gray-600">
-              Mau tulis sesuatu yang ingin kamu bagikan kepada semua orang? Bisa
-              banget. Sekarang kamu bisa tulis apapun, cerita, pengalaman, tips,
-              atau review buku kamu di sini.
+              Punya cerita menarik yang ingin dibagikan? Di sinilah tempatnya
+              kamu bisa membagikan kisah, pengalaman, tips bermanfaat, atau
+              ulasan buku favorit. Saatnya tulisan kamu menemukan pembaca!
             </p>
           </li>
           <li>
@@ -72,20 +72,18 @@ onMounted(() => {
                 name="heroicons:check-circle-16-solid"
                 class="text-primary-500"
               />
-              <span>Pantau dan nikmati</span>
+              <span>Jelajahi</span>
             </div>
             <p class="text-gray-600">
-              Pantau perkembangan tulisan kamu melalui halaman dashboard yang
-              mendukung di perangkat mobile.
+              Pantau perkembangan tulisanmu dengan mudah melalui halaman
+              dashboard pribadi. Temukan inspirasi baru dengan membaca
+              karya-karya menarik dari penulis lainnya!
             </p>
           </li>
         </ul>
 
         <p class="mt-4 border-t border-gray-300 pt-1">
-          Selanjutnya akan datang sesuatu yang tak kalah menarik!
-        </p>
-        <p>
-          Pantau perkembangannya melalui akun Instagram @yogbookparty, ya! 👋
+          Pantau @yogbookparty untuk update kegiatan menarik selanjutnya.
         </p>
         <b>#kitabarumulai</b>
       </div>

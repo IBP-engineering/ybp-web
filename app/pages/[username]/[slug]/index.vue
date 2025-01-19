@@ -24,7 +24,7 @@ const { data: story, refresh } = await useAsyncData(
       reactions:story_reactions!id(*)
       `,
       )
-      .eq('slug', slug)
+      .eq('slug', slug.toString())
       .single()
 
     if (error) {
@@ -137,63 +137,78 @@ useSeoMeta({
         </UTooltip>
       </div>
 
-      <div
-        class="w-full overflow-hidden shadow md:rounded-lg md:border md:border-gray-300 md:bg-gray-50"
-      >
-        <img
-          v-if="story.cover_path"
-          :src="story.cover_path"
-          width="700"
-          height="400"
-          alt="Story cover"
-          class="w-full"
-        />
-        <div class="px-4 py-4 md:px-10">
-          <UAlert
-            v-if="story.status !== 'approved'"
-            :color="story.status === 'pending' ? 'teal' : 'rose'"
-            title="Halo pembaca!"
-            icon="heroicons:exclamation-triangle"
-          >
-            <template #description>
-              <p v-if="story.status === 'pending'">
-                Cerita ini belum dipublikasikan dan masih dalam tahap pengecekan
-                oleh editor kami
-              </p>
-              <p v-else>
-                Cerita ini belum dipublikasikan dan masih ada yang perlu
-                diperbaiki oleh penulis
-              </p>
-            </template>
-          </UAlert>
+      <div class="flex w-full flex-col">
+        <div
+          class="w-full overflow-hidden shadow md:rounded-lg md:border md:border-gray-300 md:bg-gray-50"
+        >
+          <img
+            v-if="story.cover_path"
+            :src="story.cover_path"
+            width="700"
+            height="400"
+            alt="Story cover"
+            class="w-full"
+          />
+          <div class="px-4 py-4 md:px-10">
+            <UAlert
+              v-if="story.status !== 'approved'"
+              :color="story.status === 'pending' ? 'teal' : 'rose'"
+              title="Halo pembaca!"
+              icon="heroicons:exclamation-triangle"
+            >
+              <template #description>
+                <p v-if="story.status === 'pending'">
+                  Cerita ini belum dipublikasikan dan masih dalam tahap
+                  pengecekan oleh editor kami
+                </p>
+                <p v-else>
+                  Cerita ini belum dipublikasikan dan masih ada yang perlu
+                  diperbaiki oleh penulis
+                </p>
+              </template>
+            </UAlert>
 
-          <div class="my-4 flex items-center gap-4">
-            <UserPicture :seed="authorUsername" width="35" height="35" />
-            <div>
-              <ULink
-                :to="`/${authorUsername}`"
-                class="text-sm font-semibold hover:underline"
-                title="To author page"
-                >{{ story.author.display_name }}</ULink
-              >
-              <small
-                :title="format(story.created_at, 'full')"
-                class="block text-xs text-gray-600"
-                >Ditulis pada
-                {{ format(story.created_at, 'DD MMM', 'id') }}</small
-              >
+            <div class="my-4 flex items-center gap-4">
+              <UserPicture :seed="authorUsername" width="35" height="35" />
+              <div>
+                <ULink
+                  :to="`/${authorUsername}`"
+                  class="text-sm font-semibold hover:underline"
+                  title="To author page"
+                  >{{ story.author.display_name }}</ULink
+                >
+                <small
+                  :title="format(story.created_at, 'full')"
+                  class="block text-xs text-gray-600"
+                  >Ditulis pada
+                  {{ format(story.created_at, 'DD MMM', 'id') }}</small
+                >
+              </div>
             </div>
-          </div>
-          <h1
-            class="text-2xl font-bold md:text-3xl lg:text-4xl lg:leading-tight"
-          >
-            {{ story.title }}
-          </h1>
-          <div class="mt-2">
-            <StoryTag v-for="tag in story.tags" :key="tag" :tag="tag" />
-          </div>
+            <h1
+              class="text-2xl font-bold md:text-3xl lg:text-4xl lg:leading-tight"
+            >
+              {{ story.title }}
+            </h1>
+            <div class="mt-2">
+              <StoryTag v-for="tag in story.tags" :key="tag" :tag="tag" />
+            </div>
 
-          <div class="prose mt-8" v-html="story.content" />
+            <div class="prose mt-8" v-html="story.content" />
+          </div>
+        </div>
+
+        <div
+          class="mt-8 space-y-2 border-2 border-dotted border-gray-300 bg-gradient-to-t from-gray-100 to-gray-50 p-2"
+        >
+          <UIcon name="ph:flag-banner-duotone" />
+          <span class="ml-1">Haloo Bookmates!</span>
+          <small class="block text-gray-600">
+            Punya cerita menarik yang ingin dibagikan? Di sinilah tempatnya kamu
+            bisa membagikan kisah, pengalaman, tips bermanfaat, atau ulasan buku
+            favorit. Saatnya tulisan kamu menemukan pembaca! 📖
+          </small>
+          <UButton size="sm" to="/login">Gabung sekarang</UButton>
         </div>
       </div>
 

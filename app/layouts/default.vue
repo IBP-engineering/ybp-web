@@ -251,6 +251,7 @@ const dropdownItems = [
     </nav>
 
     <main class="z-10 mb-24 h-full">
+      <WelcomingBanner />
       <slot />
     </main>
 
