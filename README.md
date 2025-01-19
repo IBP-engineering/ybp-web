@@ -1,75 +1,48 @@
-# Nuxt 3 Minimal Starter
+# Yogyakarta Book Party Official Home Page
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+This is the official home page for the Yogyakarta Book Party, a community event celebrating books and literature.
 
-## Setup
+## Tech Stack
 
-Make sure to install the dependencies:
+  * **Frontend:** Nuxt 3
+  * **Language:** TypeScript
+  * **Styling:** Tailwind CSS
+  * **Database:** Supabase
+  * **Package Manager:** PNPM
+
+## Getting Started
+
+1.  **Clone the repository:**
 
 ```bash
-# npm
-npm install
+git clone https://github.com/IBP-engineering/ybp-web.git
+```
 
-# pnpm
+2.  **Install dependencies:**
+
+```bash
 pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
 ```
 
-## Development Server
+3.  **Configure Supabase:**
+  * Rename a file named `.env.example` in the project root directory to `.env`.
+  * Add the following environment variables to `.env`, replacing the placeholders with your actual values:
+```
+SUPABASE_URL=
+SUPABASE_KEY=
+```
 
-Start the development server on `http://localhost:3000`:
-
+4.  **Run the development server:**
 ```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm run dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
+pnpm dev
 ```
 
-## Production
+This will start the development server at http://localhost:3000.
 
-Build the application for production:
+## Contributing
 
-```bash
-# npm
-npm run build
+We welcome contributions to this project! Please see the CONTRIBUTING.md file for details.
 
-# pnpm
-pnpm run build
+## License
 
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm run preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+This project is licensed under the MIT License. See the LICENSE file for details.
