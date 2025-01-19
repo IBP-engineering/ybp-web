@@ -9,6 +9,92 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      book_genres: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          description: string | null
+          id: number
+          label: string | null
+          multiple: number | null
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: number
+          label?: string | null
+          multiple?: number | null
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: number
+          label?: string | null
+          multiple?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "book_genres_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      reading_habits: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          genre: number | null
+          id: string
+          page_count: number
+          summary: string
+          title: string
+          update_count: number | null
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          genre?: number | null
+          id?: string
+          page_count: number
+          summary: string
+          title: string
+          update_count?: number | null
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          genre?: number | null
+          id?: string
+          page_count?: number
+          summary?: string
+          title?: string
+          update_count?: number | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reading_habits_genre_fkey"
+            columns: ["genre"]
+            isOneToOne: false
+            referencedRelation: "book_genres"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "reading_habits_user_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       roles: {
         Row: {
           created_at: string

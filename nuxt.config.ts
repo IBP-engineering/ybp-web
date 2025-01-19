@@ -8,6 +8,11 @@ export default defineNuxtConfig({
   routeRules: {
     '/goodies': { prerender: true },
   },
+  nitro: {
+    future: {
+      nativeSWR: true,
+    },
+  },
   modules: [
     '@nuxt/ui',
     '@nuxt/eslint',

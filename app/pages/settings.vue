@@ -125,7 +125,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 </script>
 
 <template>
-  <div class="mx-auto w-full max-w-7xl px-4 md:px-0">
+  <div class="container mx-auto px-4 md:px-0">
     <h1 class="text-3xl font-bold leading-relaxed md:text-4xl">
       @{{ userProfile.username }}
     </h1>
