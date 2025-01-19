@@ -134,8 +134,19 @@ watch(
 </script>
 
 <template>
-  <div>
-    <div class="flex w-full gap-8">
+  <div class="mx-auto w-full max-w-screen-lg px-4 md:px-0">
+    <div class="flex items-start justify-between gap-8 md:items-center">
+      <section>
+        <h1 class="text-2xl font-bold leading-relaxed">Dashboard</h1>
+        <p class="text-gray-600">
+          Kamu bisa temukan cerita yang kamu kirim disini
+        </p>
+      </section>
+
+      <UButton trailing-icon="heroicons:plus" to="/new">New story</UButton>
+    </div>
+
+    <div class="mt-8 flex w-full gap-8">
       <aside class="mt-8 hidden w-[300px] flex-col md:flex">
         <UButton
           :variant="filterStatus === 'all' ? 'solid' : 'ghost'"
