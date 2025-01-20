@@ -2,7 +2,6 @@
 import type { User } from '~/types/entities'
 
 const page = ref(1)
-const pageCount = ref(10)
 const openRecordModal = ref(false)
 
 const { data: currentUser } = useNuxtData<User>('current-user')
@@ -20,7 +19,7 @@ const { data: habits, status } = await useFetch(
   },
 )
 
-const total = ref(habits.value.pagination.total)
+const total = ref(habits?.value?.pagination.total ?? 0)
 </script>
 
 <template>
@@ -76,7 +75,6 @@ const total = ref(habits.value.pagination.total)
     <LazyDashboardReadingModalForm v-model:open="openRecordModal" />
     <ReadingHabitTable
       v-model:page="page"
-      v-model:page-count="pageCount"
       :total="total"
       :data="habits.data"
       :with-name="false"
