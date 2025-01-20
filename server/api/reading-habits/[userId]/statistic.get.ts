@@ -28,6 +28,16 @@ export default defineEventHandler(
       })
     }
 
+    if (data.length === 0) {
+      return {
+        error: null,
+        mostGenre: '-',
+        pageCountTotal: 0,
+        totalPoint: 0,
+        totalRecord: 0,
+      }
+    }
+
     const stats = data.reduce(
       (acc, curr) => {
         const point = curr.page_count * curr.genre.multiple
