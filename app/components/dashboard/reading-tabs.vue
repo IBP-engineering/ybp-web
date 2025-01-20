@@ -20,6 +20,9 @@ const { data: habits } = await useFetch(
 )
 
 const openRecordModal = ref(false)
+const page = ref(habits.value.pagination.page)
+const pageCount = ref(10)
+const total = ref(habits.value.pagination.total)
 </script>
 
 <template>
@@ -73,6 +76,12 @@ const openRecordModal = ref(false)
     </div>
 
     <LazyDashboardReadingModalForm v-model:open="openRecordModal" />
-    <ReadingHabitTable :data="habits.data" :with-name="false" />
+    <ReadingHabitTable
+      v-model:page="page"
+      v-model:page-count="pageCount"
+      v-model:total="total"
+      :data="habits.data"
+      :with-name="false"
+    />
   </div>
 </template>

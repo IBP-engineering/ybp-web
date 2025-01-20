@@ -15,6 +15,10 @@ const props = withDefaults(
   { withName: true, viewOnly: false },
 )
 
+const page = defineModel('page', { type: Number })
+const pageCount = defineModel('pageCount', { type: Number })
+const total = defineModel('total', { type: Number })
+
 const calculatedData = computed(() => {
   return props.data.map((data, i) => {
     return {
@@ -113,6 +117,11 @@ Ditambahkan pada {{ row.created_at }}</pre
         />
       </template>
     </UTable>
+    <div
+      class="flex justify-end border-t border-gray-200 px-3 py-3.5 dark:border-gray-700"
+    >
+      <UPagination v-model="page" :page-count="pageCount" :total="total" />
+    </div>
 
     <LazyDashboardReadingModalForm
       v-model:id="idToUpdate"
