@@ -5,6 +5,8 @@ const props = withDefaults(
   defineProps<{
     withName?: boolean
     viewOnly?: boolean
+    isLoading?: boolean
+    total: number
     data: Partial<
       Omit<ReadingHabit, 'genre' | 'created_by'> & {
         genre: Partial<BookGenre>
@@ -12,12 +14,11 @@ const props = withDefaults(
       }
     >[]
   }>(),
-  { withName: true, viewOnly: false },
+  { withName: true, isLoading: false, viewOnly: false },
 )
 
 const page = defineModel('page', { type: Number })
 const pageCount = defineModel('pageCount', { type: Number })
-const total = defineModel('total', { type: Number })
 
 const calculatedData = computed(() => {
   return props.data.map((data, i) => {
@@ -95,6 +96,7 @@ const handleOpenModal = (id: string) => {
   <div class="rounded-lg border border-gray-300 bg-white py-2 shadow">
     <UTable
       v-model:expand="expand"
+      :loading="isLoading"
       :columns="filteredColumns"
       :rows="calculatedData"
     >

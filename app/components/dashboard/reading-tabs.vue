@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import type { User } from '~/types/entities'
 
+const page = ref(1)
+const pageCount = ref(10)
+const openRecordModal = ref(false)
+
 const { data: currentUser } = useNuxtData<User>('current-user')
 const { data: statistic } = await useFetch(
   `/api/reading-habits/${currentUser.value.id}/statistic`,
@@ -8,20 +12,14 @@ const { data: statistic } = await useFetch(
     key: `habits/user/${currentUser.value.id}/statistic`,
   },
 )
-const { data: habits } = await useFetch(
+const { data: habits, status } = await useFetch(
   `/api/reading-habits/${currentUser?.value?.id}`,
   {
-    query: {
-      page: 1,
-      limit: 10,
-    },
-    key: `habits/user/${currentUser.value.id}`,
+    query: { page },
+    key: `habits/user/${currentUser.value.id}/?page=${page.value}`,
   },
 )
 
-const openRecordModal = ref(false)
-const page = ref(habits.value.pagination.page)
-const pageCount = ref(10)
 const total = ref(habits.value.pagination.total)
 </script>
 
@@ -79,9 +77,10 @@ const total = ref(habits.value.pagination.total)
     <ReadingHabitTable
       v-model:page="page"
       v-model:page-count="pageCount"
-      v-model:total="total"
+      :total="total"
       :data="habits.data"
       :with-name="false"
+      :is-loading="status === 'pending'"
     />
   </div>
 </template>
