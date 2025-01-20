@@ -319,7 +319,9 @@ const dropdownItems = [
           </NuxtLink>
         </div>
         <div class="flex">
-          <p class="font-medium">© 2024 Yogyakarta Book Party</p>
+          <p class="font-medium">
+            © {{ new Date().getFullYear() }} Yogyakarta Book Party
+          </p>
         </div>
       </div>
     </footer>
