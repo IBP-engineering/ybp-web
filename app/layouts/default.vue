@@ -274,6 +274,11 @@ const dropdownItems = [
                   >
                 </li>
                 <li>
+                  <NuxtLink to="/reading-habits" class="hover:underline"
+                    >Reading Habits</NuxtLink
+                  >
+                </li>
+                <li>
                   <NuxtLink to="/goodies" class="hover:underline"
                     >Goodies (coming soon)</NuxtLink
                   >
