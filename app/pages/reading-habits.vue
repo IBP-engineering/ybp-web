@@ -26,8 +26,8 @@ const total = ref(habits?.value?.pagination.total ?? 0)
     <section class="text-center">
       <h1 class="text-4xl font-bold leading-relaxed">Reading Habits</h1>
       <p class="text-gray-600">
-        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eligendi
-        ipsam, harum saepe quas in et?
+        Ketika membaca menjadi sebuah kebiasaan. YBP punya cara untuk
+        menjadikannya sebuah reward.
       </p>
     </section>
 
@@ -50,7 +50,7 @@ const total = ref(habits?.value?.pagination.total ?? 0)
       >
     </div>
 
-    <div class="mt-8">
+    <div class="my-4">
       <ReadingHabitTable
         v-model:page="page"
         :total="total"
@@ -59,5 +59,13 @@ const total = ref(habits?.value?.pagination.total ?? 0)
         :data="habits?.data ?? []"
       />
     </div>
+
+    <UAlert
+      :actions="[{ variant: 'solid', color: 'primary', label: 'Gabung' }]"
+      title="Haloo Bookmates!"
+      description="Pengen ikutan namamu bisa ada di daftar di atas? Yuk, ikutan bersama
+      Bookmates lainnya di tantangan Reading Habits dari YBP. Siapa
+      tahu kamu adalah pemenang selanjutnya. 👀👀"
+    />
   </div>
 </template>
