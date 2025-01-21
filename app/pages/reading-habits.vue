@@ -60,12 +60,10 @@ const total = ref(habits?.value?.pagination.total ?? 0)
       />
     </div>
 
-    <UAlert
-      :actions="[{ variant: 'solid', color: 'primary', label: 'Gabung' }]"
-      title="Haloo Bookmates!"
-      description="Pengen ikutan namamu bisa ada di daftar di atas? Yuk, ikutan bersama
-      Bookmates lainnya di tantangan Reading Habits dari YBP. Siapa
-      tahu kamu adalah pemenang selanjutnya. 👀👀"
-    />
+    <SharedJoinBanner>
+      Pengen ikutan namamu bisa ada di daftar di atas? Yuk, ikutan bersama
+      Bookmates lainnya di tantangan Reading Habits dari YBP. Siapa tahu kamu
+      adalah pemenang selanjutnya. 👀👀
+    </SharedJoinBanner>
   </div>
 </template>

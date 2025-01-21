@@ -198,18 +198,11 @@ useSeoMeta({
           </div>
         </div>
 
-        <div
-          class="mt-8 space-y-2 border-2 border-dotted border-gray-300 bg-gradient-to-t from-gray-100 to-gray-50 p-2"
-        >
-          <UIcon name="ph:flag-banner-duotone" />
-          <span class="ml-1">Haloo Bookmates!</span>
-          <small class="block text-gray-600">
-            Punya cerita menarik yang ingin dibagikan? Di sinilah tempatnya kamu
-            bisa membagikan kisah, pengalaman, tips bermanfaat, atau ulasan buku
-            favorit. Saatnya tulisan kamu menemukan pembaca! 📖
-          </small>
-          <UButton size="sm" to="/login">Gabung sekarang</UButton>
-        </div>
+        <SharedJoinBanner>
+          Punya cerita menarik yang ingin dibagikan? Di sinilah tempatnya kamu
+          bisa membagikan kisah, pengalaman, tips bermanfaat, atau ulasan buku
+          favorit. Saatnya tulisan kamu menemukan pembaca! 📖
+        </SharedJoinBanner>
       </div>
 
       <div
