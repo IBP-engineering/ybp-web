@@ -231,6 +231,7 @@ const dropdownItems = [
     </nav>
 
     <main class="z-10 mb-24 h-full">
+      <WelcomingBanner />
       <slot />
     </main>
 
@@ -270,6 +271,11 @@ const dropdownItems = [
                 <li>
                   <NuxtLink to="/stories" class="hover:underline"
                     >Stories</NuxtLink
+                  >
+                </li>
+                <li>
+                  <NuxtLink to="/reading-habits" class="hover:underline"
+                    >Reading Habits</NuxtLink
                   >
                 </li>
                 <li>
@@ -313,7 +319,9 @@ const dropdownItems = [
           </NuxtLink>
         </div>
         <div class="flex">
-          <p class="font-medium">© 2024 Yogyakarta Book Party</p>
+          <p class="font-medium">
+            © {{ new Date().getFullYear() }} Yogyakarta Book Party
+          </p>
         </div>
       </div>
     </footer>

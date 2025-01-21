@@ -143,7 +143,7 @@ const items = [
     </main>
     <footer class="mt-auto w-full pb-1 pt-8">
       <div class="mx-auto text-center text-gray-600">
-        <small>© Yogyakarta Book Party 2024</small>
+        <small>© Yogyakarta Book Party {{ new Date().getFullYear() }}</small>
       </div>
     </footer>
   </div>

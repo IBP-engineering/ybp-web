@@ -6,16 +6,19 @@ useHead({
   title: 'Reading Habits',
 })
 
+const page = ref(1)
 const date = ref(new Date())
 
-const { data: habits } = await useFetch('/api/reading-habits', {
+const { data: habits, status } = await useFetch('/api/reading-habits', {
   query: {
-    date: date.value.toISOString(),
-    page: 1,
-    limit: 10,
+    date,
+    page,
   },
-  key: 'habits',
+  watch: [date],
+  key: `habits/${date.value.toDateString()}/?page=${page.value}`,
 })
+
+const total = ref(habits?.value?.pagination.total ?? 0)
 </script>
 
 <template>
@@ -48,7 +51,13 @@ const { data: habits } = await useFetch('/api/reading-habits', {
     </div>
 
     <div class="mt-8">
-      <ReadingHabitTable :view-only="true" :data="habits.data" />
+      <ReadingHabitTable
+        v-model:page="page"
+        :total="total"
+        :is-loading="status === 'pending'"
+        :view-only="true"
+        :data="habits?.data ?? []"
+      />
     </div>
   </div>
 </template>

@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import type { User } from '~/types/entities'
 
+const page = ref(1)
+const openRecordModal = ref(false)
+
 const { data: currentUser } = useNuxtData<User>('current-user')
 const { data: statistic } = await useFetch(
   `/api/reading-habits/${currentUser.value.id}/statistic`,
@@ -8,18 +11,15 @@ const { data: statistic } = await useFetch(
     key: `habits/user/${currentUser.value.id}/statistic`,
   },
 )
-const { data: habits } = await useFetch(
+const { data: habits, status } = await useFetch(
   `/api/reading-habits/${currentUser?.value?.id}`,
   {
-    query: {
-      page: 1,
-      limit: 10,
-    },
-    key: `habits/user/${currentUser.value.id}`,
+    query: { page },
+    key: `habits/user/${currentUser.value.id}/?page=${page.value}`,
   },
 )
 
-const openRecordModal = ref(false)
+const total = ref(habits?.value?.pagination.total ?? 0)
 </script>
 
 <template>
@@ -73,6 +73,12 @@ const openRecordModal = ref(false)
     </div>
 
     <LazyDashboardReadingModalForm v-model:open="openRecordModal" />
-    <ReadingHabitTable :data="habits.data" :with-name="false" />
+    <ReadingHabitTable
+      v-model:page="page"
+      :total="total"
+      :data="habits.data"
+      :with-name="false"
+      :is-loading="status === 'pending'"
+    />
   </div>
 </template>
