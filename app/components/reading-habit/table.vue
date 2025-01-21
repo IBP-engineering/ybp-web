@@ -16,26 +16,6 @@ const props = withDefaults(
   }>(),
   { withName: true, isLoading: false, viewOnly: false },
 )
-
-const page = defineModel('page', { type: Number })
-const pageCount = defineModel('pageCount', { type: Number })
-
-const calculatedData = computed(() => {
-  return props.data.map((data, i) => {
-    return {
-      ...data,
-      number: i + 1,
-      name: data.created_by.display_name,
-      genre: data.genre.label,
-      point: data.page_count * data.genre.multiple,
-      created_at: new Intl.DateTimeFormat('id', {
-        dateStyle: 'long',
-        timeStyle: 'long',
-      }).format(new Date(data.created_at)),
-    }
-  })
-})
-
 const columns = [
   {
     key: 'number',
@@ -57,6 +37,7 @@ const columns = [
   {
     key: 'genre',
     label: 'Genre',
+    sortable: true,
   },
   {
     key: 'summary',
@@ -73,12 +54,51 @@ const columns = [
   },
 ]
 
+const page = defineModel('page', { type: Number })
+const pageCount = defineModel('pageCount', { type: Number })
+const searchQuery = ref('')
 const expand = ref({
   openedRows: [],
   row: {},
 })
 const openModal = ref(false)
 const idToUpdate = ref('')
+
+const mapTableData = (data: typeof props.data) => {
+  if (data?.length === 0) {
+    return []
+  }
+
+  return data.map((data, i) => {
+    return {
+      ...data,
+      number: i + 1,
+      name: data.created_by.display_name,
+      genre: data.genre.label,
+      point: data.page_count * data.genre.multiple,
+      created_at: new Intl.DateTimeFormat('id', {
+        dateStyle: 'long',
+        timeStyle: 'long',
+      }).format(new Date(data.created_at)),
+    }
+  })
+}
+
+const calculatedData = computed(() => {
+  if (!searchQuery.value) {
+    return mapTableData(props.data)
+  }
+
+  const searchedData = props.data?.filter(book => {
+    return Object.values(book).some(value => {
+      return String(value)
+        .toLowerCase()
+        .includes(searchQuery.value.toLowerCase())
+    })
+  })
+
+  return mapTableData(searchedData)
+})
 
 const filteredColumns = computed(() => {
   if (props.withName) {
@@ -96,6 +116,9 @@ const handleOpenModal = (id: string) => {
 
 <template>
   <div class="rounded-lg border border-gray-300 bg-white py-2 shadow">
+    <div class="flex border-b border-gray-200 px-3 py-3.5 dark:border-gray-700">
+      <UInput v-model="searchQuery" placeholder="Cari sesuatu..." />
+    </div>
     <UTable
       v-model:expand="expand"
       :loading="isLoading"
