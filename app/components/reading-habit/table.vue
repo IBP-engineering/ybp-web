@@ -52,6 +52,7 @@ const columns = [
   {
     key: 'page_count',
     label: 'Jumlah Halaman',
+    sortable: true,
   },
   {
     key: 'genre',
@@ -65,6 +66,7 @@ const columns = [
   {
     key: 'point',
     label: 'Poin',
+    sortable: true,
   },
   {
     key: 'actions',
