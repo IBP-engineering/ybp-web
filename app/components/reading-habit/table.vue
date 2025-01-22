@@ -55,7 +55,7 @@ const columns = [
 ]
 
 const page = defineModel('page', { type: Number })
-const pageCount = defineModel('pageCount', { type: Number })
+const pageCount = defineModel('pageCount', { type: Number, default: 10 })
 const searchQuery = ref('')
 const expand = ref({
   openedRows: [],
@@ -72,7 +72,7 @@ const mapTableData = (data: typeof props.data) => {
   return data.map((data, i) => {
     return {
       ...data,
-      number: i + 1,
+      number: getPageNumber(i),
       name: data.created_by.display_name,
       genre: data.genre.label,
       point: data.page_count * data.genre.multiple,
@@ -99,6 +99,11 @@ const calculatedData = computed(() => {
 
   return mapTableData(searchedData)
 })
+
+const getPageNumber = (index: number) => {
+  const globalIndexOffset = (page.value - 1) * pageCount.value // Correct offset calculation
+  return globalIndexOffset + index + 1
+}
 
 const filteredColumns = computed(() => {
   if (props.withName) {
