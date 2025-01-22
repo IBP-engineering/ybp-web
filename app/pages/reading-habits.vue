@@ -9,6 +9,13 @@ useHead({
 const page = ref(1)
 const date = ref(new Date())
 
+watch(date, () => {
+  if (date.value) {
+    // reset to page 1 whenever date is changed
+    page.value = 1
+  }
+})
+
 const { data: habits, status } = await useFetch('/api/reading-habits', {
   query: {
     date,
@@ -17,8 +24,6 @@ const { data: habits, status } = await useFetch('/api/reading-habits', {
   watch: [date],
   key: `habits/${date.value.toDateString()}/?page=${page.value}`,
 })
-
-const total = ref(habits?.value?.pagination.total ?? 0)
 </script>
 
 <template>
@@ -53,7 +58,7 @@ const total = ref(habits?.value?.pagination.total ?? 0)
     <div class="my-4">
       <ReadingHabitTable
         v-model:page="page"
-        :total="total"
+        :total="habits?.pagination.total"
         :is-loading="status === 'pending'"
         :view-only="true"
         :data="habits?.data ?? []"

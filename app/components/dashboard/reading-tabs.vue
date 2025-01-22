@@ -18,8 +18,6 @@ const { data: habits, status } = await useFetch(
     key: `habits/user/${currentUser.value.id}/?page=${page.value}`,
   },
 )
-
-const total = ref(habits?.value?.pagination.total ?? 0)
 </script>
 
 <template>
@@ -75,7 +73,7 @@ const total = ref(habits?.value?.pagination.total ?? 0)
     <LazyDashboardReadingModalForm v-model:open="openRecordModal" />
     <ReadingHabitTable
       v-model:page="page"
-      :total="total"
+      :total="habits?.pagination.total"
       :data="habits.data"
       :with-name="false"
       :is-loading="status === 'pending'"
