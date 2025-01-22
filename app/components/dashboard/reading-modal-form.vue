@@ -166,10 +166,7 @@ const resetValue = () => {
 }
 
 const refreshData = async () => {
-  await refreshNuxtData([
-    `habits/user/${currentUser.value.id}/?page=1`,
-    `habits/user/${currentUser.value.id}/statistic`,
-  ])
+  await refreshNuxtData(`habits/user/${currentUser.value.id}`)
 }
 
 watch([providedId, existingHabit], () => {
