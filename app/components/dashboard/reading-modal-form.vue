@@ -198,7 +198,9 @@ watch([providedId, existingHabit], () => {
           <b>{{ providedId ? 'Update Habit' : 'Tambah baru' }}</b>
         </template>
         <div class="flex flex-col gap-4">
-          <p>
+          <p
+            class="rounded-sm border-b border-gray-300 bg-gray-50 text-center text-sm text-gray-500"
+          >
             {{
               new Intl.DateTimeFormat('id', { dateStyle: 'long' }).format(
                 new Date(),
