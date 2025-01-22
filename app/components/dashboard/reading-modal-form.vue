@@ -198,12 +198,19 @@ watch([providedId, existingHabit], () => {
           <b>{{ providedId ? 'Update Habit' : 'Tambah baru' }}</b>
         </template>
         <div class="flex flex-col gap-4">
-          <UFormGroup required label="Judul Buku" name="title">
+          <p>
+            {{
+              new Intl.DateTimeFormat('id', { dateStyle: 'long' }).format(
+                new Date(),
+              )
+            }}
+          </p>
+          <UFormGroup required label="Judul buku" name="title">
             <UInput v-model="state.title" :loading="status === 'pending'" />
           </UFormGroup>
           <UFormGroup
             required
-            label="Jumlah Halaman"
+            label="Jumlah halaman"
             help="Jumlah halaman buku yang dibaca"
             name="pageCount"
           >
