@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { format } from '@formkit/tempo'
+import { format } from 'date-fns'
+import id from 'date-fns/locale/id'
 import type { Story, User } from '~/types/entities'
 
 const props = defineProps<{
@@ -58,7 +59,8 @@ const storyOptions = [
         {{ story.title }}
       </h3>
       <small class="text-gray-600"
-        >Ditulis pada {{ format(story.created_at, 'long', 'id') }}</small
+        >Ditulis pada
+        {{ format(new Date(story.created_at), 'PPP', { locale: id }) }}</small
       >
     </NuxtLink>
     <div>

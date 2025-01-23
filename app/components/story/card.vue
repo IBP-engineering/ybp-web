@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { format } from '@formkit/tempo'
+import { format } from 'date-fns'
+import id from 'date-fns/locale/id'
 import type { Story, User } from '~/types/entities'
 
 defineProps<{
@@ -25,7 +26,7 @@ defineProps<{
           author.display_name
         }}</span>
         <small class="block text-gray-600">{{
-          format(story.created_at, 'medium', 'id')
+          format(new Date(story.created_at), 'PP', { locale: id })
         }}</small>
       </div>
     </NuxtLink>

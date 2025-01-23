@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-import { format } from '@formkit/tempo'
+import { format } from 'date-fns'
+import id from 'date-fns/locale/id'
 
 defineOgImageComponent('default')
 
@@ -178,10 +179,14 @@ useSeoMeta({
                   >{{ story.author.display_name }}</ULink
                 >
                 <small
-                  :title="format(story.created_at, 'full')"
+                  :title="
+                    format(new Date(story.created_at), 'PPPppp', { locale: id })
+                  "
                   class="block text-xs text-gray-600"
                   >Ditulis pada
-                  {{ format(story.created_at, 'DD MMM', 'id') }}</small
+                  {{
+                    format(new Date(story.created_at), 'PPP', { locale: id })
+                  }}</small
                 >
               </div>
             </div>
@@ -230,7 +235,9 @@ useSeoMeta({
           <li>
             <b class="text-xs">BERGABUNG</b>
             <p class="text-gray-600">
-              {{ format(story.author.created_at, 'long', 'id') }}
+              {{
+                format(new Date(story.author.created_at), 'PPP', { locale: id })
+              }}
             </p>
           </li>
         </ul>

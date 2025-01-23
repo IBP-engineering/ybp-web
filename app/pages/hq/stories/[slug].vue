@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { format } from '@formkit/tempo'
+import { format } from 'date-fns'
+import id from 'date-fns/locale/id'
 import type { Database } from '~/types/database.types'
 
 definePageMeta({
@@ -20,7 +21,7 @@ const { data: story } = await useAsyncData(`hq/stories/${slug}`, async () => {
       tags:story_tags!id(tag_id(*))
       `,
     )
-    .eq('slug', slug)
+    .eq('slug', slug.toString())
     .single()
 
   if (error) {
@@ -86,11 +87,19 @@ const { data: story } = await useAsyncData(`hq/stories/${slug}`, async () => {
           <small class="mt-4 text-gray-600">
             Ditulis oleh
             {{ story.author.display_name }}, pada
-            {{ format(story.created_at, 'DD MMM YYYY, HH:mm', 'id') }}
+            {{
+              format(new Date(story.created_at), 'dd MMM yyyy, HH:mm', {
+                locale: id,
+              })
+            }}
           </small>
           <small class="text-gray-600">
             Update terakhir pada
-            {{ format(story.updated_at, 'DD MMM YYYY, HH:mm', 'id') }}
+            {{
+              format(new Date(story.updated_at), 'dd MMM yyyy, HH:mm', {
+                locale: id,
+              })
+            }}
           </small>
         </div>
       </div>

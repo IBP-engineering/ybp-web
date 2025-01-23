@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { format } from '@formkit/tempo'
+import { format } from 'date-fns'
+import id from 'date-fns/locale/id'
 
 defineOgImageComponent('default')
 
@@ -11,7 +12,7 @@ const { data: user } = await useAsyncData(`users/${username}`, async () => {
   const { data } = await supabase
     .from('users')
     .select('id, username, display_name, location, bio, created_at')
-    .eq('username', username)
+    .eq('username', username.toString())
     .eq('is_active', true)
     .single()
 
@@ -83,7 +84,7 @@ useSeoMeta({
         >
         <span class="inline-flex items-center gap-1"
           ><UIcon name="heroicons:cake-solid" class="h-6 w-6" /> Bergabung pada
-          {{ format(user.created_at, 'long', 'id') }}</span
+          {{ format(new Date(user.created_at), 'PPP', { locale: id }) }}</span
         >
       </div>
     </div>

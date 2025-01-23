@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { format } from '@formkit/tempo'
+import { format } from 'date-fns'
+import id from 'date-fns/locale/id'
 import type { Story, User } from '~/types/entities'
 
 const props = defineProps<{
@@ -59,7 +60,11 @@ if (props.story.cover_path) {
         >
       </div>
       <p class="text-gray-600">
-        {{ format(story.created_at, 'DD MMM YYYY, HH:mm') }}
+        {{
+          format(new Date(story.created_at), 'dd MMM yyyy, HH:mm', {
+            locale: id,
+          })
+        }}
       </p>
       <NuxtLink
         class="mt-4 flex items-center text-gray-600 hover:underline"

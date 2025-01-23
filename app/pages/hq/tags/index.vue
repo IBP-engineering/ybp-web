@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import * as v from 'valibot'
 import type { FormSubmitEvent } from '#ui/types'
-import { format } from '@formkit/tempo'
+import { format } from 'date-fns'
+import id from 'date-fns/locale/id'
 
 definePageMeta({
   layout: 'hq',
@@ -244,14 +245,9 @@ const closeTagDetail = () => {
             </p>
             <p>
               {{
-                format(
-                  new Date(tag?.created_at.toString()),
-                  {
-                    date: 'long',
-                    time: 'short',
-                  },
-                  'id',
-                )
+                format(new Date(tag?.created_at.toString()), 'PPPppp', {
+                  locale: id,
+                })
               }}
             </p>
           </div>
