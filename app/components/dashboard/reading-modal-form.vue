@@ -166,10 +166,7 @@ const resetValue = () => {
 }
 
 const refreshData = async () => {
-  await refreshNuxtData([
-    `habits/user/${currentUser.value.id}/?page=1`,
-    `habits/user/${currentUser.value.id}/statistic`,
-  ])
+  await refreshNuxtData(`habits/user/${currentUser.value.id}`)
 }
 
 watch([providedId, existingHabit], () => {
@@ -201,12 +198,21 @@ watch([providedId, existingHabit], () => {
           <b>{{ providedId ? 'Update Habit' : 'Tambah baru' }}</b>
         </template>
         <div class="flex flex-col gap-4">
-          <UFormGroup required label="Judul Buku" name="title">
+          <p
+            class="rounded-sm border-b border-gray-300 bg-gray-50 text-center text-sm text-gray-500"
+          >
+            {{
+              new Intl.DateTimeFormat('id', { dateStyle: 'long' }).format(
+                new Date(),
+              )
+            }}
+          </p>
+          <UFormGroup required label="Judul buku" name="title">
             <UInput v-model="state.title" :loading="status === 'pending'" />
           </UFormGroup>
           <UFormGroup
             required
-            label="Jumlah Halaman"
+            label="Jumlah halaman"
             help="Jumlah halaman buku yang dibaca"
             name="pageCount"
           >

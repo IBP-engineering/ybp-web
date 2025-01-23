@@ -9,6 +9,13 @@ useHead({
 const page = ref(1)
 const date = ref(new Date())
 
+watch(date, () => {
+  if (date.value) {
+    // reset to page 1 whenever date is changed
+    page.value = 1
+  }
+})
+
 const { data: habits, status } = await useFetch('/api/reading-habits', {
   query: {
     date,
@@ -17,8 +24,6 @@ const { data: habits, status } = await useFetch('/api/reading-habits', {
   watch: [date],
   key: `habits/${date.value.toDateString()}/?page=${page.value}`,
 })
-
-const total = ref(habits?.value?.pagination.total ?? 0)
 </script>
 
 <template>
@@ -26,8 +31,8 @@ const total = ref(habits?.value?.pagination.total ?? 0)
     <section class="text-center">
       <h1 class="text-4xl font-bold leading-relaxed">Reading Habits</h1>
       <p class="text-gray-600">
-        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eligendi
-        ipsam, harum saepe quas in et?
+        Ketika membaca menjadi sebuah kebiasaan. YBP punya cara untuk
+        menjadikannya sebuah reward.
       </p>
     </section>
 
@@ -50,14 +55,20 @@ const total = ref(habits?.value?.pagination.total ?? 0)
       >
     </div>
 
-    <div class="mt-8">
+    <div class="my-4">
       <ReadingHabitTable
         v-model:page="page"
-        :total="total"
+        :total="habits?.pagination.total"
         :is-loading="status === 'pending'"
         :view-only="true"
         :data="habits?.data ?? []"
       />
     </div>
+
+    <SharedJoinBanner>
+      Pengen ikutan namamu bisa ada di daftar di atas? Yuk, ikutan bersama
+      Bookmates lainnya di tantangan Reading Habits dari YBP. Siapa tahu kamu
+      adalah pemenang selanjutnya. 👀👀
+    </SharedJoinBanner>
   </div>
 </template>
