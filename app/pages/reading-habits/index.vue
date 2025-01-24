@@ -49,6 +49,7 @@ const { data: habits, status } = await useFetch('/api/reading-habits', {
       </UPopover>
 
       <UButton
+        to="/reading-habits/leaderboard"
         variant="link"
         trailing-icon="heroicons:arrow-small-right-20-solid"
         >Lihat klasemen</UButton
