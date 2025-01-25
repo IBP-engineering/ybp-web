@@ -9,22 +9,44 @@ useHead({
 const selected = ref({ start: sub(new Date(), { days: 7 }), end: new Date() })
 const winners = [
   {
+    rank: 4,
     name: 'John',
     profile: 'https://api.dicebear.com/9.x/glass/svg?seed=John',
     point: 12000,
     streakDay: 6,
   },
   {
+    rank: 5,
     name: 'Hendra',
     profile: 'https://api.dicebear.com/9.x/glass/svg?seed=Hendra',
     point: 4000,
     streakDay: 5,
   },
   {
+    rank: 6,
     name: 'Aisyah',
     profile: 'https://api.dicebear.com/9.x/glass/svg?seed=Aisyah',
     point: 2400,
     streakDay: 6,
+  },
+]
+
+const columns = [
+  {
+    key: 'rank',
+    label: 'Peringkat',
+  },
+  {
+    key: 'name',
+    label: 'Nama',
+  },
+  {
+    key: 'point',
+    label: 'Poin',
+  },
+  {
+    key: 'streakDay',
+    label: 'Hari',
   },
 ]
 
@@ -82,5 +104,19 @@ const winnerColors = [
         </div>
       </div>
     </div>
+
+    <UTable
+      class="mt-16"
+      :ui="{ tbody: '', divide: '' }"
+      :rows="winners"
+      :columns="columns"
+    >
+      <template #rank-data="{ row }">
+        <span class="inline-flex items-center gap-1">
+          <UIcon name="ph:crown-simple-fill" />
+          {{ row.rank }}
+        </span>
+      </template>
+    </UTable>
   </div>
 </template>
