@@ -67,7 +67,10 @@ const winnerColors = [
         <span
           class="inline-flex items-center rounded border px-1 py-0.5 text-gray-50"
           :class="winnerColors[key]"
-          ><UIcon name="ph:crown-simple-fill"
+        >
+          <UIcon v-if="key === 0" name="ph:crown-simple-fill" />
+          <UIcon v-else-if="key === 1" name="ph:number-circle-two-fill" />
+          <UIcon v-else="key === 2" name="ph:number-circle-three-fill"
         /></span>
         <p>{{ win.streakDay }} hari</p>
         <div class="mt-1 flex items-center gap-2">
