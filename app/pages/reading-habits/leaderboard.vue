@@ -83,7 +83,7 @@ const winnerColors = [
           alt="profile"
           width="100"
           height="100"
-          class="rounded-full border"
+          class="mb-2 rounded-full border"
         />
         <b>{{ win.name }}</b>
         <span
