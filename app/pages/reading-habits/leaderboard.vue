@@ -7,29 +7,21 @@ useHead({
 })
 
 const selected = ref({ start: sub(new Date(), { days: 7 }), end: new Date() })
-const winners = [
+
+const query = computed(() => {
+  return {
+    startDate: selected.value.start.toISOString(),
+    endDate: selected.value.end.toISOString(),
+  }
+})
+
+const { data: winners, status } = await useFetch(
+  '/api/reading-habits/leaderboard',
   {
-    rank: 4,
-    name: 'John',
-    profile: 'https://api.dicebear.com/9.x/glass/svg?seed=John',
-    point: 12000,
-    streakDay: 6,
+    query,
+    key: `/reading-habits/leaderboard/?start=${selected.value.start.getUTCDate()}&end=${selected.value.end.getUTCDate()}`,
   },
-  {
-    rank: 5,
-    name: 'Hendra',
-    profile: 'https://api.dicebear.com/9.x/glass/svg?seed=Hendra',
-    point: 4000,
-    streakDay: 5,
-  },
-  {
-    rank: 6,
-    name: 'Aisyah',
-    profile: 'https://api.dicebear.com/9.x/glass/svg?seed=Aisyah',
-    point: 2400,
-    streakDay: 6,
-  },
-]
+)
 
 const columns = [
   {
@@ -37,7 +29,7 @@ const columns = [
     label: 'Peringkat',
   },
   {
-    key: 'name',
+    key: 'displayName',
     label: 'Nama',
   },
   {
@@ -49,6 +41,21 @@ const columns = [
     label: 'Hari',
   },
 ]
+
+const compoundWinner = computed(() => {
+  if (!winners.value?.data) return {}
+
+  const hallOfFame = winners.value.data.slice(0, 3)
+  const tableWinners = winners.value.data.slice(3).map((win, idx) => ({
+    ...win,
+    rank: idx + 4,
+  }))
+
+  return {
+    hallOfFame,
+    tableWinners,
+  }
+})
 
 const winnerColors = [
   'border-gold-300 bg-gold-500',
@@ -71,21 +78,21 @@ const winnerColors = [
       <SharedDateRange v-model:selected="selected" />
     </div>
 
-    <div class="mt-20 grid grid-cols-2 gap-4">
+    <div v-if="winners?.data?.length > 0" class="mt-20 grid grid-cols-2 gap-4">
       <div
-        v-for="(win, key) in winners"
-        :key="win.name"
+        v-for="(win, key) in compoundWinner.hallOfFame"
+        :key="win.username"
         class="flex flex-col items-center text-center"
         :class="{ 'col-span-2': key === 0 }"
       >
         <img
-          :src="win.profile"
+          :src="`https://api.dicebear.com/9.x/shapes/svg?seed=${win.username}`"
           alt="profile"
           width="100"
           height="100"
           class="mb-2 rounded-full border"
         />
-        <b>{{ win.name }}</b>
+        <b>{{ win.displayName }}</b>
         <span
           class="inline-flex items-center rounded border px-1 py-0.5 text-gray-50"
           :class="winnerColors[key]"
@@ -104,11 +111,15 @@ const winnerColors = [
         </div>
       </div>
     </div>
+    <div v-else>
+      <p>Sepertinya belum ada klasemen di tanggal ini</p>
+    </div>
 
     <UTable
       class="mt-16"
       :ui="{ tbody: '', divide: '' }"
-      :rows="winners"
+      :rows="compoundWinner.tableWinners"
+      :loading="status === 'pending'"
       :columns="columns"
     >
       <template #rank-data="{ row }">

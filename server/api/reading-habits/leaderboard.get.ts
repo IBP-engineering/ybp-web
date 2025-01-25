@@ -8,17 +8,20 @@ import {
 } from 'date-fns'
 import { Database } from '~/types/database.types'
 
+interface Data {
+  username: string
+  displayName: string
+  point: number
+  streakDay: number
+}
+
 export default defineEventHandler(
   async (
     event,
   ): Promise<{
     error: unknown
     hitCache: boolean
-    data: {
-      name: string
-      point: number
-      streakDay: number
-    }[]
+    data: Data[]
   }> => {
     try {
       const supabase = await serverSupabaseClient<Database>(event)
@@ -29,6 +32,7 @@ export default defineEventHandler(
       const endDate = endOfDay(
         new Date(cleanDate(_endDate.toString())),
       ).toISOString()
+      console.log(_startDate, _endDate)
 
       const { error, data } = await supabase
         .from('reading_habits')
@@ -37,15 +41,32 @@ export default defineEventHandler(
         id,
         page_count,
         created_at,
-        created_by(display_name,id),
+        created_by(display_name,username,id),
         genre(multiple)`,
         )
         .gte('created_at', startDate)
         .lte('created_at', endDate)
 
+      if (error) {
+        throw createError({
+          message: error.message,
+          statusCode: 400,
+          statusMessage: error.code,
+          statusText: error.details,
+        })
+      }
+
+      if (data.length === 0) {
+        return {
+          data: [],
+          hitCache: false,
+          error: null,
+        }
+      }
+
       const groupedByUser = Object.groupBy(data, item => item.created_by.id)
 
-      const result: { name: string; point: number; streakDay: number }[] = []
+      const result: Data[] = []
       for (const group of Object.values(groupedByUser)) {
         let totalPoint = 0
         const dates = []
@@ -57,24 +78,28 @@ export default defineEventHandler(
 
         const streakDay = calculateStreak(dates)
         result.push({
-          name: group[0].created_by.display_name,
+          displayName: group[0].created_by.display_name,
+          username: group[0].created_by.username,
           point: totalPoint,
           streakDay: streakDay.maxStreak,
         })
       }
 
-      console.log(result.toSorted((a, b) => b.streakDay - a.streakDay))
+      const sortedHabits = result.toSorted((a, b) => {
+        // First, compare streak days (descending order)
+        if (b.streakDay !== a.streakDay) {
+          return b.streakDay - a.streakDay
+        }
 
-      if (error) {
-        throw createError({
-          message: error.message,
-          statusCode: 400,
-          statusMessage: error.code,
-          statusText: error.details,
-        })
+        // If streak days are equal, compare points (descending order)
+        return b.point - a.point
+      })
+
+      return {
+        data: sortedHabits,
+        hitCache: false,
+        error: null,
       }
-
-      return { data: result, hitCache: false, error: null }
     } catch (error) {
       console.error(error)
       throw createError({
