@@ -15,7 +15,7 @@ interface Data {
   streakDay: number
 }
 
-export default defineEventHandler(
+export default defineCachedEventHandler(
   async (
     event,
   ): Promise<{
@@ -109,6 +109,7 @@ export default defineEventHandler(
       })
     }
   },
+  { maxAge: 60 * 60, name: 'getReadingHabitsLeaderboard' },
 )
 
 function cleanDate(date: string) {
