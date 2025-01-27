@@ -24,10 +24,23 @@ const { data: habits, status } = await useFetch('/api/reading-habits', {
   watch: [date],
   key: `habits/${date.value.toDateString()}/?page=${page.value}`,
 })
+
+const breadcrumbs = [
+  {
+    label: 'Home',
+    icon: 'i-heroicons-home',
+    to: '/',
+  },
+  {
+    label: 'Reading habits',
+    to: '/reading-habits',
+  },
+]
 </script>
 
 <template>
   <div class="container mx-auto px-4 md:px-0">
+    <UBreadcrumb :links="breadcrumbs" class="mb-8" />
     <section class="text-center">
       <h1 class="text-4xl font-bold leading-relaxed">Reading Habits</h1>
       <p class="text-gray-600">

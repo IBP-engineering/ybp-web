@@ -62,15 +62,33 @@ const winnerColors = [
   'border-silver-300 bg-silver-500',
   'border-bronze-300 bg-bronze-500',
 ]
+
+const breadcrumbs = [
+  {
+    label: 'Home',
+    icon: 'i-heroicons-home',
+    to: '/',
+  },
+  {
+    label: 'Reading habits',
+    to: '/reading-habits',
+  },
+  {
+    label: 'Klasemen',
+  },
+]
 </script>
 
 <template>
   <div class="container mx-auto px-4 md:px-0">
+    <UBreadcrumb :links="breadcrumbs" class="mb-8" />
     <section class="text-center">
-      <h1 class="text-4xl font-bold leading-relaxed">Klasemen sementara</h1>
+      <h1 class="text-4xl font-bold leading-relaxed">
+        <span class="text-primary-500">Klasemen </span>
+        sementara
+      </h1>
       <p class="text-gray-600">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Qui provident
-        corporis asperiores dignissimos sint impedit.
+        Update Klasemen tantangan Reading Habits: Siapa yang di Puncak?
       </p>
     </section>
 
