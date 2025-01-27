@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { format } from '@formkit/tempo'
+import { format } from 'date-fns'
+import id from 'date-fns/locale/id'
 import type { StoryStatusHistory } from '~/types/entities'
 
 defineProps<{
@@ -33,7 +34,11 @@ const historyColor = {
           >Diupdate oleh: {{ history.updated_by.display_name }}</small
         >
         <small class="block">
-          {{ format(history.created_at, 'DD MMM YYYY, HH:mm', 'id') }}
+          {{
+            format(new Date(history.created_at), 'dd MMM yyyy, HH:mm', {
+              locale: id,
+            })
+          }}
         </small>
       </div>
     </div>
