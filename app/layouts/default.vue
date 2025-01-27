@@ -98,15 +98,17 @@ const dropdownItems = [
       class="absolute -left-48 top-0 z-[4] w-full md:-top-20 md:left-0"
       alt="blur bg"
     />
-    <nav class="z-20 mb-4 mt-8 px-4 md:mb-10 md:px-0">
-      <div class="container mx-auto flex items-center justify-between">
+    <nav class="fixed z-20 mt-8 flex w-screen justify-center px-4 md:px-0">
+      <div
+        class="mx-auto flex w-full max-w-4xl items-center justify-between rounded-xl border border-gray-100/40 bg-white/60 px-4 py-1 shadow-sm backdrop-blur"
+      >
         <div class="flex w-full items-center justify-between">
           <NuxtLink to="/" class="flex items-center gap-1" title="To home page">
             <NuxtImg
               src="/assets/logo.jpg"
               width="41"
               height="41"
-              class="rounded border"
+              class="rounded border border-gray-300/50"
               alt="YBP Logo"
             />
             <div>
@@ -225,7 +227,7 @@ const dropdownItems = [
       </div>
     </nav>
 
-    <main class="z-10 mb-24 h-full">
+    <main class="z-10 mb-24 mt-[7rem] h-full md:mt-[8rem]">
       <WelcomingBanner />
       <slot />
     </main>
@@ -243,7 +245,7 @@ const dropdownItems = [
               alt="YBP Logo"
               height="70"
               width="70"
-              class="rounded-full border"
+              class="rounded border"
             />
             <div class="mt-4 flex items-center">
               <small class="text-gray-600">
