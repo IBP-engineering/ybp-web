@@ -131,7 +131,7 @@ const dropdownItems = [
         <LazyUDropdown
           v-if="userData"
           :items="dropdownItems"
-          :popper="{ placement: 'bottom-start' }"
+          :popper="{ strategy: 'absolute', placements: 'bottom', arrow: true }"
         >
           <UButton class="hidden md:flex" color="white" variant="ghost">
             <span class="hidden md:block">
