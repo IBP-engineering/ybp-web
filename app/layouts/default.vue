@@ -121,7 +121,7 @@ const dropdownItems = [
               <UChip :show="link.to === '/reading-habits'" size="lg" text="NEW">
                 <NuxtLink
                   :to="link.to"
-                  class="hover:bg-primary-200 hover:border-primary-300 focus:hover:border-primary-400 focus:hover:bg-primary-100 rounded-lg border-2 border-transparent px-4 py-1 text-gray-900 outline-none transition duration-300 ease-out focus-visible:ring md:w-auto"
+                  class="hover:bg-primary-200 hover:border-primary-300 focus:hover:border-primary-400 focus:hover:text-primary-900 hover:text-primary-900 focus:hover:bg-primary-100 rounded-lg border-2 border-transparent px-4 py-1 text-gray-900 outline-none transition duration-300 ease-out focus-visible:ring md:w-auto"
                 >
                   {{ link.label }}
                 </NuxtLink>
@@ -135,7 +135,12 @@ const dropdownItems = [
           :items="dropdownItems"
           :popper="{ strategy: 'absolute', placements: 'bottom', arrow: true }"
         >
-          <UButton class="hidden md:flex" color="white" variant="ghost">
+          <UButton
+            class="hidden md:flex"
+            size="sm"
+            color="white"
+            variant="ghost"
+          >
             <span class="hidden md:block">
               {{ userData?.display_name }}
             </span>
