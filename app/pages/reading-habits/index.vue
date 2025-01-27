@@ -2,8 +2,10 @@
 import { format } from 'date-fns'
 
 defineOgImageComponent('default')
-useHead({
+useSeoMeta({
   title: 'Reading Habits',
+  description:
+    'Ketika membaca menjadi sebuah kebiasaan. YBP punya cara untuk menjadikannya sebuah reward',
 })
 
 const page = ref(1)

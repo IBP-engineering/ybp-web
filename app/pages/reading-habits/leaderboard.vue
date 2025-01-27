@@ -2,8 +2,10 @@
 import { sub } from 'date-fns'
 
 defineOgImageComponent('default')
-useHead({
-  title: 'Reading habits leaderboard',
+useSeoMeta({
+  title: 'Reading Habits leaderboard',
+  description:
+    'Update Klasemen tantangan Reading Habits: Siapa yang di Puncak?',
 })
 
 const selected = ref({ start: sub(new Date(), { days: 7 }), end: new Date() })

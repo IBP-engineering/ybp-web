@@ -3,8 +3,9 @@ defineOgImageComponent('default')
 definePageMeta({
   middleware: 'need-auth',
 })
-useHead({
+useSeoMeta({
   title: 'Dashboard',
+  description: 'Satu tempat dashboard untuk mengatur kebutuhan pengguna',
 })
 
 const route = useRoute()
