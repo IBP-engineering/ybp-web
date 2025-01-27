@@ -143,8 +143,13 @@ const dropdownItems = [
             />
           </UButton>
         </LazyUDropdown>
-        <UButton v-else class="hidden md:flex" size="lg" to="/login"
-          >Join for free</UButton
+        <UButton
+          v-else
+          class="hidden md:flex"
+          size="sm"
+          trailing-icon="heroicons:arrow-small-right-20-solid"
+          to="/login"
+          >Sign in</UButton
         >
         <UButton
           icon="i-heroicons-bars-3"
@@ -219,8 +224,13 @@ const dropdownItems = [
                 </ul>
               </div>
             </div>
-            <UButton v-else size="xl" block variant="outline" to="/login"
-              >Join for free</UButton
+            <UButton
+              v-else
+              trailing-icon="heroicons:arrow-small-right-20-solid"
+              size="xl"
+              block
+              to="/login"
+              >Sign in</UButton
             >
           </div>
         </LazyUSlideover>
