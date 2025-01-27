@@ -4,7 +4,9 @@ const { socials } = useAppConfig()
 
 <template>
   <div class="flex w-full flex-col items-center justify-center">
-    <h3 class="text-xl leading-relaxed">Mari bergabung dan ikuti kami</h3>
+    <h3 id="contacts" class="text-xl leading-relaxed">
+      Mari bergabung dan ikuti kami
+    </h3>
 
     <div class="mt-4 flex w-full flex-wrap justify-center gap-4">
       <NuxtLink

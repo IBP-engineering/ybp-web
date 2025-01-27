@@ -17,16 +17,12 @@ const navlinks = [
     to: '/stories',
   },
   {
-    label: 'Reading Habits',
+    label: 'Reading habits',
     to: '/reading-habits',
   },
   {
-    label: 'About Us',
+    label: 'About us',
     to: '/#about-us',
-  },
-  {
-    label: 'FAQ',
-    to: '/#faq',
   },
 ]
 const openNavModal = ref(false)
@@ -104,21 +100,25 @@ const dropdownItems = [
     />
     <nav class="z-20 mb-4 mt-8 px-4 md:mb-10 md:px-0">
       <div class="container mx-auto flex items-center justify-between">
-        <div class="flex items-center">
-          <NuxtLink to="/" title="To home page">
+        <div class="flex w-full items-center justify-between">
+          <NuxtLink to="/" class="flex items-center gap-1" title="To home page">
             <NuxtImg
               src="/assets/logo.jpg"
-              width="55"
-              height="55"
-              class="rounded-full border"
+              width="41"
+              height="41"
+              class="rounded border"
               alt="YBP Logo"
             />
+            <div>
+              <b>Yogyakarta</b>
+              <p class="-mt-2">Book Party</p>
+            </div>
           </NuxtLink>
-          <ul class="ml-4 hidden items-center space-x-4 md:flex">
+          <ul class="mx-auto hidden items-center space-x-2 md:flex">
             <li v-for="link in navlinks" :key="link.to">
               <NuxtLink
                 :to="link.to"
-                class="px-4 py-3 text-gray-900 transition hover:underline focus:ring md:w-auto"
+                class="hover:bg-primary-200 hover:border-primary-300 focus:hover:border-primary-400 focus:hover:bg-primary-100 rounded-lg border-2 border-transparent px-4 py-1 text-gray-900 outline-none transition duration-300 ease-out focus-visible:ring md:w-auto"
               >
                 {{ link.label }}
               </NuxtLink>
@@ -141,13 +141,8 @@ const dropdownItems = [
             />
           </UButton>
         </LazyUDropdown>
-        <UButton
-          v-else
-          class="hidden md:flex"
-          size="lg"
-          variant="outline"
-          to="/login"
-          >Join Now</UButton
+        <UButton v-else class="hidden md:flex" size="lg" to="/login"
+          >Join for free</UButton
         >
         <UButton
           icon="i-heroicons-bars-3"
@@ -223,7 +218,7 @@ const dropdownItems = [
               </div>
             </div>
             <UButton v-else size="xl" block variant="outline" to="/login"
-              >Join Now</UButton
+              >Join for free</UButton
             >
           </div>
         </LazyUSlideover>
@@ -290,14 +285,15 @@ const dropdownItems = [
               <ul class="space-y-2">
                 <li>
                   <NuxtLink to="/#about-us" class="hover:underline"
-                    >About Us</NuxtLink
+                    >About us</NuxtLink
                   >
                 </li>
                 <li>
                   <NuxtLink to="/#faq" class="hover:underline">FAQ</NuxtLink>
                 </li>
-                <li><a href="#" class="hover:underline">Collaboration</a></li>
-                <li><a href="#" class="hover:underline">Donation</a></li>
+                <li>
+                  <a href="/#contacts" class="hover:underline">Collaboration</a>
+                </li>
               </ul>
             </div>
           </div>
