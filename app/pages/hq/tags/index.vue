@@ -86,7 +86,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
           title: data.title,
           description: data.description,
           is_active: data.isActive,
-          slug: data.slug,
+          slug: toSlug(data.slug, false),
         })
         .eq('id', selectedTagId.value)
       toast.add({
@@ -98,7 +98,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         title: data.title,
         description: data.description,
         is_active: data.isActive,
-        slug: data.slug,
+        slug: toSlug(data.slug, false),
         created_by: user.value.id,
       })
       toast.add({
