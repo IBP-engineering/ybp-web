@@ -74,14 +74,14 @@ const breadcrumbs = [
     to: '/reading-habits',
   },
   {
-    label: 'Klasemen',
+    label: 'Leaderboard',
   },
 ]
 </script>
 
 <template>
   <div class="container mx-auto px-4 md:px-0">
-    <UBreadcrumb :links="breadcrumbs" class="mb-8" />
+    <UBreadcrumb :links="breadcrumbs" class="mb-12" />
     <section class="text-center">
       <h1 class="text-4xl font-bold leading-relaxed">
         <span class="text-primary-500">Klasemen </span>
@@ -92,7 +92,7 @@ const breadcrumbs = [
       </p>
     </section>
 
-    <div class="mx-auto mt-8 flex w-full justify-center">
+    <div class="mx-auto mt-16 flex w-full justify-center">
       <SharedDateRange v-model:selected="selected" />
     </div>
 
