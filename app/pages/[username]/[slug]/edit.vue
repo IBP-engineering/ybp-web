@@ -15,8 +15,8 @@ const slug = route.params.slug
 const { data: currentStory } = await useAsyncData(`story/${slug}`, async () => {
   const { data, error } = await supabase
     .from('stories')
-    .select('*, tags:story_tags!id(tag:tag_id(*), id)')
-    .eq('slug', slug)
+    .select('*, tags:story_tags!id(tag:tag_id(*), id),author:users(username)')
+    .eq('slug', slug.toString())
     .single()
 
   if (error) {
@@ -227,6 +227,25 @@ const showFileUploader = () => {
   }
 }
 
+const breadcrumbs = [
+  {
+    label: 'Home',
+    icon: 'i-heroicons-home',
+    to: '/',
+  },
+  {
+    label: currentStory.value?.author?.username ?? '',
+    to: `/${currentStory.value?.author?.username}`,
+  },
+  {
+    label: currentStory.value?.slug ?? '',
+    to: `/${currentStory.value?.author?.username}/${currentStory.value?.slug}`,
+  },
+  {
+    label: 'Edit',
+  },
+]
+
 const removeImageCover = () => {
   previewImageUrl.value = ''
   form.coverImage = null
@@ -235,7 +254,7 @@ const removeImageCover = () => {
 
 useSeoMeta({
   title: `Sedang mengubah cerita ${currentStory.value.title}`,
-  description: `Sedang mengubah cerita ${currentStory.value.title}`,
+  description: `Mengubah cerita ${currentStory.value.title}`,
 })
 
 onMounted(() => {
@@ -252,7 +271,8 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="mx-auto w-full max-w-screen-xl px-4 md:px-0">
+  <div class="container mx-auto px-4 md:px-0">
+    <UBreadcrumb :links="breadcrumbs" />
     <div class="mx-auto mt-12 max-w-screen-lg">
       <div class="mb-4 flex flex-col gap-2 md:flex-row">
         <img

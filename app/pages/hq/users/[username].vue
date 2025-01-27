@@ -47,7 +47,7 @@ const { data: user, refresh: refreshUser } = await useAsyncData(
       .select(
         'username, id, display_name, created_at, is_active, bio, location, roles(name, id)',
       )
-      .eq('username', usernameParams)
+      .eq('username', usernameParams.toString())
       .single()
 
     if (error) {

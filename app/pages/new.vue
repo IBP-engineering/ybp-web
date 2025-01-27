@@ -169,6 +169,17 @@ const submitStory = async () => {
   }
 }
 
+const breadcrumbs = [
+  {
+    label: 'Home',
+    icon: 'i-heroicons-home',
+    to: '/',
+  },
+  {
+    label: 'New story',
+  },
+]
+
 const previewImage = (event: Event & { target: { files: File[] } }) => {
   const file = event.target.files[0]
   if (!file) {
@@ -213,7 +224,8 @@ const removeImageCover = () => {
 </script>
 
 <template>
-  <div class="mx-auto w-full max-w-screen-xl px-4 md:px-0">
+  <div class="container mx-auto px-4 md:px-0">
+    <UBreadcrumb :links="breadcrumbs" />
     <div class="mx-auto mt-12 max-w-screen-lg">
       <div class="mb-4 flex flex-col gap-2 md:flex-row">
         <img
