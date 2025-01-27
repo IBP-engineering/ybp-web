@@ -2,8 +2,10 @@
 import { format } from 'date-fns'
 
 defineOgImageComponent('default')
-useHead({
+useSeoMeta({
   title: 'Reading Habits',
+  description:
+    'Ketika membaca menjadi sebuah kebiasaan. YBP punya cara untuk menjadikannya sebuah reward',
 })
 
 const page = ref(1)
@@ -40,16 +42,18 @@ const breadcrumbs = [
 
 <template>
   <div class="container mx-auto px-4 md:px-0">
-    <UBreadcrumb :links="breadcrumbs" class="mb-8" />
+    <UBreadcrumb :links="breadcrumbs" class="mb-12" />
     <section class="text-center">
-      <h1 class="text-4xl font-bold leading-relaxed">Reading Habits</h1>
+      <h1 class="text-4xl font-bold leading-relaxed">
+        <span class="text-primary-500">Read</span>ing Habits
+      </h1>
       <p class="text-gray-600">
         Ketika membaca menjadi sebuah kebiasaan. YBP punya cara untuk
-        menjadikannya sebuah reward.
+        menjadikannya sebuah reward
       </p>
     </section>
 
-    <div class="mt-12 flex items-center justify-between">
+    <div class="mt-16 flex items-center justify-between">
       <UPopover :popper="{ placement: 'bottom-start' }">
         <UButton
           icon="i-heroicons-calendar-days-20-solid"

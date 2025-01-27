@@ -3,8 +3,9 @@ defineOgImageComponent('default')
 definePageMeta({
   middleware: 'need-auth',
 })
-useHead({
+useSeoMeta({
   title: 'Dashboard',
+  description: 'Satu tempat dashboard untuk mengatur kebutuhan pengguna',
 })
 
 const route = useRoute()
@@ -23,13 +24,25 @@ const tabs = [
   },
 ]
 
+const breadcrumbs = [
+  {
+    label: 'Home',
+    icon: 'i-heroicons-home',
+    to: '/',
+  },
+  {
+    label: 'Dashboard',
+  },
+]
+
 function onChange(index: number) {
   router.replace({ query: { tab: index } })
 }
 </script>
 
 <template>
-  <div class="mx-auto w-full max-w-screen-lg px-4 md:px-0">
+  <div class="container mx-auto px-4 md:px-0">
+    <UBreadcrumb :links="breadcrumbs" />
     <h1 class="text-2xl font-bold leading-relaxed">Dashboard</h1>
 
     <div class="mt-4">

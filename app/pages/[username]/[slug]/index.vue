@@ -55,6 +55,21 @@ if (!story.value) {
   })
 }
 
+const breadcrumbs = [
+  {
+    label: 'Home',
+    icon: 'i-heroicons-home',
+    to: '/',
+  },
+  {
+    label: story.value?.author?.username ?? '',
+    to: `/${story.value?.author?.username}`,
+  },
+  {
+    label: story.value?.slug ?? '',
+  },
+]
+
 const isUserHasReacted = computed(() => {
   const userId = user.value?.id
 
@@ -112,7 +127,11 @@ useSeoMeta({
 
 <template>
   <div class="mx-auto w-full max-w-screen-xl md:px-4 xl:px-0">
-    <div class="mt-12 flex w-full flex-col-reverse gap-4 lg:flex-row">
+    <div class="container mx-auto px-4 md:px-0">
+      <UBreadcrumb :links="breadcrumbs" />
+    </div>
+
+    <div class="mt-4 flex w-full flex-col-reverse gap-4 lg:flex-row">
       <div class="mt-8 flex w-24 items-center gap-2 px-4 md:flex-col md:px-0">
         <UTooltip text="Sukai cerita">
           <UButton

@@ -55,6 +55,17 @@ const storiesFiltered = computed(() => {
   return mapStoryTag(stories.value)
 })
 
+const breadcrumbs = [
+  {
+    label: 'Home',
+    icon: 'i-heroicons-home',
+    to: '/',
+  },
+  {
+    label: user.value?.username ?? '',
+  },
+]
+
 useSeoMeta({
   title: user.value.display_name,
   description: `Halaman profil ${user.value.display_name}`,
@@ -62,7 +73,8 @@ useSeoMeta({
 </script>
 
 <template>
-  <div class="mx-auto w-full max-w-screen-lg">
+  <div class="container mx-auto px-4 md:px-0">
+    <UBreadcrumb :links="breadcrumbs" class="mb-12" />
     <div
       class="mt-10 flex w-full flex-col items-center rounded-lg border-4 border-gray-300 bg-gray-50 px-4 pb-4 text-center"
     >
