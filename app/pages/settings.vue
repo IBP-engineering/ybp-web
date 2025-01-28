@@ -50,7 +50,6 @@ const form = ref<Form<Schema>>()
 const breadcrumbs = [
   {
     label: 'Home',
-    icon: 'i-heroicons-home',
     to: '/',
   },
   {
@@ -136,7 +135,9 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 
 <template>
   <div class="container mx-auto px-4 md:px-0">
-    <UBreadcrumb :links="breadcrumbs" class="mb-2" />
+    <UBreadcrumb 
+      divider="/"
+      :links="breadcrumbs" class="mb-2" />
     <h1 class="text-3xl font-bold leading-relaxed md:text-4xl">
       Settings @{{ userProfile.username }}
     </h1>

@@ -27,7 +27,6 @@ const tabs = [
 const breadcrumbs = [
   {
     label: 'Home',
-    icon: 'i-heroicons-home',
     to: '/',
   },
   {
@@ -42,7 +41,7 @@ function onChange(index: number) {
 
 <template>
   <div class="container mx-auto px-4 md:px-0">
-    <UBreadcrumb :links="breadcrumbs" />
+    <UBreadcrumb divider="/" :links="breadcrumbs" />
     <h1 class="text-2xl font-bold leading-relaxed">Dashboard</h1>
 
     <div class="mt-4">

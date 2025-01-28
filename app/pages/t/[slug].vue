@@ -47,7 +47,6 @@ const { data: stories } = await useAsyncData(
 const breadcrumbs = [
   {
     label: 'Home',
-    icon: 'i-heroicons-home',
     to: '/',
   },
   {
@@ -75,7 +74,7 @@ useSeoMeta({
 
 <template>
   <div class="container mx-auto px-4 md:px-0">
-    <UBreadcrumb :links="breadcrumbs" class="mb-4" />
+    <UBreadcrumb divider="/" :links="breadcrumbs" class="mb-4" />
     <div class="rounded-lg border border-gray-300 bg-white p-4 md:p-6">
       <h1 class="text-3xl font-semibold leading-loose tracking-wide">
         {{ tag.title }}
