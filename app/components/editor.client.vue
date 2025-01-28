@@ -2,6 +2,7 @@
 import { EditorContent, Editor } from '@tiptap/vue-3'
 import ListItem from '@tiptap/extension-list-item'
 import TextStyle from '@tiptap/extension-text-style'
+import TextAlign from '@tiptap/extension-text-align'
 import StarterKit from '@tiptap/starter-kit'
 
 const editorModel = defineModel('editor')
@@ -24,8 +25,19 @@ watch(
 onMounted(() => {
   editor.value = new Editor({
     content: editorModel.value,
-    // @ts-ignore
-    extensions: [TextStyle.configure({ types: [ListItem.name] }), StarterKit],
+    editorProps: {
+      attributes: {
+        spellcheck: 'false',
+      },
+    },
+    extensions: [
+      StarterKit,
+      TextAlign.configure({
+        types: ['heading', 'paragraph'],
+      }),
+      // @ts-ignore
+      TextStyle.configure({ types: [ListItem.name] }),
+    ],
     onUpdate: () => {
       editorModel.value = editor.value?.getHTML()
     },
@@ -159,6 +171,65 @@ onUnmounted(() => {
           icon="i-ph:list-numbers"
           @click="editor.chain().focus().toggleOrderedList().run()"
           :disabled="!editor.can().chain().focus().toggleOrderedList().run()"
+          square
+        />
+      </UTooltip>
+      <UTooltip text="Text left" :popper="{ arrow: true, placement: 'bottom' }">
+        <UButton
+          :variant="editor.isActive({ textAlign: 'left' }) ? 'solid' : 'ghost'"
+          color="black"
+          size="xs"
+          icon="ph:text-align-left"
+          @click="editor.chain().focus().setTextAlign('left').run()"
+          :disabled="!editor.can().chain().focus().setTextAlign('left').run()"
+          square
+        />
+      </UTooltip>
+      <UTooltip
+        text="Text center"
+        :popper="{ arrow: true, placement: 'bottom' }"
+      >
+        <UButton
+          :variant="
+            editor.isActive({ textAlign: 'center' }) ? 'solid' : 'ghost'
+          "
+          color="black"
+          size="xs"
+          icon="ph:text-align-center"
+          @click="editor.chain().focus().setTextAlign('center').run()"
+          :disabled="!editor.can().chain().focus().setTextAlign('center').run()"
+          square
+        />
+      </UTooltip>
+      <UTooltip
+        text="Text right"
+        :popper="{ arrow: true, placement: 'bottom' }"
+      >
+        <UButton
+          :variant="editor.isActive({ textAlign: 'right' }) ? 'solid' : 'ghost'"
+          color="black"
+          size="xs"
+          icon="ph:text-align-right"
+          @click="editor.chain().focus().setTextAlign('right').run()"
+          :disabled="!editor.can().chain().focus().setTextAlign('right').run()"
+          square
+        />
+      </UTooltip>
+      <UTooltip
+        text="Text justify"
+        :popper="{ arrow: true, placement: 'bottom' }"
+      >
+        <UButton
+          :variant="
+            editor.isActive({ textAlign: 'justify' }) ? 'solid' : 'ghost'
+          "
+          color="black"
+          size="xs"
+          icon="ph:text-align-justify"
+          @click="editor.chain().focus().setTextAlign('justify').run()"
+          :disabled="
+            !editor.can().chain().focus().setTextAlign('justify').run()
+          "
           square
         />
       </UTooltip>
