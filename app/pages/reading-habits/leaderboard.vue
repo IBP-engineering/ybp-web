@@ -125,7 +125,7 @@ const compoundWinner = computed(() => {
       <SharedDateRange v-model:selected="selected" />
     </div>
 
-    <div v-if="winners?.data?.length > 0" class="mt-20 grid grid-cols-2 gap-4">
+    <div v-if="winners?.data?.length > 0" class="mt-12 grid grid-cols-2 gap-4">
       <div
         v-for="(win, key) in compoundWinner.hallOfFame"
         :key="win.username"

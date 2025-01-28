@@ -53,7 +53,7 @@ onUnmounted(() => {
   <div>
     <div
       v-if="editor"
-      class="mb-2 flex w-fit items-center gap-2 rounded-lg border border-gray-300 bg-gray-50 px-2 py-1"
+      class="mb-2 flex w-fit flex-wrap items-center gap-2 rounded-lg border border-gray-300 bg-gray-50 px-2 py-1"
     >
       <UTooltip text="Heading 2" :popper="{ arrow: true, placement: 'bottom' }">
         <UButton
