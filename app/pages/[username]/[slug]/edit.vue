@@ -230,7 +230,6 @@ const showFileUploader = () => {
 const breadcrumbs = [
   {
     label: 'Home',
-    icon: 'i-heroicons-home',
     to: '/',
   },
   {
@@ -272,7 +271,7 @@ onMounted(() => {
 
 <template>
   <div class="container mx-auto px-4 md:px-0">
-    <UBreadcrumb :links="breadcrumbs" />
+    <UBreadcrumb divider="/" :links="breadcrumbs" />
     <div class="mx-auto mt-12 max-w-screen-lg">
       <div class="mb-4 flex flex-col gap-2 md:flex-row">
         <img

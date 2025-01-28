@@ -32,7 +32,6 @@ const { data: stories } = await useAsyncData('stories/all', async () => {
 const breadcrumbs = [
   {
     label: 'Home',
-    icon: 'i-heroicons-home',
     to: '/',
   },
   {
@@ -49,7 +48,11 @@ const storiesFiltered = computed(() => {
 
 <template>
   <div class="container mx-auto w-full px-3 md:px-0">
-    <UBreadcrumb :links="breadcrumbs" class="mb-12" />
+    <UBreadcrumb
+      divider="/"
+      :links="breadcrumbs"
+      class="mb-4 flex justify-center"
+    />
     <section class="text-center">
       <h1 class="text-4xl font-bold leading-relaxed">Stories</h1>
       <p class="text-gray-600">

@@ -58,7 +58,6 @@ const storiesFiltered = computed(() => {
 const breadcrumbs = [
   {
     label: 'Home',
-    icon: 'i-heroicons-home',
     to: '/',
   },
   {
@@ -74,7 +73,7 @@ useSeoMeta({
 
 <template>
   <div class="container mx-auto px-4 md:px-0">
-    <UBreadcrumb :links="breadcrumbs" class="mb-12" />
+    <UBreadcrumb divider="/" :links="breadcrumbs" class="mb-12" />
     <div
       class="mt-10 flex w-full flex-col items-center rounded-lg border-4 border-gray-300 bg-gray-50 px-4 pb-4 text-center"
     >

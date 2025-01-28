@@ -17,7 +17,6 @@ const winnerColors = [
 const breadcrumbs = [
   {
     label: 'Home',
-    icon: 'i-heroicons-home',
     to: '/',
   },
   {
@@ -107,7 +106,11 @@ const compoundWinner = computed(() => {
 
 <template>
   <div class="container mx-auto px-4 md:px-0">
-    <UBreadcrumb :links="breadcrumbs" class="mb-12" />
+    <UBreadcrumb
+      :links="breadcrumbs"
+      divider="/"
+      class="mb-4 flex justify-center"
+    />
     <section class="text-center">
       <h1 class="text-4xl font-bold leading-relaxed">
         <span class="text-primary-500">Klasemen </span>

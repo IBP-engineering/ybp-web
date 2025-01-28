@@ -172,7 +172,6 @@ const submitStory = async () => {
 const breadcrumbs = [
   {
     label: 'Home',
-    icon: 'i-heroicons-home',
     to: '/',
   },
   {
@@ -225,9 +224,9 @@ const removeImageCover = () => {
 
 <template>
   <div class="container mx-auto px-4 md:px-0">
-    <UBreadcrumb :links="breadcrumbs" />
-    <div class="mx-auto mt-12 max-w-screen-lg">
-      <div class="mb-4 flex flex-col gap-2 md:flex-row">
+    <div class="mx-auto max-w-screen-lg">
+      <UBreadcrumb divider="/" :links="breadcrumbs" />
+      <div class="mb-4 mt-12 flex flex-col gap-2 md:flex-row">
         <img
           v-if="previewImageUrl"
           :src="previewImageUrl.toString()"
