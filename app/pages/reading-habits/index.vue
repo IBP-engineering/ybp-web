@@ -8,13 +8,22 @@ useSeoMeta({
     'Ketika membaca menjadi sebuah kebiasaan. YBP punya cara untuk menjadikannya sebuah reward',
 })
 
+const router = useRouter()
+const route = useRoute()
 const page = ref(1)
-const date = ref(new Date())
+const date = ref(
+  route.query?.date ? new Date(route.query?.date as string) : new Date(),
+)
 
 watch(date, () => {
   if (date.value) {
     // reset to page 1 whenever date is changed
     page.value = 1
+    router.replace({
+      query: {
+        date: format(date.value, 'P'),
+      },
+    })
   }
 })
 
