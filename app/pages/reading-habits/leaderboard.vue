@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { sub } from 'date-fns'
+import { format, sub } from 'date-fns'
 
 defineOgImageComponent('default')
 useSeoMeta({
@@ -8,7 +8,52 @@ useSeoMeta({
     'Update Klasemen tantangan Reading Habits: Siapa yang di Puncak?',
 })
 
-const selected = ref({ start: sub(new Date(), { days: 7 }), end: new Date() })
+const winnerColors = [
+  'border-gold-300 bg-gold-500',
+  'border-silver-300 bg-silver-500',
+  'border-bronze-300 bg-bronze-500',
+]
+
+const breadcrumbs = [
+  {
+    label: 'Home',
+    icon: 'i-heroicons-home',
+    to: '/',
+  },
+  {
+    label: 'Reading habits',
+    to: '/reading-habits',
+  },
+  {
+    label: 'Leaderboard',
+  },
+]
+
+const router = useRouter()
+const route = useRoute()
+const defaultSelectedDate = {
+  start: sub(new Date(), { days: 7 }),
+  end: new Date(),
+}
+const selected = ref({
+  start: route.query?.startDate
+    ? new Date(route.query?.startDate as string)
+    : defaultSelectedDate.start,
+  end: route.query?.endDate
+    ? new Date(route.query?.endDate as string)
+    : defaultSelectedDate.end,
+})
+
+watch(selected, () => {
+  if (selected.value) {
+    router.replace({
+      query: {
+        startDate: format(selected.value.start, 'P'),
+        endDate: format(selected.value.end, 'P'),
+      },
+    })
+  }
+})
 
 const query = computed(() => {
   return {
@@ -58,27 +103,6 @@ const compoundWinner = computed(() => {
     tableWinners,
   }
 })
-
-const winnerColors = [
-  'border-gold-300 bg-gold-500',
-  'border-silver-300 bg-silver-500',
-  'border-bronze-300 bg-bronze-500',
-]
-
-const breadcrumbs = [
-  {
-    label: 'Home',
-    icon: 'i-heroicons-home',
-    to: '/',
-  },
-  {
-    label: 'Reading habits',
-    to: '/reading-habits',
-  },
-  {
-    label: 'Leaderboard',
-  },
-]
 </script>
 
 <template>
