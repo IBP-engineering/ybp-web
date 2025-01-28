@@ -1,12 +1,12 @@
 <script setup lang="ts">
 const cookieBanner = useCookie('welcome020', {
-  maxAge: 60 * 60 * 24 * 30, // 30 days
+  maxAge: 60 * 60 * 24 * 30 * 12, // 1 year
 })
 const isOpen = ref(false)
 
 const closeModal = () => {
   isOpen.value = false
-  // cookieBanner.value = new Date().toTimeString()
+  cookieBanner.value = new Date().toTimeString()
 }
 
 onMounted(() => {
