@@ -7,6 +7,10 @@ export default defineNuxtConfig({
   },
   routeRules: {
     '/goodies': { prerender: true },
+    '/panduan': {
+      redirect:
+        'https://ybp-eng.notion.site/Panduan-Pengguna-18dcff94653a800eac48d49c740b9ad5',
+    },
   },
   nitro: {
     future: {
