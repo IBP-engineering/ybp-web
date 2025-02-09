@@ -50,7 +50,7 @@ export default defineNuxtConfig({
     name: 'Yogyakarta Book Party',
     locale: 'id',
     description:
-      'Yogyakarta Book Party Official Website. #baca-buku #diskusi #main-bareng',
+      'Yogyakarta Book Party Official Website. #baca #literasi #inklusif',
   },
   robots: {
     disallow: ['/hq', '/hq/*'],
