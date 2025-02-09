@@ -2,43 +2,43 @@
 const activities = [
   {
     title: 'Book Party',
-    desc: 'Bookparty adalah kegiatan membaca buku di tempat umum yang di agendakan setiap akhir pekan oleh YBP. Kegiatan ini bertujuan untuk menampung teman-teman yang bingung ingin membaca buku dimana dan dengan siapa.',
+    desc: 'Book Party adalah ruang seru bagi pecinta buku untuk berkumpul, berdiskusi, dan menikmati akhir pekan dengan membaca yang lebih hidup. Kegiatan ini bisa ningkatin minat baca sekaligus nambah wawasan literasi kamu. Nggak perlu takut nggak diterima, di sini semua genre kami rayakan. Dari pembaca pemula, veteran, bahkan penulis profesional, semuanya punya tempat. Kita bersama-sama merayakan literasi. Pantau terus kegiatan Book Party di Instagram @yogbookparty',
     icon: 'heroicons:book-open',
     span: 2,
   },
   {
     title: 'YBP Collab',
-    desc: 'Salah satu cara YBP untuk membuka kerjasama dengan semua pihak dari berbagai kalangan di masyarakat. Bertujuan untuk memperluas lagi jaringan persahabatan antar komunitas.',
+    desc: 'Percaya bahwa literasi bisa tumbuh lebih kuat ketika berbagai pihak bersatu? Kami juga! Itulah kenapa Yogyakarta Book Party selalu terbuka untuk berkolaborasi dengan komunitas, brand, penulis profesional, dan banyak pihak lainnya. Tenang aja, nggak selalu soal buku kok! Selama punya semangat yang sama untuk meningkatkan minat baca, kita bisa merancang kampanye bersama-sama. Yuk, kolaborasi dan buat perubahan bareng.',
     icon: 'ph:handshake',
     span: 1,
   },
   {
     title: 'Reading Habits',
-    desc: 'Tantangan yang diselenggarakan YBP untuk kegiatan baca buku rutin setiap harinya, dengan hadiah menarik untuk pemenang.',
+    desc: 'Reading Challenge adalah tantangan membaca kepada Bookmates untuk membangun kebiasaan membaca setiap hari dengan cara yang seru. Kami paham bahwa untuk membangun kebiasaan membaca tidak mudah. Itulah kenapa kami menciptakan wadah untuk Bookmates agar bisa konsisten sambil melihat proses teman lainnya. Menariknya, ada hadiah spesial buat mereka yang berhasil menyelesaikan tantangan! Yuk, gabung bersama kami!',
     icon: 'ph:cactus',
     span: 1,
   },
   {
     title: 'Malam Imajinasi',
-    desc: 'Acara daring yang dilakukan YBP untuk bookmates yang sedang overthinking dan insomnia. Dipandu oleh mentor psikologi yang berpengalaman, diharapkan agenda ini mampu mengurangi beban pikiran bookmates.',
+    desc: 'Nggak bisa tidur karena overthinking? Wajar kok, kamu cuma perlu ngobrol aja. Makanya Yogya Book Party mengadakan malam imajinasi untuk bookmates yang sering mengalami overthinking dan insomnia. Dipandu oleh mentor psikologi berpengalaman. Sesi ini hadir sebagai ruang aman untuk berbagi, memahami, dan menambah wawasan. Melalui obrolan Daring, acara ini diharapkan bisa membantu bookmates mengurangi beban pikiran. Ingin mencurahkan banyak hal? yuk gabung Yogya Book Party! ',
     icon: 'ph:cloud-moon',
     span: 2,
   },
   {
     title: 'Deklamasi Puisi',
-    desc: 'Agenda membaca puisi pada malam hari. Entah puisi yang sudah pernah dituliskan atau puisi ciptaan sendiri. Agenda ini bertujuan untuk mengasah kreatifitas dan kepercayaan diri bookmates.',
+    desc: 'Punya puisi yang ingin didengar banyak orang? Sekarang saatnya. Yogya Book Party menghadirkan Deklamasi Puisi, ruang bagi siapa saja yang ingin menyampaikan pesan lewat puisi, mau itu puisi karya sendiri atau karya Sastrawan terkenal, kamu bisa melatih kreatifitas dan kepercayaan diri kamu disini. Yuk gabung bersama kami dan buat puisimu di rasakan banyak orang! ',
     icon: 'heroicons:chat-bubble-left-ellipsis',
     span: 3,
   },
   {
     title: 'YBP Fomo',
-    desc: 'Sebuah kegiatan bookparty yang dilakukan di tempat publik yang tidak biasanya, contohnya di KRL. Bertujuan untuk memperluas jaringan literasi di masyarakat.',
+    desc: 'YBP Fomo adalah kegiatan yang bertujuan untuk menormalisasi literasi di masyarakat. Bersama-sama membaca di ruang yang tidak biasa, sehingga menciptakan ruang membaca aman tanpa ada batas. Tentunya, berdampak juga pada Bookmates. Selain menambah wawasan. Kita juga mendapat pengalaman baru dengan sensasi yang menyenangkan! Nantikan segera YBP Fomo, Teman. ',
     icon: 'ph:rocket-launch',
     span: 1,
   },
   {
     title: 'Sports Club',
-    desc: 'Selain mengisi otak dengan bacaan yang bermanfaat, fisik juga harus dijaga. Agenda ini bertujuan untuk bookmates yang ingin berolahraga namun tidak ada rekan.',
+    desc: 'Meningkatkan wawasan itu penting, tapi kalau fisik nggak dijaga, gimana bisa tetap fokus? Yogya Book Party paham, banyak orang sibuk mengisi otak tapi lupa merawat tubuh. Makanya, kami bikin wadah buat Bookmates supaya nggak cuma pinter, tapi juga sehat. ',
     icon: 'ph:soccer-ball',
     span: 2,
   },
@@ -55,7 +55,7 @@ const activitiesSpan = ['md:col-span-1', 'md:col-span-2', 'md:col-span-3']
       id="activities"
       class="text-center text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl lg:text-5xl dark:text-white"
     >
-      Agenda Kami <br /><span class="text-primary-600">Yang Paling Seru</span>
+      Agenda Kami <br /><span class="text-primary-600">Paling Seru</span>
     </h2>
     <div class="grid grid-cols-1 gap-8 md:grid-cols-3">
       <div

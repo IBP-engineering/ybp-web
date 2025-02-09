@@ -47,7 +47,7 @@ const storiesFiltered = computed(() => {
           <section
             class="mx-auto px-4 text-center md:w-fit md:px-0 md:text-left"
           >
-            <small class="block tracking-widest">KOMUNITAS</small>
+            <small class="block tracking-widest">KOMUNITAS BUKU</small>
             <h1
               class="text-5xl font-bold !leading-tight md:text-7xl lg:text-8xl"
             >
@@ -58,7 +58,7 @@ const storiesFiltered = computed(() => {
             </h1>
             <span class="text-xl font-medium md:text-3xl">Book Party</span>
             <p class="mt-8 text-sm text-gray-600 md:mt-6 md:text-lg">
-              #baca-buku #diskusi #main-bareng
+              #baca #literasi #inklusif
             </p>
           </section>
         </div>

@@ -46,15 +46,14 @@ const faqs = [
     <UAccordion color="primary" variant="soft" :items="faqs" multiple />
     <UDivider class="my-2" label="ATAU" />
     <p>
-      Gimana? Udah siap buat gabung di Yogyakarta Book Party? 🎉 Masih ada yang
-      mau ditanyain? 🤔 Kalo ada, langsung aja sampein ke kita lewat Instagram
+      Untuk pertanyaan lebih lanjut, kamu bisa langsung menghubungi lewat
+      Instagram
       <NuxtLink
         external
         to="https://www.instagram.com/yogbookparty"
         class="text-blue-600 underline hover:text-blue-500"
         >@yogbookparty</NuxtLink
-      >
-      ya! 😉 Sampai jumpa! 👋
+      >.
     </p>
   </div>
 </template>
