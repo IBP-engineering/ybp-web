@@ -169,6 +169,16 @@ const submitStory = async () => {
   }
 }
 
+const breadcrumbs = [
+  {
+    label: 'Home',
+    to: '/',
+  },
+  {
+    label: 'New story',
+  },
+]
+
 const previewImage = (event: Event & { target: { files: File[] } }) => {
   const file = event.target.files[0]
   if (!file) {
@@ -213,9 +223,10 @@ const removeImageCover = () => {
 </script>
 
 <template>
-  <div class="mx-auto w-full max-w-screen-xl px-4 md:px-0">
-    <div class="mx-auto mt-12 max-w-screen-lg">
-      <div class="mb-4 flex flex-col gap-2 md:flex-row">
+  <div class="container mx-auto px-4 md:px-0">
+    <div class="mx-auto max-w-screen-lg">
+      <UBreadcrumb divider="/" :links="breadcrumbs" />
+      <div class="mb-4 mt-12 flex flex-col gap-2 md:flex-row">
         <img
           v-if="previewImageUrl"
           :src="previewImageUrl.toString()"

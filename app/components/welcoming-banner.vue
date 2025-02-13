@@ -1,6 +1,6 @@
 <script setup lang="ts">
-const cookieBanner = useCookie('welcome', {
-  maxAge: 60 * 60 * 24 * 30, // 30 days
+const cookieBanner = useCookie('welcome020', {
+  maxAge: 60 * 60 * 24 * 30 * 12, // 1 year
 })
 const isOpen = ref(false)
 
@@ -39,7 +39,7 @@ onMounted(() => {
             alt="YBP Logo"
             height="100"
             width="100"
-            class="mx-auto rounded-full border"
+            class="mx-auto rounded border"
           />
         </div>
         <h3
@@ -48,8 +48,11 @@ onMounted(() => {
           Official Yogyakarta Book Party web updates
         </h3>
 
-        <b class="text-lg">0.1.0</b>
-        <p>Introducing our first released version of YBP web journey 🥳🥳🎉</p>
+        <b class="text-lg">0.2.0</b>
+        <p>
+          Fitur Terbaru: Tantangan Reading Habits, Klasemen, dan Interface Baru!
+          🥳🥳🎉
+        </p>
 
         <ul class="mt-4 space-y-2">
           <li>
@@ -58,12 +61,13 @@ onMounted(() => {
                 name="heroicons:check-circle-16-solid"
                 class="text-primary-500"
               />
-              <span>Tulis Kisahmu</span>
+              <b>Tantangan Reading Habits</b>
             </div>
             <p class="text-gray-600">
-              Punya cerita menarik yang ingin dibagikan? Di sinilah tempatnya
-              kamu bisa membagikan kisah, pengalaman, tips bermanfaat, atau
-              ulasan buku favorit. Saatnya tulisan kamu menemukan pembaca!
+              Siap untuk meningkatkan kebiasaan membaca? Kenalan dengan
+              Tantangan Reading Habits! Fitur ini bikin kamu lebih fokus pada
+              tujuan membaca dan mudah melacak kemajuan lewat dashboard yang
+              simpel.
             </p>
           </li>
           <li>
@@ -72,12 +76,27 @@ onMounted(() => {
                 name="heroicons:check-circle-16-solid"
                 class="text-primary-500"
               />
-              <span>Jelajahi</span>
+              <b>Klasemen Reading Habits</b>
             </div>
             <p class="text-gray-600">
-              Pantau perkembangan tulisanmu dengan mudah melalui halaman
-              dashboard pribadi. Temukan inspirasi baru dengan membaca
-              karya-karya menarik dari penulis lainnya!
+              Cek juga Klasemen Reading Habits untuk lihat peringkat dan
+              kemajuanmu dibandingkan teman-teman. Dapatkan inspirasi dari
+              pencapaian pembaca lain dan lihat siapa yang jadi juara!
+            </p>
+          </li>
+          <li>
+            <div class="flex items-center gap-2">
+              <Icon
+                name="heroicons:check-circle-16-solid"
+                class="text-primary-500"
+              />
+              <b>Interface yang lebih menarik</b>
+            </div>
+            <p class="text-gray-600">
+              Dan yang paling seru, navigasi kami sekarang lebih stylish dan
+              gampang digunakan. Dengan tambahan breadcrumb, kamu bisa dengan
+              mudah melacak posisi di aplikasi. Selamat membaca dan nikmati
+              pengalaman baru yang lebih seru!
             </p>
           </li>
         </ul>
@@ -85,7 +104,6 @@ onMounted(() => {
         <p class="mt-4 border-t border-gray-300 pt-1">
           Pantau @yogbookparty untuk update kegiatan menarik selanjutnya.
         </p>
-        <b>#kitabarumulai</b>
       </div>
 
       <template #footer>

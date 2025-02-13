@@ -7,6 +7,15 @@ export default defineNuxtConfig({
   },
   routeRules: {
     '/goodies': { prerender: true },
+    '/panduan': {
+      redirect:
+        'https://ybp-eng.notion.site/Panduan-Pengguna-18dcff94653a800eac48d49c740b9ad5',
+    },
+  },
+  nitro: {
+    future: {
+      nativeSWR: true,
+    },
   },
   modules: [
     '@nuxt/ui',
@@ -23,6 +32,7 @@ export default defineNuxtConfig({
   experimental: {
     viewTransition: true,
     asyncEntry: true,
+    buildCache: true,
   },
   supabase: {
     redirect: false,
@@ -44,7 +54,7 @@ export default defineNuxtConfig({
     name: 'Yogyakarta Book Party',
     locale: 'id',
     description:
-      'Yogyakarta Book Party Official Website. #baca-buku #diskusi #main-bareng',
+      'Yogyakarta Book Party Official Website. #baca #literasi #inklusif',
   },
   robots: {
     disallow: ['/hq', '/hq/*'],

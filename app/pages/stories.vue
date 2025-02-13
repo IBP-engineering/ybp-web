@@ -29,6 +29,17 @@ const { data: stories } = await useAsyncData('stories/all', async () => {
   return data
 })
 
+const breadcrumbs = [
+  {
+    label: 'Home',
+    to: '/',
+  },
+  {
+    label: 'Stories',
+    to: '/stories',
+  },
+]
+
 const storiesFiltered = computed(() => {
   // @ts-expect-error move forward for now
   return mapStoryTag(stories.value)
@@ -37,23 +48,28 @@ const storiesFiltered = computed(() => {
 
 <template>
   <div class="container mx-auto w-full px-3 md:px-0">
-    <div class="mx-auto max-w-7xl">
-      <h1 class="text-2xl font-bold leading-relaxed md:text-4xl">
-        <UIcon name="heroicons:book-open-solid" class="text-primary-500" />
-        Stories
-      </h1>
-      <div
-        v-if="storiesFiltered?.length > 0"
-        class="my-8 grid grid-cols-1 gap-4 md:grid-cols-2"
-      >
-        <StoryCard
-          v-for="story in storiesFiltered"
-          :key="story.id"
-          :story="story"
-          :author="story.author"
-        />
-      </div>
-      <p v-else class="mt-10 text-center">Belum ada cerita yang ditambahkan</p>
+    <UBreadcrumb
+      divider="/"
+      :links="breadcrumbs"
+      class="mb-4 flex justify-center"
+    />
+    <section class="text-center">
+      <h1 class="text-4xl font-bold leading-relaxed">Stories</h1>
+      <p class="text-gray-600">
+        Kumpulan cerita dan tulisan yang menggugah dari para bookmates
+      </p>
+    </section>
+    <div
+      v-if="storiesFiltered?.length > 0"
+      class="my-16 grid grid-cols-1 gap-4 md:grid-cols-2"
+    >
+      <StoryCard
+        v-for="story in storiesFiltered"
+        :key="story.id"
+        :story="story"
+        :author="story.author"
+      />
     </div>
+    <p v-else class="mt-10 text-center">Belum ada cerita yang ditambahkan</p>
   </div>
 </template>

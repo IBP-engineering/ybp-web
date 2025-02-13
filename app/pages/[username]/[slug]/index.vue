@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-import { format } from '@formkit/tempo'
+import { format } from 'date-fns'
+import id from 'date-fns/locale/id'
 
 defineOgImageComponent('default')
 
@@ -53,6 +54,20 @@ if (!story.value) {
     statusMessage: 'Halaman tidak ditemukan',
   })
 }
+
+const breadcrumbs = [
+  {
+    label: 'Home',
+    to: '/',
+  },
+  {
+    label: story.value?.author?.username ?? '',
+    to: `/${story.value?.author?.username}`,
+  },
+  {
+    label: story.value?.slug ?? '',
+  },
+]
 
 const isUserHasReacted = computed(() => {
   const userId = user.value?.id
@@ -111,7 +126,13 @@ useSeoMeta({
 
 <template>
   <div class="mx-auto w-full max-w-screen-xl md:px-4 xl:px-0">
-    <div class="mt-12 flex w-full flex-col-reverse gap-4 lg:flex-row">
+    <div class="container mx-auto px-4 md:px-0">
+      <UBreadcrumb 
+      divider="/"
+        :links="breadcrumbs" />
+    </div>
+
+    <div class="mt-4 flex w-full flex-col-reverse gap-4 lg:flex-row">
       <div class="mt-8 flex w-24 items-center gap-2 px-4 md:flex-col md:px-0">
         <UTooltip text="Sukai cerita">
           <UButton
@@ -178,10 +199,14 @@ useSeoMeta({
                   >{{ story.author.display_name }}</ULink
                 >
                 <small
-                  :title="format(story.created_at, 'full')"
+                  :title="
+                    format(new Date(story.created_at), 'PPPppp', { locale: id })
+                  "
                   class="block text-xs text-gray-600"
                   >Ditulis pada
-                  {{ format(story.created_at, 'DD MMM', 'id') }}</small
+                  {{
+                    format(new Date(story.created_at), 'PPP', { locale: id })
+                  }}</small
                 >
               </div>
             </div>
@@ -198,18 +223,11 @@ useSeoMeta({
           </div>
         </div>
 
-        <div
-          class="mt-8 space-y-2 border-2 border-dotted border-gray-300 bg-gradient-to-t from-gray-100 to-gray-50 p-2"
-        >
-          <UIcon name="ph:flag-banner-duotone" />
-          <span class="ml-1">Haloo Bookmates!</span>
-          <small class="block text-gray-600">
-            Punya cerita menarik yang ingin dibagikan? Di sinilah tempatnya kamu
-            bisa membagikan kisah, pengalaman, tips bermanfaat, atau ulasan buku
-            favorit. Saatnya tulisan kamu menemukan pembaca! 📖
-          </small>
-          <UButton size="sm" to="/login">Gabung sekarang</UButton>
-        </div>
+        <SharedJoinBanner>
+          Punya cerita menarik yang ingin dibagikan? Di sinilah tempatnya kamu
+          bisa membagikan kisah, pengalaman, tips bermanfaat, atau ulasan buku
+          favorit. Saatnya tulisan kamu menemukan pembaca! 📖
+        </SharedJoinBanner>
       </div>
 
       <div
@@ -237,7 +255,9 @@ useSeoMeta({
           <li>
             <b class="text-xs">BERGABUNG</b>
             <p class="text-gray-600">
-              {{ format(story.author.created_at, 'long', 'id') }}
+              {{
+                format(new Date(story.author.created_at), 'PPP', { locale: id })
+              }}
             </p>
           </li>
         </ul>

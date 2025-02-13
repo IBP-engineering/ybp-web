@@ -5,14 +5,20 @@
         Tentang Kami
       </h2>
       <p class="tracking-wide text-gray-600">
-        Kami hadir untuk memenuhi visi, yaitu menjadikan literasi, terutama
-        membaca buku, menjadi kebiasaan baru di masyarakat, khususnya di
-        Yogyakarta. Yogyakarta Book Party berdiri pada tahun 2023 hingga saat
-        ini memiliki lebih dari 800+ anggota dengan 4 organisasi yang berjalan
-        di dalamnya.<br />
+        Yogya Book Party percaya bahwa perubahan dimulai dari diri sendiri, dan
+        kebiasaan baik tumbuh dari lingkungan yang positif. Sejak 2023, kami
+        hadir sebagai ruang bagi anak muda yang ingin menjadikan membaca bagian
+        dari keseharian mereka. Dengan lebih dari 800 anggota aktif, kami
+        konsisten mengadakan kegiatan mingguan untuk membangun budaya literasi
+        yang lebih dekat, seru, dan relevan.<br />
         <br />
-        Komunitas ini adalah salah satu dari 63 Komunitas Book Party di bawah
-        naungan Indonesia Book Party (IBP).
+        Sebagai bagian dari 63 komunitas Book Party di bawah Indonesia Book
+        Party (IBP), kami terus berkembang dengan visi menciptakan ruang
+        inklusif bagi semua pecinta buku. Namun, masih banyak masyarakat yang
+        belum sepenuhnya sadar akan pentingnya literasi. Karena itu, kami
+        berpegang teguh pada prinsip Bhinneka Tunggal Pustaka. Bersama, kita
+        bersatu dalam satu tujuan untuk menjadikan literasi tumbuh dan
+        berkembang demi Indonesia yang lebih baik.
       </p>
     </div>
     <div class="order-first lg:order-last">

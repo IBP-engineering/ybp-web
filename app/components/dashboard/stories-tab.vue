@@ -1,14 +1,6 @@
 <script setup lang="ts">
 import type { Database } from '~/types/database.types'
 
-defineOgImageComponent('default')
-definePageMeta({
-  middleware: 'need-auth',
-})
-useHead({
-  title: 'Dashboard',
-})
-
 const toast = useToast()
 const supabase = useSupabaseClient<Database>()
 const user = useSupabaseUser()
@@ -143,17 +135,6 @@ watch(
 
 <template>
   <div class="mx-auto w-full max-w-screen-lg px-4 md:px-0">
-    <div class="flex items-start justify-between gap-8 md:items-center">
-      <section>
-        <h1 class="text-2xl font-bold leading-relaxed">Dashboard</h1>
-        <p class="text-gray-600">
-          Kamu bisa temukan cerita yang kamu kirim disini
-        </p>
-      </section>
-
-      <UButton trailing-icon="heroicons:plus" to="/new">New story</UButton>
-    </div>
-
     <div class="mt-8 flex w-full gap-8">
       <aside class="mt-8 hidden w-[300px] flex-col md:flex">
         <UButton
@@ -163,7 +144,7 @@ watch(
           color="gray"
           @click="filterStatus = 'all'"
         >
-          <span>Stories</span>
+          <span>All Story</span>
           <span>{{ filterCount.all }}</span>
         </UButton>
         <UButton
@@ -199,9 +180,16 @@ watch(
       </aside>
 
       <div class="w-full">
-        <h2 class="font-bold">Stories</h2>
+        <div class="flex items-center justify-between">
+          <h2 class="font-medium">Stories</h2>
+          <UButton
+            to="/new"
+            trailing-icon="heroicons:arrow-small-right-20-solid"
+            >New story</UButton
+          >
+        </div>
         <p v-if="stories.length === 0" class="mt-4">
-          Belum ada Cerita yang ditambahkan
+          Belum ada Story yang ditambahkan
         </p>
         <div
           v-else

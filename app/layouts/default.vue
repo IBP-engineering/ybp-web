@@ -17,16 +17,12 @@ const navlinks = [
     to: '/stories',
   },
   {
-    label: 'Activities',
-    to: '/#activities',
+    label: 'Reading habits',
+    to: '/reading-habits',
   },
   {
-    label: 'About Us',
+    label: 'About us',
     to: '/#about-us',
-  },
-  {
-    label: 'FAQ',
-    to: '/#faq',
   },
 ]
 const openNavModal = ref(false)
@@ -80,6 +76,7 @@ const dropdownItems = [
       : { label: `Halo @${userData.value.username} 👋` },
     { label: 'Dashboard', to: '/dashboard', icon: 'heroicons:home' },
     { label: 'New story', to: '/new', icon: 'heroicons:plus' },
+    { label: 'My reading habits', to: '/dashboard?tab=1', icon: 'ph:clover' },
     { label: 'Settings', to: '/settings', icon: 'heroicons:sparkles' },
     {
       label: 'Logout',
@@ -101,26 +98,34 @@ const dropdownItems = [
       class="absolute -left-48 top-0 z-[4] w-full md:-top-20 md:left-0"
       alt="blur bg"
     />
-    <nav class="z-20 mb-4 mt-8 px-4 md:mb-10 md:px-0">
-      <div class="container mx-auto flex items-center justify-between">
-        <div class="flex items-center">
-          <NuxtLink to="/" title="To home page">
+    <nav class="fixed z-20 mt-8 flex w-screen justify-center px-4 md:px-0">
+      <div
+        class="mx-auto flex w-full max-w-4xl items-center justify-between rounded-xl border border-gray-100/40 bg-white/60 px-4 py-1 shadow-sm backdrop-blur"
+      >
+        <div class="flex w-full items-center justify-between">
+          <NuxtLink to="/" class="flex items-center gap-1" title="To home page">
             <NuxtImg
               src="/assets/logo.jpg"
-              width="55"
-              height="55"
-              class="rounded-full border"
+              width="41"
+              height="41"
+              class="rounded border border-gray-300/50"
               alt="YBP Logo"
             />
+            <div>
+              <b>Yogyakarta</b>
+              <p class="-mt-2">Book Party</p>
+            </div>
           </NuxtLink>
-          <ul class="ml-4 hidden items-center space-x-4 md:flex">
+          <ul class="mx-auto hidden items-center space-x-2 md:flex">
             <li v-for="link in navlinks" :key="link.to">
-              <NuxtLink
-                :to="link.to"
-                class="px-4 py-3 text-gray-900 transition hover:underline focus:ring md:w-auto"
-              >
-                {{ link.label }}
-              </NuxtLink>
+              <UChip :show="link.to === '/reading-habits'" size="lg" text="NEW">
+                <NuxtLink
+                  :to="link.to"
+                  class="hover:bg-primary-200 hover:border-primary-300 focus:hover:border-primary-400 focus:hover:text-primary-900 hover:text-primary-900 focus:hover:bg-primary-100 rounded-lg border-2 border-transparent px-4 py-1 text-gray-900 outline-none transition duration-300 ease-out focus-visible:ring md:w-auto"
+                >
+                  {{ link.label }}
+                </NuxtLink>
+              </UChip>
             </li>
           </ul>
         </div>
@@ -128,9 +133,14 @@ const dropdownItems = [
         <LazyUDropdown
           v-if="userData"
           :items="dropdownItems"
-          :popper="{ placement: 'bottom-start' }"
+          :popper="{ strategy: 'absolute', placements: 'bottom', arrow: true }"
         >
-          <UButton class="hidden md:flex" color="white" variant="ghost">
+          <UButton
+            class="hidden md:flex"
+            size="sm"
+            color="white"
+            variant="ghost"
+          >
             <span class="hidden md:block">
               {{ userData?.display_name }}
             </span>
@@ -143,10 +153,10 @@ const dropdownItems = [
         <UButton
           v-else
           class="hidden md:flex"
-          size="lg"
-          variant="outline"
+          size="sm"
+          trailing-icon="heroicons:arrow-small-right-20-solid"
           to="/login"
-          >Join Now</UButton
+          >Sign in</UButton
         >
         <UButton
           icon="i-heroicons-bars-3"
@@ -195,37 +205,16 @@ const dropdownItems = [
               </div>
               <div class="mt-4 flex flex-col">
                 <ul class="space-y-4">
-                  <li>
+                  <li v-for="item in dropdownItems[0]" :key="item.label">
                     <UButton
+                      v-if="item.to || item.label.toLowerCase() !== 'logout'"
                       color="white"
                       block
-                      icon="heroicons:home"
-                      to="/dashboard"
+                      :icon="item.icon"
+                      :to="item.to"
                       @click="openNavModal = false"
                     >
-                      Dashboard
-                    </UButton>
-                  </li>
-                  <li>
-                    <UButton
-                      color="white"
-                      block
-                      icon="heroicons:plus"
-                      to="/new"
-                      @click="openNavModal = false"
-                    >
-                      New story
-                    </UButton>
-                  </li>
-                  <li>
-                    <UButton
-                      color="white"
-                      block
-                      icon="heroicons:sparkles"
-                      to="/settings"
-                      @click="openNavModal = false"
-                    >
-                      Settings
+                      {{ item.label }}
                     </UButton>
                   </li>
                   <li>
@@ -242,15 +231,20 @@ const dropdownItems = [
                 </ul>
               </div>
             </div>
-            <UButton v-else size="xl" block variant="outline" to="/login"
-              >Join Now</UButton
+            <UButton
+              v-else
+              trailing-icon="heroicons:arrow-small-right-20-solid"
+              size="xl"
+              block
+              to="/login"
+              >Sign in</UButton
             >
           </div>
         </LazyUSlideover>
       </div>
     </nav>
 
-    <main class="z-10 mb-24 h-full">
+    <main class="z-10 mb-24 mt-[7rem] h-full md:mt-[8rem]">
       <WelcomingBanner />
       <slot />
     </main>
@@ -268,7 +262,7 @@ const dropdownItems = [
               alt="YBP Logo"
               height="70"
               width="70"
-              class="rounded-full border"
+              class="rounded border"
             />
             <div class="mt-4 flex items-center">
               <small class="text-gray-600">
@@ -294,6 +288,11 @@ const dropdownItems = [
                   >
                 </li>
                 <li>
+                  <NuxtLink to="/reading-habits" class="hover:underline"
+                    >Reading Habits</NuxtLink
+                  >
+                </li>
+                <li>
                   <NuxtLink to="/goodies" class="hover:underline"
                     >Goodies (coming soon)</NuxtLink
                   >
@@ -305,14 +304,15 @@ const dropdownItems = [
               <ul class="space-y-2">
                 <li>
                   <NuxtLink to="/#about-us" class="hover:underline"
-                    >About Us</NuxtLink
+                    >About us</NuxtLink
                   >
                 </li>
                 <li>
                   <NuxtLink to="/#faq" class="hover:underline">FAQ</NuxtLink>
                 </li>
-                <li><a href="#" class="hover:underline">Collaboration</a></li>
-                <li><a href="#" class="hover:underline">Donation</a></li>
+                <li>
+                  <a href="/#contacts" class="hover:underline">Collaboration</a>
+                </li>
               </ul>
             </div>
           </div>
@@ -334,7 +334,9 @@ const dropdownItems = [
           </NuxtLink>
         </div>
         <div class="flex">
-          <p class="font-medium">© 2024 Yogyakarta Book Party</p>
+          <p class="font-medium">
+            © {{ new Date().getFullYear() }} Yogyakarta Book Party
+          </p>
         </div>
       </div>
     </footer>
