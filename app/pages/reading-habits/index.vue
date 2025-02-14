@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { format } from 'date-fns'
+import id from 'date-fns/locale/id'
 
 defineOgImageComponent('default')
 useSeoMeta({
@@ -21,7 +22,7 @@ watch(date, () => {
     page.value = 1
     router.replace({
       query: {
-        date: format(date.value, 'P'),
+        date: format(date.value, 'P', { locale: id }),
       },
     })
   }
@@ -33,7 +34,7 @@ const { data: habits, status } = await useFetch('/api/reading-habits', {
     page,
   },
   watch: [date],
-  key: `habits/${date.value.toDateString()}/?page=${page.value}`,
+  key: `habits/${format(date.value, 'P', { locale: id })}/?page=${page.value}`,
 })
 
 const breadcrumbs = [
