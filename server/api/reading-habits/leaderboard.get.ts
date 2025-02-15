@@ -117,7 +117,7 @@ export default defineCachedEventHandler(
 
 function calculateStreak(dates: string[]) {
   const sortedDates = dates
-    .map(date => parseISO(date))
+    .map(date => new TZDate(parseISO(date), 'Asia/Jakarta'))
     .sort((a, b) => getUnixTime(a) - getUnixTime(b))
 
   let currentStreak = 0
@@ -126,17 +126,17 @@ function calculateStreak(dates: string[]) {
 
   console.log(sortedDates)
   for (const currentDate of sortedDates) {
-    const tzCurrentDate = new TZDate(currentDate, 'Asia/Jakarta')
-    const dateNow = new Date(tzCurrentDate.toISOString())
+    const tzCurrentDate = currentDate.toString()
+    const dateNow = new Date(tzCurrentDate)
 
     if (!lastDate) {
       currentStreak = 1
-      lastDate = new Date(tzCurrentDate.toISOString())
+      lastDate = new Date(tzCurrentDate)
       continue
     }
 
     const dayDifference = differenceInCalendarDays(dateNow, lastDate)
-    console.log(dateNow, lastDate, dayDifference)
+    console.log(dateNow.toString(), lastDate.toString(), dayDifference)
 
     if (dayDifference === 1) {
       currentStreak++
@@ -145,7 +145,7 @@ function calculateStreak(dates: string[]) {
       currentStreak = 1
     }
 
-    lastDate = new Date(tzCurrentDate.toISOString())
+    lastDate = new Date(tzCurrentDate)
   }
 
   return {
