@@ -126,17 +126,14 @@ function calculateStreak(dates: string[]) {
 
   console.log(sortedDates)
   for (const currentDate of sortedDates) {
-    const tzCurrentDate = currentDate.toString()
-    const dateNow = new Date(tzCurrentDate)
-
     if (!lastDate) {
       currentStreak = 1
-      lastDate = new Date(tzCurrentDate)
+      lastDate = currentDate
       continue
     }
 
-    const dayDifference = differenceInCalendarDays(dateNow, lastDate)
-    console.log(dateNow.toString(), lastDate.toString(), dayDifference)
+    const dayDifference = differenceInCalendarDays(currentDate, lastDate)
+    console.log(currentDate.toString(), lastDate.toString(), dayDifference)
 
     if (dayDifference === 1) {
       currentStreak++
@@ -145,7 +142,7 @@ function calculateStreak(dates: string[]) {
       currentStreak = 1
     }
 
-    lastDate = new Date(tzCurrentDate)
+    lastDate = currentDate
   }
 
   return {
