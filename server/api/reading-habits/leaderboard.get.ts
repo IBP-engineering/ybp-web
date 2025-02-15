@@ -124,6 +124,7 @@ function calculateStreak(dates: string[]) {
   let maxStreak = 0
   let lastDate: Date = null
 
+  console.log(sortedDates)
   for (const currentDate of sortedDates) {
     const tzCurrentDate = new TZDate(currentDate, 'Asia/Jakarta')
     const dateNow = new Date(tzCurrentDate.toISOString())
@@ -135,6 +136,7 @@ function calculateStreak(dates: string[]) {
     }
 
     const dayDifference = differenceInCalendarDays(dateNow, lastDate)
+    console.log(dateNow, lastDate, dayDifference)
 
     if (dayDifference === 1) {
       currentStreak++
