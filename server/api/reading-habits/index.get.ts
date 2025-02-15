@@ -1,5 +1,6 @@
 import { serverSupabaseClient } from '#supabase/server'
 import { endOfDay, formatISO, startOfDay } from 'date-fns'
+import { TZDate } from '@date-fns/tz'
 import { Database } from '~/types/database.types'
 import { BookGenre, ReadingHabit, User } from '~/types/entities'
 
@@ -20,8 +21,9 @@ export default defineEventHandler(
       const supabase = await serverSupabaseClient<Database>(event)
       const { date, page = 1, limit = 10 } = getQuery(event)
       const cleanDate = date.toString().replaceAll(/"/g, '')
-      const startDate = formatISO(startOfDay(new Date(cleanDate)))
-      const endDate = formatISO(endOfDay(new Date(cleanDate)))
+      const tzDate = new TZDate(new Date(cleanDate), 'Asia/Jakarta')
+      const startDate = formatISO(startOfDay(tzDate))
+      const endDate = formatISO(endOfDay(tzDate))
       const startIndex = (+page - 1) * +limit
       console.log('iso start', startOfDay(new Date(cleanDate)).toISOString())
       console.log('iso end', endOfDay(new Date(cleanDate)).toISOString())
