@@ -36,7 +36,7 @@ const { data: habits, status } = await useFetch('/api/reading-habits', {
     page,
   },
   watch: [date],
-  key: `habits/${format(new Date(date.value), 'P', { locale: id })}/?page=${page.value}`,
+  key: `habits/${format(new Date(date.value), 'P')}/?page=${page.value}`,
 })
 
 const breadcrumbs = [

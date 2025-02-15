@@ -6,6 +6,7 @@ import type {
   // @ts-expect-error not found module
 } from 'v-calendar/dist/types/src/use/datePicker'
 import 'v-calendar/dist/style.css'
+import { format } from 'date-fns'
 
 defineOptions({
   inheritAttrs: false,
@@ -25,7 +26,7 @@ const emit = defineEmits(['update:model-value', 'close'])
 const date = computed({
   get: () => props.modelValue,
   set: value => {
-    emit('update:model-value', value)
+    emit('update:model-value', format(value, 'P'))
     emit('close')
   },
 })
