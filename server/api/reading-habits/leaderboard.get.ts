@@ -1,12 +1,15 @@
 import { serverSupabaseClient } from '#supabase/server'
+import { TZDate } from '@date-fns/tz'
 import {
   differenceInDays,
   endOfDay,
+  formatISO,
   getUnixTime,
   parseISO,
   startOfDay,
 } from 'date-fns'
 import { Database } from '~/types/database.types'
+import { cleanDate } from '~~/server/utils/date'
 
 interface Data {
   username: string
@@ -26,13 +29,17 @@ export default defineCachedEventHandler(
     try {
       const supabase = await serverSupabaseClient<Database>(event)
       const { startDate: _startDate, endDate: _endDate } = getQuery(event)
-      const startDate = startOfDay(
-        new Date(cleanDate(_startDate.toString())),
-      ).toISOString()
-      const endDate = endOfDay(
-        new Date(cleanDate(_endDate.toString())),
-      ).toISOString()
-      console.log(_startDate, _endDate)
+      const tzStartDate = new TZDate(
+        new Date(cleanDate(_startDate)),
+        'Asia/Jakarta',
+      )
+      const tzEndDate = new TZDate(
+        new Date(cleanDate(_endDate)),
+        'Asia/Jakarta',
+      )
+      const startDate = formatISO(startOfDay(tzStartDate))
+      const endDate = formatISO(endOfDay(tzEndDate))
+      console.log(startDate, endDate)
 
       const { error, data } = await supabase
         .from('reading_habits')
@@ -81,7 +88,7 @@ export default defineCachedEventHandler(
           displayName: group[0].created_by.display_name,
           username: group[0].created_by.username,
           point: totalPoint,
-          streakDay: streakDay.maxStreak,
+          streakDay: streakDay.currentStreak,
         })
       }
 
@@ -111,10 +118,6 @@ export default defineCachedEventHandler(
   },
   { maxAge: 60 * 60, name: 'getReadingHabitsLeaderboard' },
 )
-
-function cleanDate(date: string) {
-  return date.toString().replaceAll(/"/g, '')
-}
 
 function calculateStreak(dates: string[]) {
   const sortedDates = dates
