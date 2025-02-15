@@ -124,7 +124,6 @@ function calculateStreak(dates: string[]) {
   let maxStreak = 0
   let lastDate: Date = null
 
-  console.log(sortedDates)
   for (const currentDate of sortedDates) {
     if (!lastDate) {
       currentStreak = 1
@@ -133,7 +132,6 @@ function calculateStreak(dates: string[]) {
     }
 
     const dayDifference = differenceInCalendarDays(currentDate, lastDate)
-    console.log(currentDate.toString(), lastDate.toString(), dayDifference)
 
     if (dayDifference === 1) {
       currentStreak++
