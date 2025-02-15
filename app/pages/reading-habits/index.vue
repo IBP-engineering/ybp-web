@@ -17,14 +17,17 @@ const date = ref(
     ? format(new Date(route.query?.date as string), 'P')
     : format(new Date(), 'P'),
 )
+const formattedDateQuery = ref(date.value)
 
-watch(date, () => {
+watchEffect(() => {
   if (date.value) {
     // reset to page 1 whenever date is changed
     page.value = 1
+    const formattedDate = format(new Date(date.value), 'P')
+    formattedDateQuery.value = formattedDate
     router.replace({
       query: {
-        date: format(new Date(date.value), 'P'),
+        date: formattedDate,
       },
     })
   }
@@ -32,11 +35,11 @@ watch(date, () => {
 
 const { data: habits, status } = await useFetch('/api/reading-habits', {
   query: {
-    date,
+    date: formattedDateQuery,
     page,
   },
-  watch: [date],
-  key: `habits/${format(new Date(date.value), 'P')}/?page=${page.value}`,
+  watch: [formattedDateQuery],
+  key: `habits/${format(new Date(formattedDateQuery.value), 'P')}/?page=${page.value}`,
 })
 
 const breadcrumbs = [

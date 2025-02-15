@@ -3,6 +3,7 @@ import { endOfDay, formatISO, startOfDay } from 'date-fns'
 import { TZDate } from '@date-fns/tz'
 import { Database } from '~/types/database.types'
 import { BookGenre, ReadingHabit, User } from '~/types/entities'
+import { cleanDate } from '~~/server/utils/date'
 
 export default defineEventHandler(
   async (
@@ -20,16 +21,10 @@ export default defineEventHandler(
     try {
       const supabase = await serverSupabaseClient<Database>(event)
       const { date, page = 1, limit = 10 } = getQuery(event)
-      const cleanDate = date.toString().replaceAll(/"/g, '')
-      const tzDate = new TZDate(new Date(cleanDate), 'Asia/Jakarta')
+      const tzDate = new TZDate(new Date(cleanDate(date)), 'Asia/Jakarta')
       const startDate = formatISO(startOfDay(tzDate))
       const endDate = formatISO(endOfDay(tzDate))
       const startIndex = (+page - 1) * +limit
-      console.log('iso start', startOfDay(new Date(cleanDate)).toISOString())
-      console.log('iso end', endOfDay(new Date(cleanDate)).toISOString())
-
-      console.log(cleanDate, startDate)
-      console.log(cleanDate, endDate)
 
       const { error, data } = await supabase
         .from('reading_habits')
