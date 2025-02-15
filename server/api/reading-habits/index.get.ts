@@ -23,6 +23,8 @@ export default defineEventHandler(
       const startDate = startOfDay(new Date(cleanDate)).toISOString()
       const endDate = endOfDay(new Date(cleanDate)).toISOString()
       const startIndex = (+page - 1) * +limit
+      console.log(cleanDate, startDate)
+      console.log(cleanDate, endDate)
 
       const { error, data } = await supabase
         .from('reading_habits')

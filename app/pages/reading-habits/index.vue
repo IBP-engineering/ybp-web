@@ -13,7 +13,9 @@ const router = useRouter()
 const route = useRoute()
 const page = ref(1)
 const date = ref(
-  route.query?.date ? new Date(route.query?.date as string) : new Date(),
+  route.query?.date
+    ? format(new Date(route.query?.date as string), 'P')
+    : format(new Date(), 'P'),
 )
 
 watch(date, () => {
@@ -22,7 +24,7 @@ watch(date, () => {
     page.value = 1
     router.replace({
       query: {
-        date: format(date.value, 'P', { locale: id }),
+        date: format(new Date(date.value), 'P'),
       },
     })
   }
@@ -34,7 +36,7 @@ const { data: habits, status } = await useFetch('/api/reading-habits', {
     page,
   },
   watch: [date],
-  key: `habits/${format(date.value, 'P', { locale: id })}/?page=${page.value}`,
+  key: `habits/${format(new Date(date.value), 'P', { locale: id })}/?page=${page.value}`,
 })
 
 const breadcrumbs = [
@@ -70,7 +72,7 @@ const breadcrumbs = [
       <UPopover :popper="{ placement: 'bottom-start' }">
         <UButton
           icon="i-heroicons-calendar-days-20-solid"
-          :label="format(date, 'd MMM, yyy')"
+          :label="format(new Date(date), 'd MMM, yyy')"
         />
 
         <template #panel="{ close }">
