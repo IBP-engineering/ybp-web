@@ -38,7 +38,6 @@ export default defineCachedEventHandler(
       )
       const startDate = formatISO(startOfDay(tzStartDate))
       const endDate = formatISO(endOfDay(tzEndDate))
-      console.log(startDate, endDate)
 
       const { error, data } = await supabase
         .from('reading_habits')
@@ -118,24 +117,21 @@ export default defineCachedEventHandler(
 
 function calculateStreak(dates: string[]) {
   const sortedDates = dates
-    .map(date => parseISO(date))
+    .map(date => new TZDate(parseISO(date), 'Asia/Jakarta'))
     .sort((a, b) => getUnixTime(a) - getUnixTime(b))
 
   let currentStreak = 0
   let maxStreak = 0
-  let lastDate: Date = new Date()
+  let lastDate: Date = null
 
   for (const currentDate of sortedDates) {
-    const tzCurrentDate = new TZDate(currentDate, 'Asia/Jakarta')
-    const dateNow = new Date(tzCurrentDate.toISOString())
-
     if (!lastDate) {
       currentStreak = 1
-      lastDate = new Date(tzCurrentDate.toISOString())
+      lastDate = currentDate
       continue
     }
 
-    const dayDifference = differenceInCalendarDays(dateNow, lastDate)
+    const dayDifference = differenceInCalendarDays(currentDate, lastDate)
 
     if (dayDifference === 1) {
       currentStreak++
@@ -144,7 +140,7 @@ function calculateStreak(dates: string[]) {
       currentStreak = 1
     }
 
-    lastDate = new Date(tzCurrentDate.toISOString())
+    lastDate = currentDate
   }
 
   return {
