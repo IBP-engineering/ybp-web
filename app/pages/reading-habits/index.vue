@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { format } from 'date-fns'
+import id from 'date-fns/locale/id'
 
 defineOgImageComponent('default')
 useSeoMeta({
@@ -12,16 +13,21 @@ const router = useRouter()
 const route = useRoute()
 const page = ref(1)
 const date = ref(
-  route.query?.date ? new Date(route.query?.date as string) : new Date(),
+  route.query?.date
+    ? format(new Date(route.query?.date as string), 'P')
+    : format(new Date(), 'P'),
 )
+const formattedDateQuery = ref(date.value)
 
-watch(date, () => {
+watchEffect(() => {
   if (date.value) {
     // reset to page 1 whenever date is changed
     page.value = 1
+    const formattedDate = format(new Date(date.value), 'P')
+    formattedDateQuery.value = formattedDate
     router.replace({
       query: {
-        date: format(date.value, 'P'),
+        date: formattedDate,
       },
     })
   }
@@ -29,11 +35,11 @@ watch(date, () => {
 
 const { data: habits, status } = await useFetch('/api/reading-habits', {
   query: {
-    date,
+    date: formattedDateQuery,
     page,
   },
-  watch: [date],
-  key: `habits/${date.value.toDateString()}/?page=${page.value}`,
+  watch: [formattedDateQuery],
+  key: `habits/${format(new Date(formattedDateQuery.value), 'P')}/?page=${page.value}`,
 })
 
 const breadcrumbs = [
@@ -69,7 +75,7 @@ const breadcrumbs = [
       <UPopover :popper="{ placement: 'bottom-start' }">
         <UButton
           icon="i-heroicons-calendar-days-20-solid"
-          :label="format(date, 'd MMM, yyy')"
+          :label="format(new Date(date), 'd MMM, yyy')"
         />
 
         <template #panel="{ close }">

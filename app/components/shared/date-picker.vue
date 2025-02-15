@@ -6,6 +6,7 @@ import type {
   // @ts-expect-error not found module
 } from 'v-calendar/dist/types/src/use/datePicker'
 import 'v-calendar/dist/style.css'
+import { format } from 'date-fns'
 
 defineOptions({
   inheritAttrs: false,
