@@ -1,7 +1,7 @@
 import { serverSupabaseClient } from '#supabase/server'
 import { TZDate } from '@date-fns/tz'
 import {
-  differenceInDays,
+  differenceInCalendarDays,
   endOfDay,
   formatISO,
   getUnixTime,
@@ -23,7 +23,6 @@ export default defineCachedEventHandler(
     event,
   ): Promise<{
     error: unknown
-    hitCache: boolean
     data: Data[]
   }> => {
     try {
@@ -66,7 +65,6 @@ export default defineCachedEventHandler(
       if (data.length === 0) {
         return {
           data: [],
-          hitCache: false,
           error: null,
         }
       }
@@ -104,7 +102,6 @@ export default defineCachedEventHandler(
 
       return {
         data: sortedHabits,
-        hitCache: false,
         error: null,
       }
     } catch (error) {
@@ -126,16 +123,19 @@ function calculateStreak(dates: string[]) {
 
   let currentStreak = 0
   let maxStreak = 0
-  let lastDate = null
+  let lastDate: Date = new Date()
 
   for (const currentDate of sortedDates) {
+    const tzCurrentDate = new TZDate(currentDate, 'Asia/Jakarta')
+    const dateNow = new Date(tzCurrentDate.toISOString())
+
     if (!lastDate) {
       currentStreak = 1
-      lastDate = currentDate
+      lastDate = new Date(tzCurrentDate.toISOString())
       continue
     }
 
-    const dayDifference = differenceInDays(currentDate, lastDate)
+    const dayDifference = differenceInCalendarDays(dateNow, lastDate)
 
     if (dayDifference === 1) {
       currentStreak++
@@ -144,7 +144,7 @@ function calculateStreak(dates: string[]) {
       currentStreak = 1
     }
 
-    lastDate = currentDate
+    lastDate = new Date(tzCurrentDate.toISOString())
   }
 
   return {
