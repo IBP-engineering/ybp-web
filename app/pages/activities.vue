@@ -52,7 +52,7 @@ const breadcrumbs = [
       img="https://placehold.co/700x300.png"
       title="Book Party"
     >
-      <p class="w-1/2 text-center text-gray-600">
+      <p class="md:3/4 text-center text-gray-600 lg:w-1/2">
         Book Party adalah ruang seru bagi pecinta buku untuk berkumpul,
         berdiskusi, dan menikmati akhir pekan dengan membaca yang lebih hidup.
         Kegiatan ini bisa ningkatin minat baca sekaligus nambah wawasan literasi
@@ -71,7 +71,7 @@ const breadcrumbs = [
       img="https://placehold.co/700x300.png"
       title="Collab"
     >
-      <p class="w-1/2 text-center text-gray-600">
+      <p class="md:3/4 text-center text-gray-600 lg:w-1/2">
         Percaya bahwa literasi bisa tumbuh lebih kuat ketika berbagai pihak
         bersatu? Kami juga! Itulah kenapa Yogyakarta Book Party selalu terbuka
         untuk berkolaborasi dengan komunitas, brand, penulis profesional, dan
@@ -80,6 +80,25 @@ const breadcrumbs = [
         merancang kampanye bersama-sama. Yuk, kolaborasi dan buat perubahan
         bareng.
       </p>
+      <b class="mt-8 text-center"
+        >Pihak-pihak yang pernah berkolaborasi dengan Yogyakarta Book Party</b
+      >
+
+      <div
+        class="mb-8 mt-4 flex max-w-4xl flex-wrap items-center justify-center gap-2"
+      >
+        <img
+          v-for="arr in [1, 2, 3, 4, 5, 6, 12, 122, 354]"
+          :key="arr"
+          src="https://placehold.co/130x80.png"
+          alt="logo"
+          class="rounded-xl"
+        />
+      </div>
+
+      <UButton variant="soft" icon="ph:rocket-launch-fill"
+        >Mari berkolaborasi</UButton
+      >
     </ActivitiesSection>
   </div>
 </template>
