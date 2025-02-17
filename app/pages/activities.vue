@@ -40,11 +40,19 @@ const breadcrumbs = [
         >Book Party</UButton
       >
       <UButton color="sky" size="sm" to="/activities/#collab">Collab</UButton>
-      <UButton color="sky" size="sm">Reading Habits</UButton>
-      <UButton color="sky" size="sm">Malam Imajinasi</UButton>
-      <UButton color="sky" size="sm">Fomo</UButton>
-      <UButton color="sky" size="sm">Sports Club</UButton>
-      <UButton color="sky" size="sm">Deklamasi Puisi</UButton>
+      <UButton color="sky" size="sm" to="/activities/#reading-habits"
+        >Reading Habits</UButton
+      >
+      <UButton color="sky" size="sm" to="/activities/#malam-imajinasi"
+        >Malam Imajinasi</UButton
+      >
+      <UButton color="sky" size="sm" to="/activities/#fomo">Fomo</UButton>
+      <UButton color="sky" size="sm" to="/activities/#puisi"
+        >Deklamasi Puisi</UButton
+      >
+      <UButton color="sky" size="sm" to="/activities/#sports-club"
+        >Sports Club</UButton
+      >
     </div>
 
     <ActivitiesSection
@@ -80,8 +88,9 @@ const breadcrumbs = [
         merancang kampanye bersama-sama. Yuk, kolaborasi dan buat perubahan
         bareng.
       </p>
-      <b class="mt-8 text-center"
-        >Pihak-pihak yang pernah berkolaborasi dengan Yogyakarta Book Party</b
+      <small class="mt-8 text-center font-bold uppercase"
+        >Partner-partner keren yang pernah kolaborasi dengan Yogyakarta Book
+        Party</small
       >
 
       <div
@@ -98,6 +107,95 @@ const breadcrumbs = [
 
       <UButton variant="soft" icon="ph:rocket-launch-fill"
         >Mari berkolaborasi</UButton
+      >
+    </ActivitiesSection>
+
+    <ActivitiesSection
+      id="malam-imajinasi"
+      img="https://placehold.co/700x300.png"
+      title="Malam Imajinasi"
+    >
+      <p class="md:3/4 text-center text-gray-600 lg:w-1/2">
+        Nggak bisa tidur karena overthinking? Wajar kok, kamu cuma perlu ngobrol
+        aja. Makanya Yogya Book Party mengadakan malam imajinasi untuk bookmates
+        yang sering mengalami overthinking dan insomnia. Dipandu oleh mentor
+        psikologi berpengalaman. Sesi ini hadir sebagai ruang aman untuk
+        berbagi, memahami, dan menambah wawasan. Melalui obrolan Daring, acara
+        ini diharapkan bisa membantu bookmates mengurangi beban pikiran. Ingin
+        mencurahkan banyak hal? yuk gabung Yogya Book Party!
+      </p>
+
+      <UButton variant="soft" class="mt-8" icon="ph:rocket-launch-fill"
+        >Mari bergabung</UButton
+      >
+    </ActivitiesSection>
+
+    <ActivitiesSection
+      id="reading-habits"
+      img="https://placehold.co/700x300.png"
+      title="Reading Habits"
+    >
+      <p class="md:3/4 text-center text-gray-600 lg:w-1/2">
+        Reading Challenge adalah tantangan membaca kepada Bookmates untuk
+        membangun kebiasaan membaca setiap hari dengan cara yang seru. Kami
+        paham bahwa untuk membangun kebiasaan membaca tidak mudah. Itulah kenapa
+        kami menciptakan wadah untuk Bookmates agar bisa konsisten sambil
+        melihat proses teman lainnya. Menariknya, ada hadiah spesial buat mereka
+        yang berhasil menyelesaikan tantangan! Yuk, gabung bersama kami!
+      </p>
+
+      <UButton
+        variant="outline"
+        to="/reading-habits/leaderboard"
+        trailing-icon="ph:arrow-circle-right"
+        class="mt-8"
+        >Lihat klasemen</UButton
+      >
+    </ActivitiesSection>
+
+    <ActivitiesSection
+      id="fomo"
+      img="https://placehold.co/700x300.png"
+      title="FOMO"
+    >
+      <p class="md:3/4 text-center text-gray-600 lg:w-1/2">
+        YBP Fomo adalah kegiatan yang bertujuan untuk menormalisasi literasi di
+        masyarakat. Bersama-sama membaca di ruang yang tidak biasa, sehingga
+        menciptakan ruang membaca aman tanpa ada batas. Tentunya, berdampak juga
+        pada Bookmates. Selain menambah wawasan. Kita juga mendapat pengalaman
+        baru dengan sensasi yang menyenangkan! Nantikan segera YBP Fomo, Teman.
+      </p>
+    </ActivitiesSection>
+
+    <ActivitiesSection
+      id="puisi"
+      img="https://placehold.co/700x300.png"
+      title="Deklamasi Puisi"
+    >
+      <p class="md:3/4 text-center text-gray-600 lg:w-1/2">
+        Punya puisi yang ingin didengar banyak orang? Sekarang saatnya. Yogya
+        Book Party menghadirkan Deklamasi Puisi, ruang bagi siapa saja yang
+        ingin menyampaikan pesan lewat puisi, mau itu puisi karya sendiri atau
+        karya Sastrawan terkenal, kamu bisa melatih kreatifitas dan kepercayaan
+        diri kamu disini. Yuk gabung bersama kami dan buat puisimu di rasakan
+        banyak orang!
+      </p>
+    </ActivitiesSection>
+
+    <ActivitiesSection
+      id="sports-club"
+      img="https://placehold.co/700x300.png"
+      title="Sports Club"
+    >
+      <p class="md:3/4 text-center text-gray-600 lg:w-1/2">
+        Meningkatkan wawasan itu penting, tapi kalau fisik nggak dijaga, gimana
+        bisa tetap fokus? Yogya Book Party paham, banyak orang sibuk mengisi
+        otak tapi lupa merawat tubuh. Makanya, kami bikin wadah buat Bookmates
+        supaya nggak cuma pinter, tapi juga sehat.
+      </p>
+
+      <UButton variant="soft" to="#" icon="ph:whatsapp-logo-fill" class="mt-8"
+        >Gabung grup WhatsApp</UButton
       >
     </ActivitiesSection>
   </div>
