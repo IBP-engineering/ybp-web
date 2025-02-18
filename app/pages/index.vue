@@ -74,7 +74,7 @@ const storiesFiltered = computed(() => {
 
     <LazyHomeHeroGallery />
 
-    <HomeOurAgenda />
+    <HomeOurActivities />
 
     <div class="container mx-auto px-4 py-24 md:px-0 md:py-32">
       <h2 class="text-lg font-bold">🔥 Cerita Terbaru</h2>

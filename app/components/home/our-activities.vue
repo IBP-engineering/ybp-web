@@ -4,6 +4,7 @@ const activities = [
     title: 'Book Party',
     desc: 'Book Party adalah ruang seru bagi pecinta buku untuk berkumpul, berdiskusi, dan menikmati akhir pekan dengan membaca yang lebih hidup. Kegiatan ini bisa ningkatin minat baca sekaligus nambah wawasan literasi kamu. Nggak perlu takut nggak diterima, di sini semua genre kami rayakan. Dari pembaca pemula, veteran, bahkan penulis profesional, semuanya punya tempat. Kita bersama-sama merayakan literasi. Pantau terus kegiatan Book Party di Instagram @yogbookparty',
     icon: 'heroicons:book-open',
+    href: '/activities',
     span: 2,
   },
   {
@@ -58,11 +59,15 @@ const activitiesSpan = ['md:col-span-1', 'md:col-span-2', 'md:col-span-3']
       Agenda Kami <br /><span class="text-primary-600">Paling Seru</span>
     </h2>
     <div class="grid grid-cols-1 gap-8 md:grid-cols-3">
-      <div
+      <NuxtLink
         v-for="act in activities"
         :key="act.title"
-        class="hover:ring-primary-500 group relative flex h-full flex-1 flex-col gap-x-8 gap-y-4 rounded-xl border border-gray-300 bg-white bg-gradient-to-b from-gray-50/50 to-gray-200/50 p-4 px-4 py-5 shadow ring-1 ring-gray-200 transition duration-150 hover:bg-gray-100/50 hover:ring-2 sm:p-6"
-        :class="activitiesSpan[act.span - 1]"
+        :to="act.href"
+        class="group relative flex h-full flex-1 flex-col gap-x-8 gap-y-4 rounded-xl border border-gray-300 bg-white bg-gradient-to-b from-gray-50/50 to-gray-200/50 p-4 px-4 py-5 shadow ring-1 ring-gray-200 transition duration-150 hover:bg-gray-100/50 hover:ring-2 sm:p-6"
+        :class="[
+          activitiesSpan[act.span - 1],
+          act.href ? 'hover:ring-primary-500' : '',
+        ]"
       >
         <UIcon :name="act.icon" class="text-primary-500 h-12 w-12" />
         <b
@@ -72,7 +77,7 @@ const activitiesSpan = ['md:col-span-1', 'md:col-span-2', 'md:col-span-3']
         <p class="text-[15px] text-gray-500 dark:text-gray-400">
           {{ act.desc }}
         </p>
-      </div>
+      </NuxtLink>
     </div>
   </div>
 </template>
