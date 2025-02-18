@@ -8,6 +8,8 @@
 </template>
 
 <style>
+@import url(./styles/tailwind.css);
+
 html,
 body,
 #__nuxt {

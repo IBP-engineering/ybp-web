@@ -25,6 +25,7 @@ export default defineNuxtConfig({
     '@vueuse/nuxt',
     '@nuxtjs/seo',
     '@nuxt/image',
+    'motion-v/nuxt',
   ],
   future: {
     compatibilityVersion: 4,

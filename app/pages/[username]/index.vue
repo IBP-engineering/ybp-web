@@ -22,7 +22,7 @@ const { data: user } = await useAsyncData(`users/${username}`, async () => {
 if (!user.value) {
   throw createError({
     statusCode: 404,
-    statusMessage: 'User yang kamu cari tidak ditemukan',
+    statusMessage: 'Halaman tidak ditemukan',
   })
 }
 
