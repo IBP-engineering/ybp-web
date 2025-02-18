@@ -8,7 +8,7 @@ type StoryWithTags = (Story & {
 export function mapStoryTag(stories: Partial<StoryWithTags>) {
   const supabase = useSupabaseClient()
 
-  return stories.map(story => {
+  return stories?.map(story => {
     const coverWithPath = story.cover_path
       ? supabase.storage.from('story-cover').getPublicUrl(story.cover_path).data
           .publicUrl
