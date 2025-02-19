@@ -7,6 +7,7 @@ import {
   getUnixTime,
   parseISO,
   startOfDay,
+  format,
 } from 'date-fns'
 import { Database } from '~/types/database.types'
 import { cleanDate } from '~~/server/utils/date'
@@ -16,6 +17,8 @@ interface Data {
   displayName: string
   point: number
   streakDay: number
+  totalDay: number
+  streakDates: string[]
 }
 
 export default defineCachedEventHandler(
@@ -85,14 +88,16 @@ export default defineCachedEventHandler(
           displayName: group[0].created_by.display_name,
           username: group[0].created_by.username,
           point: totalPoint,
-          streakDay: streakDay.currentStreak,
+          streakDay: streakDay.maxStreak,
+          streakDates: streakDay.userDates,
+          totalDay: streakDay.totalDay,
         })
       }
 
       const sortedHabits = result.toSorted((a, b) => {
         // First, compare streak days (descending order)
-        if (b.streakDay !== a.streakDay) {
-          return b.streakDay - a.streakDay
+        if (b.totalDay !== a.totalDay) {
+          return b.totalDay - a.totalDay
         }
 
         // If streak days are equal, compare points (descending order)
@@ -122,9 +127,14 @@ function calculateStreak(dates: string[]) {
 
   let currentStreak = 0
   let maxStreak = 0
-  let lastDate: Date = null
+  let lastDate: Date | null = null
+  const uniqueDates = new Set<string>() // Track unique dates
 
   for (const currentDate of sortedDates) {
+    // Add the current date to the unique dates set (formatted as YYYY-MM-DD)
+    const dateKey = currentDate.toISOString().split('T')[0]
+    uniqueDates.add(dateKey)
+
     if (!lastDate) {
       currentStreak = 1
       lastDate = currentDate
@@ -143,8 +153,13 @@ function calculateStreak(dates: string[]) {
     lastDate = currentDate
   }
 
+  // Convert the Set of unique dates to an array of strings
+  const userDates = Array.from(uniqueDates).sort()
+
   return {
     currentStreak,
     maxStreak,
+    userDates: userDates.map(date => format(new Date(date), 'dd MMM yyyy')),
+    totalDay: userDates.length,
   }
 }
