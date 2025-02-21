@@ -83,7 +83,7 @@ const columns = [
     label: 'Poin',
   },
   {
-    key: 'streakDay',
+    key: 'totalDay',
     label: 'Hari',
   },
 ]
@@ -148,7 +148,7 @@ const compoundWinner = computed(() => {
           <UIcon v-else-if="key === 1" name="ph:number-circle-two-fill" />
           <UIcon v-else="key === 2" name="ph:number-circle-three-fill"
         /></span>
-        <p>{{ win.streakDay }} hari</p>
+        <p>{{ win.totalDay }} hari</p>
         <div class="mt-1 flex items-center gap-2">
           <UIcon name="ph:clover-fill" class="-ml-10 h-8 w-8 text-green-600" />
           <div>
@@ -174,6 +174,17 @@ const compoundWinner = computed(() => {
           <UIcon name="ph:crown-simple-fill" />
           {{ row.rank }}
         </span>
+      </template>
+      <template #totalDay-data="{ row }">
+        <UTooltip
+          :ui="{ width: 'max-w-lg' }"
+          :text="row.streakDates.toString()"
+          :popper="{ placement: 'top', arrow: true }"
+        >
+          <span class="border-b border-dotted border-gray-300">
+            {{ row.totalDay }}
+          </span>
+        </UTooltip>
       </template>
     </UTable>
   </div>
