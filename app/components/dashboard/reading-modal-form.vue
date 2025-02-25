@@ -61,7 +61,7 @@ const form = ref<Form<Schema>>()
 const openConfirmation = ref(false)
 const state = reactive<Schema>({
   title: '',
-  genre: genres.value[0].value,
+  genre: genres?.value?.[0]?.value,
   pageCount: 0,
   summary: '',
 })
