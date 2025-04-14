@@ -47,8 +47,8 @@ const { data: users } = await useAsyncData('hq/users', async () => {
                   <RoleBadge :name="user.roles.name" />
                   <br />
                   <b class="mr-1">{{ user.display_name }}</b>
-                  <small class="text-gray-600">@{{ user.username }}</small>
-                  <p class="text-gray-600">
+                  <small class="text-neutral-600">@{{ user.username }}</small>
+                  <p class="text-neutral-600">
                     {{ user.stories[0].count }}
                     {{ user.stories[0].count > 1 ? 'stories' : 'story' }}
                   </p>

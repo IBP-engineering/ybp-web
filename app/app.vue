@@ -2,8 +2,9 @@
   <NuxtLayout>
     <NuxtLoadingIndicator />
     <NuxtRouteAnnouncer />
-    <NuxtPage />
-    <UNotifications />
+    <UApp>
+      <NuxtPage />
+    </UApp>
   </NuxtLayout>
 </template>
 

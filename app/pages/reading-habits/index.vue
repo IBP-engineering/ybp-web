@@ -57,7 +57,7 @@ const breadcrumbs = [
 <template>
   <div class="container mx-auto px-4 md:px-0">
     <UBreadcrumb
-      :links="breadcrumbs"
+      :items="breadcrumbs"
       divider="/"
       class="mb-4 flex justify-center"
     />
@@ -65,7 +65,7 @@ const breadcrumbs = [
       <h1 class="text-4xl font-bold leading-relaxed">
         <span class="text-primary-500">Read</span>ing Habits
       </h1>
-      <p class="text-gray-600">
+      <p class="text-neutral-600">
         Ketika membaca menjadi sebuah kebiasaan. YBP punya cara untuk
         menjadikannya sebuah reward
       </p>

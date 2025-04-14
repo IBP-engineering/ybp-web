@@ -50,7 +50,7 @@ const storyOptions = [
 
 <template>
   <div
-    class="relative flex w-full items-center justify-between border-b bg-gray-50 px-4 py-2 outline-none last:border-0 hover:bg-gray-100"
+    class="relative flex w-full items-center justify-between border-b bg-neutral-50 px-4 py-2 outline-none last:border-0 hover:bg-neutral-100"
   >
     <NuxtLink :to="storyUrl" class="group outline-none focus:ring">
       <h3
@@ -58,18 +58,21 @@ const storyOptions = [
       >
         {{ story.title }}
       </h3>
-      <small class="text-gray-600"
+      <small class="text-neutral-600"
         >Ditulis pada
         {{ format(new Date(story.created_at), 'PPP', { locale: id }) }}</small
       >
     </NuxtLink>
     <div>
-      <UDropdown
+      <UDropdownMenu
         :items="storyOptions"
         :popper="{ placement: 'bottom-start', arrow: true }"
       >
-        <UButton color="gray" icon="i-heroicons:ellipsis-vertical-20-solid" />
-      </UDropdown>
+        <UButton
+          color="neutral"
+          icon="i-heroicons:ellipsis-vertical-20-solid"
+        />
+      </UDropdownMenu>
     </div>
   </div>
 </template>

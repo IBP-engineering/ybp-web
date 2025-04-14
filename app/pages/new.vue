@@ -193,7 +193,7 @@ const previewImage = (event: Event & { target: { files: File[] } }) => {
     toast.add({
       title: 'Gagal menambahkan cover',
       description: 'Maksimal ukuran gambar yang diunggah adalah 5mb',
-      color: 'red',
+      color: 'error',
     })
     return
   }
@@ -225,8 +225,8 @@ const removeImageCover = () => {
 <template>
   <div class="container mx-auto px-4 md:px-0">
     <div class="mx-auto max-w-screen-lg">
-      <UBreadcrumb divider="/" :links="breadcrumbs" />
-      <div class="mb-4 mt-12 flex flex-col gap-2 md:flex-row">
+      <UBreadcrumb divider="/" :items="breadcrumbs" />
+      <div class="mt-12 mb-4 flex flex-col gap-2 md:flex-row">
         <img
           v-if="previewImageUrl"
           :src="previewImageUrl.toString()"
@@ -245,7 +245,7 @@ const removeImageCover = () => {
           <UButton
             v-if="Boolean(previewImageUrl)"
             variant="soft"
-            color="red"
+            color="error"
             @click="removeImageCover"
             >Hapus
           </UButton>
@@ -262,7 +262,7 @@ const removeImageCover = () => {
         v-model="form.title"
         placeholder="Judulnyaaa"
         variant="none"
-        color="gray"
+        color="neutral"
         padded
         input-class="mb-2 font-bold text-4xl"
         required
@@ -280,28 +280,28 @@ const removeImageCover = () => {
           label="Label"
           icon="i-heroicons:plus-circle"
           variant="outline"
-          color="gray"
+          color="neutral"
           @click="showTags = !showTags"
         />
       </div>
       <div
         v-if="showTags"
-        class="-mt-2 mb-2 h-48 overflow-auto rounded-lg border bg-gray-50 p-4"
+        class="-mt-2 mb-2 h-48 overflow-auto rounded-lg border bg-neutral-50 p-4"
       >
         <div class="border-b">
           <b>Daftar label</b>
-          <small class="mb-1 block text-gray-600"
+          <small class="mb-1 block text-neutral-600"
             >Maksimal memilih 4 label</small
           >
         </div>
         <div v-for="tag in tagsOrigin" :key="tag.id">
           <button
             v-if="!tag.alreadySelect"
-            class="flex w-full flex-col items-start p-2 text-start transition hover:bg-gray-100"
+            class="flex w-full flex-col items-start p-2 text-start transition hover:bg-neutral-100"
             @click="() => selectTag(tag)"
           >
             <p>#{{ tag.slug }}</p>
-            <small class="text-gray-600">{{ tag.description }}</small>
+            <small class="text-neutral-600">{{ tag.description }}</small>
           </button>
         </div>
       </div>
@@ -318,11 +318,10 @@ const removeImageCover = () => {
       </div>
     </div>
 
-    <LazyUModal v-model="openModal">
+    <LazyUModal v-model:open="openModal">
       <UCard
         :ui="{
-          ring: '',
-          divide: 'divide-y divide-gray-100 dark:divide-gray-800',
+          body: 'divide-y divide-neutral-100 dark:divide-neutral-800',
         }"
       >
         <template #header>
@@ -330,7 +329,7 @@ const removeImageCover = () => {
         </template>
 
         <p>{{ modalAlert.message }}</p>
-        <p v-if="modalAlert.isSuccess" class="mt-2 block text-gray-500">
+        <p v-if="modalAlert.isSuccess" class="mt-2 block text-neutral-500">
           Untuk informasi lebih lanjut mengenai proses penerbitan Cerita kamu,
           bisa melalui halaman
           <NuxtLink class="text-blue-500 hover:underline" to="#">FAQ</NuxtLink>.

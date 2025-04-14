@@ -89,7 +89,7 @@ async function sendNewHabit() {
       toast.add({
         title: 'Terjadi kesalahan',
         description: res.error,
-        color: 'red',
+        color: 'error',
         icon: 'i-heroicons-x-mark-solid',
       })
       console.error(res.error)
@@ -100,7 +100,7 @@ async function sendNewHabit() {
     toast.add({
       title: 'OK',
       description: 'Berhasil menambahkan record baru',
-      color: 'green',
+      color: 'success',
       icon: 'ph:check-fat',
     })
     resetValue()
@@ -109,7 +109,7 @@ async function sendNewHabit() {
     toast.add({
       title: 'Terjadi kesalahan',
       description: error.message,
-      color: 'red',
+      color: 'error',
       icon: 'i-heroicons-x-mark-solid',
     })
     console.error(error)
@@ -132,7 +132,7 @@ const updateHabit = async () => {
     toast.add({
       title: 'OK',
       description: 'Berhasil mengubah record',
-      color: 'green',
+      color: 'success',
       icon: 'ph:check-fat',
     })
     resetValue()
@@ -141,7 +141,7 @@ const updateHabit = async () => {
     toast.add({
       title: 'Terjadi kesalahan',
       description: error.message,
-      color: 'red',
+      color: 'success',
       icon: 'i-heroicons-x-mark-solid',
     })
     console.error(error)
@@ -180,7 +180,7 @@ watch([providedId, existingHabit], () => {
 </script>
 
 <template>
-  <UModal v-model="openRecordModal" @close="resetValue">
+  <UModal v-model:open="openRecordModal" @close="resetValue">
     <UForm
       ref="form"
       :schema="v.safeParser(schema)"
@@ -190,8 +190,7 @@ watch([providedId, existingHabit], () => {
     >
       <UCard
         :ui="{
-          ring: '',
-          divide: 'divide-y divide-gray-100 dark:divide-gray-800',
+          body: 'divide-y divide-neutral-100 dark:divide-neutral-800',
         }"
       >
         <template #header>
@@ -199,7 +198,7 @@ watch([providedId, existingHabit], () => {
         </template>
         <div class="flex flex-col gap-4">
           <p
-            class="rounded-sm border-b border-gray-300 bg-gray-50 text-center text-sm text-gray-500"
+            class="rounded-sm border-b border-neutral-300 bg-neutral-50 text-center text-sm text-neutral-500"
           >
             {{
               new Intl.DateTimeFormat('id', { dateStyle: 'long' }).format(
@@ -207,10 +206,10 @@ watch([providedId, existingHabit], () => {
               )
             }}
           </p>
-          <UFormGroup required label="Judul buku" name="title">
+          <UFormField required label="Judul buku" name="title">
             <UInput v-model="state.title" :loading="status === 'pending'" />
-          </UFormGroup>
-          <UFormGroup
+          </UFormField>
+          <UFormField
             required
             label="Jumlah halaman"
             help="Jumlah halaman buku yang dibaca"
@@ -221,15 +220,15 @@ watch([providedId, existingHabit], () => {
               :loading="status === 'pending'"
               type="number"
             />
-          </UFormGroup>
-          <UFormGroup required label="Jenis" name="genre">
+          </UFormField>
+          <UFormField required label="Jenis" name="genre">
             <URadioGroup
               v-model="state.genre"
               :disabled="status === 'pending'"
-              :options="genres"
+              :items="genres"
             />
-          </UFormGroup>
-          <UFormGroup
+          </UFormField>
+          <UFormField
             required
             eager-validation
             label="Kesimpulan"
@@ -240,12 +239,12 @@ watch([providedId, existingHabit], () => {
               :disabled="status === 'pending'"
               autoresize
             />
-          </UFormGroup>
+          </UFormField>
         </div>
         <template #footer>
           <div class="flex justify-end gap-4">
             <UButton
-              color="gray"
+              color="neutral"
               variant="soft"
               @click="openRecordModal = false"
               >Batal</UButton
@@ -258,11 +257,10 @@ watch([providedId, existingHabit], () => {
       </UCard>
     </UForm>
 
-    <UModal v-model="openConfirmation">
+    <UModal v-model:open="openConfirmation">
       <UCard
         :ui="{
-          ring: '',
-          divide: 'divide-y divide-gray-100 dark:divide-gray-800',
+          body: 'divide-y divide-neutral-100 dark:divide-neutral-800',
         }"
       >
         <template #header>
@@ -278,7 +276,7 @@ watch([providedId, existingHabit], () => {
         <template #footer>
           <div class="flex justify-end gap-4">
             <UButton
-              color="gray"
+              color="neutral"
               variant="soft"
               @click="openConfirmation = false"
               >Batal</UButton

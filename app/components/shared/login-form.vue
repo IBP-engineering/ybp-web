@@ -105,15 +105,15 @@ async function login(event: FormSubmitEvent<Schema>) {
     class="flex w-full flex-col gap-5"
     @submit.prevent="login"
   >
-    <UFormGroup label="Email" name="email">
+    <UFormField label="Email" name="email">
       <UInput v-model="state.email" :loading="isLoading" type="email" />
-    </UFormGroup>
-    <UFormGroup label="Password" name="password">
+    </UFormField>
+    <UFormField label="Password" name="password">
       <UInput v-model="state.password" :loading="isLoading" type="password" />
-    </UFormGroup>
+    </UFormField>
 
     <UButton block :loading="isLoading" type="submit"> Masuk </UButton>
-    <UDivider label="ATAU" />
+    <USeparator label="ATAU" />
     <p class="text-center">
       Belum memiliki akun?
       <ULink class="text-primary-600 hover:underline" to="/register"

@@ -16,7 +16,7 @@ const disabledDates = ref([{ start: add(new Date(), { days: 1 }), end: null }])
 
     <template #panel="{ close }">
       <div
-        class="flex items-center divide-gray-200 sm:divide-x dark:divide-gray-800"
+        class="flex items-center divide-neutral-200 sm:divide-x dark:divide-neutral-800"
       >
         <SharedDatePicker
           :disabled-dates="disabledDates"

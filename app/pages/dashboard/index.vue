@@ -52,7 +52,7 @@ function onChange(index: number) {
 
 <template>
   <div class="container mx-auto px-4 md:px-0">
-    <UBreadcrumb divider="/" :links="breadcrumbs" />
+    <UBreadcrumb divider="/" :items="breadcrumbs" />
     <h1 class="text-2xl font-bold leading-relaxed">Dashboard</h1>
 
     <div class="mt-4">

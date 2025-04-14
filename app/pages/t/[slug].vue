@@ -74,9 +74,9 @@ useSeoMeta({
 
 <template>
   <div class="container mx-auto px-4 md:px-0">
-    <UBreadcrumb divider="/" :links="breadcrumbs" class="mb-4" />
-    <div class="rounded-lg border border-gray-300 bg-white p-4 md:p-6">
-      <h1 class="text-3xl font-semibold leading-loose tracking-wide">
+    <UBreadcrumb divider="/" :items="breadcrumbs" class="mb-4" />
+    <div class="rounded-lg border border-neutral-300 bg-white p-4 md:p-6">
+      <h1 class="text-3xl leading-loose font-semibold tracking-wide">
         {{ tag.title }}
       </h1>
       <p class="font-thin">{{ tag.description }}</p>

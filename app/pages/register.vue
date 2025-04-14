@@ -141,27 +141,27 @@ async function register(event: FormSubmitEvent<Schema>) {
           class="flex w-full flex-col gap-5"
           @submit="register"
         >
-          <UFormGroup required label="Nama" name="displayName">
+          <UFormField required label="Nama" name="displayName">
             <UInput
               v-model="state.displayName"
               :loading="isLoading"
               type="text"
             />
-          </UFormGroup>
-          <UFormGroup required label="Username" name="username">
+          </UFormField>
+          <UFormField required label="Username" name="username">
             <UInput v-model="state.username" :loading="isLoading" type="text" />
-          </UFormGroup>
-          <UFormGroup required label="Email" name="email">
+          </UFormField>
+          <UFormField required label="Email" name="email">
             <UInput v-model="state.email" :loading="isLoading" type="email" />
-          </UFormGroup>
-          <UFormGroup required label="Password" name="password">
+          </UFormField>
+          <UFormField required label="Password" name="password">
             <UInput
               v-model="state.password"
               :loading="isLoading"
               type="password"
             />
-          </UFormGroup>
-          <UFormGroup
+          </UFormField>
+          <UFormField
             required
             label="Konfirmasi password"
             name="repeatPassword"
@@ -171,12 +171,12 @@ async function register(event: FormSubmitEvent<Schema>) {
               :loading="isLoading"
               type="password"
             />
-          </UFormGroup>
+          </UFormField>
 
           <UButton block :loading="isLoading" type="submit"> Daftar </UButton>
         </UForm>
 
-        <UDivider label="ATAU" />
+        <USeparator label="ATAU" />
         <p class="text-center">
           Sudah memiliki akun?
           <ULink to="/login" class="text-primary-600 hover:underline"

@@ -120,8 +120,8 @@ const handleOpenModal = (id: string) => {
 </script>
 
 <template>
-  <div class="rounded-lg border border-gray-300 bg-white py-2 shadow">
-    <div class="flex border-b border-gray-200 px-3 py-3.5 dark:border-gray-700">
+  <div class="rounded-lg border border-neutral-300 bg-white py-2 shadow">
+    <div class="flex border-b border-neutral-200 px-3 py-3.5 dark:border-neutral-700">
       <UInput v-model="searchQuery" placeholder="Cari sesuatu..." />
     </div>
     <UTable
@@ -133,14 +133,14 @@ const handleOpenModal = (id: string) => {
       <template #expand="{ row }">
         <div class="p-4">
           <p class="text-sm">{{ row.summary }}</p>
-          <pre class="border border-gray-300 p-1 text-xs">
+          <pre class="border border-neutral-300 p-1 text-xs">
 Ditambahkan pada {{ row.created_at }}</pre
           >
         </div>
       </template>
       <template v-if="!viewOnly" #actions-data="{ row }">
         <UButton
-          color="gray"
+          color="neutral"
           variant="ghost"
           size="xs"
           icon="i-heroicons-pencil-square-20-solid"
@@ -150,7 +150,7 @@ Ditambahkan pada {{ row.created_at }}</pre
       </template>
     </UTable>
     <div
-      class="flex justify-end border-t border-gray-200 px-3 py-3.5 dark:border-gray-700"
+      class="flex justify-end border-t border-neutral-200 px-3 py-3.5 dark:border-neutral-700"
     >
       <UPagination v-model="page" :page-count="pageCount" :total="total" />
     </div>

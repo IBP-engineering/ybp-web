@@ -4,13 +4,13 @@ defineSlots<{ default: any; title: any }>()
 
 <template>
   <div
-    class="mt-8 space-y-2 border-2 border-dotted border-gray-300 bg-gradient-to-t from-gray-100 to-gray-50 p-2"
+    class="mt-8 space-y-2 border-2 border-dotted border-neutral-300 bg-gradient-to-t from-neutral-100 to-neutral-50 p-2"
   >
     <UIcon name="ph:flag-banner-duotone" />
     <span class="ml-1">
       <slot name="title">Haloo Bookmates!</slot>
     </span>
-    <small class="block text-gray-600">
+    <small class="block text-neutral-600">
       <slot></slot>
     </small>
     <UButton

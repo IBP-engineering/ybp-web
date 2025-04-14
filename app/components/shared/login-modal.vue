@@ -3,14 +3,14 @@ const open = defineModel<boolean>('open')
 </script>
 
 <template>
-  <UModal v-model="open">
+  <UModal v-model:open="open">
     <div class="py-8">
       <div class="mb-2 flex justify-end pr-8">
         <UButton
           @click="open = false"
           icon="heroicons:x-mark"
           variant="ghost"
-          color="gray"
+          color="neutral"
         />
       </div>
       <div class="mx-auto flex w-full flex-col px-6 md:px-0">

@@ -23,14 +23,14 @@ const breadcrumbs = [
   <div class="container mx-auto w-full px-3 md:px-0">
     <UBreadcrumb
       divider="/"
-      :links="breadcrumbs"
+      :items="breadcrumbs"
       class="mb-4 flex justify-center"
     />
     <section class="mx-auto text-center md:max-w-[70%] lg:max-w-[40%]">
       <h1 class="text-balance text-4xl font-bold leading-relaxed">
         Keseruan dan Kreativitas Menjadi Bagian Komunitas
       </h1>
-      <p class="text-gray-600">Berbagai agenda dan kegiatan komunitas</p>
+      <p class="text-neutral-600">Berbagai agenda dan kegiatan komunitas</p>
     </section>
 
     <div
@@ -60,7 +60,7 @@ const breadcrumbs = [
       img="https://placehold.co/700x300.png"
       title="Book Party"
     >
-      <p class="md:3/4 text-center text-gray-600 lg:w-1/2">
+      <p class="md:3/4 text-center text-neutral-600 lg:w-1/2">
         Book Party adalah ruang seru bagi pecinta buku untuk berkumpul,
         berdiskusi, dan menikmati akhir pekan dengan membaca yang lebih hidup.
         Kegiatan ini bisa ningkatin minat baca sekaligus nambah wawasan literasi
@@ -79,7 +79,7 @@ const breadcrumbs = [
       img="https://placehold.co/700x300.png"
       title="Collab"
     >
-      <p class="md:3/4 text-center text-gray-600 lg:w-1/2">
+      <p class="md:3/4 text-center text-neutral-600 lg:w-1/2">
         Percaya bahwa literasi bisa tumbuh lebih kuat ketika berbagai pihak
         bersatu? Kami juga! Itulah kenapa Yogyakarta Book Party selalu terbuka
         untuk berkolaborasi dengan komunitas, brand, penulis profesional, dan
@@ -115,7 +115,7 @@ const breadcrumbs = [
       img="https://placehold.co/700x300.png"
       title="Malam Imajinasi"
     >
-      <p class="md:3/4 text-center text-gray-600 lg:w-1/2">
+      <p class="md:3/4 text-center text-neutral-600 lg:w-1/2">
         Nggak bisa tidur karena overthinking? Wajar kok, kamu cuma perlu ngobrol
         aja. Makanya Yogya Book Party mengadakan malam imajinasi untuk bookmates
         yang sering mengalami overthinking dan insomnia. Dipandu oleh mentor
@@ -135,7 +135,7 @@ const breadcrumbs = [
       img="https://placehold.co/700x300.png"
       title="Reading Habits"
     >
-      <p class="md:3/4 text-center text-gray-600 lg:w-1/2">
+      <p class="md:3/4 text-center text-neutral-600 lg:w-1/2">
         Reading Challenge adalah tantangan membaca kepada Bookmates untuk
         membangun kebiasaan membaca setiap hari dengan cara yang seru. Kami
         paham bahwa untuk membangun kebiasaan membaca tidak mudah. Itulah kenapa
@@ -158,7 +158,7 @@ const breadcrumbs = [
       img="https://placehold.co/700x300.png"
       title="FOMO"
     >
-      <p class="md:3/4 text-center text-gray-600 lg:w-1/2">
+      <p class="md:3/4 text-center text-neutral-600 lg:w-1/2">
         YBP Fomo adalah kegiatan yang bertujuan untuk menormalisasi literasi di
         masyarakat. Bersama-sama membaca di ruang yang tidak biasa, sehingga
         menciptakan ruang membaca aman tanpa ada batas. Tentunya, berdampak juga
@@ -172,7 +172,7 @@ const breadcrumbs = [
       img="https://placehold.co/700x300.png"
       title="Deklamasi Puisi"
     >
-      <p class="md:3/4 text-center text-gray-600 lg:w-1/2">
+      <p class="md:3/4 text-center text-neutral-600 lg:w-1/2">
         Punya puisi yang ingin didengar banyak orang? Sekarang saatnya. Yogya
         Book Party menghadirkan Deklamasi Puisi, ruang bagi siapa saja yang
         ingin menyampaikan pesan lewat puisi, mau itu puisi karya sendiri atau
@@ -187,7 +187,7 @@ const breadcrumbs = [
       img="https://placehold.co/700x300.png"
       title="Sports Club"
     >
-      <p class="md:3/4 text-center text-gray-600 lg:w-1/2">
+      <p class="md:3/4 text-center text-neutral-600 lg:w-1/2">
         Meningkatkan wawasan itu penting, tapi kalau fisik nggak dijaga, gimana
         bisa tetap fokus? Yogya Book Party paham, banyak orang sibuk mengisi
         otak tapi lupa merawat tubuh. Makanya, kami bikin wadah buat Bookmates

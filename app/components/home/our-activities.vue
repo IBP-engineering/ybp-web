@@ -60,7 +60,7 @@ const activitiesSpan = ['md:col-span-1', 'md:col-span-2', 'md:col-span-3']
   >
     <h2
       id="activities"
-      class="text-center text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl lg:text-5xl dark:text-white"
+      class="text-center text-3xl font-bold tracking-tight text-neutral-900 sm:text-4xl lg:text-5xl dark:text-white"
     >
       Agenda Kami <br /><span class="text-primary-600">Paling Seru</span>
     </h2>
@@ -69,7 +69,7 @@ const activitiesSpan = ['md:col-span-1', 'md:col-span-2', 'md:col-span-3']
         v-for="act in activities"
         :key="act.title"
         :to="act.href"
-        class="group relative flex h-full flex-1 flex-col gap-x-8 gap-y-4 rounded-xl border border-gray-300 bg-white bg-gradient-to-b from-gray-50/50 to-gray-200/50 p-4 px-4 py-5 shadow ring-1 ring-gray-200 transition duration-150 hover:bg-gray-100/50 hover:ring-2 sm:p-6"
+        class="group relative flex h-full flex-1 flex-col gap-x-8 gap-y-4 rounded-xl border border-neutral-300 bg-white bg-gradient-to-b from-neutral-50/50 to-neutral-200/50 p-4 px-4 py-5 shadow ring-1 ring-neutral-200 transition duration-150 hover:bg-neutral-100/50 hover:ring-2 sm:p-6"
         :class="[
           activitiesSpan[act.span - 1],
           act.href ? 'hover:ring-primary-500' : '',
@@ -77,10 +77,10 @@ const activitiesSpan = ['md:col-span-1', 'md:col-span-2', 'md:col-span-3']
       >
         <UIcon :name="act.icon" class="text-primary-500 h-12 w-12" />
         <b
-          class="flex items-center gap-1.5 truncate text-base font-semibold text-gray-900 dark:text-white"
+          class="flex items-center gap-1.5 truncate text-base font-semibold text-neutral-900 dark:text-white"
           >{{ act.title }}</b
         >
-        <p class="text-[15px] text-gray-500 dark:text-gray-400">
+        <p class="text-[15px] text-neutral-500 dark:text-neutral-400">
           {{ act.desc }}
         </p>
       </NuxtLink>

@@ -11,7 +11,7 @@ defineProps<{
 
 <template>
   <div
-    class="rounded border border-gray-300 bg-gray-50 p-4 hover:border-gray-400"
+    class="rounded border border-neutral-300 bg-neutral-50 p-4 hover:border-neutral-400"
   >
     <NuxtLink
       :to="`/${author.username}`"
@@ -25,12 +25,12 @@ defineProps<{
         <span class="group-hover:text-primary-600 outline-none focus:ring">{{
           author.display_name
         }}</span>
-        <small class="block text-gray-600">{{
+        <small class="block text-neutral-600">{{
           format(new Date(story.created_at), 'PP', { locale: id })
         }}</small>
       </div>
     </NuxtLink>
-    <div class="ml-10 mt-1">
+    <div class="mt-1 ml-10">
       <NuxtLink
         :to="`/${author.username}/${story.slug}`"
         class="hover:text-primary-600 text-xl font-bold tracking-wide transition"

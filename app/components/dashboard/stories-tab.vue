@@ -71,7 +71,7 @@ const deleteStory = async (id: string) => {
       toast.add({
         title: 'Terjadi kesalahan',
         description: 'Mohon ulangi kembali sesaat lagi',
-        color: 'red',
+        color: 'error',
       })
       await refreshStories()
       calculateStoryCount()
@@ -141,7 +141,7 @@ watch(
           :variant="filterStatus === 'all' ? 'solid' : 'ghost'"
           class="flex justify-between"
           size="lg"
-          color="gray"
+          color="neutral"
           @click="filterStatus = 'all'"
         >
           <span>All Story</span>
@@ -151,7 +151,7 @@ watch(
           :variant="filterStatus === 'pending' ? 'solid' : 'ghost'"
           class="flex justify-between"
           size="lg"
-          color="gray"
+          color="neutral"
           @click="filterStatus = 'pending'"
         >
           <span>Pending</span>
@@ -161,7 +161,7 @@ watch(
           :variant="filterStatus === 'approved' ? 'solid' : 'ghost'"
           class="flex justify-between"
           size="lg"
-          color="gray"
+          color="neutral"
           @click="filterStatus = 'approved'"
         >
           <span>Approved</span>
@@ -171,7 +171,7 @@ watch(
           :variant="filterStatus === 'rejected' ? 'solid' : 'ghost'"
           class="flex justify-between"
           size="lg"
-          color="gray"
+          color="neutral"
           @click="filterStatus = 'rejected'"
         >
           <span>Rejected</span>
@@ -193,7 +193,7 @@ watch(
         </p>
         <div
           v-else
-          class="mt-2 grid max-h-[650px] w-full grid-cols-1 overflow-auto rounded-b-lg rounded-t-lg border border-gray-300 bg-gray-50 md:max-h-[800px]"
+          class="mt-2 grid max-h-[650px] w-full grid-cols-1 overflow-auto rounded-t-lg rounded-b-lg border border-neutral-300 bg-neutral-50 md:max-h-[800px]"
         >
           <DashboardStoryCard
             v-for="story in stories"
@@ -206,11 +206,10 @@ watch(
       </div>
     </div>
 
-    <UModal v-model="isOpenStatus">
+    <UModal v-model:open="isOpenStatus">
       <UCard
         :ui="{
-          ring: '',
-          divide: 'divide-y divide-gray-100 dark:divide-gray-800',
+          body: 'divide-y divide-neutral-100 dark:divide-neutral-800',
         }"
       >
         <template #header>
@@ -221,7 +220,10 @@ watch(
 
         <template #footer>
           <div class="flex justify-end">
-            <UButton color="gray" variant="soft" @click="isOpenStatus = false"
+            <UButton
+              color="neutral"
+              variant="soft"
+              @click="isOpenStatus = false"
               >Tutup</UButton
             >
           </div>

@@ -176,13 +176,13 @@ const closeTagDetail = () => {
         :ui="{
           body: { base: 'flex-1' },
           ring: '',
-          divide: 'divide-y divide-gray-100 dark:divide-gray-800',
+          divide: 'divide-y divide-neutral-100 dark:divide-neutral-800',
         }"
       >
         <template #header>
           <div class="flex items-center justify-between">
             <h3
-              class="text-base font-semibold leading-6 text-gray-900 dark:text-white"
+              class="text-base font-semibold leading-6 text-neutral-900 dark:text-white"
             >
               <template v-if="selectedTagId">
                 Edit tag #{{ tag?.slug }}
@@ -190,7 +190,7 @@ const closeTagDetail = () => {
               <template v-else>Tambah tag baru</template>
             </h3>
             <UButton
-              color="gray"
+              color="neutral"
               variant="ghost"
               icon="i-heroicons-x-mark-20-solid"
               class="-my-1"
@@ -205,7 +205,7 @@ const closeTagDetail = () => {
           class="space-y-4"
           @submit="onSubmit"
         >
-          <UFormGroup
+          <UFormField
             required
             label="Judul"
             description="Akan otomatis mengubah slug"
@@ -216,28 +216,28 @@ const closeTagDetail = () => {
               v-model="state.title"
               @input="e => (state.slug = e.target.value)"
             />
-          </UFormGroup>
+          </UFormField>
 
           <div>
-            <b class="block text-sm text-gray-700">Slug</b>
+            <b class="block text-sm text-neutral-700">Slug</b>
             <p>#{{ toSlug(state.slug, false) }}</p>
           </div>
 
-          <UFormGroup label="Deskripsi" required name="description">
+          <UFormField label="Deskripsi" required name="description">
             <UTextarea
               :loading="tagDetailStatus === 'pending'"
               v-model="state.description"
             />
-          </UFormGroup>
+          </UFormField>
 
-          <UFormGroup label="Aktif" required name="isActive">
-            <UToggle
+          <UFormField label="Aktif" required name="isActive">
+            <USwitch
               :loading="tagDetailStatus === 'pending'"
               v-model="state.isActive"
             />
-          </UFormGroup>
+          </UFormField>
 
-          <div v-if="tag" class="text-sm text-gray-600">
+          <div v-if="tag" class="text-sm text-neutral-600">
             <p>
               Dibuat oleh: {{ tag.createdBy.display_name }}(@{{
                 tag.createdBy.username
@@ -253,7 +253,7 @@ const closeTagDetail = () => {
           </div>
 
           <div class="flex justify-end gap-4">
-            <UButton @click="closeTagDetail" variant="outline" color="gray"
+            <UButton @click="closeTagDetail" variant="outline" color="neutral"
               >Batal</UButton
             >
             <UButton

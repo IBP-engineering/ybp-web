@@ -199,14 +199,14 @@ onMounted(() => {
           <h1 class="text-xl font-bold md:mb-1 md:text-4xl">
             {{ user.display_name }}
           </h1>
-          <p class="text-sm text-gray-600 md:text-base">@{{ user.username }}</p>
+          <p class="text-sm text-neutral-600 md:text-base">@{{ user.username }}</p>
           <p class="mt-1 text-balance">
             {{ user.bio }}
           </p>
           <div class="my-3 flex flex-col gap-x-3 gap-y-1 md:flex-row">
             <p
               :title="new Date(user.created_at).toString()"
-              class="inline-flex items-center gap-1 text-gray-600"
+              class="inline-flex items-center gap-1 text-neutral-600"
             >
               <UIcon name="i-heroicons:calendar-days" class="h-5 w-5" />
               Bergabung pada
@@ -219,7 +219,7 @@ onMounted(() => {
             </p>
             <p
               v-if="Boolean(user.location)"
-              class="inline-flex items-center gap-1 text-gray-600"
+              class="inline-flex items-center gap-1 text-neutral-600"
             >
               <UIcon name="heroicons:map-pin" class="h-5 w-5" />
               {{ user.location }}
@@ -229,7 +229,7 @@ onMounted(() => {
             block
             class="inline-flex md:hidden"
             variant="outline"
-            color="gray"
+            color="neutral"
             @click="openEditProfileSlide = true"
             >Edit</UButton
           >
@@ -240,7 +240,7 @@ onMounted(() => {
           <UButton
             class="hidden md:inline-flex"
             variant="outline"
-            color="gray"
+            color="neutral"
             @click="openEditProfileSlide = true"
             >Edit</UButton
           >
@@ -255,7 +255,7 @@ onMounted(() => {
             :key="story.id"
           />
         </div>
-        <p class="text-gray-600" v-else>Belum ada cerita yang ditambahkan</p>
+        <p class="text-neutral-600" v-else>Belum ada cerita yang ditambahkan</p>
       </div>
     </div>
 
@@ -265,18 +265,18 @@ onMounted(() => {
         :ui="{
           body: { base: 'flex-1' },
           ring: '',
-          divide: 'divide-y divide-gray-100 dark:divide-gray-800',
+          divide: 'divide-y divide-neutral-100 dark:divide-neutral-800',
         }"
       >
         <template #header>
           <div class="flex items-center justify-between">
             <h3
-              class="text-base font-semibold leading-6 text-gray-900 dark:text-white"
+              class="text-base font-semibold leading-6 text-neutral-900 dark:text-white"
             >
               Edit user
             </h3>
             <UButton
-              color="gray"
+              color="neutral"
               variant="ghost"
               icon="i-heroicons-x-mark-20-solid"
               class="-my-1"
@@ -291,30 +291,30 @@ onMounted(() => {
           @submit="updateProfile"
           class="flex w-full flex-col"
         >
-          <UFormGroup required label="Username" name="username">
+          <UFormField required label="Username" name="username">
             <UInput v-model="state.username" :loading="isLoading" type="text" />
-          </UFormGroup>
-          <UFormGroup required class="mt-4" label="Nama" name="displayName">
+          </UFormField>
+          <UFormField required class="mt-4" label="Nama" name="displayName">
             <UInput v-model="state.displayName" :loading="isLoading" />
-          </UFormGroup>
-          <UFormGroup class="mt-4" label="Domisili" name="location">
+          </UFormField>
+          <UFormField class="mt-4" label="Domisili" name="location">
             <UInput v-model="state.location" :loading="isLoading" />
-          </UFormGroup>
-          <UFormGroup
+          </UFormField>
+          <UFormField
             required
             v-if="user.roles.name !== 'admin'"
             class="mt-4"
             label="Role"
             name="role"
           >
-            <USelect v-model="state.role" :options="roleOptions" />
-          </UFormGroup>
-          <UFormGroup class="mt-4" label="Aktif" name="isActive">
-            <UToggle color="primary" v-model="state.isActive" />
-          </UFormGroup>
-          <UFormGroup class="mt-4" label="Bio" name="bio">
+            <USelect v-model="state.role" :items="roleOptions" />
+          </UFormField>
+          <UFormField class="mt-4" label="Aktif" name="isActive">
+            <USwitch color="primary" v-model="state.isActive" />
+          </UFormField>
+          <UFormField class="mt-4" label="Bio" name="bio">
             <UTextarea v-model="state.bio" :loading="isLoading" />
-          </UFormGroup>
+          </UFormField>
 
           <UButton block :loading="isLoading" class="mb-2 mt-6" type="submit">
             Simpan
@@ -323,7 +323,7 @@ onMounted(() => {
             block
             @click="openEditProfileSlide = false"
             variant="ghost"
-            color="gray"
+            color="neutral"
             :loading="isLoading"
           >
             Batal

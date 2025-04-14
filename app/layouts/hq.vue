@@ -44,7 +44,7 @@ async function logout() {
   reloadNuxtApp()
 }
 
-const links = [
+const items = [
   {
     label: 'Close',
     click: () => (openNavModal.value = false),
@@ -66,7 +66,7 @@ const links = [
 
 if (user.value.roles.id === USER_ROLE.admin) {
   // only user with role admin
-  links.push({
+  items.push({
     label: 'Users',
     icon: 'heroicons:user-group',
     to: '/hq/users',
@@ -88,7 +88,7 @@ const items = [
 </script>
 
 <template>
-  <div class="flex min-h-full flex-col bg-gray-100 font-sans">
+  <div class="flex min-h-full flex-col bg-neutral-100 font-sans">
     <span class="bg-primary-700 h-2 w-full p-1" aria-label="top border" />
     <header class="w-full bg-white pb-2">
       <div class="mx-auto w-full max-w-screen-xl px-4 pt-4">
@@ -106,7 +106,10 @@ const items = [
             <b class="ml-2 text-lg">| {{ user.roles.name.toUpperCase() }}</b>
           </NuxtLink>
           <div class="flex items-center gap-4">
-            <UDropdown :items="items" :popper="{ placement: 'bottom-start' }">
+            <UDropdownMenu
+              :items="items"
+              :popper="{ placement: 'bottom-start' }"
+            >
               <UButton color="white" variant="ghost">
                 <span class="hidden md:block">
                   Welcome, {{ user?.display_name }}
@@ -116,12 +119,12 @@ const items = [
                   alt="Avatar"
                 />
               </UButton>
-            </UDropdown>
+            </UDropdownMenu>
           </div>
         </div>
         <div class="flex justify-end md:hidden">
           <UButton
-            class="ml-auto mt-4 inline-flex"
+            class="mt-4 ml-auto inline-flex"
             icon="i-heroicons-chevron-left"
             square
             variant="ghost"
@@ -133,7 +136,11 @@ const items = [
         </div>
         <USlideover v-model="openNavModal">
           <div class="flex-1 p-4">
-            <UVerticalNavigation :ui="{ size: 'text-lg' }" :links="links" />
+            <UNavigationMenu
+              orientation="vertical"
+              :ui="{ size: 'text-lg' }"
+              :items="items"
+            />
           </div>
         </USlideover>
       </div>
@@ -141,8 +148,8 @@ const items = [
     <main class="mb-4">
       <slot />
     </main>
-    <footer class="mt-auto w-full pb-1 pt-8">
-      <div class="mx-auto text-center text-gray-600">
+    <footer class="mt-auto w-full pt-8 pb-1">
+      <div class="mx-auto text-center text-neutral-600">
         <small>© Yogyakarta Book Party {{ new Date().getFullYear() }}</small>
       </div>
     </footer>

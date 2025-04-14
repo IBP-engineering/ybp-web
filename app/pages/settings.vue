@@ -135,10 +135,8 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 
 <template>
   <div class="container mx-auto px-4 md:px-0">
-    <UBreadcrumb 
-      divider="/"
-      :links="breadcrumbs" class="mb-2" />
-    <h1 class="text-3xl font-bold leading-relaxed md:text-4xl">
+    <UBreadcrumb divider="/" :items="breadcrumbs" class="mb-2" />
+    <h1 class="text-3xl leading-relaxed font-bold md:text-4xl">
       Settings @{{ userProfile.username }}
     </h1>
 
@@ -153,7 +151,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
             alt="Avatar"
             size="3xl"
           />
-          <small class="block text-gray-600"
+          <small class="block text-neutral-600"
             >*akan berubah mengikuti username</small
           >
         </div>
@@ -165,24 +163,24 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
           class="space-y-4"
           @submit="onSubmit"
         >
-          <UFormGroup label="Name" name="name" required>
+          <UFormField label="Name" name="name" required>
             <UInput v-model="state.displayName" />
-          </UFormGroup>
-          <UFormGroup label="Email" name="email" required>
+          </UFormField>
+          <UFormField label="Email" name="email" required>
             <UInput v-model="state.email" type="email" disabled />
-          </UFormGroup>
-          <UFormGroup label="Username" name="username" required>
+          </UFormField>
+          <UFormField label="Username" name="username" required>
             <UInput
               v-model="state.username"
               @input="event => (usernameDebInput = event.target.value)"
             />
-          </UFormGroup>
-          <UFormGroup label="Location" name="location">
+          </UFormField>
+          <UFormField label="Location" name="location">
             <UInput v-model="state.location" />
-          </UFormGroup>
-          <UFormGroup label="Bio" name="bio">
+          </UFormField>
+          <UFormField label="Bio" name="bio">
             <UTextarea v-model="state.bio" />
-          </UFormGroup>
+          </UFormField>
           <UButton
             class="mt-8"
             trailing-icon="ph:floppy-disk-bold"

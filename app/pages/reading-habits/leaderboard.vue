@@ -107,7 +107,7 @@ const compoundWinner = computed(() => {
 <template>
   <div class="container mx-auto px-4 md:px-0">
     <UBreadcrumb
-      :links="breadcrumbs"
+      :items="breadcrumbs"
       divider="/"
       class="mb-4 flex justify-center"
     />
@@ -116,7 +116,7 @@ const compoundWinner = computed(() => {
         <span class="text-primary-500">Klasemen </span>
         sementara
       </h1>
-      <p class="text-gray-600">
+      <p class="text-neutral-600">
         Update Klasemen tantangan Reading Habits: Siapa yang di Puncak?
       </p>
     </section>
@@ -141,7 +141,7 @@ const compoundWinner = computed(() => {
         />
         <b>{{ win.displayName }}</b>
         <span
-          class="inline-flex items-center rounded border px-1 py-0.5 text-gray-50"
+          class="inline-flex items-center rounded border px-1 py-0.5 text-neutral-50"
           :class="winnerColors[key]"
         >
           <UIcon v-if="key === 0" name="ph:crown-simple-fill" />
@@ -153,7 +153,7 @@ const compoundWinner = computed(() => {
           <UIcon name="ph:clover-fill" class="-ml-10 h-8 w-8 text-green-600" />
           <div>
             <p class="text-2xl font-medium">{{ win.point }}</p>
-            <p class="text-sm text-gray-600">poin</p>
+            <p class="text-sm text-neutral-600">poin</p>
           </div>
         </div>
       </div>
@@ -181,7 +181,7 @@ const compoundWinner = computed(() => {
           :text="row.streakDates.toString()"
           :popper="{ placement: 'top', arrow: true }"
         >
-          <span class="border-b border-dotted border-gray-300">
+          <span class="border-b border-dotted border-neutral-300">
             {{ row.totalDay }}
           </span>
         </UTooltip>

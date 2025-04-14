@@ -129,7 +129,7 @@ useSeoMeta({
     <div class="container mx-auto px-4 md:px-0">
       <UBreadcrumb 
       divider="/"
-        :links="breadcrumbs" />
+        :items="breadcrumbs" />
     </div>
 
     <div class="mt-4 flex w-full flex-col-reverse gap-4 lg:flex-row">
@@ -138,7 +138,7 @@ useSeoMeta({
           <UButton
             icon="i-heroicons-hand-thumb-up-solid"
             variant="soft"
-            :color="isUserHasReacted ? 'primary' : 'gray'"
+            :color="isUserHasReacted ? 'primary' : 'neutral'"
             class="flex md:flex-col"
             @click="likeStory"
           >
@@ -151,7 +151,7 @@ useSeoMeta({
           <UButton
             icon="heroicons:share"
             variant="soft"
-            color="gray"
+            color="neutral"
             aria-label="Button to share this article"
             @click="shareStory"
           />
@@ -160,7 +160,7 @@ useSeoMeta({
 
       <div class="flex w-full flex-col">
         <div
-          class="w-full overflow-hidden shadow md:rounded-lg md:border md:border-gray-300 md:bg-gray-50"
+          class="w-full overflow-hidden shadow md:rounded-lg md:border md:border-neutral-300 md:bg-neutral-50"
         >
           <img
             v-if="story.cover_path"
@@ -202,7 +202,7 @@ useSeoMeta({
                   :title="
                     format(new Date(story.created_at), 'PPPppp', { locale: id })
                   "
-                  class="block text-xs text-gray-600"
+                  class="block text-xs text-neutral-600"
                   >Ditulis pada
                   {{
                     format(new Date(story.created_at), 'PPP', { locale: id })
@@ -231,7 +231,7 @@ useSeoMeta({
       </div>
 
       <div
-        class="hidden h-full w-full rounded-lg border border-gray-300 bg-gray-50 p-4 shadow md:block lg:max-w-[370px]"
+        class="hidden h-full w-full rounded-lg border border-neutral-300 bg-neutral-50 p-4 shadow md:block lg:max-w-[370px]"
       >
         <NuxtLink
           :to="`/${authorUsername}`"
@@ -244,17 +244,17 @@ useSeoMeta({
           }}</b>
         </NuxtLink>
 
-        <p class="text-gray-600">
+        <p class="text-neutral-600">
           {{ story.author.bio }}
         </p>
         <ul class="mt-4 space-y-4 text-sm">
           <li v-if="story.author.location">
             <b class="text-xs">DOMISILI</b>
-            <p class="text-gray-600">{{ story.author.location }}</p>
+            <p class="text-neutral-600">{{ story.author.location }}</p>
           </li>
           <li>
             <b class="text-xs">BERGABUNG</b>
-            <p class="text-gray-600">
+            <p class="text-neutral-600">
               {{
                 format(new Date(story.author.created_at), 'PPP', { locale: id })
               }}

@@ -73,9 +73,9 @@ useSeoMeta({
 
 <template>
   <div class="container mx-auto px-4 md:px-0">
-    <UBreadcrumb divider="/" :links="breadcrumbs" class="mb-12" />
+    <UBreadcrumb divider="/" :items="breadcrumbs" class="mb-12" />
     <div
-      class="mt-10 flex w-full flex-col items-center rounded-lg border-4 border-gray-300 bg-gray-50 px-4 pb-4 text-center"
+      class="mt-10 flex w-full flex-col items-center rounded-lg border-4 border-neutral-300 bg-neutral-50 px-4 pb-4 text-center"
     >
       <UserPicture
         :seed="user.username"
@@ -88,7 +88,7 @@ useSeoMeta({
         {{ user.bio }}
       </p>
 
-      <div class="mt-8 space-x-4 text-gray-500">
+      <div class="mt-8 space-x-4 text-neutral-500">
         <span v-if="user.location" class="inline-flex items-center gap-1"
           ><UIcon name="heroicons:map-pin-solid" class="h-6 w-6" />
           {{ user.location }}</span

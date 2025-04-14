@@ -9,7 +9,7 @@ const props = defineProps<{
 
 const isOpen = defineModel<boolean>()
 
-const options: { value: StoryStatus; label: string }[] = [
+const items: { value: StoryStatus; label: string }[] = [
   {
     value: 'pending',
     label: 'Pending',
@@ -74,7 +74,7 @@ const saveStatus = async () => {
     toast.add({
       title: 'Berhasil',
       description: 'Status Cerita berhasil diubah',
-      color: 'green',
+      color: 'success',
     })
   } catch (error) {
     console.error(error)
@@ -84,20 +84,15 @@ const saveStatus = async () => {
 </script>
 
 <template>
-  <UModal v-model="isOpen">
+  <UModal v-model:open="isOpen">
     <UCard
       :ui="{
-        ring: '',
-        divide: 'divide-y divide-gray-100 dark:divide-gray-800',
+        body: 'divide-y divide-neutral-100 dark:divide-neutral-800',
       }"
     >
       <template #header> Ubah status Cerita </template>
 
-      <URadioGroup
-        v-model="selected"
-        legend="Pilih status"
-        :options="options"
-      />
+      <URadioGroup v-model="selected" legend="Pilih status" :items="items" />
       <UTextarea
         v-model="reason"
         class="mt-4"
@@ -113,7 +108,7 @@ const saveStatus = async () => {
         <div class="flex items-center justify-end gap-4">
           <UButton
             :loading="isLoading"
-            color="gray"
+            color="neutral"
             variant="soft"
             @click="isOpen = false"
             >Tutup</UButton

@@ -4,7 +4,7 @@
       <h2 id="about-us" class="text-3xl font-semibold leading-relaxed">
         Tentang Kami
       </h2>
-      <p class="tracking-wide text-gray-600">
+      <p class="tracking-wide text-neutral-600">
         Yogya Book Party percaya bahwa perubahan dimulai dari diri sendiri, dan
         kebiasaan baik tumbuh dari lingkungan yang positif. Sejak 2023, kami
         hadir sebagai ruang bagi anak muda yang ingin menjadikan membaca bagian

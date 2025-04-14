@@ -5,6 +5,7 @@ export default defineNuxtConfig({
   image: {
     format: ['avif', 'webp'],
   },
+  css: ['~/styles/tailwind.css'],
   routeRules: {
     '/goodies': { prerender: true },
     '/panduan': {

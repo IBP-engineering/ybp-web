@@ -75,7 +75,7 @@ const { data: story } = await useAsyncData(`hq/stories/${slug}`, async () => {
           </h2>
           <div v-if="story.tags?.length > 0" class="mt-2 flex gap-2">
             <div
-              class="rounded border border-gray-300 bg-gray-200 px-2"
+              class="rounded border border-neutral-300 bg-neutral-200 px-2"
               v-for="tag in story.tags"
               :key="tag.id"
             >
@@ -84,7 +84,7 @@ const { data: story } = await useAsyncData(`hq/stories/${slug}`, async () => {
               </UTooltip>
             </div>
           </div>
-          <small class="mt-4 text-gray-600">
+          <small class="mt-4 text-neutral-600">
             Ditulis oleh
             {{ story.author.display_name }}, pada
             {{
@@ -93,7 +93,7 @@ const { data: story } = await useAsyncData(`hq/stories/${slug}`, async () => {
               })
             }}
           </small>
-          <small class="text-gray-600">
+          <small class="text-neutral-600">
             Update terakhir pada
             {{
               format(new Date(story.updated_at), 'dd MMM yyyy, HH:mm', {
