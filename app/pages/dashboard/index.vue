@@ -46,22 +46,22 @@ const breadcrumbs = [
   },
 ]
 
-function onChange(index: number) {
+function onChange(index: string) {
   router.replace({ query: { tab: index } })
 }
 </script>
 
 <template>
-  <div class="container mx-auto px-4 md:px-0">
+  <div class="container mx-auto max-w-screen-xl px-4 md:px-0">
     <UBreadcrumb divider="/" :items="breadcrumbs" />
     <h1 class="text-2xl leading-relaxed font-bold">Dashboard</h1>
 
     <div class="mt-4">
       <UTabs
         :items="tabs"
-        :default-index="+route.query?.tab || 0"
+        :default-value="String(route.query?.tab) || '0'"
         class="w-full"
-        @change="onChange"
+        @update:model-value="onChange"
       >
         <template #stories>
           <DashboardStoriesTab />

@@ -134,7 +134,7 @@ watch(
 </script>
 
 <template>
-  <div class="mx-auto w-full max-w-screen-lg px-4 md:px-0">
+  <div class="mx-auto w-full max-w-screen-xl px-4 md:px-0">
     <div class="mt-8 flex w-full gap-8">
       <aside class="mt-8 hidden w-[300px] flex-col md:flex">
         <UButton
