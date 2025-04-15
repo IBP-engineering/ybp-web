@@ -46,11 +46,6 @@ async function logout() {
 
 const links = [
   {
-    label: 'Close',
-    click: () => (openNavModal.value = false),
-    icon: 'i-heroicons-x-mark',
-  },
-  {
     label: 'Stories',
     icon: 'heroicons:bookmark-square',
     to: '/hq',
@@ -134,13 +129,17 @@ const items = [
             Navigation
           </UButton>
         </div>
-        <USlideover v-model:open="openNavModal">
-          <template #content>
-            <div class="flex-1 p-4">
+        <USlideover
+          v-model:open="openNavModal"
+          title="Navigation"
+          close-icon="i-heroicons-x-mark"
+        >
+          <template #body>
+            <div class="flex-1">
               <UNavigationMenu
                 orientation="vertical"
-                :ui="{ childLink: 'text-lg' }"
-                :items="items"
+                :ui="{ linkLabel: 'text-lg' }"
+                :items="links"
               />
             </div>
           </template>

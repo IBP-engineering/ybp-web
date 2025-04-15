@@ -136,7 +136,7 @@ const dropdownItems = [
           :popper="{ strategy: 'absolute', placements: 'bottom', arrow: true }"
         >
           <UButton
-            class="hidden md:flex"
+            class="hidden shrink-0 md:flex"
             size="sm"
             color="neutral"
             variant="ghost"
