@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { format } from 'date-fns'
-import id from 'date-fns/locale/id'
+// import id from 'date-fns/locale/id'
 
 defineOgImageComponent('default')
 useSeoMeta({

@@ -150,12 +150,12 @@ const closeTagDetail = () => {
         <button
           v-for="tag in tags"
           :key="tag.id"
-          @click="() => openTagDetail(tag.id)"
           class="rounded border border-zinc-300 bg-zinc-50 p-2 text-left shadow transition hover:border-zinc-400 hover:bg-zinc-100"
+          @click="() => openTagDetail(tag.id)"
         >
           <UBadge
-            class="mr-1"
             v-if="!tag.is_active"
+            class="mr-1"
             color="red"
             variant="soft"
             label="Tidak aktif"
@@ -212,8 +212,8 @@ const closeTagDetail = () => {
             name="title"
           >
             <UInput
-              :loading="tagDetailStatus === 'pending'"
               v-model="state.title"
+              :loading="tagDetailStatus === 'pending'"
               @input="e => (state.slug = e.target.value)"
             />
           </UFormGroup>
@@ -225,15 +225,15 @@ const closeTagDetail = () => {
 
           <UFormGroup label="Deskripsi" required name="description">
             <UTextarea
-              :loading="tagDetailStatus === 'pending'"
               v-model="state.description"
+              :loading="tagDetailStatus === 'pending'"
             />
           </UFormGroup>
 
           <UFormGroup label="Aktif" required name="isActive">
             <UToggle
-              :loading="tagDetailStatus === 'pending'"
               v-model="state.isActive"
+              :loading="tagDetailStatus === 'pending'"
             />
           </UFormGroup>
 
@@ -253,7 +253,7 @@ const closeTagDetail = () => {
           </div>
 
           <div class="flex justify-end gap-4">
-            <UButton @click="closeTagDetail" variant="outline" color="gray"
+            <UButton variant="outline" color="gray" @click="closeTagDetail"
               >Batal</UButton
             >
             <UButton

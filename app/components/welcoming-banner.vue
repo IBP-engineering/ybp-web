@@ -21,8 +21,8 @@ onMounted(() => {
 <template>
   <UModal
     v-model="isOpen"
-    @close="closeModal"
     :ui="{ width: 'md:max-w-2xl w-full' }"
+    @close="closeModal"
   >
     <UCard
       :ui="{

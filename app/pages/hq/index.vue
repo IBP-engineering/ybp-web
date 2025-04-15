@@ -34,7 +34,7 @@ const { data: stories } = await useAsyncData('hq/stories', async () => {
     <PageHeader title="Stories" />
 
     <div class="mx-auto mt-8 w-full max-w-screen-xl space-y-4 px-4">
-      <HqStoryCard v-for="story in stories" :story="story" :key="story.id" />
+      <HqStoryCard v-for="story in stories" :key="story.id" :story="story" />
     </div>
   </div>
 </template>

@@ -1,6 +1,6 @@
 import { serverSupabaseClient } from '#supabase/server'
 import argon2 from '@node-rs/argon2'
-import { Database } from '~/types/database.types'
+import type { Database } from '~/types/database.types'
 
 export default defineEventHandler(async event => {
   const body = await readBody(event)

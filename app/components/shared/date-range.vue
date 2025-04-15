@@ -19,8 +19,8 @@ const disabledDates = ref([{ start: add(new Date(), { days: 1 }), end: null }])
         class="flex items-center divide-gray-200 sm:divide-x dark:divide-gray-800"
       >
         <SharedDatePicker
-          :disabled-dates="disabledDates"
           v-model="selected"
+          :disabled-dates="disabledDates"
           @close="close"
         />
       </div>

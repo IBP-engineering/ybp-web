@@ -89,10 +89,10 @@ function onChange(index: number) {
       </UTabs>
 
       <UAlert
+        v-if="showBanner"
         class="mx-auto mt-8 max-w-screen-md"
         color="teal"
         variant="soft"
-        v-if="showBanner"
         :actions="[
           {
             variant: 'outline',

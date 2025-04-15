@@ -1,6 +1,6 @@
 import { serverSupabaseClient } from '#supabase/server'
-import { Database } from '~/types/database.types'
-import { BookGenre } from '~/types/entities'
+import type { Database } from '~/types/database.types'
+import type { BookGenre } from '~/types/entities'
 
 export default defineEventHandler(
   async (

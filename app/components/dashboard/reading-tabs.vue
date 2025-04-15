@@ -27,7 +27,7 @@ const { data, status } = await useAsyncData(
   <div>
     <section class="flex items-center justify-between">
       <h2 class="font-medium">Personal Reading Habits</h2>
-      <UButton @click="openRecordModal = true" trailing-icon="ph:plus"
+      <UButton trailing-icon="ph:plus" @click="openRecordModal = true"
         >Record baru</UButton
       >
     </section>
