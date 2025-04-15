@@ -35,7 +35,7 @@ async function logout() {
     toast.add({
       title: 'Failed to sign out',
       description: error.message,
-      color: 'red',
+      color: 'error',
       icon: 'i-heroicons-x-mark-solid',
     })
     return
@@ -44,7 +44,7 @@ async function logout() {
   reloadNuxtApp()
 }
 
-const items = [
+const links = [
   {
     label: 'Close',
     click: () => (openNavModal.value = false),
@@ -66,7 +66,7 @@ const items = [
 
 if (user.value.roles.id === USER_ROLE.admin) {
   // only user with role admin
-  items.push({
+  links.push({
     label: 'Users',
     icon: 'heroicons:user-group',
     to: '/hq/users',
@@ -110,7 +110,7 @@ const items = [
               :items="items"
               :popper="{ placement: 'bottom-start' }"
             >
-              <UButton color="white" variant="ghost">
+              <UButton color="neutral" variant="ghost">
                 <span class="hidden md:block">
                   Welcome, {{ user?.display_name }}
                 </span>
@@ -134,14 +134,16 @@ const items = [
             Navigation
           </UButton>
         </div>
-        <USlideover v-model="openNavModal">
-          <div class="flex-1 p-4">
-            <UNavigationMenu
-              orientation="vertical"
-              :ui="{ size: 'text-lg' }"
-              :items="items"
-            />
-          </div>
+        <USlideover v-model:open="openNavModal">
+          <template #content>
+            <div class="flex-1 p-4">
+              <UNavigationMenu
+                orientation="vertical"
+                :ui="{ childLink: 'text-lg' }"
+                :items="items"
+              />
+            </div>
+          </template>
         </USlideover>
       </div>
     </header>

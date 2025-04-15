@@ -85,37 +85,35 @@ const saveStatus = async () => {
 
 <template>
   <UModal v-model:open="isOpen">
-    <UCard
-      :ui="{
-        body: 'divide-y divide-neutral-100 dark:divide-neutral-800',
-      }"
-    >
-      <template #header> Ubah status Cerita </template>
+    <template #content>
+      <UCard>
+        <template #header> Ubah status Cerita </template>
 
-      <URadioGroup v-model="selected" legend="Pilih status" :items="items" />
-      <UTextarea
-        v-model="reason"
-        class="mt-4"
-        placeholder="Alasan (opsional)"
-      />
+        <URadioGroup v-model="selected" legend="Pilih status" :items="items" />
+        <UTextarea
+          v-model="reason"
+          class="mt-4 w-full"
+          placeholder="Alasan (opsional)"
+        />
 
-      <div class="mt-4 border-t py-2">
-        <b>Riwayat</b>
-        <StoryHistories class="mt-4" :story-histories="storyHistories" />
-      </div>
-
-      <template #footer>
-        <div class="flex items-center justify-end gap-4">
-          <UButton
-            :loading="isLoading"
-            color="neutral"
-            variant="soft"
-            @click="isOpen = false"
-            >Tutup</UButton
-          >
-          <UButton :loading="isLoading" @click="saveStatus">Simpan</UButton>
+        <div class="mt-4 border-t py-2">
+          <b>Riwayat</b>
+          <StoryHistories class="mt-4" :story-histories="storyHistories" />
         </div>
-      </template>
-    </UCard>
+
+        <template #footer>
+          <div class="flex items-center justify-end gap-4">
+            <UButton
+              :loading="isLoading"
+              color="neutral"
+              variant="soft"
+              @click="isOpen = false"
+              >Tutup</UButton
+            >
+            <UButton :loading="isLoading" @click="saveStatus">Simpan</UButton>
+          </div>
+        </template>
+      </UCard>
+    </template>
   </UModal>
 </template>
