@@ -9,7 +9,7 @@
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
   },
-  "packageManager": "pnpm@10.4.0",
+  "packageManager": "pnpm@10.8.1",
   "pnpm": {
     "onlyBuiltDependencies": [
       "@parcel/watcher",
@@ -54,6 +54,9 @@
     "@vueuse/nuxt": "^13.1.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "eslint": "^9.24.0",
+    "eslint-config-prettier": "^10.1.2",
+    "eslint-plugin-prettier": "^5.2.6",
     "prettier": "^3.5.3",
     "prettier-plugin-tailwindcss": "^0.6.11",
     "sass-embedded": "^1.86.3",

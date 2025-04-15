@@ -19,60 +19,62 @@ const { share, isSupported } = useShare({
 
 <template>
   <UModal v-model:open="isOpen">
-    <UCard
-      :ui="{
-        body: 'divide-y divide-neutral-100 dark:divide-neutral-800',
-      }"
-    >
-      <div class="w-full p-4">
-        <div class="text-center">
-          <b class="block text-2xl">{{ title }}</b>
-          <p>
-            oleh
-            <span class="border-primary-400 text-primary-900 border-b-4">
-              {{ author }}
-            </span>
-          </p>
-        </div>
-        <img :src="qrCode" class="mx-auto h-64 w-64" />
-        <div class="group relative w-full">
-          <p
-            class="mb-2 block w-full border bg-slate-100 p-1 text-center font-mono break-words transition group-hover:text-neutral-500"
-          >
-            {{ url.href }}
-          </p>
+    <template #content>
+      <UCard
+        :ui="{
+          body: 'divide-y divide-neutral-100 dark:divide-neutral-800',
+        }"
+      >
+        <div class="w-full p-4">
+          <div class="text-center">
+            <b class="block text-2xl">{{ title }}</b>
+            <p>
+              oleh
+              <span class="border-primary-400 text-primary-900 border-b-4">
+                {{ author }}
+              </span>
+            </p>
+          </div>
+          <img :src="qrCode" class="mx-auto h-64 w-64" />
+          <div class="group relative w-full">
+            <p
+              class="mb-2 block w-full border bg-slate-100 p-1 text-center font-mono break-words transition group-hover:text-neutral-500"
+            >
+              {{ url.href }}
+            </p>
+            <UButton
+              :trailing-icon="
+                copied
+                  ? 'heroicons:clipboard-document-check'
+                  : 'heroicons:clipboard-document'
+              "
+              color="neutral"
+              size="sm"
+              class="absolute top-1 right-1 hidden group-hover:flex"
+              @click="() => copy(url.href)"
+            >
+              <span v-if="copied"> Tersalin! </span>
+            </UButton>
+          </div>
           <UButton
-            :trailing-icon="
-              copied
-                ? 'heroicons:clipboard-document-check'
-                : 'heroicons:clipboard-document'
-            "
+            v-if="isSupported"
             color="neutral"
-            size="sm"
-            class="absolute top-1 right-1 hidden group-hover:flex"
-            @click="() => copy(url.href)"
+            class="flex lg:hidden"
+            block
+            trailing-icon="heroicons:arrow-up-right-20-solid"
+            @click="share()"
+            >Bagikan</UButton
           >
-            <span v-if="copied"> Tersalin! </span>
-          </UButton>
         </div>
-        <UButton
-          v-if="isSupported"
-          color="neutral"
-          class="flex lg:hidden"
-          block
-          trailing-icon="heroicons:arrow-up-right-20-solid"
-          @click="share()"
-          >Bagikan</UButton
-        >
-      </div>
 
-      <template #footer>
-        <div class="flex w-full justify-end">
-          <UButton variant="soft" color="neutral" @click="isOpen = false"
-            >Tutup</UButton
-          >
-        </div>
-      </template>
-    </UCard>
+        <template #footer>
+          <div class="flex w-full justify-end">
+            <UButton variant="soft" color="neutral" @click="isOpen = false"
+              >Tutup</UButton
+            >
+          </div>
+        </template>
+      </UCard>
+    </template>
   </UModal>
 </template>

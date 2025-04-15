@@ -23,7 +23,7 @@ useSeoMeta({
         />
       </div>
       <div
-        class="z-20 mx-auto mt-6 w-full space-y-4 rounded border bg-white p-4 shadow md:w-[24rem]"
+        class="z-20 mx-auto mt-6 flex w-full flex-col gap-4 rounded border bg-white p-4 shadow md:w-[24rem]"
       >
         <b>Masuk dengan akunmu</b>
 

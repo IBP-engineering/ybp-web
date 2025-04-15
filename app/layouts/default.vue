@@ -152,12 +152,13 @@ const dropdownItems = [
         </LazyUDropdownMenu>
         <UButton
           v-else
-          class="hidden md:flex"
+          class="hidden shrink-0 md:flex"
           size="sm"
           trailing-icon="heroicons:arrow-small-right-20-solid"
           to="/login"
-          >Sign in</UButton
         >
+          Sign in
+        </UButton>
         <LazyUSlideover>
           <UButton
             icon="i-heroicons-bars-3"

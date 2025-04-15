@@ -114,7 +114,7 @@ provide(onSuccessLogin, () => {
   openLoginModal.value = false
   toast.add({
     title: 'Berhasil login',
-    color: 'green',
+    color: 'success',
   })
 })
 
@@ -127,9 +127,7 @@ useSeoMeta({
 <template>
   <div class="mx-auto w-full max-w-screen-xl md:px-4 xl:px-0">
     <div class="container mx-auto px-4 md:px-0">
-      <UBreadcrumb 
-      divider="/"
-        :items="breadcrumbs" />
+      <UBreadcrumb divider="/" :items="breadcrumbs" />
     </div>
 
     <div class="mt-4 flex w-full flex-col-reverse gap-4 lg:flex-row">
@@ -173,7 +171,7 @@ useSeoMeta({
           <div class="px-4 py-4 md:px-10">
             <UAlert
               v-if="story.status !== 'approved'"
-              :color="story.status === 'pending' ? 'teal' : 'rose'"
+              :color="story.status === 'pending' ? 'warning' : 'info'"
               title="Halo pembaca!"
               icon="heroicons:exclamation-triangle"
             >
