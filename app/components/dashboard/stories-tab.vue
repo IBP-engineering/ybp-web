@@ -138,7 +138,7 @@ watch(
     <div class="mt-8 flex w-full gap-8">
       <aside class="mt-8 hidden w-[300px] flex-col md:flex">
         <UButton
-          :variant="filterStatus === 'all' ? 'solid' : 'ghost'"
+          :variant="filterStatus === 'all' ? 'subtle' : 'ghost'"
           class="flex justify-between"
           size="lg"
           color="neutral"
@@ -148,7 +148,7 @@ watch(
           <span>{{ filterCount.all }}</span>
         </UButton>
         <UButton
-          :variant="filterStatus === 'pending' ? 'solid' : 'ghost'"
+          :variant="filterStatus === 'pending' ? 'subtle' : 'ghost'"
           class="flex justify-between"
           size="lg"
           color="neutral"
@@ -158,7 +158,7 @@ watch(
           <span>{{ filterCount.pending }}</span>
         </UButton>
         <UButton
-          :variant="filterStatus === 'approved' ? 'solid' : 'ghost'"
+          :variant="filterStatus === 'approved' ? 'subtle' : 'ghost'"
           class="flex justify-between"
           size="lg"
           color="neutral"
@@ -168,7 +168,7 @@ watch(
           <span>{{ filterCount.approved }}</span>
         </UButton>
         <UButton
-          :variant="filterStatus === 'rejected' ? 'solid' : 'ghost'"
+          :variant="filterStatus === 'rejected' ? 'subtle' : 'ghost'"
           class="flex justify-between"
           size="lg"
           color="neutral"
@@ -206,29 +206,17 @@ watch(
       </div>
     </div>
 
-    <UModal v-model:open="isOpenStatus">
-      <UCard
-        :ui="{
-          body: 'divide-y divide-neutral-100 dark:divide-neutral-800',
-        }"
-      >
-        <template #header>
-          <b>Status cerita</b>
-        </template>
-
+    <UModal title="Status Cerita" v-model:open="isOpenStatus">
+      <template #body>
         <StoryHistories :story-histories="storyHistories" />
-
-        <template #footer>
-          <div class="flex justify-end">
-            <UButton
-              color="neutral"
-              variant="soft"
-              @click="isOpenStatus = false"
-              >Tutup</UButton
-            >
-          </div>
-        </template>
-      </UCard>
+      </template>
+      <template #footer>
+        <div class="flex w-full justify-end">
+          <UButton color="neutral" variant="soft" @click="isOpenStatus = false"
+            >Tutup</UButton
+          >
+        </div>
+      </template>
     </UModal>
   </div>
 </template>

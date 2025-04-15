@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { TabsItem } from '@nuxt/ui'
 import { isBefore } from 'date-fns'
 
 defineOgImageComponent('default')
@@ -24,16 +25,16 @@ const showBanner = computed(() => {
 
 const tabs = [
   {
-    key: 'stories',
+    slot: 'stories',
     label: 'Stories',
     icon: 'ph:book-open-duotone',
   },
   {
-    key: 'readingHabits',
+    slot: 'readingHabits',
     label: 'Reading Habits',
     icon: 'ph:clover-duotone',
   },
-]
+] satisfies TabsItem[]
 
 const breadcrumbs = [
   {
@@ -53,7 +54,7 @@ function onChange(index: number) {
 <template>
   <div class="container mx-auto px-4 md:px-0">
     <UBreadcrumb divider="/" :items="breadcrumbs" />
-    <h1 class="text-2xl font-bold leading-relaxed">Dashboard</h1>
+    <h1 class="text-2xl leading-relaxed font-bold">Dashboard</h1>
 
     <div class="mt-4">
       <UTabs
@@ -62,41 +63,23 @@ function onChange(index: number) {
         class="w-full"
         @change="onChange"
       >
-        <template #default="{ item }">
-          <UBadge
-            v-if="item.key === 'readingHabits'"
-            color="primary"
-            size="xs"
-            class="mr-1"
-            >New</UBadge
-          >
-          <span class="truncate">{{ item.label }}</span>
+        <template #stories>
+          <DashboardStoriesTab />
         </template>
-        <template #icon="{ item, selected }">
-          <UIcon
-            :name="item.icon"
-            class="me-2 h-4 w-4 flex-shrink-0"
-            :class="[selected && 'text-primary-500 dark:text-primary-400']"
-          />
-        </template>
-
-        <template #item="{ item }">
-          <div class="mt-8">
-            <DashboardStoriesTab v-if="item.key === 'stories'" />
-            <DashboardReadingTabs v-else />
-          </div>
+        <template #readingHabits>
+          <DashboardReadingTabs />
         </template>
       </UTabs>
 
       <UAlert
         class="mx-auto mt-8 max-w-screen-md"
-        color="teal"
+        color="info"
         variant="soft"
         v-if="showBanner"
         :actions="[
           {
             variant: 'outline',
-            color: 'teal',
+            color: 'info',
             label: 'Form feedback 0.2.0',
             icon: 'ph:music-note-fill',
             to: 'https://ybp-eng.notion.site/19ccff94653a80d1a7fed0807974626a',

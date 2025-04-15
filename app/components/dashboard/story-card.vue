@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { DropdownMenuItem } from '@nuxt/ui'
 import { format } from 'date-fns'
 import id from 'date-fns/locale/id'
 import type { Story, User } from '~/types/entities'
@@ -21,14 +22,14 @@ const storyOptions = [
     {
       label: 'Cek status',
       icon: 'heroicons:queue-list',
-      click: () => {
+      onSelect: () => {
         emit('status', props.story.id)
       },
     },
     {
       label: 'Ubah',
       icon: 'i-heroicons:pencil-square',
-      click: () => navigateTo(storyUrl.concat('/edit')),
+      onSelect: () => navigateTo(storyUrl.concat('/edit')),
     },
     {
       label: 'Arsipkan',
@@ -37,15 +38,14 @@ const storyOptions = [
     },
     {
       label: 'Hapus',
-      class: 'bg-red-100 hover:bg-red-200 text-red-900',
-      iconClass: 'text-red-900',
+      color: 'error',
       icon: 'i-heroicons:trash',
-      click: () => {
+      onSelect: () => {
         emit('delete', props.story.id)
       },
     },
   ],
-]
+] satisfies DropdownMenuItem[][]
 </script>
 
 <template>
@@ -70,6 +70,7 @@ const storyOptions = [
       >
         <UButton
           color="neutral"
+          variant="subtle"
           icon="i-heroicons:ellipsis-vertical-20-solid"
         />
       </UDropdownMenu>

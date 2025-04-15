@@ -133,6 +133,7 @@ const items = [
           v-model:open="openNavModal"
           title="Navigation"
           close-icon="i-heroicons-x-mark"
+          side="bottom"
         >
           <template #body>
             <div class="flex-1">
