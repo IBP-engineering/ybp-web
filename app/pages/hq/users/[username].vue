@@ -3,11 +3,11 @@ import {
   nonEmpty,
   object,
   pipe,
-  safeParser,
   string,
   maxLength,
   type InferInput,
   boolean,
+  number,
 } from 'valibot'
 import type { FormSubmitEvent } from '#ui/types'
 import type { Database } from '~/types/database.types'
@@ -26,7 +26,7 @@ const schema = object({
   location: string(),
   isActive: boolean(),
   bio: pipe(string(), maxLength(250, 'Maksimal 250 karakter')),
-  role: pipe(string(), nonEmpty('Mohon pilih role anda')),
+  role: pipe(number()),
 })
 
 type Schema = InferInput<typeof schema>
@@ -102,7 +102,7 @@ const state = reactive<Schema>({
   username: user.value.username,
   displayName: user.value.display_name,
   bio: user.value.bio ?? '',
-  role: String(user.value.roles.id),
+  role: user.value.roles.id,
   location: user.value.location ?? '',
   isActive: user.value.is_active,
 })
@@ -122,7 +122,7 @@ async function updateProfile(event: FormSubmitEvent<Schema>) {
     toast.add({
       title: 'Terjadi kesalahan ketika mengubah user',
       description: 'Username telah digunakan',
-      color: 'red',
+      color: 'error',
     })
     isLoading.value = false
     await Promise.allSettled([refreshUser(), refreshStories()])
@@ -148,7 +148,7 @@ async function updateProfile(event: FormSubmitEvent<Schema>) {
     toast.add({
       title: 'Terjadi kesalahan ketika mengubah user',
       description: errorUpdate.message,
-      color: 'red',
+      color: 'error',
     })
     isLoading.value = false
     await Promise.allSettled([refreshUser(), refreshStories()])
@@ -157,7 +157,7 @@ async function updateProfile(event: FormSubmitEvent<Schema>) {
 
   toast.add({
     title: 'Berhasil mengubah user',
-    color: 'green',
+    color: 'success',
   })
   openEditProfileSlide.value = false
   isLoading.value = false
@@ -192,14 +192,16 @@ onMounted(() => {
         <div class="md:w-3/4">
           <div class="inline-flex gap-2">
             <RoleBadge :name="user.roles.name" />
-            <UBadge v-if="!user.is_active" color="fuchsia" size="xs"
+            <UBadge v-if="!user.is_active" color="neutral" size="xs"
               >Tidak aktif</UBadge
             >
           </div>
           <h1 class="text-xl font-bold md:mb-1 md:text-4xl">
             {{ user.display_name }}
           </h1>
-          <p class="text-sm text-neutral-600 md:text-base">@{{ user.username }}</p>
+          <p class="text-sm text-neutral-600 md:text-base">
+            @{{ user.username }}
+          </p>
           <p class="mt-1 text-balance">
             {{ user.bio }}
           </p>
@@ -259,77 +261,79 @@ onMounted(() => {
       </div>
     </div>
 
-    <USlideover v-model="openEditProfileSlide">
-      <UCard
-        class="flex flex-1 flex-col"
-        :ui="{
-          body: { base: 'flex-1' },
-          ring: '',
-          divide: 'divide-y divide-neutral-100 dark:divide-neutral-800',
-        }"
-      >
-        <template #header>
-          <div class="flex items-center justify-between">
-            <h3
-              class="text-base font-semibold leading-6 text-neutral-900 dark:text-white"
+    <USlideover
+      v-model:open="openEditProfileSlide"
+      title="Edit User"
+      close-icon="i-heroicons-x-mark-20-solid"
+    >
+      <template #body>
+        <div class="flex flex-1 flex-col">
+          <UForm
+            :schema="schema"
+            :state="state"
+            @submit="updateProfile"
+            class="flex w-full flex-col"
+          >
+            <UFormField required label="Username" name="username">
+              <UInput
+                v-model="state.username"
+                :loading="isLoading"
+                class="w-full"
+                type="text"
+              />
+            </UFormField>
+            <UFormField required class="mt-4" label="Nama" name="displayName">
+              <UInput
+                v-model="state.displayName"
+                class="w-full"
+                :loading="isLoading"
+              />
+            </UFormField>
+            <UFormField class="mt-4" label="Domisili" name="location">
+              <UInput
+                v-model="state.location"
+                class="w-full"
+                :loading="isLoading"
+              />
+            </UFormField>
+            <UFormField
+              required
+              v-if="user.roles.name !== 'admin'"
+              class="mt-4"
+              label="Role"
+              name="role"
             >
-              Edit user
-            </h3>
-            <UButton
-              color="neutral"
-              variant="ghost"
-              icon="i-heroicons-x-mark-20-solid"
-              class="-my-1"
-              @click="openEditProfileSlide = false"
-            />
-          </div>
-        </template>
+              <USelect
+                class="w-full"
+                v-model="state.role"
+                :items="roleOptions"
+              />
+            </UFormField>
+            <UFormField class="mt-4" label="Aktif" name="isActive">
+              <USwitch color="primary" v-model="state.isActive" />
+            </UFormField>
+            <UFormField class="mt-4" label="Bio" name="bio">
+              <UTextarea
+                v-model="state.bio"
+                :loading="isLoading"
+                class="w-full"
+              />
+            </UFormField>
 
-        <UForm
-          :schema="safeParser(schema)"
-          :state="state"
-          @submit="updateProfile"
-          class="flex w-full flex-col"
-        >
-          <UFormField required label="Username" name="username">
-            <UInput v-model="state.username" :loading="isLoading" type="text" />
-          </UFormField>
-          <UFormField required class="mt-4" label="Nama" name="displayName">
-            <UInput v-model="state.displayName" :loading="isLoading" />
-          </UFormField>
-          <UFormField class="mt-4" label="Domisili" name="location">
-            <UInput v-model="state.location" :loading="isLoading" />
-          </UFormField>
-          <UFormField
-            required
-            v-if="user.roles.name !== 'admin'"
-            class="mt-4"
-            label="Role"
-            name="role"
-          >
-            <USelect v-model="state.role" :items="roleOptions" />
-          </UFormField>
-          <UFormField class="mt-4" label="Aktif" name="isActive">
-            <USwitch color="primary" v-model="state.isActive" />
-          </UFormField>
-          <UFormField class="mt-4" label="Bio" name="bio">
-            <UTextarea v-model="state.bio" :loading="isLoading" />
-          </UFormField>
-
-          <UButton block :loading="isLoading" class="mb-2 mt-6" type="submit">
-            Simpan
-          </UButton>
-          <UButton
-            block
-            @click="openEditProfileSlide = false"
-            variant="ghost"
-            color="neutral"
-            :loading="isLoading"
-          >
-            Batal
-          </UButton>
-        </UForm>
-      </UCard>
+            <div class="mt-6 flex items-center justify-end gap-4">
+              <UButton
+                @click="openEditProfileSlide = false"
+                variant="ghost"
+                color="neutral"
+                :loading="isLoading"
+              >
+                Batal
+              </UButton>
+              <UButton :loading="isLoading" type="submit"> Simpan </UButton>
+            </div>
+          </UForm>
+        </div>
+      </template>
     </USlideover>
   </div>
 </template>
