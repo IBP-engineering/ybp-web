@@ -166,10 +166,12 @@ const resetValue = () => {
 }
 
 // @ts-expect-error nothing
-const genreItems: RadioGroupItem[] = genres.value.map(gen => ({
-  label: gen.label,
-  value: gen.value,
-}))
+const genreItems: RadioGroupItem[] = computed(() => {
+  return genres.value.map(gen => ({
+    label: gen.label,
+    value: gen.value,
+  }))
+})
 
 const refreshData = async () => {
   await refreshNuxtData(`habits/user/${currentUser.value.id}`)

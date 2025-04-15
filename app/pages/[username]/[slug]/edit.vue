@@ -203,7 +203,7 @@ const previewImage = (event: any) => {
     toast.add({
       title: 'Gagal menambahkan cover',
       description: 'Maksimal ukuran gambar yang diunggah adalah 5mb',
-      color: 'red',
+      color: 'error',
     })
     return
   }
@@ -270,9 +270,9 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="container mx-auto px-4 md:px-0">
+  <div class="container mx-auto max-w-screen-lg px-4 md:px-0">
     <UBreadcrumb divider="/" :items="breadcrumbs" />
-    <div class="mx-auto mt-12 max-w-screen-lg">
+    <div class="mx-auto mt-12">
       <div class="mb-4 flex flex-col gap-2 md:flex-row">
         <img
           v-if="previewImageUrl"
@@ -292,7 +292,7 @@ onMounted(() => {
           <UButton
             v-if="Boolean(previewImageUrl)"
             variant="soft"
-            color="red"
+            color="error"
             @click="removeImageCover"
             >Hapus
           </UButton>
@@ -310,9 +310,9 @@ onMounted(() => {
         placeholder="Judulnyaaa"
         variant="none"
         color="neutral"
-        padded
-        input-class="mb-2 font-bold text-4xl"
         required
+        size="xl"
+        :ui="{ base: 'mb-2 w-full font-bold text-4xl' }"
         @focus="showTags = false"
       />
       <div class="mb-4 flex w-full items-center gap-2">
@@ -365,33 +365,23 @@ onMounted(() => {
       </div>
     </div>
 
-    <LazyUModal v-model:open="openModal">
-      <UCard
-        :ui="{
-          ring: '',
-          divide: 'divide-y divide-neutral-100 dark:divide-neutral-800',
-        }"
-      >
-        <template #header>
-          <b>{{ modalAlert.title }}</b>
-        </template>
-
-        <p>{{ modalAlert.message }}</p>
+    <LazyUModal v-model:open="openModal" :title="modalAlert.title">
+      <template #body>
         <p v-if="modalAlert.isSuccess" class="mt-2 block text-neutral-500">
           Untuk informasi lebih lanjut mengenai proses penerbitan Cerita kamu,
           bisa melalui halaman
           <NuxtLink class="text-blue-500 hover:underline" to="#">FAQ</NuxtLink>.
         </p>
+      </template>
 
-        <template #footer>
-          <div class="flex items-center justify-end gap-4">
-            <UButton variant="ghost" color="neutral" @click="openModal = false"
-              >Tutup</UButton
-            >
-            <UButton to="/dashboard">Dashboard</UButton>
-          </div>
-        </template>
-      </UCard>
+      <template #footer>
+        <div class="flex w-full items-center justify-end gap-4">
+          <UButton variant="ghost" color="neutral" @click="openModal = false"
+            >Tutup</UButton
+          >
+          <UButton to="/dashboard">Dashboard</UButton>
+        </div>
+      </template>
     </LazyUModal>
   </div>
 </template>

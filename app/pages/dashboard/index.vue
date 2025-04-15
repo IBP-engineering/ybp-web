@@ -11,9 +11,6 @@ useSeoMeta({
   description: 'Satu tempat dashboard untuk mengatur kebutuhan pengguna',
 })
 
-const route = useRoute()
-const router = useRouter()
-
 const showBanner = computed(() => {
   const expireDate = new Date('2025-03-30')
   if (isBefore(new Date(), expireDate)) {
@@ -45,10 +42,6 @@ const breadcrumbs = [
     label: 'Dashboard',
   },
 ]
-
-function onChange(index: string) {
-  router.replace({ query: { tab: index } })
-}
 </script>
 
 <template>
@@ -57,12 +50,7 @@ function onChange(index: string) {
     <h1 class="text-2xl leading-relaxed font-bold">Dashboard</h1>
 
     <div class="mt-4">
-      <UTabs
-        :items="tabs"
-        :default-value="String(route.query?.tab) || '0'"
-        class="w-full"
-        @update:model-value="onChange"
-      >
+      <UTabs :items="tabs" class="w-full">
         <template #stories>
           <DashboardStoriesTab />
         </template>

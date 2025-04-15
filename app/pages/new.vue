@@ -263,9 +263,9 @@ const removeImageCover = () => {
         placeholder="Judulnyaaa"
         variant="none"
         color="neutral"
-        padded
-        input-class="mb-2 font-bold text-4xl"
+        size="xl"
         required
+        :ui="{ base: 'mb-2 w-full font-bold text-4xl' }"
         @focus="showTags = false"
       />
       <div class="mb-4 flex w-full items-center gap-2">
@@ -318,36 +318,27 @@ const removeImageCover = () => {
       </div>
     </div>
 
-    <LazyUModal v-model:open="openModal">
-      <UCard
-        :ui="{
-          body: 'divide-y divide-neutral-100 dark:divide-neutral-800',
-        }"
-      >
-        <template #header>
-          <b>{{ modalAlert.title }}</b>
-        </template>
-
-        <p>{{ modalAlert.message }}</p>
+    <LazyUModal v-model:open="openModal" :title="modalAlert.title">
+      <template #body>
         <p v-if="modalAlert.isSuccess" class="mt-2 block text-neutral-500">
           Untuk informasi lebih lanjut mengenai proses penerbitan Cerita kamu,
           bisa melalui halaman
           <NuxtLink class="text-blue-500 hover:underline" to="#">FAQ</NuxtLink>.
         </p>
+      </template>
 
-        <template #footer>
-          <div class="flex items-center justify-end gap-4">
-            <UButton variant="ghost" @click="() => reloadNuxtApp()"
-              >Tutup</UButton
-            >
-            <UButton
-              icon="i-heroicons:chevron-right"
-              :to="`/${currentUser.username}/${createdSlug}`"
-              >Ke cerita</UButton
-            >
-          </div>
-        </template>
-      </UCard>
+      <template #footer>
+        <div class="flex w-full items-center justify-end gap-4">
+          <UButton variant="ghost" @click="() => reloadNuxtApp()"
+            >Tutup</UButton
+          >
+          <UButton
+            icon="i-heroicons:chevron-right"
+            :to="`/${currentUser.username}/${createdSlug}`"
+            >Ke cerita</UButton
+          >
+        </div>
+      </template>
     </LazyUModal>
   </div>
 </template>
