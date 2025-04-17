@@ -210,10 +210,10 @@ const getPageNumber = (index: number) => {
 
 const columnVisibility = computed(() => {
   if (props.withName) {
-    return {}
+    return { point: false }
   }
 
-  return { name: false }
+  return { name: false, point: false }
 })
 
 const handleOpenModal = (id: string) => {
