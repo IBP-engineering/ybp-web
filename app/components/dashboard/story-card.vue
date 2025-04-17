@@ -52,7 +52,10 @@ const storyOptions = [
   <div
     class="relative flex w-full items-center justify-between border-b bg-neutral-50 px-4 py-2 outline-none last:border-0 hover:bg-neutral-100"
   >
-    <NuxtLink :to="storyUrl" class="group outline-none focus:ring">
+    <NuxtLink
+      :to="storyUrl"
+      class="group ring-primary-500 outline-none focus:ring"
+    >
       <h3
         class="text-primary-600 group-hover:text-primary-700 text-lg font-bold"
       >
