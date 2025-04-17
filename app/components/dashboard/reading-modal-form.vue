@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import * as v from 'valibot'
 import type { Form } from '#ui/types'
+import * as v from 'valibot'
 import type { User } from '~/types/entities'
 
 const openRecordModal = defineModel('open', { type: Boolean })

@@ -248,14 +248,14 @@ onMounted(() => {
       </div>
       <div class="mt-4 space-y-4 px-4">
         <h2 class="text-lg font-semibold">DAFTAR CERITA</h2>
-        <div class="space-y-4" v-if="stories.length > 0">
+        <div v-if="stories.length > 0" class="space-y-4">
           <HqStoryCard
             v-for="story in stories"
-            :story="story"
             :key="story.id"
+            :story="story"
           />
         </div>
-        <p class="text-gray-600" v-else>Belum ada cerita yang ditambahkan</p>
+        <p v-else class="text-gray-600">Belum ada cerita yang ditambahkan</p>
       </div>
     </div>
 
@@ -288,8 +288,8 @@ onMounted(() => {
         <UForm
           :schema="safeParser(schema)"
           :state="state"
-          @submit="updateProfile"
           class="flex w-full flex-col"
+          @submit="updateProfile"
         >
           <UFormGroup required label="Username" name="username">
             <UInput v-model="state.username" :loading="isLoading" type="text" />
@@ -301,8 +301,8 @@ onMounted(() => {
             <UInput v-model="state.location" :loading="isLoading" />
           </UFormGroup>
           <UFormGroup
-            required
             v-if="user.roles.name !== 'admin'"
+            required
             class="mt-4"
             label="Role"
             name="role"
@@ -310,7 +310,7 @@ onMounted(() => {
             <USelect v-model="state.role" :options="roleOptions" />
           </UFormGroup>
           <UFormGroup class="mt-4" label="Aktif" name="isActive">
-            <UToggle color="primary" v-model="state.isActive" />
+            <UToggle v-model="state.isActive" color="primary" />
           </UFormGroup>
           <UFormGroup class="mt-4" label="Bio" name="bio">
             <UTextarea v-model="state.bio" :loading="isLoading" />
@@ -321,10 +321,10 @@ onMounted(() => {
           </UButton>
           <UButton
             block
-            @click="openEditProfileSlide = false"
             variant="ghost"
             color="gray"
             :loading="isLoading"
+            @click="openEditProfileSlide = false"
           >
             Batal
           </UButton>

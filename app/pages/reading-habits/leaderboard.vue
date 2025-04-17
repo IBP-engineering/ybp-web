@@ -146,7 +146,7 @@ const compoundWinner = computed(() => {
         >
           <UIcon v-if="key === 0" name="ph:crown-simple-fill" />
           <UIcon v-else-if="key === 1" name="ph:number-circle-two-fill" />
-          <UIcon v-else="key === 2" name="ph:number-circle-three-fill"
+          <UIcon v-else name="ph:number-circle-three-fill"
         /></span>
         <p>{{ win.totalDay }} hari</p>
         <div class="mt-1 flex items-center gap-2">

@@ -9,7 +9,7 @@ import {
   startOfDay,
   format,
 } from 'date-fns'
-import { Database } from '~/types/database.types'
+import type { Database } from '~/types/database.types'
 import { cleanDate } from '~~/server/utils/date'
 
 interface Data {

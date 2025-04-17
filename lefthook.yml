@@ -1,0 +1,9 @@
+pre-commit:
+  parallel: true
+  commands:
+    eslint:
+      glob: '*.{vue,ts}'
+      run: pnpm dlx eslint --fix {staged_files} # Lint staged files and auto-fix if possible
+    prettier:
+      glob: '*.{vue,ts}'
+      run: pnpm dlx prettier --write {staged_files} # Format staged files in place

@@ -4,11 +4,11 @@ This is the official home page for the Yogyakarta Book Party, a community event 
 
 ## Tech Stack
 
-  * **Frontend:** Nuxt 3
-  * **Language:** TypeScript
-  * **Styling:** Tailwind CSS
-  * **Database:** Supabase
-  * **Package Manager:** PNPM
+- **Frontend:** Nuxt 3
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS
+- **Database:** Supabase
+- **Package Manager:** PNPM
 
 ## Getting Started
 
@@ -25,14 +25,17 @@ pnpm install
 ```
 
 3.  **Configure Supabase:**
-  * Rename a file named `.env.example` in the project root directory to `.env`.
-  * Add the following environment variables to `.env`, replacing the placeholders with your actual values:
+
+- Rename a file named `.env.example` in the project root directory to `.env`.
+- Add the following environment variables to `.env`, replacing the placeholders with your actual values:
+
 ```
 SUPABASE_URL=
 SUPABASE_KEY=
 ```
 
 4.  **Run the development server:**
+
 ```bash
 pnpm dev
 ```

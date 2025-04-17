@@ -35,7 +35,7 @@ onMounted(() => {
       TextAlign.configure({
         types: ['heading', 'paragraph'],
       }),
-      // @ts-ignore
+      // @ts-expect-error
       TextStyle.configure({ types: [ListItem.name] }),
     ],
     onUpdate: () => {
@@ -63,11 +63,11 @@ onUnmounted(() => {
           color="black"
           size="xs"
           icon="i-ph:text-h-two"
-          @click="editor.chain().focus().toggleHeading({ level: 2 }).run()"
           :disabled="
             !editor.can().chain().focus().toggleHeading({ level: 2 }).run()
           "
           square
+          @click="editor.chain().focus().toggleHeading({ level: 2 }).run()"
         />
       </UTooltip>
       <UTooltip text="Heading 3" :popper="{ arrow: true, placement: 'bottom' }">
@@ -78,11 +78,11 @@ onUnmounted(() => {
           color="black"
           size="xs"
           icon="i-ph:text-h-three"
-          @click="editor.chain().focus().toggleHeading({ level: 3 }).run()"
           :disabled="
             !editor.can().chain().focus().toggleHeading({ level: 3 }).run()
           "
           square
+          @click="editor.chain().focus().toggleHeading({ level: 3 }).run()"
         />
       </UTooltip>
       <UTooltip text="Bold" :popper="{ arrow: true, placement: 'bottom' }">
@@ -91,9 +91,9 @@ onUnmounted(() => {
           color="black"
           size="xs"
           icon="i-ph:text-bolder"
-          @click="editor.chain().focus().toggleBold().run()"
           :disabled="!editor.can().chain().focus().toggleBold().run()"
           square
+          @click="editor.chain().focus().toggleBold().run()"
         />
       </UTooltip>
       <UTooltip text="Italic" :popper="{ arrow: true, placement: 'bottom' }">
@@ -102,9 +102,9 @@ onUnmounted(() => {
           color="black"
           size="xs"
           icon="i-ph:text-italic"
-          @click="editor.chain().focus().toggleItalic().run()"
           :disabled="!editor.can().chain().focus().toggleItalic().run()"
           square
+          @click="editor.chain().focus().toggleItalic().run()"
         />
       </UTooltip>
       <UTooltip
@@ -116,9 +116,9 @@ onUnmounted(() => {
           color="black"
           size="xs"
           icon="i-ph:text-strikethrough"
-          @click="editor.chain().focus().toggleStrike().run()"
           :disabled="!editor.can().chain().focus().toggleStrike().run()"
           square
+          @click="editor.chain().focus().toggleStrike().run()"
         />
       </UTooltip>
       <UTooltip text="Code" :popper="{ arrow: true, placement: 'bottom' }">
@@ -127,9 +127,9 @@ onUnmounted(() => {
           color="black"
           size="xs"
           icon="i-ph:code"
-          @click="editor.chain().focus().toggleCode().run()"
           :disabled="!editor.can().chain().focus().toggleCode().run()"
           square
+          @click="editor.chain().focus().toggleCode().run()"
         />
       </UTooltip>
       <UTooltip
@@ -141,9 +141,9 @@ onUnmounted(() => {
           color="black"
           size="xs"
           icon="i-ph:quotes"
-          @click="editor.chain().focus().toggleBlockquote().run()"
           :disabled="!editor.can().chain().focus().toggleBlockquote().run()"
           square
+          @click="editor.chain().focus().toggleBlockquote().run()"
         />
       </UTooltip>
       <UTooltip
@@ -155,9 +155,9 @@ onUnmounted(() => {
           color="black"
           size="xs"
           icon="i-ph:list-bullets"
-          @click="editor.chain().focus().toggleBulletList().run()"
           :disabled="!editor.can().chain().focus().toggleBulletList().run()"
           square
+          @click="editor.chain().focus().toggleBulletList().run()"
         />
       </UTooltip>
       <UTooltip
@@ -169,9 +169,9 @@ onUnmounted(() => {
           color="black"
           size="xs"
           icon="i-ph:list-numbers"
-          @click="editor.chain().focus().toggleOrderedList().run()"
           :disabled="!editor.can().chain().focus().toggleOrderedList().run()"
           square
+          @click="editor.chain().focus().toggleOrderedList().run()"
         />
       </UTooltip>
       <UTooltip text="Text left" :popper="{ arrow: true, placement: 'bottom' }">
@@ -180,9 +180,9 @@ onUnmounted(() => {
           color="black"
           size="xs"
           icon="ph:text-align-left"
-          @click="editor.chain().focus().setTextAlign('left').run()"
           :disabled="!editor.can().chain().focus().setTextAlign('left').run()"
           square
+          @click="editor.chain().focus().setTextAlign('left').run()"
         />
       </UTooltip>
       <UTooltip
@@ -196,9 +196,9 @@ onUnmounted(() => {
           color="black"
           size="xs"
           icon="ph:text-align-center"
-          @click="editor.chain().focus().setTextAlign('center').run()"
           :disabled="!editor.can().chain().focus().setTextAlign('center').run()"
           square
+          @click="editor.chain().focus().setTextAlign('center').run()"
         />
       </UTooltip>
       <UTooltip
@@ -210,9 +210,9 @@ onUnmounted(() => {
           color="black"
           size="xs"
           icon="ph:text-align-right"
-          @click="editor.chain().focus().setTextAlign('right').run()"
           :disabled="!editor.can().chain().focus().setTextAlign('right').run()"
           square
+          @click="editor.chain().focus().setTextAlign('right').run()"
         />
       </UTooltip>
       <UTooltip
@@ -226,11 +226,11 @@ onUnmounted(() => {
           color="black"
           size="xs"
           icon="ph:text-align-justify"
-          @click="editor.chain().focus().setTextAlign('justify').run()"
           :disabled="
             !editor.can().chain().focus().setTextAlign('justify').run()
           "
           square
+          @click="editor.chain().focus().setTextAlign('justify').run()"
         />
       </UTooltip>
     </div>
