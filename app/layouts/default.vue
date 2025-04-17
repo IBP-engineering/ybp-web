@@ -122,7 +122,7 @@ const dropdownItems: DropdownMenuItem[][] = [
               <UChip :show="link.to === '/reading-habits'" size="lg" text="NEW">
                 <NuxtLink
                   :to="link.to"
-                  class="hover:bg-primary-200 hover:border-primary-300 focus:hover:border-primary-400 focus:hover:text-primary-900 hover:text-primary-900 focus:hover:bg-primary-100 rounded-lg border-2 border-transparent px-4 py-1 text-neutral-900 transition duration-300 ease-out outline-none focus-visible:ring md:w-auto"
+                  class="hover:bg-primary-200 hover:border-primary-300 focus:hover:border-primary-400 focus:hover:text-primary-900 hover:text-primary-900 focus:hover:bg-primary-100 ring-primary-500 rounded-lg border-2 border-transparent px-4 py-1 text-neutral-900 transition duration-300 ease-out outline-none focus-visible:ring md:w-auto"
                 >
                   {{ link.label }}
                 </NuxtLink>

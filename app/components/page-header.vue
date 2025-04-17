@@ -77,7 +77,7 @@ if (currentUser.data.value.roles.id === USER_ROLE.admin) {
       <div class="flex flex-col gap-4">
         <ULink
           v-if="mode === 'detail'"
-          class="focue:ring inline-flex w-fit items-center gap-1 text-neutral-600 outline-none hover:bg-neutral-200"
+          class="focue:ring ring-primary-500 inline-flex w-fit items-center gap-1 text-neutral-600 outline-none hover:bg-neutral-200"
           :to="backButtonHref"
           ><UIcon name="i-heroicons:chevron-left" /> {{ backButtonText }}</ULink
         >

@@ -39,7 +39,7 @@ const { data: users } = await useAsyncData('hq/users', async () => {
           <li v-for="user in users" :key="user.id">
             <NuxtLink
               :to="`/hq/users/${user.username}`"
-              class="hover:border-primary-400 flex w-full items-center justify-between border-2 bg-white p-2 transition focus:outline-none focus:ring"
+              class="hover:border-primary-400 ring-primary-500 flex w-full items-center justify-between border-2 bg-white p-2 transition focus:ring focus:outline-none"
             >
               <div class="flex items-center gap-2">
                 <UserPicture :seed="user.username" width="50" height="50" />
