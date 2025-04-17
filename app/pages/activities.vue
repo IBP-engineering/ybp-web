@@ -39,28 +39,56 @@ const breadcrumbs = [
     <div
       class="mx-auto mt-12 flex flex-wrap items-center justify-center gap-2 md:w-3/4 lg:w-1/2"
     >
-      <UButton color="info" size="sm" to="/activities/#bookparty"
+      <UButton
+        color="primary"
+        variant="subtle"
+        size="sm"
+        to="/activities/#bookparty"
         >Book Party</UButton
       >
-      <UButton color="info" size="sm" to="/activities/#collab">Collab</UButton>
-      <UButton color="info" size="sm" to="/activities/#reading-habits"
+      <UButton
+        color="primary"
+        variant="subtle"
+        size="sm"
+        to="/activities/#collab"
+        >Collab</UButton
+      >
+      <UButton
+        color="primary"
+        variant="subtle"
+        size="sm"
+        to="/activities/#reading-habits"
         >Reading Habits</UButton
       >
-      <UButton color="info" size="sm" to="/activities/#malam-imajinasi"
+      <UButton
+        color="primary"
+        variant="subtle"
+        size="sm"
+        to="/activities/#malam-imajinasi"
         >Malam Imajinasi</UButton
       >
-      <UButton color="info" size="sm" to="/activities/#fomo">Fomo</UButton>
-      <UButton color="info" size="sm" to="/activities/#puisi"
+      <UButton color="primary" variant="subtle" size="sm" to="/activities/#fomo"
+        >Fomo</UButton
+      >
+      <UButton
+        color="primary"
+        variant="subtle"
+        size="sm"
+        to="/activities/#puisi"
         >Deklamasi Puisi</UButton
       >
-      <UButton color="info" size="sm" to="/activities/#sports-club"
+      <UButton
+        color="primary"
+        variant="subtle"
+        size="sm"
+        to="/activities/#sports-club"
         >Sports Club</UButton
       >
     </div>
 
     <ActivitiesSection
       id="bookparty"
-      img="https://placehold.co/700x300.png"
+      img="/assets/activities/default.jpg"
       title="Book Party"
     >
       <p class="md:3/4 text-center text-neutral-600 lg:w-1/2">
@@ -79,7 +107,7 @@ const breadcrumbs = [
 
     <ActivitiesSection
       id="collab"
-      img="https://placehold.co/700x300.png"
+      img="/assets/activities/default.jpg"
       title="Collab"
     >
       <p class="md:3/4 text-center text-neutral-600 lg:w-1/2">
@@ -97,14 +125,16 @@ const breadcrumbs = [
       >
 
       <div
-        class="mt-4 mb-8 flex max-w-4xl flex-wrap items-center justify-center gap-2"
+        class="mt-4 mb-8 flex max-w-4xl flex-wrap items-center justify-center gap-4"
       >
-        <img
+        <NuxtImg
           v-for="arr in [1, 2, 3, 4, 5, 6, 12, 122, 354]"
           :key="arr"
-          src="https://placehold.co/130x80.png"
+          src="/assets/activities/gramedia.png"
+          width="130"
           alt="logo"
-          class="rounded-xl"
+          class="rounded-xl grayscale transition hover:grayscale-0"
+          title="Gramedia"
         />
       </div>
 
@@ -115,7 +145,7 @@ const breadcrumbs = [
 
     <ActivitiesSection
       id="malam-imajinasi"
-      img="https://placehold.co/700x300.png"
+      img="/assets/activities/default.jpg"
       title="Malam Imajinasi"
     >
       <p class="md:3/4 text-center text-neutral-600 lg:w-1/2">
@@ -135,7 +165,7 @@ const breadcrumbs = [
 
     <ActivitiesSection
       id="reading-habits"
-      img="https://placehold.co/700x300.png"
+      img="/assets/activities/default.jpg"
       title="Reading Habits"
     >
       <p class="md:3/4 text-center text-neutral-600 lg:w-1/2">
@@ -158,7 +188,7 @@ const breadcrumbs = [
 
     <ActivitiesSection
       id="fomo"
-      img="https://placehold.co/700x300.png"
+      img="/assets/activities/default.jpg"
       title="FOMO"
     >
       <p class="md:3/4 text-center text-neutral-600 lg:w-1/2">
@@ -172,7 +202,7 @@ const breadcrumbs = [
 
     <ActivitiesSection
       id="puisi"
-      img="https://placehold.co/700x300.png"
+      img="/assets/activities/default.jpg"
       title="Deklamasi Puisi"
     >
       <p class="md:3/4 text-center text-neutral-600 lg:w-1/2">
@@ -187,7 +217,7 @@ const breadcrumbs = [
 
     <ActivitiesSection
       id="sports-club"
-      img="https://placehold.co/700x300.png"
+      img="/assets/activities/default.jpg"
       title="Sports Club"
     >
       <p class="md:3/4 text-center text-neutral-600 lg:w-1/2">

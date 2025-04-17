@@ -11,12 +11,13 @@ defineProps<{
     :id="id"
     class="mt-32 flex scroll-m-28 flex-col items-center justify-center"
   >
-    <img
+    <NuxtImg
       :src="img"
       width="700"
       height="300"
       alt="yaudah"
       class="mx-auto rounded-xl border"
+      loading="lazy"
     />
 
     <h2 class="mt-4 text-3xl leading-relaxed font-bold">{{ title }}</h2>
