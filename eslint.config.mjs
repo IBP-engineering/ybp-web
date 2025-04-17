@@ -11,4 +11,14 @@ export default withNuxt([
     },
   },
   prettier,
-])
+]).prepend({
+  ignores: [
+    '.nuxt',
+    '.env',
+    'dist',
+    'node_modules',
+    'package.json',
+    'scripts',
+    '*.svg',
+  ],
+})
