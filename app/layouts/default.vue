@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { DropdownMenuItem } from '@nuxt/ui'
 import { currentUser } from '~/store/session'
 
 useHead({
@@ -69,7 +70,7 @@ const { data: userData } = await useAsyncData(
   { watch: [user] },
 )
 
-const dropdownItems = [
+const dropdownItems: DropdownMenuItem[][] = [
   [
     userData?.value?.roles?.id !== USER_ROLE.member
       ? { label: 'HQ', to: '/hq', icon: 'heroicons:bolt' }
@@ -81,7 +82,7 @@ const dropdownItems = [
     {
       label: 'Logout',
       icon: 'i-heroicons-arrow-right-on-rectangle',
-      click: logout,
+      onSelect: logout,
     },
   ],
 ]

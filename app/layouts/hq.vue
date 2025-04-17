@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { DropdownMenuItem } from '@nuxt/ui'
 import type { Database } from '~/types/database.types'
 
 useHead({
@@ -69,14 +70,14 @@ if (user.value.roles.id === USER_ROLE.admin) {
   })
 }
 
-const items = [
+const items: DropdownMenuItem[][] = [
   [
     { label: `@${user.value.username}` },
     { label: 'Dashboard', to: '/dashboard', icon: 'heroicons:home' },
     {
       label: 'Logout',
       icon: 'i-heroicons-arrow-right-on-rectangle',
-      click: logout,
+      onSelect: logout,
     },
   ],
 ]
