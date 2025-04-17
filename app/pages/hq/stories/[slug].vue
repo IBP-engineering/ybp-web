@@ -1,9 +1,9 @@
 <script setup lang="ts">
+import type { PostgrestError } from '@supabase/supabase-js'
 import { format } from 'date-fns'
 import id from 'date-fns/locale/id'
 import type { Database } from '~/types/database.types'
 import type { Story, Tag, User } from '~/types/entities'
-import type { PostgrestError } from '@supabase/supabase-js'
 
 definePageMeta({
   layout: 'hq',
@@ -80,10 +80,9 @@ const { data: story } = await useAsyncData(`hq/stories/${slug}`, async () => {
           </h2>
           <div v-if="story.tags?.length > 0" class="mt-2 flex gap-2">
             <div
-              class="rounded border border-neutral-300 bg-neutral-200 px-2"
               v-for="tag in story.tags"
               :key="tag.id"
-              class="rounded border border-gray-300 bg-gray-200 px-2"
+              class="rounded border border-neutral-300 bg-neutral-200 px-2"
             >
               <UTooltip :title="tag.title" :text="tag.description">
                 <span>#{{ tag?.slug }}</span>
