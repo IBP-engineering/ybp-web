@@ -73,11 +73,11 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         icon: 'i-heroicons-exclamation-circle-solid',
         description:
           'Username telah ada digunakan. Mohon menggunakan username yang lain',
-        color: 'yellow',
+        color: 'warning',
       })
       isLoading.value = false
       form.value.setErrors([
-        { message: 'Username telah digunakan', path: 'username' },
+        { message: 'Username telah digunakan', name: 'username' },
       ])
       return
     }
@@ -94,11 +94,11 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         icon: 'i-heroicons-exclamation-circle-solid',
         description:
           'Email telah ada digunakan. Mohon menggunakan email yang lain',
-        color: 'yellow',
+        color: 'warning',
       })
       isLoading.value = false
       form.value.setErrors([
-        { message: 'Email telah digunakan', path: 'email' },
+        { message: 'Email telah digunakan', name: 'email' },
       ])
       return
     }
@@ -122,7 +122,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     toast.add({
       title: 'Berhasil',
       description: 'Profil kamu berhasil diubah',
-      color: 'green',
+      color: 'success',
     })
   } catch (error) {
     console.error(error)
@@ -164,22 +164,28 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
           @submit="onSubmit"
         >
           <UFormField label="Name" name="name" required>
-            <UInput v-model="state.displayName" />
+            <UInput v-model="state.displayName" class="w-full" />
           </UFormField>
           <UFormField label="Email" name="email" required>
-            <UInput v-model="state.email" type="email" disabled />
+            <UInput
+              v-model="state.email"
+              type="email"
+              class="w-full"
+              disabled
+            />
           </UFormField>
           <UFormField label="Username" name="username" required>
             <UInput
               v-model="state.username"
+              class="w-full"
               @input="event => (usernameDebInput = event.target.value)"
             />
           </UFormField>
           <UFormField label="Location" name="location">
-            <UInput v-model="state.location" />
+            <UInput v-model="state.location" class="w-full" />
           </UFormField>
           <UFormField label="Bio" name="bio">
-            <UTextarea v-model="state.bio" />
+            <UTextarea v-model="state.bio" class="w-full" />
           </UFormField>
           <UButton
             class="mt-8"
