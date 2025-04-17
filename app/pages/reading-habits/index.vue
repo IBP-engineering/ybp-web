@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { format } from 'date-fns'
-import id from 'date-fns/locale/id'
 
 defineOgImageComponent('default')
 useSeoMeta({
@@ -12,6 +11,7 @@ useSeoMeta({
 const router = useRouter()
 const route = useRoute()
 const page = ref(1)
+const openDatePicker = ref(false)
 const date = ref(
   route.query?.date
     ? format(new Date(route.query?.date as string), 'P')
@@ -62,7 +62,7 @@ const breadcrumbs = [
       class="mb-4 flex justify-center"
     />
     <section class="text-center">
-      <h1 class="text-4xl font-bold leading-relaxed">
+      <h1 class="text-4xl leading-relaxed font-bold">
         <span class="text-primary-500">Read</span>ing Habits
       </h1>
       <p class="text-neutral-600">
@@ -72,14 +72,20 @@ const breadcrumbs = [
     </section>
 
     <div class="mt-16 flex items-center justify-between">
-      <UPopover :popper="{ placement: 'bottom-start' }">
+      <UPopover
+        v-model:open="openDatePicker"
+        :popper="{ placement: 'bottom-start' }"
+      >
         <UButton
           icon="i-heroicons-calendar-days-20-solid"
           :label="format(new Date(date), 'd MMM, yyy')"
         />
 
-        <template #panel="{ close }">
-          <SharedDatePicker v-model="date" @close="close" />
+        <template #content>
+          <SharedDatePicker
+            v-model="date"
+            @close="() => (openDatePicker = false)"
+          />
         </template>
       </UPopover>
 

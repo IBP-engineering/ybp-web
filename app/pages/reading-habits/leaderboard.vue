@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { TableColumn } from '@nuxt/ui'
 import { format, sub } from 'date-fns'
 
 defineOgImageComponent('default')
@@ -7,6 +8,14 @@ useSeoMeta({
   description:
     'Update Klasemen tantangan Reading Habits: Siapa yang di Puncak?',
 })
+
+type Column = {
+  rank: number
+  displayName: string
+  point: number
+  totalDay: number
+  streakDates: string[]
+}
 
 const winnerColors = [
   'border-gold-300 bg-gold-500',
@@ -69,22 +78,22 @@ const { data: winners, status } = await useFetch(
   },
 )
 
-const columns = [
+const columns: TableColumn<Partial<Column>>[] = [
   {
-    key: 'rank',
-    label: 'Peringkat',
+    accessorKey: 'rank',
+    header: 'Peringkat',
   },
   {
-    key: 'displayName',
-    label: 'Nama',
+    accessorKey: 'displayName',
+    header: 'Nama',
   },
   {
-    key: 'point',
-    label: 'Poin',
+    accessorKey: 'point',
+    header: 'Poin',
   },
   {
-    key: 'totalDay',
-    label: 'Hari',
+    accessorKey: 'totalDay',
+    header: 'Hari',
   },
 ]
 
@@ -112,7 +121,7 @@ const compoundWinner = computed(() => {
       class="mb-4 flex justify-center"
     />
     <section class="text-center">
-      <h1 class="text-4xl font-bold leading-relaxed">
+      <h1 class="text-4xl leading-relaxed font-bold">
         <span class="text-primary-500">Klasemen </span>
         sementara
       </h1>
@@ -159,30 +168,32 @@ const compoundWinner = computed(() => {
       </div>
     </div>
     <div v-else>
-      <p>Sepertinya belum ada klasemen di tanggal ini</p>
+      <p class="mt-20 text-center">
+        Sepertinya belum ada klasemen di tanggal ini
+      </p>
     </div>
 
     <UTable
       class="mt-16"
-      :ui="{ tbody: '', divide: '' }"
-      :rows="compoundWinner.tableWinners"
+      loading-animation="swing"
       :loading="status === 'pending'"
       :columns="columns"
+      :data="compoundWinner.tableWinners"
     >
-      <template #rank-data="{ row }">
+      <template #rank-cell="{ row }">
         <span class="inline-flex items-center gap-1">
           <UIcon name="ph:crown-simple-fill" />
-          {{ row.rank }}
+          {{ row.original.rank }}
         </span>
       </template>
-      <template #totalDay-data="{ row }">
+      <template #totalDay-cell="{ row }">
         <UTooltip
-          :ui="{ width: 'max-w-lg' }"
-          :text="row.streakDates.toString()"
+          class="max-w-lg"
+          :text="row.original.streakDates.toString()"
           :popper="{ placement: 'top', arrow: true }"
         >
           <span class="border-b border-dotted border-neutral-300">
-            {{ row.totalDay }}
+            {{ row.original.totalDay }}
           </span>
         </UTooltip>
       </template>
