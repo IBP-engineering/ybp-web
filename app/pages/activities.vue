@@ -4,6 +4,9 @@ useSeoMeta({
   title: 'Aktivitas dan Kegiatan',
   description: 'Aktivitas dan Kegiatan di Yogyakarta Book Party',
 })
+definePageMeta({
+  scrollToTop: false,
+})
 
 const appConfig = useAppConfig()
 
