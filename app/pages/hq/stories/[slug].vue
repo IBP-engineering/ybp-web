@@ -83,6 +83,7 @@ const { data: story } = await useAsyncData(`hq/stories/${slug}`, async () => {
               class="rounded border border-neutral-300 bg-neutral-200 px-2"
               v-for="tag in story.tags"
               :key="tag.id"
+              class="rounded border border-gray-300 bg-gray-200 px-2"
             >
               <UTooltip :title="tag.title" :text="tag.description">
                 <span>#{{ tag?.slug }}</span>
@@ -114,9 +115,9 @@ const { data: story } = await useAsyncData(`hq/stories/${slug}`, async () => {
       </div>
     </div>
     <LazyModalReview
+      v-model="openReview"
       :story-id="story.id"
       :status="story.status"
-      v-model="openReview"
     />
   </div>
 </template>

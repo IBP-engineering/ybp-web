@@ -150,11 +150,10 @@ const closeTagDetail = () => {
         <button
           v-for="tag in tags"
           :key="tag.id"
-          @click="() => openTagDetail(tag.id)"
           class="rounded border border-zinc-300 bg-zinc-50 p-2 text-left shadow transition hover:border-zinc-400 hover:bg-zinc-100"
+          @click="() => openTagDetail(tag.id)"
         >
           <UBadge
-            class="mr-1"
             v-if="!tag.is_active"
             color="error"
             variant="soft"

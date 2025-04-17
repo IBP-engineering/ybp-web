@@ -21,7 +21,6 @@ const openPopover = ref(false)
         class="flex items-center divide-neutral-200 sm:divide-x dark:divide-neutral-800"
       >
         <SharedDatePicker
-          :disabled-dates="disabledDates"
           v-model="selected"
           @close="() => (openPopover = false)"
         />
