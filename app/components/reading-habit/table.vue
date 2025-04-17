@@ -234,7 +234,10 @@ const handleOpenModal = (id: string) => {
       :loading="isLoading"
       :columns="columns"
       :data="mappedData"
-      :ui="{ tr: 'data-[expanded=true]:bg-(--ui-bg-elevated)/50' }"
+      :ui="{
+        tr: 'data-[expanded=true]:bg-(--ui-bg-elevated)/50',
+        td: 'py-2.5 px-4',
+      }"
       v-model:column-visibility="columnVisibility"
       v-model:sorting="sorting"
       v-model:global-filter="searchQuery"
