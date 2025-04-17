@@ -28,7 +28,7 @@ const { data: currentStory } = await useAsyncData(`story/${slug}`, async () => {
 })
 
 if (currentStory?.value.user_id !== user?.value.id) {
-  throw createError({ statusCode: 404, statusMessage: 'Page not found' })
+  throw createError({ statusCode: 403, statusMessage: 'Page is forbidden' })
 }
 
 const { data: tags } = await useAsyncData('tags', async () => {

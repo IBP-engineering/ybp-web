@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import * as v from 'valibot'
-import type { Form, FormSubmitEvent } from '#ui/types'
+import type { BreadcrumbItem, Form, FormSubmitEvent } from '@nuxt/ui'
 import type { Database } from '~/types/database.types'
 
 defineOgImageComponent('default')
@@ -47,7 +47,7 @@ const usernameDebInput = ref(userProfile.value.username)
 const debouncedUsername = refDebounced(usernameDebInput, 500)
 const isLoading = ref(false)
 const form = ref<Form<Schema>>()
-const breadcrumbs = [
+const breadcrumbs: BreadcrumbItem[] = [
   {
     label: 'Home',
     to: '/',
@@ -140,7 +140,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
       Settings @{{ userProfile.username }}
     </h1>
 
-    <div class="mt-8 grid md:grid-cols-2">
+    <div class="mt-8 grid lg:grid-cols-2">
       <div
         class="rounded border border-neutral-300 bg-neutral-50 px-8 py-6 shadow"
       >
@@ -158,7 +158,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 
         <UForm
           ref="form"
-          :schema="v.safeParser(schema)"
+          :schema="schema"
           :state="state"
           class="space-y-4"
           @submit="onSubmit"

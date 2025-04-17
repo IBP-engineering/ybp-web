@@ -19,7 +19,7 @@ defineProps<{
       class="mx-auto rounded-xl border"
     />
 
-    <h2 class="mt-4 text-3xl font-bold leading-relaxed">{{ title }}</h2>
+    <h2 class="mt-4 text-3xl leading-relaxed font-bold">{{ title }}</h2>
 
     <slot></slot>
   </div>
