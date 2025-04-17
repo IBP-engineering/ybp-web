@@ -16,8 +16,4 @@ body,
 #__nuxt {
   height: 100%;
 }
-
-html {
-  scroll-behavior: smooth;
-}
 </style>

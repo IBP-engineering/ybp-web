@@ -36,7 +36,9 @@ const faqs = [
 
 <template>
   <section class="mt-24 mb-4">
-    <h2 id="faq" class="text-3xl leading-relaxed font-semibold">FAQ</h2>
+    <h2 id="faq" class="scroll-m-28 text-3xl leading-relaxed font-semibold">
+      FAQ
+    </h2>
     <p class="text-neutral-600">
       Punya pertanyaan seputar Yogyakarta Book Party? Yuk, cekidot FAQ-nya! 👇
     </p>
