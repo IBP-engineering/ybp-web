@@ -63,7 +63,7 @@ if (currentUser.data.value.roles.id === USER_ROLE.admin) {
         <NuxtLink
           v-if="link.to"
           :to="link.to"
-          class="color-primary-900 hover:bg-primary-50 flex w-full items-center gap-2 rounded-md px-4 py-3 font-medium transition md:w-auto"
+          class="text-primary-900 hover:bg-primary-50 flex w-full items-center gap-2 rounded-md px-4 py-3 font-medium transition md:w-auto"
           active-class="bg-primary-100"
         >
           {{ link.label }}
