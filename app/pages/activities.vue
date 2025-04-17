@@ -27,7 +27,7 @@ const breadcrumbs = [
       class="mb-4 flex justify-center"
     />
     <section class="mx-auto text-center md:max-w-[70%] lg:max-w-[40%]">
-      <h1 class="text-balance text-4xl font-bold leading-relaxed">
+      <h1 class="text-4xl leading-relaxed font-bold text-balance">
         Keseruan dan Kreativitas Menjadi Bagian Komunitas
       </h1>
       <p class="text-neutral-600">Berbagai agenda dan kegiatan komunitas</p>
@@ -36,21 +36,21 @@ const breadcrumbs = [
     <div
       class="mx-auto mt-12 flex flex-wrap items-center justify-center gap-2 md:w-3/4 lg:w-1/2"
     >
-      <UButton color="sky" size="sm" to="/activities/#bookparty"
+      <UButton color="info" size="sm" to="/activities/#bookparty"
         >Book Party</UButton
       >
-      <UButton color="sky" size="sm" to="/activities/#collab">Collab</UButton>
-      <UButton color="sky" size="sm" to="/activities/#reading-habits"
+      <UButton color="info" size="sm" to="/activities/#collab">Collab</UButton>
+      <UButton color="info" size="sm" to="/activities/#reading-habits"
         >Reading Habits</UButton
       >
-      <UButton color="sky" size="sm" to="/activities/#malam-imajinasi"
+      <UButton color="info" size="sm" to="/activities/#malam-imajinasi"
         >Malam Imajinasi</UButton
       >
-      <UButton color="sky" size="sm" to="/activities/#fomo">Fomo</UButton>
-      <UButton color="sky" size="sm" to="/activities/#puisi"
+      <UButton color="info" size="sm" to="/activities/#fomo">Fomo</UButton>
+      <UButton color="info" size="sm" to="/activities/#puisi"
         >Deklamasi Puisi</UButton
       >
-      <UButton color="sky" size="sm" to="/activities/#sports-club"
+      <UButton color="info" size="sm" to="/activities/#sports-club"
         >Sports Club</UButton
       >
     </div>
@@ -94,7 +94,7 @@ const breadcrumbs = [
       >
 
       <div
-        class="mb-8 mt-4 flex max-w-4xl flex-wrap items-center justify-center gap-2"
+        class="mt-4 mb-8 flex max-w-4xl flex-wrap items-center justify-center gap-2"
       >
         <img
           v-for="arr in [1, 2, 3, 4, 5, 6, 12, 122, 354]"
