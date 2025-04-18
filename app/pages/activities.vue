@@ -9,7 +9,8 @@ definePageMeta({
 })
 
 const appConfig = useAppConfig()
-
+const igUrl = appConfig.socials.find(so => so.id === 'ig').link ?? ''
+const hotlineNumber = appConfig.socials.find(so => so.id === 'wa').link ?? ''
 const breadcrumbs = [
   {
     label: 'Home',
@@ -19,6 +20,10 @@ const breadcrumbs = [
     label: 'Activities',
     to: '/activities',
   },
+]
+const collabs = [
+  { src: '/assets/activities/gramedia.png', alt: 'Gramedia' },
+  { src: '/assets/activities/bentang.png', alt: 'Bentang Pustaka' },
 ]
 </script>
 
@@ -88,7 +93,7 @@ const breadcrumbs = [
 
     <ActivitiesSection
       id="bookparty"
-      img="/assets/activities/default.jpg"
+      img="/assets/activities/bookparty.jpg"
       title="Book Party"
     >
       <p class="md:3/4 text-center text-neutral-600 lg:w-1/2">
@@ -107,7 +112,7 @@ const breadcrumbs = [
 
     <ActivitiesSection
       id="collab"
-      img="/assets/activities/default.jpg"
+      img="/assets/activities/collab.jpg"
       title="Collab"
     >
       <p class="md:3/4 text-center text-neutral-600 lg:w-1/2">
@@ -128,24 +133,29 @@ const breadcrumbs = [
         class="mt-4 mb-8 flex max-w-4xl flex-wrap items-center justify-center gap-4"
       >
         <NuxtImg
-          v-for="arr in [1, 2, 3, 4, 5, 6, 12, 122, 354]"
-          :key="arr"
-          src="/assets/activities/gramedia.png"
-          width="150"
+          v-for="col in collabs"
+          :key="col.src"
+          :src="col.src"
+          width="70"
+          height="70"
           alt="logo"
           class="rounded-xl grayscale transition hover:grayscale-0"
-          title="Gramedia"
+          :title="col.alt"
         />
       </div>
 
-      <UButton variant="soft" icon="ph:rocket-launch-fill"
+      <UButton
+        variant="soft"
+        :to="hotlineNumber"
+        external
+        icon="ph:rocket-launch-fill"
         >Mari berkolaborasi</UButton
       >
     </ActivitiesSection>
 
     <ActivitiesSection
       id="malam-imajinasi"
-      img="/assets/activities/default.jpg"
+      img="/assets/activities/imajinasi.jpg"
       title="Malam Imajinasi"
     >
       <p class="md:3/4 text-center text-neutral-600 lg:w-1/2">
@@ -158,14 +168,19 @@ const breadcrumbs = [
         mencurahkan banyak hal? yuk gabung Yogya Book Party!
       </p>
 
-      <UButton variant="soft" class="mt-8" icon="ph:rocket-launch-fill"
+      <UButton
+        variant="soft"
+        :to="igUrl"
+        external
+        class="mt-8"
+        icon="ph:rocket-launch-fill"
         >Mari bergabung</UButton
       >
     </ActivitiesSection>
 
     <ActivitiesSection
       id="reading-habits"
-      img="/assets/activities/default.jpg"
+      img="/assets/activities/readinghabits.jpg"
       title="Reading Habits"
     >
       <p class="md:3/4 text-center text-neutral-600 lg:w-1/2">
@@ -186,11 +201,7 @@ const breadcrumbs = [
       >
     </ActivitiesSection>
 
-    <ActivitiesSection
-      id="fomo"
-      img="/assets/activities/default.jpg"
-      title="FOMO"
-    >
+    <ActivitiesSection id="fomo" img="/assets/activities/fomo.jpg" title="FOMO">
       <p class="md:3/4 text-center text-neutral-600 lg:w-1/2">
         YBP Fomo adalah kegiatan yang bertujuan untuk menormalisasi literasi di
         masyarakat. Bersama-sama membaca di ruang yang tidak biasa, sehingga
@@ -202,7 +213,7 @@ const breadcrumbs = [
 
     <ActivitiesSection
       id="puisi"
-      img="/assets/activities/default.jpg"
+      img="/assets/activities/puisi.jpeg"
       title="Deklamasi Puisi"
     >
       <p class="md:3/4 text-center text-neutral-600 lg:w-1/2">
@@ -217,7 +228,7 @@ const breadcrumbs = [
 
     <ActivitiesSection
       id="sports-club"
-      img="/assets/activities/default.jpg"
+      img="/assets/activities/sport.jpeg"
       title="Sports Club"
     >
       <p class="md:3/4 text-center text-neutral-600 lg:w-1/2">
@@ -227,7 +238,12 @@ const breadcrumbs = [
         supaya nggak cuma pinter, tapi juga sehat.
       </p>
 
-      <UButton variant="soft" to="#" icon="ph:whatsapp-logo-fill" class="mt-8"
+      <UButton
+        variant="soft"
+        to="https://chat.whatsapp.com/GcV4WQvCixALNSqT49XXf3"
+        external
+        icon="ph:whatsapp-logo-fill"
+        class="mt-8"
         >Gabung grup WhatsApp</UButton
       >
     </ActivitiesSection>

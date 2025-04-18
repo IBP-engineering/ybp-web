@@ -16,7 +16,7 @@ defineProps<{
       width="700"
       height="300"
       alt="yaudah"
-      class="mx-auto rounded-xl border"
+      class="mx-auto rounded-xl border border-neutral-300 shadow-lg"
       loading="lazy"
     />
 
