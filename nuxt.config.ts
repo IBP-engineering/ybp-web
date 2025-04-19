@@ -39,7 +39,7 @@ export default defineNuxtConfig({
   experimental: {
     viewTransition: true,
     asyncEntry: true,
-    buildCache: true,
+    buildCache: false,
   },
   supabase: {
     redirect: false,
