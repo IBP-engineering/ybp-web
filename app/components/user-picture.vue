@@ -13,7 +13,7 @@ withDefaults(
   <img
     :src="`https://api.dicebear.com/9.x/shapes/svg?seed=${seed}`"
     alt="Profile picture"
-    class="rounded-full border-2 border-gray-300 bg-gray-50"
+    class="rounded-full border-2 border-neutral-300 bg-neutral-50"
     width="110"
     height="110"
     loading="lazy"

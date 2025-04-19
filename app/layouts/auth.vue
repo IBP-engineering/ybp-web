@@ -7,10 +7,10 @@ useHead({
 </script>
 
 <template>
-  <div class="flex h-full w-full flex-auto flex-col bg-gray-100 font-sans">
+  <div class="flex h-full w-full flex-auto flex-col bg-neutral-100 font-sans">
     <slot />
     <div
-      class="layout-bg mt-auto min-h-[16rem] w-full bg-gray-100 bg-cover md:bg-auto"
+      class="layout-bg mt-auto min-h-[16rem] w-full bg-neutral-100 bg-cover md:bg-auto"
     />
   </div>
 </template>

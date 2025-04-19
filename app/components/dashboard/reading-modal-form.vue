@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Form } from '#ui/types'
+import type { Form, RadioGroupItem } from '@nuxt/ui'
 import * as v from 'valibot'
 import type { User } from '~/types/entities'
 
@@ -61,7 +61,7 @@ const form = ref<Form<Schema>>()
 const openConfirmation = ref(false)
 const state = reactive<Schema>({
   title: '',
-  genre: genres.value[0].value,
+  genre: genres?.value?.[0]?.value,
   pageCount: 0,
   summary: '',
 })
@@ -89,7 +89,7 @@ async function sendNewHabit() {
       toast.add({
         title: 'Terjadi kesalahan',
         description: res.error,
-        color: 'red',
+        color: 'error',
         icon: 'i-heroicons-x-mark-solid',
       })
       console.error(res.error)
@@ -100,7 +100,7 @@ async function sendNewHabit() {
     toast.add({
       title: 'OK',
       description: 'Berhasil menambahkan record baru',
-      color: 'green',
+      color: 'success',
       icon: 'ph:check-fat',
     })
     resetValue()
@@ -109,7 +109,7 @@ async function sendNewHabit() {
     toast.add({
       title: 'Terjadi kesalahan',
       description: error.message,
-      color: 'red',
+      color: 'error',
       icon: 'i-heroicons-x-mark-solid',
     })
     console.error(error)
@@ -132,7 +132,7 @@ const updateHabit = async () => {
     toast.add({
       title: 'OK',
       description: 'Berhasil mengubah record',
-      color: 'green',
+      color: 'success',
       icon: 'ph:check-fat',
     })
     resetValue()
@@ -141,7 +141,7 @@ const updateHabit = async () => {
     toast.add({
       title: 'Terjadi kesalahan',
       description: error.message,
-      color: 'red',
+      color: 'success',
       icon: 'i-heroicons-x-mark-solid',
     })
     console.error(error)
@@ -165,6 +165,14 @@ const resetValue = () => {
   state.pageCount = 0
 }
 
+// @ts-expect-error nothing
+const genreItems: RadioGroupItem[] = computed(() => {
+  return genres.value.map(gen => ({
+    label: gen.label,
+    value: gen.value,
+  }))
+})
+
 const refreshData = async () => {
   await refreshNuxtData(`habits/user/${currentUser.value.id}`)
 }
@@ -180,26 +188,22 @@ watch([providedId, existingHabit], () => {
 </script>
 
 <template>
-  <UModal v-model="openRecordModal" @close="resetValue">
-    <UForm
-      ref="form"
-      :schema="v.safeParser(schema)"
-      :state="state"
-      class="space-y-4"
-      @submit.prevent="onSubmit"
-    >
-      <UCard
-        :ui="{
-          ring: '',
-          divide: 'divide-y divide-gray-100 dark:divide-gray-800',
-        }"
+  <UModal
+    v-model:open="openRecordModal"
+    @close="resetValue"
+    :title="providedId ? 'Update Habit' : 'Tambah baru'"
+  >
+    <template #body>
+      <UForm
+        ref="form"
+        :schema="schema"
+        :state="state"
+        class="flex flex-col gap-4"
+        @submit.prevent="onSubmit"
       >
-        <template #header>
-          <b>{{ providedId ? 'Update Habit' : 'Tambah baru' }}</b>
-        </template>
         <div class="flex flex-col gap-4">
           <p
-            class="rounded-sm border-b border-gray-300 bg-gray-50 text-center text-sm text-gray-500"
+            class="rounded-sm border-b border-neutral-300 bg-neutral-50 text-center text-sm text-neutral-500"
           >
             {{
               new Intl.DateTimeFormat('id', { dateStyle: 'long' }).format(
@@ -207,10 +211,14 @@ watch([providedId, existingHabit], () => {
               )
             }}
           </p>
-          <UFormGroup required label="Judul buku" name="title">
-            <UInput v-model="state.title" :loading="status === 'pending'" />
-          </UFormGroup>
-          <UFormGroup
+          <UFormField required label="Judul buku" name="title">
+            <UInput
+              v-model="state.title"
+              class="w-full"
+              :loading="status === 'pending'"
+            />
+          </UFormField>
+          <UFormField
             required
             label="Jumlah halaman"
             help="Jumlah halaman buku yang dibaca"
@@ -219,17 +227,19 @@ watch([providedId, existingHabit], () => {
             <UInput
               v-model="state.pageCount"
               :loading="status === 'pending'"
+              class="w-full"
               type="number"
             />
-          </UFormGroup>
-          <UFormGroup required label="Jenis" name="genre">
+          </UFormField>
+          <UFormField required label="Jenis" name="genre">
             <URadioGroup
               v-model="state.genre"
               :disabled="status === 'pending'"
-              :options="genres"
+              :items="genreItems"
+              orientation="horizontal"
             />
-          </UFormGroup>
-          <UFormGroup
+          </UFormField>
+          <UFormField
             required
             eager-validation
             label="Kesimpulan"
@@ -238,47 +248,40 @@ watch([providedId, existingHabit], () => {
             <UTextarea
               v-model="state.summary"
               :disabled="status === 'pending'"
+              class="w-full"
               autoresize
             />
-          </UFormGroup>
+          </UFormField>
         </div>
-        <template #footer>
-          <div class="flex justify-end gap-4">
-            <UButton
-              color="gray"
-              variant="soft"
-              @click="openRecordModal = false"
-              >Batal</UButton
-            >
-            <UButton type="submit" :loading="status === 'pending'"
-              >Simpan</UButton
-            >
-          </div>
-        </template>
-      </UCard>
-    </UForm>
+        <div class="flex justify-end gap-4">
+          <UButton
+            color="neutral"
+            variant="soft"
+            @click="openRecordModal = false"
+            >Batal</UButton
+          >
+          <UButton type="submit" :loading="status === 'pending'"
+            >Simpan</UButton
+          >
+        </div>
+      </UForm>
 
-    <UModal v-model="openConfirmation">
-      <UCard
-        :ui="{
-          ring: '',
-          divide: 'divide-y divide-gray-100 dark:divide-gray-800',
-        }"
+      <UModal
+        v-model:open="openConfirmation"
+        :title="providedId ? 'Update Habit' : 'Tambah baru'"
       >
-        <template #header>
-          <b>{{ providedId ? 'Update Habit' : 'Tambah baru' }}</b>
+        <template #body>
+          <p>
+            Masukan Habit yang sudah ditambahkan hanya bisa diubah maksimal 1
+            kali, dan riwayat yang sudah ditambahkan tidak dapat dihapus.
+          </p>
+          <p>Apakah Anda sudah yakin ingin menambahkannya?</p>
         </template>
 
-        <p>
-          Masukan Habit yang sudah ditambahkan hanya bisa diubah maksimal 1
-          kali, dan riwayat yang sudah ditambahkan tidak dapat dihapus.
-        </p>
-        <p>Apakah Anda sudah yakin ingin menambahkannya?</p>
-
         <template #footer>
-          <div class="flex justify-end gap-4">
+          <div class="flex w-full justify-end gap-4">
             <UButton
-              color="gray"
+              color="neutral"
               variant="soft"
               @click="openConfirmation = false"
               >Batal</UButton
@@ -286,7 +289,7 @@ watch([providedId, existingHabit], () => {
             <UButton @click="confirmDialog">OK</UButton>
           </div>
         </template>
-      </UCard>
-    </UModal>
+      </UModal>
+    </template>
   </UModal>
 </template>

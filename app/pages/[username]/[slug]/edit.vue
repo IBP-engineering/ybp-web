@@ -28,7 +28,7 @@ const { data: currentStory } = await useAsyncData(`story/${slug}`, async () => {
 })
 
 if (currentStory?.value.user_id !== user?.value.id) {
-  throw createError({ statusCode: 404, statusMessage: 'Page not found' })
+  throw createError({ statusCode: 403, statusMessage: 'Page is forbidden' })
 }
 
 const { data: tags } = await useAsyncData('tags', async () => {
@@ -203,7 +203,7 @@ const previewImage = (event: any) => {
     toast.add({
       title: 'Gagal menambahkan cover',
       description: 'Maksimal ukuran gambar yang diunggah adalah 5mb',
-      color: 'red',
+      color: 'error',
     })
     return
   }
@@ -270,9 +270,9 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="container mx-auto px-4 md:px-0">
-    <UBreadcrumb divider="/" :links="breadcrumbs" />
-    <div class="mx-auto mt-12 max-w-screen-lg">
+  <div class="container mx-auto max-w-screen-lg px-4 md:px-0">
+    <UBreadcrumb divider="/" :items="breadcrumbs" />
+    <div class="mx-auto mt-12">
       <div class="mb-4 flex flex-col gap-2 md:flex-row">
         <img
           v-if="previewImageUrl"
@@ -292,7 +292,7 @@ onMounted(() => {
           <UButton
             v-if="Boolean(previewImageUrl)"
             variant="soft"
-            color="red"
+            color="error"
             @click="removeImageCover"
             >Hapus
           </UButton>
@@ -309,10 +309,10 @@ onMounted(() => {
         v-model="form.title"
         placeholder="Judulnyaaa"
         variant="none"
-        color="gray"
-        padded
-        input-class="mb-2 font-bold text-4xl"
+        color="neutral"
         required
+        size="xl"
+        :ui="{ base: 'mb-2 w-full font-bold text-4xl' }"
         @focus="showTags = false"
       />
       <div class="mb-4 flex w-full items-center gap-2">
@@ -327,28 +327,28 @@ onMounted(() => {
           label="Label"
           icon="i-heroicons:plus-circle"
           variant="outline"
-          color="gray"
+          color="neutral"
           @click="showTags = !showTags"
         />
       </div>
       <div
         v-if="showTags"
-        class="-mt-2 mb-2 h-48 overflow-auto rounded-lg border bg-gray-50 p-4"
+        class="-mt-2 mb-2 h-48 overflow-auto rounded-lg border bg-neutral-50 p-4"
       >
         <div class="border-b">
           <b>Daftar label</b>
-          <small class="mb-1 block text-gray-600"
+          <small class="mb-1 block text-neutral-600"
             >Maksimal memilih 4 label</small
           >
         </div>
         <div v-for="tag in tagsOrigin" :key="tag.id">
           <button
             v-if="!tag.alreadySelect"
-            class="flex w-full flex-col items-start p-2 text-start transition hover:bg-gray-100"
+            class="flex w-full flex-col items-start p-2 text-start transition hover:bg-neutral-100"
             @click="() => selectTag(tag)"
           >
             <p>#{{ tag.slug }}</p>
-            <small class="text-gray-600">{{ tag.description }}</small>
+            <small class="text-neutral-600">{{ tag.description }}</small>
           </button>
         </div>
       </div>
@@ -365,33 +365,23 @@ onMounted(() => {
       </div>
     </div>
 
-    <LazyUModal v-model="openModal">
-      <UCard
-        :ui="{
-          ring: '',
-          divide: 'divide-y divide-gray-100 dark:divide-gray-800',
-        }"
-      >
-        <template #header>
-          <b>{{ modalAlert.title }}</b>
-        </template>
-
-        <p>{{ modalAlert.message }}</p>
-        <p v-if="modalAlert.isSuccess" class="mt-2 block text-gray-500">
+    <LazyUModal v-model:open="openModal" :title="modalAlert.title">
+      <template #body>
+        <p v-if="modalAlert.isSuccess" class="mt-2 block text-neutral-500">
           Untuk informasi lebih lanjut mengenai proses penerbitan Cerita kamu,
           bisa melalui halaman
           <NuxtLink class="text-blue-500 hover:underline" to="#">FAQ</NuxtLink>.
         </p>
+      </template>
 
-        <template #footer>
-          <div class="flex items-center justify-end gap-4">
-            <UButton variant="ghost" color="gray" @click="openModal = false"
-              >Tutup</UButton
-            >
-            <UButton to="/dashboard">Dashboard</UButton>
-          </div>
-        </template>
-      </UCard>
+      <template #footer>
+        <div class="flex w-full items-center justify-end gap-4">
+          <UButton variant="ghost" color="neutral" @click="openModal = false"
+            >Tutup</UButton
+          >
+          <UButton to="/dashboard">Dashboard</UButton>
+        </div>
+      </template>
     </LazyUModal>
   </div>
 </template>

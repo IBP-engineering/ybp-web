@@ -71,7 +71,7 @@ const deleteStory = async (id: string) => {
       toast.add({
         title: 'Terjadi kesalahan',
         description: 'Mohon ulangi kembali sesaat lagi',
-        color: 'red',
+        color: 'error',
       })
       await refreshStories()
       calculateStoryCount()
@@ -134,44 +134,44 @@ watch(
 </script>
 
 <template>
-  <div class="mx-auto w-full max-w-screen-lg px-4 md:px-0">
+  <div class="mx-auto w-full max-w-screen-xl px-4 md:px-0">
     <div class="mt-8 flex w-full gap-8">
       <aside class="mt-8 hidden w-[300px] flex-col md:flex">
         <UButton
-          :variant="filterStatus === 'all' ? 'solid' : 'ghost'"
+          :variant="filterStatus === 'all' ? 'subtle' : 'ghost'"
           class="flex justify-between"
           size="lg"
-          color="gray"
+          color="neutral"
           @click="filterStatus = 'all'"
         >
           <span>All Story</span>
           <span>{{ filterCount.all }}</span>
         </UButton>
         <UButton
-          :variant="filterStatus === 'pending' ? 'solid' : 'ghost'"
+          :variant="filterStatus === 'pending' ? 'subtle' : 'ghost'"
           class="flex justify-between"
           size="lg"
-          color="gray"
+          color="neutral"
           @click="filterStatus = 'pending'"
         >
           <span>Pending</span>
           <span>{{ filterCount.pending }}</span>
         </UButton>
         <UButton
-          :variant="filterStatus === 'approved' ? 'solid' : 'ghost'"
+          :variant="filterStatus === 'approved' ? 'subtle' : 'ghost'"
           class="flex justify-between"
           size="lg"
-          color="gray"
+          color="neutral"
           @click="filterStatus = 'approved'"
         >
           <span>Approved</span>
           <span>{{ filterCount.approved }}</span>
         </UButton>
         <UButton
-          :variant="filterStatus === 'rejected' ? 'solid' : 'ghost'"
+          :variant="filterStatus === 'rejected' ? 'subtle' : 'ghost'"
           class="flex justify-between"
           size="lg"
-          color="gray"
+          color="neutral"
           @click="filterStatus = 'rejected'"
         >
           <span>Rejected</span>
@@ -193,7 +193,7 @@ watch(
         </p>
         <div
           v-else
-          class="mt-2 grid max-h-[650px] w-full grid-cols-1 overflow-auto rounded-b-lg rounded-t-lg border border-gray-300 bg-gray-50 md:max-h-[800px]"
+          class="mt-2 grid max-h-[650px] w-full grid-cols-1 overflow-auto rounded-t-lg rounded-b-lg border border-neutral-300 bg-neutral-50 md:max-h-[800px]"
         >
           <DashboardStoryCard
             v-for="story in stories"
@@ -206,27 +206,17 @@ watch(
       </div>
     </div>
 
-    <UModal v-model="isOpenStatus">
-      <UCard
-        :ui="{
-          ring: '',
-          divide: 'divide-y divide-gray-100 dark:divide-gray-800',
-        }"
-      >
-        <template #header>
-          <b>Status cerita</b>
-        </template>
-
+    <UModal title="Status Cerita" v-model:open="isOpenStatus">
+      <template #body>
         <StoryHistories :story-histories="storyHistories" />
-
-        <template #footer>
-          <div class="flex justify-end">
-            <UButton color="gray" variant="soft" @click="isOpenStatus = false"
-              >Tutup</UButton
-            >
-          </div>
-        </template>
-      </UCard>
+      </template>
+      <template #footer>
+        <div class="flex w-full justify-end">
+          <UButton color="neutral" variant="soft" @click="isOpenStatus = false"
+            >Tutup</UButton
+          >
+        </div>
+      </template>
     </UModal>
   </div>
 </template>

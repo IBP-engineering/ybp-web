@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import * as v from 'valibot'
-import type { Form, FormSubmitEvent } from '#ui/types'
+import type { BreadcrumbItem, Form, FormSubmitEvent } from '@nuxt/ui'
 import type { Database } from '~/types/database.types'
 
 defineOgImageComponent('default')
@@ -47,7 +47,7 @@ const usernameDebInput = ref(userProfile.value.username)
 const debouncedUsername = refDebounced(usernameDebInput, 500)
 const isLoading = ref(false)
 const form = ref<Form<Schema>>()
-const breadcrumbs = [
+const breadcrumbs: BreadcrumbItem[] = [
   {
     label: 'Home',
     to: '/',
@@ -73,11 +73,11 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         icon: 'i-heroicons-exclamation-circle-solid',
         description:
           'Username telah ada digunakan. Mohon menggunakan username yang lain',
-        color: 'yellow',
+        color: 'warning',
       })
       isLoading.value = false
       form.value.setErrors([
-        { message: 'Username telah digunakan', path: 'username' },
+        { message: 'Username telah digunakan', name: 'username' },
       ])
       return
     }
@@ -94,11 +94,11 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         icon: 'i-heroicons-exclamation-circle-solid',
         description:
           'Email telah ada digunakan. Mohon menggunakan email yang lain',
-        color: 'yellow',
+        color: 'warning',
       })
       isLoading.value = false
       form.value.setErrors([
-        { message: 'Email telah digunakan', path: 'email' },
+        { message: 'Email telah digunakan', name: 'email' },
       ])
       return
     }
@@ -122,7 +122,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     toast.add({
       title: 'Berhasil',
       description: 'Profil kamu berhasil diubah',
-      color: 'green',
+      color: 'success',
     })
   } catch (error) {
     console.error(error)
@@ -135,12 +135,12 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 
 <template>
   <div class="container mx-auto px-4 md:px-0">
-    <UBreadcrumb divider="/" :links="breadcrumbs" class="mb-2" />
-    <h1 class="text-3xl font-bold leading-relaxed md:text-4xl">
+    <UBreadcrumb divider="/" :items="breadcrumbs" class="mb-2" />
+    <h1 class="text-3xl leading-relaxed font-bold md:text-4xl">
       Settings @{{ userProfile.username }}
     </h1>
 
-    <div class="mt-8 grid md:grid-cols-2">
+    <div class="mt-8 grid lg:grid-cols-2">
       <div
         class="rounded border border-neutral-300 bg-neutral-50 px-8 py-6 shadow"
       >
@@ -151,36 +151,42 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
             alt="Avatar"
             size="3xl"
           />
-          <small class="block text-gray-600"
+          <small class="block text-neutral-600"
             >*akan berubah mengikuti username</small
           >
         </div>
 
         <UForm
           ref="form"
-          :schema="v.safeParser(schema)"
+          :schema="schema"
           :state="state"
           class="space-y-4"
           @submit="onSubmit"
         >
-          <UFormGroup label="Name" name="name" required>
-            <UInput v-model="state.displayName" />
-          </UFormGroup>
-          <UFormGroup label="Email" name="email" required>
-            <UInput v-model="state.email" type="email" disabled />
-          </UFormGroup>
-          <UFormGroup label="Username" name="username" required>
+          <UFormField label="Name" name="name" required>
+            <UInput v-model="state.displayName" class="w-full" />
+          </UFormField>
+          <UFormField label="Email" name="email" required>
+            <UInput
+              v-model="state.email"
+              type="email"
+              class="w-full"
+              disabled
+            />
+          </UFormField>
+          <UFormField label="Username" name="username" required>
             <UInput
               v-model="state.username"
+              class="w-full"
               @input="event => (usernameDebInput = event.target.value)"
             />
-          </UFormGroup>
-          <UFormGroup label="Location" name="location">
-            <UInput v-model="state.location" />
-          </UFormGroup>
-          <UFormGroup label="Bio" name="bio">
-            <UTextarea v-model="state.bio" />
-          </UFormGroup>
+          </UFormField>
+          <UFormField label="Location" name="location">
+            <UInput v-model="state.location" class="w-full" />
+          </UFormField>
+          <UFormField label="Bio" name="bio">
+            <UTextarea v-model="state.bio" class="w-full" />
+          </UFormField>
           <UButton
             class="mt-8"
             trailing-icon="ph:floppy-disk-bold"

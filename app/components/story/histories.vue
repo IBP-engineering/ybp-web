@@ -25,7 +25,7 @@ const historyColor = {
       <div
         v-for="history in storyHistories"
         :key="history.id"
-        class="border-l border-t px-2 py-1"
+        class="border-t border-l px-2 py-1"
         :class="historyColor[history.status]"
       >
         <StoryBadgeStatus :status="history.status" />
@@ -42,7 +42,7 @@ const historyColor = {
         </small>
       </div>
     </div>
-    <p v-else class="flex items-center gap-2 text-gray-600">
+    <p v-else class="flex items-center gap-2 text-neutral-600">
       <UIcon name="heroicons:archive-box-x-mark" class="h-10 w-10" /> History
       cerita tidak ditemukan
     </p>

@@ -99,8 +99,8 @@ if (
     class="relative flex h-full w-full justify-between p-[60px]"
     :class="[
       colorMode === 'light'
-        ? ['bg-white', 'text-gray-900']
-        : ['bg-gray-900', 'text-white'],
+        ? ['bg-white', 'text-neutral-900']
+        : ['bg-neutral-900', 'text-white'],
     ]"
   >
     <div
@@ -121,7 +121,7 @@ if (
             v-if="description"
             class="text-[35px]"
             :class="[
-              colorMode === 'light' ? ['text-gray-700'] : ['text-gray-300'],
+              colorMode === 'light' ? ['text-neutral-700'] : ['text-neutral-300'],
             ]"
           >
             {{ description }}

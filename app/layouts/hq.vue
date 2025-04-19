@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { DropdownMenuItem } from '@nuxt/ui'
 import type { Database } from '~/types/database.types'
 
 useHead({
@@ -35,7 +36,7 @@ async function logout() {
     toast.add({
       title: 'Failed to sign out',
       description: error.message,
-      color: 'red',
+      color: 'error',
       icon: 'i-heroicons-x-mark-solid',
     })
     return
@@ -45,11 +46,6 @@ async function logout() {
 }
 
 const links = [
-  {
-    label: 'Close',
-    click: () => (openNavModal.value = false),
-    icon: 'i-heroicons-x-mark',
-  },
   {
     label: 'Stories',
     icon: 'heroicons:bookmark-square',
@@ -74,21 +70,21 @@ if (user.value.roles.id === USER_ROLE.admin) {
   })
 }
 
-const items = [
+const items: DropdownMenuItem[][] = [
   [
     { label: `@${user.value.username}` },
     { label: 'Dashboard', to: '/dashboard', icon: 'heroicons:home' },
     {
       label: 'Logout',
       icon: 'i-heroicons-arrow-right-on-rectangle',
-      click: logout,
+      onSelect: logout,
     },
   ],
 ]
 </script>
 
 <template>
-  <div class="flex min-h-full flex-col bg-gray-100 font-sans">
+  <div class="flex min-h-full flex-col bg-neutral-100 font-sans">
     <span class="bg-primary-700 h-2 w-full p-1" aria-label="top border" />
     <header class="w-full bg-white pb-2">
       <div class="mx-auto w-full max-w-screen-xl px-4 pt-4">
@@ -106,8 +102,11 @@ const items = [
             <b class="ml-2 text-lg">| {{ user.roles.name.toUpperCase() }}</b>
           </NuxtLink>
           <div class="flex items-center gap-4">
-            <UDropdown :items="items" :popper="{ placement: 'bottom-start' }">
-              <UButton color="white" variant="ghost">
+            <UDropdownMenu
+              :items="items"
+              :popper="{ placement: 'bottom-start' }"
+            >
+              <UButton color="neutral" variant="ghost">
                 <span class="hidden md:block">
                   Welcome, {{ user?.display_name }}
                 </span>
@@ -116,12 +115,12 @@ const items = [
                   alt="Avatar"
                 />
               </UButton>
-            </UDropdown>
+            </UDropdownMenu>
           </div>
         </div>
         <div class="flex justify-end md:hidden">
           <UButton
-            class="ml-auto mt-4 inline-flex"
+            class="mt-4 ml-auto inline-flex"
             icon="i-heroicons-chevron-left"
             square
             variant="ghost"
@@ -131,18 +130,29 @@ const items = [
             Navigation
           </UButton>
         </div>
-        <USlideover v-model="openNavModal">
-          <div class="flex-1 p-4">
-            <UVerticalNavigation :ui="{ size: 'text-lg' }" :links="links" />
-          </div>
+        <USlideover
+          v-model:open="openNavModal"
+          title="Navigation"
+          close-icon="i-heroicons-x-mark"
+          side="bottom"
+        >
+          <template #body>
+            <div class="flex-1">
+              <UNavigationMenu
+                orientation="vertical"
+                :ui="{ linkLabel: 'text-lg' }"
+                :items="links"
+              />
+            </div>
+          </template>
         </USlideover>
       </div>
     </header>
     <main class="mb-4">
       <slot />
     </main>
-    <footer class="mt-auto w-full pb-1 pt-8">
-      <div class="mx-auto text-center text-gray-600">
+    <footer class="mt-auto w-full pt-8 pb-1">
+      <div class="mx-auto text-center text-neutral-600">
         <small>© Yogyakarta Book Party {{ new Date().getFullYear() }}</small>
       </div>
     </footer>

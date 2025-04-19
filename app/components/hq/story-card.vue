@@ -23,7 +23,7 @@ if (props.story.cover_path) {
 
 <template>
   <div
-    class="flex flex-col gap-0 rounded border border-gray-200 bg-white shadow transition hover:shadow-lg md:flex-row md:gap-4 md:pr-2"
+    class="flex flex-col gap-0 rounded border border-neutral-200 bg-white shadow transition hover:shadow-lg md:flex-row md:gap-4 md:pr-2"
   >
     <div class="relative">
       <img
@@ -51,7 +51,7 @@ if (props.story.cover_path) {
       >
         {{ story.title }}
       </NuxtLink>
-      <div class="text-gray-600">
+      <div class="text-neutral-600">
         <span> oleh </span>
         <ULink
           :to="`/hq/users/${story.author.username}`"
@@ -59,7 +59,7 @@ if (props.story.cover_path) {
           >{{ story.author.display_name }}</ULink
         >
       </div>
-      <p class="text-gray-600">
+      <p class="text-neutral-600">
         {{
           format(new Date(story.created_at), 'dd MMM yyyy, HH:mm', {
             locale: id,
@@ -67,7 +67,7 @@ if (props.story.cover_path) {
         }}
       </p>
       <NuxtLink
-        class="mt-4 flex items-center text-gray-600 hover:underline"
+        class="mt-4 flex items-center text-neutral-600 hover:underline"
         :to="`/hq/stories/${story.slug}`"
       >
         Detail

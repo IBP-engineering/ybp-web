@@ -38,7 +38,11 @@ export type Database = {
           {
             foreignKeyName: 'book_genres_created_by_fkey'
             columns: ['created_by']
+            foreignKeyName: 'book_genres_created_by_fkey'
+            columns: ['created_by']
             isOneToOne: false
+            referencedRelation: 'users'
+            referencedColumns: ['id']
             referencedRelation: 'users'
             referencedColumns: ['id']
           },
@@ -82,14 +86,22 @@ export type Database = {
           {
             foreignKeyName: 'reading_habits_genre_fkey'
             columns: ['genre']
+            foreignKeyName: 'reading_habits_genre_fkey'
+            columns: ['genre']
             isOneToOne: false
+            referencedRelation: 'book_genres'
+            referencedColumns: ['id']
             referencedRelation: 'book_genres'
             referencedColumns: ['id']
           },
           {
             foreignKeyName: 'reading_habits_user_fkey'
             columns: ['created_by']
+            foreignKeyName: 'reading_habits_user_fkey'
+            columns: ['created_by']
             isOneToOne: false
+            referencedRelation: 'users'
+            referencedColumns: ['id']
             referencedRelation: 'users'
             referencedColumns: ['id']
           },
@@ -128,6 +140,7 @@ export type Database = {
           is_active: boolean
           slug: string
           status: Database['public']['Enums']['Story status']
+          status: Database['public']['Enums']['Story status']
           title: string
           updated_at: string
           user_id: string | null
@@ -139,6 +152,7 @@ export type Database = {
           id?: string
           is_active?: boolean
           slug: string
+          status?: Database['public']['Enums']['Story status']
           status?: Database['public']['Enums']['Story status']
           title: string
           updated_at?: string
@@ -152,6 +166,7 @@ export type Database = {
           is_active?: boolean
           slug?: string
           status?: Database['public']['Enums']['Story status']
+          status?: Database['public']['Enums']['Story status']
           title?: string
           updated_at?: string
           user_id?: string | null
@@ -160,7 +175,11 @@ export type Database = {
           {
             foreignKeyName: 'stories_user_id_fkey'
             columns: ['user_id']
+            foreignKeyName: 'stories_user_id_fkey'
+            columns: ['user_id']
             isOneToOne: false
+            referencedRelation: 'users'
+            referencedColumns: ['id']
             referencedRelation: 'users'
             referencedColumns: ['id']
           },
@@ -173,12 +192,14 @@ export type Database = {
           reacted_by: string | null
           story: string | null
           type: Database['public']['Enums']['Story reaction']
+          type: Database['public']['Enums']['Story reaction']
         }
         Insert: {
           created_at?: string
           id?: number
           reacted_by?: string | null
           story?: string | null
+          type?: Database['public']['Enums']['Story reaction']
           type?: Database['public']['Enums']['Story reaction']
         }
         Update: {
@@ -187,19 +208,28 @@ export type Database = {
           reacted_by?: string | null
           story?: string | null
           type?: Database['public']['Enums']['Story reaction']
+          type?: Database['public']['Enums']['Story reaction']
         }
         Relationships: [
           {
             foreignKeyName: 'story_reactions_reacted_by_fkey'
             columns: ['reacted_by']
+            foreignKeyName: 'story_reactions_reacted_by_fkey'
+            columns: ['reacted_by']
             isOneToOne: false
+            referencedRelation: 'users'
+            referencedColumns: ['id']
             referencedRelation: 'users'
             referencedColumns: ['id']
           },
           {
             foreignKeyName: 'story_reactions_story_fkey'
             columns: ['story']
+            foreignKeyName: 'story_reactions_story_fkey'
+            columns: ['story']
             isOneToOne: false
+            referencedRelation: 'stories'
+            referencedColumns: ['id']
             referencedRelation: 'stories'
             referencedColumns: ['id']
           },
@@ -211,6 +241,7 @@ export type Database = {
           id: number
           reason: string | null
           status: Database['public']['Enums']['Story status'] | null
+          status: Database['public']['Enums']['Story status'] | null
           story_id: string
           updated_by: string | null
         }
@@ -218,6 +249,7 @@ export type Database = {
           created_at?: string
           id?: number
           reason?: string | null
+          status?: Database['public']['Enums']['Story status'] | null
           status?: Database['public']['Enums']['Story status'] | null
           story_id: string
           updated_by?: string | null
@@ -227,6 +259,7 @@ export type Database = {
           id?: number
           reason?: string | null
           status?: Database['public']['Enums']['Story status'] | null
+          status?: Database['public']['Enums']['Story status'] | null
           story_id?: string
           updated_by?: string | null
         }
@@ -234,14 +267,22 @@ export type Database = {
           {
             foreignKeyName: 'story_status_histories_story_id_fkey'
             columns: ['story_id']
+            foreignKeyName: 'story_status_histories_story_id_fkey'
+            columns: ['story_id']
             isOneToOne: false
+            referencedRelation: 'stories'
+            referencedColumns: ['id']
             referencedRelation: 'stories'
             referencedColumns: ['id']
           },
           {
             foreignKeyName: 'story_status_histories_updated_by_fkey'
             columns: ['updated_by']
+            foreignKeyName: 'story_status_histories_updated_by_fkey'
+            columns: ['updated_by']
             isOneToOne: false
+            referencedRelation: 'users'
+            referencedColumns: ['id']
             referencedRelation: 'users'
             referencedColumns: ['id']
           },
@@ -270,14 +311,22 @@ export type Database = {
           {
             foreignKeyName: 'story_tags_story_id_fkey'
             columns: ['story_id']
+            foreignKeyName: 'story_tags_story_id_fkey'
+            columns: ['story_id']
             isOneToOne: false
+            referencedRelation: 'stories'
+            referencedColumns: ['id']
             referencedRelation: 'stories'
             referencedColumns: ['id']
           },
           {
             foreignKeyName: 'story_tags_tag_id_fkey'
             columns: ['tag_id']
+            foreignKeyName: 'story_tags_tag_id_fkey'
+            columns: ['tag_id']
             isOneToOne: false
+            referencedRelation: 'tags'
+            referencedColumns: ['id']
             referencedRelation: 'tags'
             referencedColumns: ['id']
           },
@@ -318,7 +367,11 @@ export type Database = {
           {
             foreignKeyName: 'tags_created_by_fkey'
             columns: ['created_by']
+            foreignKeyName: 'tags_created_by_fkey'
+            columns: ['created_by']
             isOneToOne: false
+            referencedRelation: 'users'
+            referencedColumns: ['id']
             referencedRelation: 'users'
             referencedColumns: ['id']
           },
@@ -368,7 +421,11 @@ export type Database = {
           {
             foreignKeyName: 'users_role_id_fkey'
             columns: ['role_id']
+            foreignKeyName: 'users_role_id_fkey'
+            columns: ['role_id']
             isOneToOne: false
+            referencedRelation: 'roles'
+            referencedColumns: ['id']
             referencedRelation: 'roles'
             referencedColumns: ['id']
           },
@@ -384,6 +441,8 @@ export type Database = {
     Enums: {
       'Story reaction': 'like'
       'Story status': 'approved' | 'rejected' | 'pending'
+      'Story reaction': 'like'
+      'Story status': 'approved' | 'rejected' | 'pending'
     }
     CompositeTypes: {
       [_ in never]: never
@@ -391,16 +450,27 @@ export type Database = {
   }
 }
 
+type DefaultSchema = Database[Extract<keyof Database, 'public'>]
 type PublicSchema = Database[Extract<keyof Database, 'public'>]
 
 export type Tables<
+  DefaultSchemaTableNameOrOptions extends
+    | keyof (DefaultSchema['Tables'] & DefaultSchema['Views'])
   PublicTableNameOrOptions extends
     | keyof (PublicSchema['Tables'] & PublicSchema['Views'])
     | { schema: keyof Database },
+  TableName extends DefaultSchemaTableNameOrOptions extends {
+    schema: keyof Database
+  }
+    ? keyof (Database[DefaultSchemaTableNameOrOptions['schema']]['Tables'] &
+        Database[DefaultSchemaTableNameOrOptions['schema']]['Views'])
   TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
     ? keyof (Database[PublicTableNameOrOptions['schema']]['Tables'] &
         Database[PublicTableNameOrOptions['schema']]['Views'])
     : never = never,
+> = DefaultSchemaTableNameOrOptions extends { schema: keyof Database }
+  ? (Database[DefaultSchemaTableNameOrOptions['schema']]['Tables'] &
+      Database[DefaultSchemaTableNameOrOptions['schema']]['Views'])[TableName] extends {
 > = PublicTableNameOrOptions extends { schema: keyof Database }
   ? (Database[PublicTableNameOrOptions['schema']]['Tables'] &
       Database[PublicTableNameOrOptions['schema']]['Views'])[TableName] extends {
@@ -408,6 +478,10 @@ export type Tables<
     }
     ? R
     : never
+  : DefaultSchemaTableNameOrOptions extends keyof (DefaultSchema['Tables'] &
+        DefaultSchema['Views'])
+    ? (DefaultSchema['Tables'] &
+        DefaultSchema['Views'])[DefaultSchemaTableNameOrOptions] extends {
   : PublicTableNameOrOptions extends keyof (PublicSchema['Tables'] &
         PublicSchema['Views'])
     ? (PublicSchema['Tables'] &
@@ -419,18 +493,28 @@ export type Tables<
     : never
 
 export type TablesInsert<
+  DefaultSchemaTableNameOrOptions extends
+    | keyof DefaultSchema['Tables']
   PublicTableNameOrOptions extends
     | keyof PublicSchema['Tables']
     | { schema: keyof Database },
+  TableName extends DefaultSchemaTableNameOrOptions extends {
+    schema: keyof Database
+  }
+    ? keyof Database[DefaultSchemaTableNameOrOptions['schema']]['Tables']
   TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
     ? keyof Database[PublicTableNameOrOptions['schema']]['Tables']
     : never = never,
+> = DefaultSchemaTableNameOrOptions extends { schema: keyof Database }
+  ? Database[DefaultSchemaTableNameOrOptions['schema']]['Tables'][TableName] extends {
 > = PublicTableNameOrOptions extends { schema: keyof Database }
   ? Database[PublicTableNameOrOptions['schema']]['Tables'][TableName] extends {
       Insert: infer I
     }
     ? I
     : never
+  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema['Tables']
+    ? DefaultSchema['Tables'][DefaultSchemaTableNameOrOptions] extends {
   : PublicTableNameOrOptions extends keyof PublicSchema['Tables']
     ? PublicSchema['Tables'][PublicTableNameOrOptions] extends {
         Insert: infer I
@@ -440,18 +524,28 @@ export type TablesInsert<
     : never
 
 export type TablesUpdate<
+  DefaultSchemaTableNameOrOptions extends
+    | keyof DefaultSchema['Tables']
   PublicTableNameOrOptions extends
     | keyof PublicSchema['Tables']
     | { schema: keyof Database },
+  TableName extends DefaultSchemaTableNameOrOptions extends {
+    schema: keyof Database
+  }
+    ? keyof Database[DefaultSchemaTableNameOrOptions['schema']]['Tables']
   TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
     ? keyof Database[PublicTableNameOrOptions['schema']]['Tables']
     : never = never,
+> = DefaultSchemaTableNameOrOptions extends { schema: keyof Database }
+  ? Database[DefaultSchemaTableNameOrOptions['schema']]['Tables'][TableName] extends {
 > = PublicTableNameOrOptions extends { schema: keyof Database }
   ? Database[PublicTableNameOrOptions['schema']]['Tables'][TableName] extends {
       Update: infer U
     }
     ? U
     : never
+  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema['Tables']
+    ? DefaultSchema['Tables'][DefaultSchemaTableNameOrOptions] extends {
   : PublicTableNameOrOptions extends keyof PublicSchema['Tables']
     ? PublicSchema['Tables'][PublicTableNameOrOptions] extends {
         Update: infer U
@@ -461,12 +555,22 @@ export type TablesUpdate<
     : never
 
 export type Enums<
+  DefaultSchemaEnumNameOrOptions extends
+    | keyof DefaultSchema['Enums']
   PublicEnumNameOrOptions extends
     | keyof PublicSchema['Enums']
     | { schema: keyof Database },
+  EnumName extends DefaultSchemaEnumNameOrOptions extends {
+    schema: keyof Database
+  }
+    ? keyof Database[DefaultSchemaEnumNameOrOptions['schema']]['Enums']
   EnumName extends PublicEnumNameOrOptions extends { schema: keyof Database }
     ? keyof Database[PublicEnumNameOrOptions['schema']]['Enums']
     : never = never,
+> = DefaultSchemaEnumNameOrOptions extends { schema: keyof Database }
+  ? Database[DefaultSchemaEnumNameOrOptions['schema']]['Enums'][EnumName]
+  : DefaultSchemaEnumNameOrOptions extends keyof DefaultSchema['Enums']
+    ? DefaultSchema['Enums'][DefaultSchemaEnumNameOrOptions]
 > = PublicEnumNameOrOptions extends { schema: keyof Database }
   ? Database[PublicEnumNameOrOptions['schema']]['Enums'][EnumName]
   : PublicEnumNameOrOptions extends keyof PublicSchema['Enums']
@@ -475,15 +579,30 @@ export type Enums<
 
 export type CompositeTypes<
   PublicCompositeTypeNameOrOptions extends
+    | keyof DefaultSchema['CompositeTypes']
     | keyof PublicSchema['CompositeTypes']
     | { schema: keyof Database },
   CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
     schema: keyof Database
   }
     ? keyof Database[PublicCompositeTypeNameOrOptions['schema']]['CompositeTypes']
+    ? keyof Database[PublicCompositeTypeNameOrOptions['schema']]['CompositeTypes']
     : never = never,
 > = PublicCompositeTypeNameOrOptions extends { schema: keyof Database }
+  ? Database[PublicCompositeTypeNameOrOptions['schema']]['CompositeTypes'][CompositeTypeName]
+  : PublicCompositeTypeNameOrOptions extends keyof DefaultSchema['CompositeTypes']
+    ? DefaultSchema['CompositeTypes'][PublicCompositeTypeNameOrOptions]
   ? Database[PublicCompositeTypeNameOrOptions['schema']]['CompositeTypes'][CompositeTypeName]
   : PublicCompositeTypeNameOrOptions extends keyof PublicSchema['CompositeTypes']
     ? PublicSchema['CompositeTypes'][PublicCompositeTypeNameOrOptions]
     : never
+
+export const Constants = {
+  public: {
+    Enums: {
+      'Story reaction': ['like'],
+      'Story status': ['approved', 'rejected', 'pending'],
+    },
+  },
+} as const
+

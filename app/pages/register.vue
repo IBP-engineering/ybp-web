@@ -3,7 +3,6 @@ import {
   nonEmpty,
   object,
   pipe,
-  safeParser,
   string,
   trim,
   forward,
@@ -83,7 +82,7 @@ async function register(event: FormSubmitEvent<Schema>) {
       icon: 'i-heroicons-exclamation-circle-solid',
       description:
         'Username telah ada digunakan. Mohon menggunakan username yang lain',
-      color: 'yellow',
+      color: 'warning',
     })
     isLoading.value = false
     return
@@ -99,7 +98,7 @@ async function register(event: FormSubmitEvent<Schema>) {
   if (error) {
     toast.add({
       icon: 'i-heroicons-x-mark-solid',
-      color: 'red',
+      color: 'error',
       title: 'Kesalahan ketika akan mendaftarkan akun',
       description: error.message,
     })
@@ -110,7 +109,7 @@ async function register(event: FormSubmitEvent<Schema>) {
 
   toast.add({
     icon: 'heroicons:check',
-    color: 'green',
+    color: 'success',
     title: 'Berhasil daftar',
   })
   isLoading.value = false
@@ -131,37 +130,49 @@ async function register(event: FormSubmitEvent<Schema>) {
         />
       </div>
       <div
-        class="z-20 mx-auto mt-6 w-full space-y-4 rounded border bg-white p-4 shadow md:w-[24rem]"
+        class="z-20 mx-auto mt-6 flex w-full flex-col gap-4 rounded border bg-white p-4 shadow md:w-[24rem]"
       >
         <b>Buat akun baru</b>
 
         <UForm
-          :schema="safeParser(schema)"
+          :schema="schema"
           :state="state"
           class="flex w-full flex-col gap-5"
           @submit="register"
         >
-          <UFormGroup required label="Nama" name="displayName">
+          <UFormField required label="Nama" name="displayName">
             <UInput
               v-model="state.displayName"
               :loading="isLoading"
+              class="w-full"
               type="text"
             />
-          </UFormGroup>
-          <UFormGroup required label="Username" name="username">
-            <UInput v-model="state.username" :loading="isLoading" type="text" />
-          </UFormGroup>
-          <UFormGroup required label="Email" name="email">
-            <UInput v-model="state.email" :loading="isLoading" type="email" />
-          </UFormGroup>
-          <UFormGroup required label="Password" name="password">
+          </UFormField>
+          <UFormField required label="Username" name="username">
+            <UInput
+              v-model="state.username"
+              class="w-full"
+              :loading="isLoading"
+              type="text"
+            />
+          </UFormField>
+          <UFormField required label="Email" name="email">
+            <UInput
+              v-model="state.email"
+              class="w-full"
+              :loading="isLoading"
+              type="email"
+            />
+          </UFormField>
+          <UFormField required label="Password" name="password">
             <UInput
               v-model="state.password"
               :loading="isLoading"
               type="password"
+              class="w-full"
             />
-          </UFormGroup>
-          <UFormGroup
+          </UFormField>
+          <UFormField
             required
             label="Konfirmasi password"
             name="repeatPassword"
@@ -170,13 +181,14 @@ async function register(event: FormSubmitEvent<Schema>) {
               v-model="state.repeatPassword"
               :loading="isLoading"
               type="password"
+              class="w-full"
             />
-          </UFormGroup>
+          </UFormField>
 
           <UButton block :loading="isLoading" type="submit"> Daftar </UButton>
         </UForm>
 
-        <UDivider label="ATAU" />
+        <USeparator label="ATAU" />
         <p class="text-center">
           Sudah memiliki akun?
           <ULink to="/login" class="text-primary-600 hover:underline"
