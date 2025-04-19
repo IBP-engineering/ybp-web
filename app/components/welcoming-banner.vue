@@ -1,4 +1,6 @@
 <script setup lang="ts">
+// @deprecated component
+
 const cookieBanner = useCookie('welcome020', {
   maxAge: 60 * 60 * 24 * 30 * 12, // 1 year
 })
