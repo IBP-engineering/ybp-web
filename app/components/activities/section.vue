@@ -16,9 +16,9 @@ defineProps<{
       width="700"
       height="300"
       alt="Activity cover"
-      class="mx-auto w-[700px] rounded-xl border border-neutral-300 shadow-lg"
+      class="mx-auto w-[700px] h-[300px] object-center object-cover rounded-xl border border-neutral-300 shadow-lg"
       loading="lazy"
-      :quality="90"
+      :quality="100"
     />
 
     <h2 class="mt-4 text-3xl leading-relaxed font-bold">{{ title }}</h2>
