@@ -158,7 +158,7 @@ const collabs = [
 
     <ActivitiesSection
       id="malam-imajinasi"
-      img="/assets/activities/imajinasi.jpg"
+      img="/assets/activities/imajinasi.webp"
       title="Malam Imajinasi"
       use-native-img
     >
@@ -233,7 +233,7 @@ const collabs = [
 
     <ActivitiesSection
       id="sports-club"
-      img="/assets/activities/sport.jpeg"
+      img="/assets/activities/sport.webp"
       title="Sports Club"
       use-native-img
     >
