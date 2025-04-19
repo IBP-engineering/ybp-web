@@ -1,6 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  compatibilityDate: '2024-04-03',
+  compatibilityDate: '2024-11-01',
   devtools: { enabled: true },
   image: {
     format: ['avif', 'webp'],
@@ -54,6 +54,7 @@ export default defineNuxtConfig({
     provider: 'bunny',
     defaults: {
       weights: [300, 400, 500, 600, 700],
+      subsets: ['latin'],
     },
   },
   site: {
