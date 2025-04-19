@@ -1,4 +1,7 @@
 <script setup lang="ts">
+// import sport from '@/assets/images/sport.jpeg'
+// import puisi from '@/assets/images/puisi.jpeg'
+
 defineOgImageComponent('default')
 useSeoMeta({
   title: 'Aktivitas dan Kegiatan',
