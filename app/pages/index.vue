@@ -31,6 +31,13 @@ const { data: stories } = await useLazyAsyncData(
   },
 )
 
+const toReleasesPage = () => {
+  window.open(
+    'https://github.com/IBP-engineering/ybp-web/blob/main/releases.md',
+    '_blank',
+  )
+}
+
 const storiesFiltered = computed(() => {
   // @ts-expect-error need to fix later
   return mapStoryTag(stories.value)
@@ -39,7 +46,13 @@ const storiesFiltered = computed(() => {
 
 <template>
   <div>
-    <div class="grid size-full place-items-center">
+    <div class="grid relative size-full place-items-center">
+      <div class="absolute -top-4">
+        <SharedRainbowButton title="To releases page" @click="toReleasesPage">
+          <span class="mr-2">v0.2.1 is out </span>
+          <UIcon name="ph:arrow-circle-up-right" size="17"
+        /></SharedRainbowButton>
+      </div>
       <div
         class="relative mt-20 flex size-full items-center justify-center overflow-hidden xl:h-[400px]"
       >

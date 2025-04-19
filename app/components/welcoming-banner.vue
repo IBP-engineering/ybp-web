@@ -1,4 +1,6 @@
 <script setup lang="ts">
+// @deprecated component
+
 const cookieBanner = useCookie('welcome020', {
   maxAge: 60 * 60 * 24 * 30 * 12, // 1 year
 })
@@ -19,7 +21,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <UModal v-model:open="isOpen" @close="closeModal" class="w-full md:max-w-2xl">
+  <UModal v-model:open="isOpen" class="w-full md:max-w-2xl" @close="closeModal">
     <template #content>
       <UCard
         :ui="{

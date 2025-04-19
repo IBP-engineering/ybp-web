@@ -119,14 +119,12 @@ const dropdownItems: DropdownMenuItem[][] = [
           </NuxtLink>
           <ul class="mx-auto hidden items-center space-x-2 md:flex">
             <li v-for="link in navitems" :key="link.to">
-              <UChip :show="link.to === '/reading-habits'" size="lg" text="NEW">
-                <NuxtLink
-                  :to="link.to"
-                  class="hover:bg-primary-200 hover:border-primary-300 focus:hover:border-primary-400 focus:hover:text-primary-900 hover:text-primary-900 focus:hover:bg-primary-100 ring-primary-500 rounded-lg border-2 border-transparent px-4 py-1 text-neutral-900 transition duration-300 ease-out outline-none focus-visible:ring md:w-auto"
-                >
-                  {{ link.label }}
-                </NuxtLink>
-              </UChip>
+              <NuxtLink
+                :to="link.to"
+                class="hover:bg-primary-200 hover:border-primary-300 focus:hover:border-primary-400 focus:hover:text-primary-900 hover:text-primary-900 focus:hover:bg-primary-100 ring-primary-500 rounded-lg border-2 border-transparent px-4 py-1 text-neutral-900 transition duration-300 ease-out outline-none focus-visible:ring md:w-auto"
+              >
+                {{ link.label }}
+              </NuxtLink>
             </li>
           </ul>
         </div>
@@ -241,7 +239,6 @@ const dropdownItems: DropdownMenuItem[][] = [
     </nav>
 
     <main class="z-10 mt-[7rem] mb-24 h-full md:mt-[8rem]">
-      <WelcomingBanner />
       <slot />
     </main>
 
