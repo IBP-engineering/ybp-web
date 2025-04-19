@@ -1,6 +1,7 @@
 <script setup lang="ts">
-// import sport from '@/assets/images/sport.jpeg'
-// import puisi from '@/assets/images/puisi.jpeg'
+import malamImg from '@/assets/images/imajinasi.webp'
+import puisiImg from '@/assets/images/puisi.jpeg'
+import sportImg from '@/assets/images/sport.webp'
 
 defineOgImageComponent('default')
 useSeoMeta({
@@ -158,7 +159,7 @@ const collabs = [
 
     <ActivitiesSection
       id="malam-imajinasi"
-      img="/assets/activities/imajinasi.webp"
+      :img="malamImg"
       title="Malam Imajinasi"
       use-native-img
     >
@@ -217,7 +218,7 @@ const collabs = [
 
     <ActivitiesSection
       id="puisi"
-      img="/assets/activities/puisi.jpeg"
+      :img="puisiImg"
       title="Deklamasi Puisi"
       use-native-img
     >
@@ -233,7 +234,7 @@ const collabs = [
 
     <ActivitiesSection
       id="sports-club"
-      img="/assets/activities/sport.webp"
+      :img="sportImg"
       title="Sports Club"
       use-native-img
     >
