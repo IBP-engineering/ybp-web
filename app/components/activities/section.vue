@@ -19,13 +19,14 @@ const src = isDEV
     :id="id"
     class="mt-32 flex scroll-m-28 flex-col items-center justify-center"
   >
-    <NuxtImg
+    <img
       :src="src"
       :width="width"
       :height="height"
       alt="Activity cover"
       class="mx-auto w-[700px] h-[400px] object-center object-cover rounded-xl border border-neutral-300 shadow-lg"
       loading="lazy"
+      decoding="async"
     />
 
     <h2 class="mt-4 text-3xl leading-relaxed font-bold">{{ title }}</h2>
