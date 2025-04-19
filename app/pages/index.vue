@@ -5,7 +5,7 @@ useHead({
 })
 
 const supabase = useSupabaseClient()
-
+const appConfig = useAppConfig()
 const { data: stories } = await useLazyAsyncData(
   'stories/favorites',
   async () => {
@@ -49,7 +49,7 @@ const storiesFiltered = computed(() => {
     <div class="grid relative size-full place-items-center">
       <div class="absolute -top-4">
         <SharedRainbowButton title="To releases page" @click="toReleasesPage">
-          <span class="mr-2">v0.2.1 is out </span>
+          <span class="mr-2">v{{ appConfig.appVersion }} is out </span>
           <UIcon name="ph:arrow-circle-up-right" size="17"
         /></SharedRainbowButton>
       </div>
