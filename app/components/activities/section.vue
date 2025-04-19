@@ -15,9 +15,10 @@ defineProps<{
       :src="img"
       width="700"
       height="300"
-      alt="yaudah"
-      class="mx-auto rounded-xl border border-neutral-300 shadow-lg"
+      alt="Activity cover"
+      class="mx-auto w-[700px] rounded-xl border border-neutral-300 shadow-lg"
       loading="lazy"
+      :quality="90"
     />
 
     <h2 class="mt-4 text-3xl leading-relaxed font-bold">{{ title }}</h2>
