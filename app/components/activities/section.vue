@@ -14,10 +14,9 @@ defineProps<{
     <NuxtImg
       :src="img"
       width="700"
-      height="300"
+      height="400"
       alt="Activity cover"
-      class="mx-auto w-[700px] h-[300px] object-center object-cover rounded-xl border border-neutral-300 shadow-lg"
-      loading="lazy"
+      class="mx-auto w-[700px] h-[400px] object-center object-cover rounded-xl border border-neutral-300 shadow-lg"
       :quality="100"
     />
 
