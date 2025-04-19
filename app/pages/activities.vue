@@ -160,6 +160,7 @@ const collabs = [
       id="malam-imajinasi"
       img="/assets/activities/imajinasi.jpg"
       title="Malam Imajinasi"
+      use-native-img
     >
       <p class="md:3/4 text-center text-neutral-600 lg:w-1/2">
         Nggak bisa tidur karena overthinking? Wajar kok, kamu cuma perlu ngobrol
@@ -218,6 +219,7 @@ const collabs = [
       id="puisi"
       img="/assets/activities/puisi.jpeg"
       title="Deklamasi Puisi"
+      use-native-img
     >
       <p class="md:3/4 text-center text-neutral-600 lg:w-1/2">
         Punya puisi yang ingin didengar banyak orang? Sekarang saatnya. Yogya
@@ -233,6 +235,7 @@ const collabs = [
       id="sports-club"
       img="/assets/activities/sport.jpeg"
       title="Sports Club"
+      use-native-img
     >
       <p class="md:3/4 text-center text-neutral-600 lg:w-1/2">
         Meningkatkan wawasan itu penting, tapi kalau fisik nggak dijaga, gimana

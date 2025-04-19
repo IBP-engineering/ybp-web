@@ -1,17 +1,13 @@
 <script setup lang="ts">
-const props = defineProps<{
+defineProps<{
   img: string
   id: string
   title: string
+  useNativeImg?: boolean
 }>()
 
-const isDEV = import.meta.env.DEV
-const currentUrl = import.meta.server ? '' : window.location.origin
 const width = 700
 const height = 400
-const src = isDEV
-  ? props.img
-  : `https://wsrv.nl/?url=${currentUrl.concat(props.img)}&w=${width}&h=${height}&output=webp`
 </script>
 
 <template>
@@ -20,13 +16,23 @@ const src = isDEV
     class="mt-32 flex scroll-m-28 flex-col items-center justify-center"
   >
     <img
-      :src="src"
+      v-if="useNativeImg"
+      :src="img"
       :width="width"
       :height="height"
       alt="Activity cover"
       class="mx-auto w-[700px] h-[400px] object-center object-cover rounded-xl border border-neutral-300 shadow-lg"
       loading="lazy"
       decoding="async"
+    />
+    <NuxtImg
+      v-else
+      :src="img"
+      :width="width"
+      :height="height"
+      alt="Activity cover"
+      class="mx-auto w-[700px] h-[400px] object-center object-cover rounded-xl border border-neutral-300 shadow-lg"
+      loading="lazy"
     />
 
     <h2 class="mt-4 text-3xl leading-relaxed font-bold">{{ title }}</h2>
