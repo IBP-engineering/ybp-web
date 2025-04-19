@@ -259,7 +259,14 @@ const dropdownItems: DropdownMenuItem[][] = [
             />
             <div class="mt-4 flex items-center">
               <small class="text-neutral-600">
-                Part of <b>Indonesia Book Party</b>
+                Part of
+                <ULink
+                  external
+                  to="https://indobookparty.org"
+                  class="font-bold hover:underline"
+                  title="To Indonesia Book Party official page"
+                  >Indonesia Book Party</ULink
+                >
               </small>
             </div>
             <p class="mt-8 text-neutral-600">
