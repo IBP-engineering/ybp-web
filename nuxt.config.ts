@@ -4,6 +4,7 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   image: {
     format: ['avif', 'webp'],
+    provider: 'ipx',
   },
   css: ['~/styles/tailwind.css'],
   routeRules: {
