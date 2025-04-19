@@ -47,7 +47,7 @@ const storiesFiltered = computed(() => {
 <template>
   <div>
     <div class="grid relative size-full place-items-center">
-      <div class="absolute -top-4">
+      <div class="absolute -top-4 z-10">
         <SharedRainbowButton title="To releases page" @click="toReleasesPage">
           <span class="mr-2">v{{ appConfig.appVersion }} is out </span>
           <UIcon name="ph:arrow-circle-up-right" size="17"
