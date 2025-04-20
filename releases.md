@@ -6,6 +6,10 @@ A peek into the exciting evolution of the Yogyakarta Book Party web app!
 
 This release is all about creating a smoother and more enjoyable experience for our book-loving community!
 
+**🎉 Exciting News! We Have a New Home! 🎉**
+
+You can now find us at our new official domain: **https://www.ykbookparty.org**. Please update your bookmarks!
+
 **📣 Stay Informed! New Update Banner on Homepage!**
 
 You'll now see a small, friendly banner at the top of the homepage whenever there's a new release or important update. Keep an eye out for it to stay in the loop and discover the latest improvements!

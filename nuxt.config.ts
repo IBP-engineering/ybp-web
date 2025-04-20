@@ -57,7 +57,7 @@ export default defineNuxtConfig({
     },
   },
   site: {
-    url: 'https://yogyakarta.bookparty.id',
+    url: 'https://www.ykbookparty.org',
     name: 'Yogyakarta Book Party',
     locale: 'id',
     description:
