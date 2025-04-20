@@ -9,7 +9,7 @@ const props = defineProps<{
 
 const isOpen = defineModel<boolean>()
 
-const options: { value: StoryStatus; label: string }[] = [
+const items: { value: StoryStatus; label: string }[] = [
   {
     value: 'pending',
     label: 'Pending',
@@ -74,7 +74,7 @@ const saveStatus = async () => {
     toast.add({
       title: 'Berhasil',
       description: 'Status Cerita berhasil diubah',
-      color: 'green',
+      color: 'success',
     })
   } catch (error) {
     console.error(error)
@@ -84,43 +84,36 @@ const saveStatus = async () => {
 </script>
 
 <template>
-  <UModal v-model="isOpen">
-    <UCard
-      :ui="{
-        ring: '',
-        divide: 'divide-y divide-gray-100 dark:divide-gray-800',
-      }"
-    >
-      <template #header> Ubah status Cerita </template>
+  <UModal v-model:open="isOpen">
+    <template #content>
+      <UCard>
+        <template #header> Ubah status Cerita </template>
 
-      <URadioGroup
-        v-model="selected"
-        legend="Pilih status"
-        :options="options"
-      />
-      <UTextarea
-        v-model="reason"
-        class="mt-4"
-        placeholder="Alasan (opsional)"
-      />
+        <URadioGroup v-model="selected" legend="Pilih status" :items="items" />
+        <UTextarea
+          v-model="reason"
+          class="mt-4 w-full"
+          placeholder="Alasan (opsional)"
+        />
 
-      <div class="mt-4 border-t py-2">
-        <b>Riwayat</b>
-        <StoryHistories class="mt-4" :story-histories="storyHistories" />
-      </div>
-
-      <template #footer>
-        <div class="flex items-center justify-end gap-4">
-          <UButton
-            :loading="isLoading"
-            color="gray"
-            variant="soft"
-            @click="isOpen = false"
-            >Tutup</UButton
-          >
-          <UButton :loading="isLoading" @click="saveStatus">Simpan</UButton>
+        <div class="mt-4 border-t py-2">
+          <b>Riwayat</b>
+          <StoryHistories class="mt-4" :story-histories="storyHistories" />
         </div>
-      </template>
-    </UCard>
+
+        <template #footer>
+          <div class="flex items-center justify-end gap-4">
+            <UButton
+              :loading="isLoading"
+              color="neutral"
+              variant="soft"
+              @click="isOpen = false"
+              >Tutup</UButton
+            >
+            <UButton :loading="isLoading" @click="saveStatus">Simpan</UButton>
+          </div>
+        </template>
+      </UCard>
+    </template>
   </UModal>
 </template>

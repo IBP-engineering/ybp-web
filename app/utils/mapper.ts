@@ -8,6 +8,10 @@ type StoryWithTags = (Story & {
 export function mapStoryTag(stories: Partial<StoryWithTags>) {
   const supabase = useSupabaseClient()
 
+  if (!stories) {
+    return []
+  }
+
   return stories.map(story => {
     const coverWithPath = story.cover_path
       ? supabase.storage.from('story-cover').getPublicUrl(story.cover_path).data

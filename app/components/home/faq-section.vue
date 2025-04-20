@@ -35,16 +35,18 @@ const faqs = [
 </script>
 
 <template>
-  <section class="mb-4 mt-24">
-    <h2 id="faq" class="text-3xl font-semibold leading-relaxed">FAQ</h2>
-    <p class="text-gray-600">
+  <section class="mt-24 mb-4">
+    <h2 id="faq" class="scroll-m-28 text-3xl leading-relaxed font-semibold">
+      FAQ
+    </h2>
+    <p class="text-neutral-600">
       Punya pertanyaan seputar Yogyakarta Book Party? Yuk, cekidot FAQ-nya! 👇
     </p>
   </section>
 
   <div class="md:w-1/2">
     <UAccordion color="primary" variant="soft" :items="faqs" multiple />
-    <UDivider class="my-2" label="ATAU" />
+    <USeparator class="my-2" label="ATAU" />
     <p>
       Untuk pertanyaan lebih lanjut, kamu bisa langsung menghubungi lewat
       Instagram

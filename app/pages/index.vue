@@ -5,7 +5,7 @@ useHead({
 })
 
 const supabase = useSupabaseClient()
-
+const appConfig = useAppConfig()
 const { data: stories } = await useLazyAsyncData(
   'stories/favorites',
   async () => {
@@ -31,6 +31,13 @@ const { data: stories } = await useLazyAsyncData(
   },
 )
 
+const toReleasesPage = () => {
+  window.open(
+    'https://github.com/IBP-engineering/ybp-web/blob/main/releases.md',
+    '_blank',
+  )
+}
+
 const storiesFiltered = computed(() => {
   // @ts-expect-error need to fix later
   return mapStoryTag(stories.value)
@@ -39,7 +46,13 @@ const storiesFiltered = computed(() => {
 
 <template>
   <div>
-    <div class="grid size-full place-items-center">
+    <div class="grid relative size-full place-items-center">
+      <div class="absolute -top-4 z-10">
+        <SharedRainbowButton title="To releases page" @click="toReleasesPage">
+          <span class="mr-2">v{{ appConfig.appVersion }} is out </span>
+          <UIcon name="ph:arrow-circle-up-right" size="17"
+        /></SharedRainbowButton>
+      </div>
       <div
         class="relative mt-20 flex size-full items-center justify-center overflow-hidden xl:h-[400px]"
       >
@@ -49,7 +62,7 @@ const storiesFiltered = computed(() => {
           >
             <small class="block tracking-widest">KOMUNITAS BUKU</small>
             <h1
-              class="text-5xl font-bold !leading-tight md:text-7xl lg:text-8xl"
+              class="text-5xl !leading-tight font-bold md:text-7xl lg:text-8xl"
             >
               Yogya<span
                 class="via-primary-400 to-primary-300 bg-gradient-to-tr from-black bg-clip-text text-transparent"
@@ -57,7 +70,7 @@ const storiesFiltered = computed(() => {
               >
             </h1>
             <span class="text-xl font-medium md:text-3xl">Book Party</span>
-            <p class="mt-8 text-sm text-gray-600 md:mt-6 md:text-lg">
+            <p class="mt-8 text-sm text-neutral-600 md:mt-6 md:text-lg">
               #baca #literasi #inklusif
             </p>
           </section>
@@ -74,7 +87,7 @@ const storiesFiltered = computed(() => {
 
     <LazyHomeHeroGallery />
 
-    <HomeOurAgenda />
+    <HomeOurActivities />
 
     <div class="container mx-auto px-4 py-24 md:px-0 md:py-32">
       <h2 class="text-lg font-bold">🔥 Cerita Terbaru</h2>
@@ -93,7 +106,7 @@ const storiesFiltered = computed(() => {
         <UButton
           variant="ghost"
           trailing-icon="heroicons:arrow-small-right-20-solid"
-          color="gray"
+          color="neutral"
           to="/stories"
           >Cerita lainnya</UButton
         >

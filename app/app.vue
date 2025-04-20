@@ -2,12 +2,15 @@
   <NuxtLayout>
     <NuxtLoadingIndicator />
     <NuxtRouteAnnouncer />
-    <NuxtPage />
-    <UNotifications />
+    <UApp>
+      <NuxtPage />
+    </UApp>
   </NuxtLayout>
 </template>
 
 <style>
+@import url(./styles/tailwind.css);
+
 html,
 body,
 #__nuxt {

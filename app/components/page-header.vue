@@ -20,7 +20,7 @@ defineEmits<{
 const openNavModal = ref(false)
 
 //! duplicate with dashboard layout
-const links = [
+const items = [
   {
     label: 'Close',
     click: () => (openNavModal.value = false),
@@ -44,7 +44,7 @@ const currentUser = useNuxtData('current-user')
 
 if (currentUser.data.value.roles.id === USER_ROLE.admin) {
   // only user with role admin
-  links.push({
+  items.push({
     label: 'Users',
     icon: 'heroicons:user-group',
     to: '/hq/users',
@@ -59,11 +59,11 @@ if (currentUser.data.value.roles.id === USER_ROLE.admin) {
       v-if="mode === 'list'"
       class="mx-auto hidden max-w-screen-xl items-center gap-2 border-b py-2 md:flex"
     >
-      <div v-for="link in links" :key="link.icon">
+      <div v-for="link in items" :key="link.icon">
         <NuxtLink
           v-if="link.to"
           :to="link.to"
-          class="color-primary-900 hover:bg-primary-50 flex w-full items-center gap-2 rounded-md px-4 py-3 font-medium transition md:w-auto"
+          class="text-primary-900 hover:bg-primary-50 flex w-full items-center gap-2 rounded-md px-4 py-3 font-medium transition md:w-auto"
           active-class="bg-primary-100"
         >
           {{ link.label }}
@@ -77,7 +77,7 @@ if (currentUser.data.value.roles.id === USER_ROLE.admin) {
       <div class="flex flex-col gap-4">
         <ULink
           v-if="mode === 'detail'"
-          class="focue:ring inline-flex w-fit items-center gap-1 text-gray-600 outline-none hover:bg-gray-200"
+          class="focue:ring ring-primary-500 inline-flex w-fit items-center gap-1 text-neutral-600 outline-none hover:bg-neutral-200"
           :to="backButtonHref"
           ><UIcon name="i-heroicons:chevron-left" /> {{ backButtonText }}</ULink
         >

@@ -1,7 +1,9 @@
 <script setup lang="ts">
+import type { PostgrestError } from '@supabase/supabase-js'
 import { format } from 'date-fns'
 import id from 'date-fns/locale/id'
 import type { Database } from '~/types/database.types'
+import type { Story, Tag, User } from '~/types/entities'
 
 definePageMeta({
   layout: 'hq',
@@ -13,7 +15,7 @@ const slug = route.params.slug
 const openReview = ref(false)
 
 const { data: story } = await useAsyncData(`hq/stories/${slug}`, async () => {
-  const { data, error } = await supabase
+  const { data, error } = (await supabase
     .from('stories')
     .select(
       `*, 
@@ -22,7 +24,10 @@ const { data: story } = await useAsyncData(`hq/stories/${slug}`, async () => {
       `,
     )
     .eq('slug', slug.toString())
-    .single()
+    .single()) as {
+    data: Story & { author: User; tags: [{ tag_id: Tag[] }] }
+    error: PostgrestError
+  }
 
   if (error) {
     console.error(error)
@@ -70,21 +75,21 @@ const { data: story } = await useAsyncData(`hq/stories/${slug}`, async () => {
         />
         <div class="flex flex-col px-4 py-3">
           <StoryBadgeStatus :status="story.status" />
-          <h2 class="text-xl font-bold leading-relaxed md:text-2xl">
+          <h2 class="text-xl leading-relaxed font-bold md:text-2xl">
             {{ story.title }}
           </h2>
           <div v-if="story.tags?.length > 0" class="mt-2 flex gap-2">
             <div
               v-for="tag in story.tags"
               :key="tag.id"
-              class="rounded border border-gray-300 bg-gray-200 px-2"
+              class="rounded border border-neutral-300 bg-neutral-200 px-2"
             >
               <UTooltip :title="tag.title" :text="tag.description">
                 <span>#{{ tag?.slug }}</span>
               </UTooltip>
             </div>
           </div>
-          <small class="mt-4 text-gray-600">
+          <small class="mt-4 text-neutral-600">
             Ditulis oleh
             {{ story.author.display_name }}, pada
             {{
@@ -93,7 +98,7 @@ const { data: story } = await useAsyncData(`hq/stories/${slug}`, async () => {
               })
             }}
           </small>
-          <small class="text-gray-600">
+          <small class="text-neutral-600">
             Update terakhir pada
             {{
               format(new Date(story.updated_at), 'dd MMM yyyy, HH:mm', {

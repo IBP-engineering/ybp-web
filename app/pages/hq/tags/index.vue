@@ -91,7 +91,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         .eq('id', selectedTagId.value)
       toast.add({
         title: 'Berhasil mengubah tag',
-        color: 'green',
+        color: 'success',
       })
     } else {
       await supabase.from('tags').insert({
@@ -103,7 +103,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
       })
       toast.add({
         title: 'Berhasil menambahkan tag',
-        color: 'green',
+        color: 'success',
       })
     }
 
@@ -155,8 +155,7 @@ const closeTagDetail = () => {
         >
           <UBadge
             v-if="!tag.is_active"
-            class="mr-1"
-            color="red"
+            color="error"
             variant="soft"
             label="Tidak aktif"
           />
@@ -170,101 +169,98 @@ const closeTagDetail = () => {
       </div>
     </div>
 
-    <USlideover v-model="isOpenDetail" @close="closeTagDetail">
-      <UCard
-        class="flex flex-1 flex-col"
-        :ui="{
-          body: { base: 'flex-1' },
-          ring: '',
-          divide: 'divide-y divide-gray-100 dark:divide-gray-800',
-        }"
-      >
-        <template #header>
-          <div class="flex items-center justify-between">
-            <h3
-              class="text-base font-semibold leading-6 text-gray-900 dark:text-white"
-            >
-              <template v-if="selectedTagId">
-                Edit tag #{{ tag?.slug }}
-              </template>
-              <template v-else>Tambah tag baru</template>
-            </h3>
-            <UButton
-              color="gray"
-              variant="ghost"
-              icon="i-heroicons-x-mark-20-solid"
-              class="-my-1"
-              @click="closeTagDetail"
-            />
-          </div>
-        </template>
+    <USlideover v-model:open="isOpenDetail" @close="closeTagDetail">
+      <template #content>
+        <UCard class="flex flex-1 flex-col">
+          <template #header>
+            <div class="flex items-center justify-between">
+              <h3
+                class="text-base leading-6 font-semibold text-neutral-900 dark:text-white"
+              >
+                <template v-if="selectedTagId">
+                  Edit tag #{{ tag?.slug }}
+                </template>
+                <template v-else>Tambah tag baru</template>
+              </h3>
+              <UButton
+                color="neutral"
+                variant="ghost"
+                icon="i-heroicons-x-mark-20-solid"
+                class="-my-1"
+                @click="closeTagDetail"
+              />
+            </div>
+          </template>
 
-        <UForm
-          :schema="v.safeParser(schema)"
-          :state="state"
-          class="space-y-4"
-          @submit="onSubmit"
-        >
-          <UFormGroup
-            required
-            label="Judul"
-            description="Akan otomatis mengubah slug"
-            name="title"
+          <UForm
+            :schema="schema"
+            :state="state"
+            class="space-y-4"
+            @submit="onSubmit"
           >
-            <UInput
-              v-model="state.title"
-              :loading="tagDetailStatus === 'pending'"
-              @input="e => (state.slug = e.target.value)"
-            />
-          </UFormGroup>
-
-          <div>
-            <b class="block text-sm text-gray-700">Slug</b>
-            <p>#{{ toSlug(state.slug, false) }}</p>
-          </div>
-
-          <UFormGroup label="Deskripsi" required name="description">
-            <UTextarea
-              v-model="state.description"
-              :loading="tagDetailStatus === 'pending'"
-            />
-          </UFormGroup>
-
-          <UFormGroup label="Aktif" required name="isActive">
-            <UToggle
-              v-model="state.isActive"
-              :loading="tagDetailStatus === 'pending'"
-            />
-          </UFormGroup>
-
-          <div v-if="tag" class="text-sm text-gray-600">
-            <p>
-              Dibuat oleh: {{ tag.createdBy.display_name }}(@{{
-                tag.createdBy.username
-              }})
-            </p>
-            <p>
-              {{
-                format(new Date(tag?.created_at.toString()), 'PPPppp', {
-                  locale: id,
-                })
-              }}
-            </p>
-          </div>
-
-          <div class="flex justify-end gap-4">
-            <UButton variant="outline" color="gray" @click="closeTagDetail"
-              >Batal</UButton
+            <UFormField
+              required
+              label="Judul"
+              description="Akan otomatis mengubah slug"
+              name="title"
             >
-            <UButton
-              :loading="isLoading || tagDetailStatus === 'pending'"
-              type="submit"
-            >
-              {{ Boolean(selectedTagId) ? 'Update' : 'Tambah' }}
-            </UButton>
-          </div>
-        </UForm>
-      </UCard>
+              <UInput
+                :loading="tagDetailStatus === 'pending'"
+                v-model="state.title"
+                class="w-full"
+                @input="e => (state.slug = e.target.value)"
+              />
+            </UFormField>
+
+            <div>
+              <b class="block text-sm text-neutral-700">Slug</b>
+              <p>#{{ toSlug(state.slug, false) }}</p>
+            </div>
+
+            <UFormField label="Deskripsi" required name="description">
+              <UTextarea
+                :loading="tagDetailStatus === 'pending'"
+                v-model="state.description"
+                class="w-full"
+              />
+            </UFormField>
+
+            <UFormField label="Aktif" required name="isActive">
+              <USwitch
+                :loading="tagDetailStatus === 'pending'"
+                v-model="state.isActive"
+              />
+            </UFormField>
+
+            <div v-if="tag" class="text-sm text-neutral-600">
+              <p>
+                Dibuat oleh: {{ tag.createdBy.display_name }}(@{{
+                  tag.createdBy.username
+                }})
+              </p>
+              <p>
+                {{
+                  format(new Date(tag?.created_at.toString()), 'PPPppp', {
+                    locale: id,
+                  })
+                }}
+              </p>
+            </div>
+
+            <div class="flex justify-end gap-4">
+              <UButton @click="closeTagDetail" variant="outline" color="neutral"
+                >Batal</UButton
+              >
+              <UButton
+                :loading="isLoading || tagDetailStatus === 'pending'"
+                type="submit"
+              >
+                {{ Boolean(selectedTagId) ? 'Update' : 'Tambah' }}
+              </UButton>
+            </div>
+          </UForm>
+        </UCard>
+      </template>
     </USlideover>
   </div>
 </template>

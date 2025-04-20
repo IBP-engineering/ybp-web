@@ -1,10 +1,13 @@
 <template>
   <div class="grid w-full grid-cols-1 gap-4 lg:grid-cols-2">
     <div class="flex flex-col justify-center lg:w-3/4">
-      <h2 id="about-us" class="text-3xl font-semibold leading-relaxed">
+      <h2
+        id="about-us"
+        class="scroll-m-28 text-3xl leading-relaxed font-semibold"
+      >
         Tentang Kami
       </h2>
-      <p class="tracking-wide text-gray-600">
+      <p class="tracking-wide text-neutral-600">
         Yogya Book Party percaya bahwa perubahan dimulai dari diri sendiri, dan
         kebiasaan baik tumbuh dari lingkungan yang positif. Sejak 2023, kami
         hadir sebagai ruang bagi anak muda yang ingin menjadikan membaca bagian

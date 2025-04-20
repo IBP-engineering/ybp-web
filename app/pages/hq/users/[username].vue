@@ -3,11 +3,11 @@ import {
   nonEmpty,
   object,
   pipe,
-  safeParser,
   string,
   maxLength,
   type InferInput,
   boolean,
+  number,
 } from 'valibot'
 import type { FormSubmitEvent } from '#ui/types'
 import type { Database } from '~/types/database.types'
@@ -26,7 +26,7 @@ const schema = object({
   location: string(),
   isActive: boolean(),
   bio: pipe(string(), maxLength(250, 'Maksimal 250 karakter')),
-  role: pipe(string(), nonEmpty('Mohon pilih role anda')),
+  role: pipe(number()),
 })
 
 type Schema = InferInput<typeof schema>
@@ -102,7 +102,7 @@ const state = reactive<Schema>({
   username: user.value.username,
   displayName: user.value.display_name,
   bio: user.value.bio ?? '',
-  role: String(user.value.roles.id),
+  role: user.value.roles.id,
   location: user.value.location ?? '',
   isActive: user.value.is_active,
 })
@@ -122,7 +122,7 @@ async function updateProfile(event: FormSubmitEvent<Schema>) {
     toast.add({
       title: 'Terjadi kesalahan ketika mengubah user',
       description: 'Username telah digunakan',
-      color: 'red',
+      color: 'error',
     })
     isLoading.value = false
     await Promise.allSettled([refreshUser(), refreshStories()])
@@ -148,7 +148,7 @@ async function updateProfile(event: FormSubmitEvent<Schema>) {
     toast.add({
       title: 'Terjadi kesalahan ketika mengubah user',
       description: errorUpdate.message,
-      color: 'red',
+      color: 'error',
     })
     isLoading.value = false
     await Promise.allSettled([refreshUser(), refreshStories()])
@@ -157,7 +157,7 @@ async function updateProfile(event: FormSubmitEvent<Schema>) {
 
   toast.add({
     title: 'Berhasil mengubah user',
-    color: 'green',
+    color: 'success',
   })
   openEditProfileSlide.value = false
   isLoading.value = false
@@ -192,21 +192,23 @@ onMounted(() => {
         <div class="md:w-3/4">
           <div class="inline-flex gap-2">
             <RoleBadge :name="user.roles.name" />
-            <UBadge v-if="!user.is_active" color="fuchsia" size="xs"
+            <UBadge v-if="!user.is_active" color="neutral" size="xs"
               >Tidak aktif</UBadge
             >
           </div>
           <h1 class="text-xl font-bold md:mb-1 md:text-4xl">
             {{ user.display_name }}
           </h1>
-          <p class="text-sm text-gray-600 md:text-base">@{{ user.username }}</p>
+          <p class="text-sm text-neutral-600 md:text-base">
+            @{{ user.username }}
+          </p>
           <p class="mt-1 text-balance">
             {{ user.bio }}
           </p>
           <div class="my-3 flex flex-col gap-x-3 gap-y-1 md:flex-row">
             <p
               :title="new Date(user.created_at).toString()"
-              class="inline-flex items-center gap-1 text-gray-600"
+              class="inline-flex items-center gap-1 text-neutral-600"
             >
               <UIcon name="i-heroicons:calendar-days" class="h-5 w-5" />
               Bergabung pada
@@ -219,7 +221,7 @@ onMounted(() => {
             </p>
             <p
               v-if="Boolean(user.location)"
-              class="inline-flex items-center gap-1 text-gray-600"
+              class="inline-flex items-center gap-1 text-neutral-600"
             >
               <UIcon name="heroicons:map-pin" class="h-5 w-5" />
               {{ user.location }}
@@ -229,7 +231,7 @@ onMounted(() => {
             block
             class="inline-flex md:hidden"
             variant="outline"
-            color="gray"
+            color="neutral"
             @click="openEditProfileSlide = true"
             >Edit</UButton
           >
@@ -240,7 +242,7 @@ onMounted(() => {
           <UButton
             class="hidden md:inline-flex"
             variant="outline"
-            color="gray"
+            color="neutral"
             @click="openEditProfileSlide = true"
             >Edit</UButton
           >
@@ -255,81 +257,83 @@ onMounted(() => {
             :story="story"
           />
         </div>
-        <p v-else class="text-gray-600">Belum ada cerita yang ditambahkan</p>
+        <p class="text-neutral-600" v-else>Belum ada cerita yang ditambahkan</p>
       </div>
     </div>
 
-    <USlideover v-model="openEditProfileSlide">
-      <UCard
-        class="flex flex-1 flex-col"
-        :ui="{
-          body: { base: 'flex-1' },
-          ring: '',
-          divide: 'divide-y divide-gray-100 dark:divide-gray-800',
-        }"
-      >
-        <template #header>
-          <div class="flex items-center justify-between">
-            <h3
-              class="text-base font-semibold leading-6 text-gray-900 dark:text-white"
+    <USlideover
+      v-model:open="openEditProfileSlide"
+      title="Edit User"
+      close-icon="i-heroicons-x-mark-20-solid"
+    >
+      <template #body>
+        <div class="flex flex-1 flex-col">
+          <UForm
+            :schema="schema"
+            :state="state"
+            @submit="updateProfile"
+            class="flex w-full flex-col"
+          >
+            <UFormField required label="Username" name="username">
+              <UInput
+                v-model="state.username"
+                :loading="isLoading"
+                class="w-full"
+                type="text"
+              />
+            </UFormField>
+            <UFormField required class="mt-4" label="Nama" name="displayName">
+              <UInput
+                v-model="state.displayName"
+                class="w-full"
+                :loading="isLoading"
+              />
+            </UFormField>
+            <UFormField class="mt-4" label="Domisili" name="location">
+              <UInput
+                v-model="state.location"
+                class="w-full"
+                :loading="isLoading"
+              />
+            </UFormField>
+            <UFormField
+              required
+              v-if="user.roles.name !== 'admin'"
+              class="mt-4"
+              label="Role"
+              name="role"
             >
-              Edit user
-            </h3>
-            <UButton
-              color="gray"
-              variant="ghost"
-              icon="i-heroicons-x-mark-20-solid"
-              class="-my-1"
-              @click="openEditProfileSlide = false"
-            />
-          </div>
-        </template>
+              <USelect
+                class="w-full"
+                v-model="state.role"
+                :items="roleOptions"
+              />
+            </UFormField>
+            <UFormField class="mt-4" label="Aktif" name="isActive">
+              <USwitch color="primary" v-model="state.isActive" />
+            </UFormField>
+            <UFormField class="mt-4" label="Bio" name="bio">
+              <UTextarea
+                v-model="state.bio"
+                :loading="isLoading"
+                class="w-full"
+              />
+            </UFormField>
 
-        <UForm
-          :schema="safeParser(schema)"
-          :state="state"
-          class="flex w-full flex-col"
-          @submit="updateProfile"
-        >
-          <UFormGroup required label="Username" name="username">
-            <UInput v-model="state.username" :loading="isLoading" type="text" />
-          </UFormGroup>
-          <UFormGroup required class="mt-4" label="Nama" name="displayName">
-            <UInput v-model="state.displayName" :loading="isLoading" />
-          </UFormGroup>
-          <UFormGroup class="mt-4" label="Domisili" name="location">
-            <UInput v-model="state.location" :loading="isLoading" />
-          </UFormGroup>
-          <UFormGroup
-            v-if="user.roles.name !== 'admin'"
-            required
-            class="mt-4"
-            label="Role"
-            name="role"
-          >
-            <USelect v-model="state.role" :options="roleOptions" />
-          </UFormGroup>
-          <UFormGroup class="mt-4" label="Aktif" name="isActive">
-            <UToggle v-model="state.isActive" color="primary" />
-          </UFormGroup>
-          <UFormGroup class="mt-4" label="Bio" name="bio">
-            <UTextarea v-model="state.bio" :loading="isLoading" />
-          </UFormGroup>
-
-          <UButton block :loading="isLoading" class="mb-2 mt-6" type="submit">
-            Simpan
-          </UButton>
-          <UButton
-            block
-            variant="ghost"
-            color="gray"
-            :loading="isLoading"
-            @click="openEditProfileSlide = false"
-          >
-            Batal
-          </UButton>
-        </UForm>
-      </UCard>
+            <div class="mt-6 flex items-center justify-end gap-4">
+              <UButton
+                @click="openEditProfileSlide = false"
+                variant="ghost"
+                color="neutral"
+                :loading="isLoading"
+              >
+                Batal
+              </UButton>
+              <UButton :loading="isLoading" type="submit"> Simpan </UButton>
+            </div>
+          </UForm>
+        </div>
+      </template>
     </USlideover>
   </div>
 </template>

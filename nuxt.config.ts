@@ -1,15 +1,21 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  compatibilityDate: '2024-04-03',
+  compatibilityDate: '2024-11-01',
   devtools: { enabled: true },
   image: {
     format: ['avif', 'webp'],
   },
+  css: ['~/styles/tailwind.css'],
   routeRules: {
     '/goodies': { prerender: true },
     '/panduan': {
       redirect:
         'https://ybp-eng.notion.site/Panduan-Pengguna-18dcff94653a800eac48d49c740b9ad5',
+    },
+  },
+  router: {
+    options: {
+      scrollBehaviorType: 'smooth',
     },
   },
   nitro: {
@@ -25,6 +31,7 @@ export default defineNuxtConfig({
     '@vueuse/nuxt',
     '@nuxtjs/seo',
     '@nuxt/image',
+    'motion-v/nuxt',
   ],
   future: {
     compatibilityVersion: 4,
@@ -32,7 +39,6 @@ export default defineNuxtConfig({
   experimental: {
     viewTransition: true,
     asyncEntry: true,
-    buildCache: true,
   },
   supabase: {
     redirect: false,
@@ -47,10 +53,11 @@ export default defineNuxtConfig({
     provider: 'bunny',
     defaults: {
       weights: [300, 400, 500, 600, 700],
+      subsets: ['latin'],
     },
   },
   site: {
-    url: 'https://yogyakarta.bookparty.id',
+    url: 'https://www.ykbookparty.org',
     name: 'Yogyakarta Book Party',
     locale: 'id',
     description:

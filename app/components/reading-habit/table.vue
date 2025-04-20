@@ -1,5 +1,8 @@
 <script setup lang="ts">
+import type { TableColumn } from '@nuxt/ui'
 import type { BookGenre, ReadingHabit, User } from '~/types/entities'
+
+const UButton = resolveComponent('UButton')
 
 const props = withDefaults(
   defineProps<{
@@ -16,51 +19,163 @@ const props = withDefaults(
   }>(),
   { withName: true, isLoading: false, viewOnly: false },
 )
-const columns = [
+
+type Column = {
+  number: number
+  id: string
+  name: string
+  title: string
+  page_count: number
+  genre: string
+  summary: string
+  created_at: string
+  point: number
+  update_count: number
+}
+
+const columns: TableColumn<Partial<Column>>[] = [
   {
-    key: 'number',
-    label: 'No.',
+    id: 'expand',
+    cell: ({ row }) =>
+      h(UButton, {
+        color: 'neutral',
+        variant: 'ghost',
+        icon: 'i-lucide-chevron-down',
+        square: true,
+        'aria-label': 'Expand',
+        ui: {
+          leadingIcon: [
+            'transition-transform',
+            row.getIsExpanded() ? 'duration-200 rotate-180' : '',
+          ],
+        },
+        onClick: () => row.toggleExpanded(),
+      }),
   },
   {
-    key: 'name',
-    label: 'Nama',
+    accessorKey: 'number',
+    header: 'No.',
   },
   {
-    key: 'title',
-    label: 'Judul',
+    accessorKey: 'name',
+    header: 'Nama',
   },
   {
-    key: 'page_count',
-    label: 'Jumlah Halaman',
-    sortable: true,
+    accessorKey: 'title',
+    header: 'Judul',
   },
   {
-    key: 'genre',
-    label: 'Genre',
-    sortable: true,
+    accessorKey: 'page_count',
+    header: ({ column }) => {
+      const isSorted = column.getIsSorted()
+
+      return h(UButton, {
+        color: 'neutral',
+        variant: 'ghost',
+        label: 'Jumlah Halaman',
+        icon: isSorted
+          ? isSorted === 'asc'
+            ? 'i-lucide-arrow-up-narrow-wide'
+            : 'i-lucide-arrow-down-wide-narrow'
+          : 'i-lucide-arrow-up-down',
+        class: '-mx-2.5',
+        onClick: () => column.toggleSorting(column.getIsSorted() === 'asc'),
+      })
+    },
   },
   {
-    key: 'summary',
-    label: 'Kesimpulan',
-    rowClass: 'max-w-64 truncate',
+    accessorKey: 'genre',
+    header: ({ column }) => {
+      const isSorted = column.getIsSorted()
+
+      return h(UButton, {
+        color: 'neutral',
+        variant: 'ghost',
+        label: 'Genre',
+        icon: isSorted
+          ? isSorted === 'asc'
+            ? 'i-lucide-arrow-up-narrow-wide'
+            : 'i-lucide-arrow-down-wide-narrow'
+          : 'i-lucide-arrow-up-down',
+        class: '-mx-2.5',
+        onClick: () => column.toggleSorting(column.getIsSorted() === 'asc'),
+      })
+    },
   },
   {
-    key: 'point',
-    label: 'Poin',
-    sortable: true,
+    accessorKey: 'summary',
+    header: 'Kesimpulan',
+    cell: ({ row }) =>
+      h(
+        'p',
+        {
+          class: 'max-w-64 truncate',
+        },
+        row.original.summary,
+      ),
   },
   {
-    key: 'actions',
+    accessorKey: 'point',
+    header: ({ column }) => {
+      const isSorted = column.getIsSorted()
+
+      return h(UButton, {
+        color: 'neutral',
+        variant: 'ghost',
+        label: 'Poin',
+        icon: isSorted
+          ? isSorted === 'asc'
+            ? 'i-lucide-arrow-up-narrow-wide'
+            : 'i-lucide-arrow-down-wide-narrow'
+          : 'i-lucide-arrow-up-down',
+        class: '-mx-2.5',
+        onClick: () => column.toggleSorting(column.getIsSorted() === 'asc'),
+      })
+    },
+  },
+  {
+    id: 'actions',
+    cell: ({ row }) => {
+      const viewOnly = props.viewOnly
+
+      if (viewOnly) {
+        return
+      }
+
+      return h(UButton, {
+        color: 'neutral',
+        variant: 'ghost',
+        size: 'xs',
+        icon: 'i-heroicons-pencil-square-20-solid',
+        disabled: row.original.update_count > 0,
+        click: () => handleOpenModal(row.original.id),
+      })
+    },
   },
 ]
 
 const page = defineModel('page', { type: Number })
 const pageCount = defineModel('pageCount', { type: Number, default: 10 })
 const searchQuery = ref('')
-const expand = ref({
-  openedRows: [],
-  row: {},
-})
+const expanded = ref()
+const sorting = ref([
+  {
+    id: 'number',
+    desc: false,
+  },
+  {
+    id: 'page_count',
+    desc: false,
+  },
+  {
+    id: 'genre',
+    desc: false,
+  },
+  {
+    id: 'point',
+    desc: false,
+  },
+])
 const openModal = ref(false)
 const idToUpdate = ref('')
 
@@ -84,20 +199,8 @@ const mapTableData = (data: typeof props.data) => {
   })
 }
 
-const calculatedData = computed(() => {
-  if (!searchQuery.value) {
-    return mapTableData(props.data)
-  }
-
-  const searchedData = props.data?.filter(book => {
-    return Object.values(book).some(value => {
-      return String(value)
-        .toLowerCase()
-        .includes(searchQuery.value.toLowerCase())
-    })
-  })
-
-  return mapTableData(searchedData)
+const mappedData = computed(() => {
+  return mapTableData(props.data)
 })
 
 const getPageNumber = (index: number) => {
@@ -105,12 +208,12 @@ const getPageNumber = (index: number) => {
   return globalIndexOffset + index + 1
 }
 
-const filteredColumns = computed(() => {
+const columnVisibility = computed(() => {
   if (props.withName) {
-    return columns
+    return { point: false }
   }
 
-  return columns.filter(col => col.key !== 'name')
+  return { name: false, point: false }
 })
 
 const handleOpenModal = (id: string) => {
@@ -120,37 +223,36 @@ const handleOpenModal = (id: string) => {
 </script>
 
 <template>
-  <div class="rounded-lg border border-gray-300 bg-white py-2 shadow">
-    <div class="flex border-b border-gray-200 px-3 py-3.5 dark:border-gray-700">
+  <div class="rounded-lg border border-neutral-300 bg-white py-2 shadow">
+    <div
+      class="flex border-b border-neutral-200 px-3 py-3.5 dark:border-neutral-700"
+    >
       <UInput v-model="searchQuery" placeholder="Cari sesuatu..." />
     </div>
     <UTable
-      v-model:expand="expand"
+      v-model:expanded="expanded"
       :loading="isLoading"
-      :columns="filteredColumns"
-      :rows="calculatedData"
+      :columns="columns"
+      :data="mappedData"
+      :ui="{
+        tr: 'data-[expanded=true]:bg-(--ui-bg-elevated)/50',
+        td: 'py-2.5 px-4',
+      }"
+      v-model:column-visibility="columnVisibility"
+      v-model:sorting="sorting"
+      v-model:global-filter="searchQuery"
     >
-      <template #expand="{ row }">
-        <div class="p-4">
-          <p class="text-sm">{{ row.summary }}</p>
-          <pre class="border border-gray-300 p-1 text-xs">
-Ditambahkan pada {{ row.created_at }}</pre
+      <template #expanded="{ row }">
+        <div class="whitespace-normal">
+          <p class="text-sm">{{ row.original.summary }}</p>
+          <pre class="border border-neutral-300 p-1 text-xs">
+Ditambahkan pada {{ row.original.created_at }}</pre
           >
         </div>
       </template>
-      <template v-if="!viewOnly" #actions-data="{ row }">
-        <UButton
-          color="gray"
-          variant="ghost"
-          size="xs"
-          icon="i-heroicons-pencil-square-20-solid"
-          :disabled="row.update_count > 0"
-          @click="() => handleOpenModal(row.id)"
-        />
-      </template>
     </UTable>
     <div
-      class="flex justify-end border-t border-gray-200 px-3 py-3.5 dark:border-gray-700"
+      class="flex justify-end border-t border-neutral-200 px-3 py-3.5 dark:border-neutral-700"
     >
       <UPagination v-model="page" :page-count="pageCount" :total="total" />
     </div>
