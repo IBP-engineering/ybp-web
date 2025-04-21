@@ -127,6 +127,13 @@ async function login(event: FormSubmitEvent<Schema>) {
           />
         </template>
       </UInput>
+      <template #hint>
+        <ULink
+          class="text-primary-600 text-xs hover:underline"
+          to="/forgot-password"
+          >Lupa Password?</ULink
+        >
+      </template>
     </UFormField>
 
     <UButton block :loading="isLoading" type="submit"> Masuk </UButton>
