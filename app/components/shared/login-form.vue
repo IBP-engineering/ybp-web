@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { nonEmpty, object, pipe, string, type InferInput } from 'valibot'
 import type { FormSubmitEvent } from '@nuxt/ui'
+import { type InferInput, nonEmpty, object, pipe, string } from 'valibot'
 
 const props = withDefaults(
   defineProps<{
@@ -19,6 +19,7 @@ type Schema = InferInput<typeof schema>
 const supabase = useSupabaseClient()
 const toast = useToast()
 const isLoading = ref(false)
+const show = ref(false)
 const state = reactive({
   email: '',
   password: '',
@@ -111,8 +112,21 @@ async function login(event: FormSubmitEvent<Schema>) {
         v-model="state.password"
         class="w-full"
         :loading="isLoading"
-        type="password"
-      />
+        :type="show ? 'text' : 'password'"
+        :ui="{ trailing: 'pe-1' }"
+        ><template #trailing>
+          <UButton
+            color="neutral"
+            variant="link"
+            size="sm"
+            :icon="show ? 'i-lucide-eye-off' : 'i-lucide-eye'"
+            :aria-label="show ? 'Hide password' : 'Show password'"
+            :aria-pressed="show"
+            aria-controls="password"
+            @click="show = !show"
+          />
+        </template>
+      </UInput>
     </UFormField>
 
     <UButton block :loading="isLoading" type="submit"> Masuk </UButton>

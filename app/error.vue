@@ -1,11 +1,9 @@
 <script setup lang="ts">
 import type { NuxtError } from '#app'
 
-const props = defineProps({
+defineProps({
   error: Object as () => NuxtError & { url: string },
 })
-
-console.error(props.error)
 
 const handleError = () => clearError({ redirect: '/' })
 </script>
@@ -34,7 +32,7 @@ const handleError = () => clearError({ redirect: '/' })
       </Shared3dText>
       <p class="mt-4">{{ error.message }}</p>
 
-      <UButton color="black" class="mt-8" size="sm" @click="handleError"
+      <UButton color="neutral" class="mt-8" size="sm" @click="handleError"
         >Go back home</UButton
       >
     </div>
