@@ -231,6 +231,9 @@ const handleOpenModal = (id: string) => {
     </div>
     <UTable
       v-model:expanded="expanded"
+      v-model:column-visibility="columnVisibility"
+      v-model:sorting="sorting"
+      v-model:global-filter="searchQuery"
       :loading="isLoading"
       :columns="columns"
       :data="mappedData"
@@ -238,9 +241,6 @@ const handleOpenModal = (id: string) => {
         tr: 'data-[expanded=true]:bg-(--ui-bg-elevated)/50',
         td: 'py-2.5 px-4',
       }"
-      v-model:column-visibility="columnVisibility"
-      v-model:sorting="sorting"
-      v-model:global-filter="searchQuery"
     >
       <template #expanded="{ row }">
         <div class="whitespace-normal">
