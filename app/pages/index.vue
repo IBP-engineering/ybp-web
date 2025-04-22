@@ -1,7 +1,7 @@
 <script setup lang="ts">
 defineOgImageComponent('default')
 useHead({
-  title: 'Home',
+  title: 'Komunitas buku di Yogyakarta',
 })
 
 const supabase = useSupabaseClient()
