@@ -61,22 +61,31 @@ async function sendEmail(event: FormSubmitEvent<Schema>) {
 
 <template>
   <div class="relative flex h-full w-full justify-center">
-    <div class="mx-auto mt-[10rem] flex w-full flex-col px-6 md:px-0">
+    <UButton
+      class="absolute top-4 left-2"
+      icon="ph:caret-left"
+      to="/"
+      variant="ghost"
+      color="neutral"
+      >Home</UButton
+    >
+
+    <div
+      class="mx-auto mt-[18rem] flex w-full flex-col px-6 md:px-0 md:w-[24rem]"
+    >
       <div>
         <NuxtImg
           src="/assets/logo.jpg"
-          width="150"
-          height="150"
-          class="z-20 mx-auto rounded-full border"
+          width="60"
+          height="60"
+          class="z-20 rounded-sm mx-auto md:mx-0 border"
           alt="YBP logo"
         />
       </div>
-      <div
-        class="z-20 mx-auto mt-6 flex w-full flex-col gap-4 rounded border bg-white p-4 shadow md:w-[24rem]"
-      >
+      <div class="z-20 mx-auto mt-6 flex w-full flex-col gap-4 rounded">
         <template v-if="!isSubmitted">
-          <b class="text-center">Lupa kata sandi</b>
-          <small class="text-center text-neutral-600 text-balance">
+          <b class="text-center font-bold md:text-left">Reset kata sandi</b>
+          <small class="text-neutral-600 text-balance">
             Masukkan alamat email Anda yang terdaftar untuk mengatur ulang kata
             sandi.
           </small>
@@ -105,13 +114,6 @@ async function sendEmail(event: FormSubmitEvent<Schema>) {
               Kirim Email
             </UButton>
           </UForm>
-          <USeparator label="ATAU" />
-          <p class="text-center">
-            Belum memiliki akun?
-            <ULink class="text-primary-600 hover:underline" to="/register"
-              >Buat baru</ULink
-            >
-          </p>
         </template>
 
         <div
