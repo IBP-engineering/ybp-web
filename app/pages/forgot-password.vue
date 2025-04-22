@@ -84,7 +84,7 @@ async function sendEmail(event: FormSubmitEvent<Schema>) {
       </div>
       <div class="z-20 mx-auto mt-6 flex w-full flex-col gap-4 rounded">
         <template v-if="!isSubmitted">
-          <b class="text-center font-bold md:text-left">Reset kata sandi</b>
+          <b class="text-center font-bold md:text-left">Reset password</b>
           <small class="text-neutral-600 text-balance">
             Masukkan alamat email Anda yang terdaftar untuk mengatur ulang kata
             sandi.
