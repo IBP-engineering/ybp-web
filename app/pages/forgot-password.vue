@@ -37,14 +37,11 @@ async function sendEmail(event: FormSubmitEvent<Schema>) {
         description: error.message,
         color: 'error',
       })
+      isLoading.value = false
       return
     }
 
-    toast.add({
-      title: 'Sukses',
-      description: 'Permintaan sedang diproses',
-      color: 'success',
-    })
+    isSubmitted.value = true
   } catch (error) {
     console.error(error)
     toast.add({
@@ -53,8 +50,7 @@ async function sendEmail(event: FormSubmitEvent<Schema>) {
       color: 'error',
     })
   } finally {
-    isLoading.value = true
-    isSubmitted.value = true
+    isLoading.value = false
   }
 }
 </script>
