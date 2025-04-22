@@ -7,7 +7,7 @@ definePageMeta({
   layout: 'auth',
 })
 useSeoMeta({
-  title: 'Lupa Password',
+  title: 'Reset password',
   description: 'Lupa kata sandi? Yuk, reset kata sandi kamu disini.',
 })
 
