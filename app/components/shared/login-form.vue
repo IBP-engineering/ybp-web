@@ -131,7 +131,7 @@ async function login(event: FormSubmitEvent<Schema>) {
         <ULink
           class="text-primary-600 text-xs hover:underline"
           to="/forgot-password"
-          >Lupa Password?</ULink
+          >Lupa password?</ULink
         >
       </template>
     </UFormField>

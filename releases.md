@@ -2,6 +2,24 @@
 
 A peek into the exciting evolution of the Yogyakarta Book Party web app!
 
+## Version 0.2.2 - Unlocking Your Account & A Fresh Look! ✨
+
+We're back with another update designed to make your experience with the Yogyakarta Book Party web app even smoother and more secure! This release focuses on improving how you access and join our community.
+
+🔐 **Don't Worry, We've Got Your Back! Introducing Forgot Password!** 🔐
+
+We know sometimes things slip our minds (especially after getting lost in a really good book!). That's why we're thrilled to announce the arrival of our Forgot Password feature. If you can't recall your password, simply click the "Lupa password" link on the login page, and we'll help you get back into your account quickly and securely.
+
+✨ **What's New & Improved!** ✨
+
+- **A Brand New Welcome!** 👋 Get ready for a visually refreshed experience! We've completely redesigned the Login and Register pages. They're now cleaner, more intuitive, and look even better, making your first steps or return to our community a breeze.
+- **Password Worries No More!** 😉 As mentioned above, the new Forgot Password functionality is here to save the day! Regain access to your account without hassle.
+
+🛠️ **Little Tweaks, Big Impact! Enhancements You'll Notice**:
+Behind the scenes, we've made several minor adjustments to improve performance and stability, ensuring a more reliable experience as you navigate the app.
+
+Stay tuned for more exciting updates as we continue to enhance the Yogyakarta Book Party web app! Happy reading and happy exploring!
+
 ## Version 0.2.1 - Embracing the Reading Flow 📖
 
 This release is all about creating a smoother and more enjoyable experience for our book-loving community!
