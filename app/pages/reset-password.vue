@@ -5,7 +5,6 @@ import * as v from 'valibot'
 defineOgImageComponent('default')
 definePageMeta({
   layout: 'auth',
-  middleware: 'need-auth',
 })
 useSeoMeta({
   title: 'Atur Ulang Kata Sandi',
@@ -40,6 +39,7 @@ const isLoading = ref(false)
 const isSuccess = ref(false)
 const showRepeatPassword = ref(false)
 const showPassword = ref(false)
+const isValidResetPassword = ref(false)
 const toast = useToast()
 
 async function updatePassword(event: FormSubmitEvent<Schema>) {
@@ -68,29 +68,49 @@ async function updatePassword(event: FormSubmitEvent<Schema>) {
       color: 'error',
     })
   } finally {
-    isLoading.value = true
+    isLoading.value = false
   }
 }
 
-onMounted(() => {
-  supabase.auth.onAuthStateChange((event, session) => {
-    console.log('session', session, event)
-    if (event === 'PASSWORD_RECOVERY') {
-      console.log('session', session)
-    }
-  })
+onBeforeMount(() => {
+  const haveCode = route.query.code
+  const isError = route.query.error && route.query.error_description
+
+  if (!haveCode && !isError) {
+    throw createError({ statusCode: 403, statusMessage: 'Page is forbidden' })
+  }
+
+  isValidResetPassword.value = true
 })
 </script>
 
 <template>
-  <div class="relative flex h-full w-full justify-center">
-    <UAlert
+  <div
+    v-if="isValidResetPassword"
+    class="relative flex h-full w-full justify-center"
+  >
+    <div
       v-if="route.query.error"
-      title="Heads up!"
-      :description="route.query.error_description.toString()"
-      icon="ph:warning-fill"
-      color="error"
-    />
+      class="containter h-full flex items-center m-auto"
+    >
+      <div class="flex flex-col text-center justify-center items-center">
+        <UIcon name="ph:warning-fill" class="text-warning-500" size="64" />
+        <h2 class="text-warning-500 font-bold text-lg mb-2">Upsss</h2>
+        <span class="text-balance">
+          {{ route.query.error_description }}. <br />Please contact admin if
+          necessary.
+        </span>
+
+        <UButton
+          to="/"
+          class="mt-4"
+          trailing-icon="ph:house"
+          variant="subtle"
+          color="neutral"
+          >Kembali ke Beranda</UButton
+        >
+      </div>
+    </div>
 
     <div
       v-else
@@ -134,6 +154,9 @@ onMounted(() => {
 
         <template v-else>
           <b class="text-center font-bold md:text-left">Update password</b>
+          <small class="text-neutral-600 text-balance">
+            Atur sandi agar Anda tak lagi kesulitan mengingatnya.
+          </small>
           <UForm
             :schema="schema"
             :state="form"
