@@ -25,3 +25,9 @@ export const passwordValidator = v.pipe(
   v.trim(),
   v.nonEmpty('Mohon masukkan password anda'),
 )
+
+export const optionalPasswordValidator = v.pipe(
+  v.optional(v.string(), ''),
+  v.trim(),
+  v.check(input => input === '' || input.length >= 8, 'Minimal 8 karakter'),
+)

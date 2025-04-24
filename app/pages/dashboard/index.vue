@@ -46,8 +46,8 @@ const breadcrumbs = [
 
 <template>
   <div class="container mx-auto max-w-screen-xl px-4 md:px-0">
-    <UBreadcrumb divider="/" :items="breadcrumbs" />
-    <h1 class="text-2xl leading-relaxed font-bold">Dashboard</h1>
+    <UBreadcrumb divider="/" :items="breadcrumbs" class="mb-2" />
+    <h1 class="text-3xl leading-relaxed font-bold">Dashboard</h1>
 
     <div class="mt-4">
       <UTabs :items="tabs" class="w-full">
