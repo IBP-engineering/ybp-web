@@ -6,9 +6,11 @@ A peek into the exciting evolution of the Yogyakarta Book Party web app!
 
 We're back with another update designed to make your experience with the Yogyakarta Book Party web app even smoother and more secure! This release focuses on improving how you access and join our community.
 
-🔐 **Don't Worry, We've Got Your Back! Introducing Forgot Password!** 🔐
+🔐 **Your Account Security, Enhanced!** 🔐
 
-We know sometimes things slip our minds (especially after getting lost in a really good book!). That's why we're thrilled to announce the arrival of our Forgot Password feature. If you can't recall your password, simply click the "Lupa password" link on the login page, and we'll help you get back into your account quickly and securely.
+Hey Book Party community! We've made accessing and managing your account even more flexible. We know that sometimes passwords can be tricky to remember, especially after you've been lost in a captivating story! That's why we're excited to introduce the Forgot Password feature – just click the "Lupa password" link on the login page if you need to regain access quickly and securely.
+
+But that's not all! We've also added the ability for you to change your password anytime directly from your Settings page. Now you have more control to keep your account just the way you like it!
 
 ✨ **What's New & Improved!** ✨
 
