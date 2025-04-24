@@ -1,20 +1,20 @@
 <script setup lang="ts">
+import type { FormSubmitEvent } from '#ui/types'
 import {
+  type InferInput,
+  forward,
+  maxLength,
   nonEmpty,
   object,
+  partialCheck,
   pipe,
   string,
   trim,
-  forward,
-  maxLength,
-  partialCheck,
-  type InferInput,
 } from 'valibot'
-import type { FormSubmitEvent } from '#ui/types'
 import {
+  emailValidator,
   passwordValidator,
   usernameValidator,
-  emailValidator,
 } from '~/utils/validator'
 
 defineOgImageComponent('default')
@@ -119,20 +119,33 @@ async function register(event: FormSubmitEvent<Schema>) {
 
 <template>
   <div class="relative flex w-full justify-center">
-    <div class="mx-auto mt-[10rem] flex w-full flex-col px-6 md:px-0">
+    <UButton
+      class="absolute top-4 left-2"
+      icon="ph:caret-left"
+      to="/"
+      variant="ghost"
+      color="neutral"
+      >Home</UButton
+    >
+
+    <div
+      class="mx-auto mt-[8rem] flex w-full flex-col px-6 md:px-0 md:w-[24rem]"
+    >
       <div>
         <NuxtImg
           src="/assets/logo.jpg"
-          width="150"
-          height="150"
-          class="z-20 mx-auto rounded-full border"
+          width="60"
+          height="60"
+          class="z-20 rounded-sm mx-auto md:mx-0 border"
           alt="YBP logo"
         />
       </div>
-      <div
-        class="z-20 mx-auto mt-6 flex w-full flex-col gap-4 rounded border bg-white p-4 shadow md:w-[24rem]"
-      >
-        <b>Buat akun baru</b>
+      <div class="z-20 mx-auto mt-6 flex w-full flex-col gap-4">
+        <b class="text-center font-bold md:text-left">Buat akun baru</b>
+        <small class="text-neutral-600 text-balance">
+          Komunitas terbuka untuk kolaborasi dan berbagi kecintaan pada buku.
+          Mari bergabung!
+        </small>
 
         <UForm
           :schema="schema"
@@ -185,7 +198,7 @@ async function register(event: FormSubmitEvent<Schema>) {
             />
           </UFormField>
 
-          <UButton block :loading="isLoading" type="submit"> Daftar </UButton>
+          <UButton block :loading="isLoading" type="submit">Buat akun</UButton>
         </UForm>
 
         <USeparator label="ATAU" />

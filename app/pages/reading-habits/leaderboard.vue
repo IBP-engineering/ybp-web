@@ -158,7 +158,7 @@ const compoundWinner = computed(() => {
           <UIcon v-else name="ph:number-circle-three-fill"
         /></span>
         <p>{{ win.totalDay }} hari</p>
-        <div class="mt-1 flex items-center gap-2">
+        <div v-show="false" class="mt-1 flex items-center gap-2">
           <UIcon name="ph:clover-fill" class="-ml-10 h-8 w-8 text-green-600" />
           <div>
             <p class="text-2xl font-medium">{{ win.point }}</p>
@@ -174,6 +174,7 @@ const compoundWinner = computed(() => {
     </div>
 
     <UTable
+      :column-visibility="{ point: false }"
       class="mt-16"
       loading-animation="swing"
       :loading="status === 'pending'"

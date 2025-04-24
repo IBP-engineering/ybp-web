@@ -1,17 +1,18 @@
 <script setup lang="ts">
+import type { FormSubmitEvent } from '#ui/types'
 import {
+  type InferInput,
+  boolean,
+  maxLength,
   nonEmpty,
+  number,
   object,
   pipe,
   string,
-  maxLength,
-  type InferInput,
-  boolean,
-  number,
 } from 'valibot'
-import type { FormSubmitEvent } from '#ui/types'
 import type { Database } from '~/types/database.types'
 
+defineOgImageComponent('default')
 definePageMeta({
   layout: 'hq',
 })
@@ -257,7 +258,7 @@ onMounted(() => {
             :story="story"
           />
         </div>
-        <p class="text-neutral-600" v-else>Belum ada cerita yang ditambahkan</p>
+        <p v-else class="text-neutral-600">Belum ada cerita yang ditambahkan</p>
       </div>
     </div>
 
@@ -271,8 +272,8 @@ onMounted(() => {
           <UForm
             :schema="schema"
             :state="state"
-            @submit="updateProfile"
             class="flex w-full flex-col"
+            @submit="updateProfile"
           >
             <UFormField required label="Username" name="username">
               <UInput
@@ -297,20 +298,20 @@ onMounted(() => {
               />
             </UFormField>
             <UFormField
-              required
               v-if="user.roles.name !== 'admin'"
+              required
               class="mt-4"
               label="Role"
               name="role"
             >
               <USelect
-                class="w-full"
                 v-model="state.role"
+                class="w-full"
                 :items="roleOptions"
               />
             </UFormField>
             <UFormField class="mt-4" label="Aktif" name="isActive">
-              <USwitch color="primary" v-model="state.isActive" />
+              <USwitch v-model="state.isActive" color="primary" />
             </UFormField>
             <UFormField class="mt-4" label="Bio" name="bio">
               <UTextarea
@@ -322,10 +323,10 @@ onMounted(() => {
 
             <div class="mt-6 flex items-center justify-end gap-4">
               <UButton
-                @click="openEditProfileSlide = false"
                 variant="ghost"
                 color="neutral"
                 :loading="isLoading"
+                @click="openEditProfileSlide = false"
               >
                 Batal
               </UButton>

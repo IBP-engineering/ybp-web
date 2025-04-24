@@ -1,7 +1,7 @@
 <script setup lang="ts">
 defineOgImageComponent('default')
 useSeoMeta({
-  title: 'Kumpulan cerita',
+  title: 'Kumpulan tulisan & cerita dari para anggota',
   description:
     'Kumpulan cerita dari para kontributor dan anggota Yogyakarta Book Party',
 })
