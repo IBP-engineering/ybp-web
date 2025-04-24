@@ -96,43 +96,41 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
       return
     }
 
-    const existingEmail = await supabase
-      .from('users')
-      .select('id, username')
-      .ilike('email', `%${data.email.trim()}%`)
-      .neq('id', user.value.id)
-
-    if (existingEmail?.data[0]) {
-      toast.add({
-        title: 'Gagal mengubah',
-        icon: 'i-heroicons-exclamation-circle-solid',
-        description:
-          'Email telah ada digunakan. Mohon menggunakan email yang lain',
-        color: 'warning',
-      })
-      isLoading.value = false
-      formRef.value.setErrors([
-        { message: 'Email telah digunakan', name: 'email' },
-      ])
-      return
-    }
+    // const existingEmail = await supabase
+    //   .from('users')
+    //   .select('id, username')
+    //   .ilike('email', `%${data.email.trim()}%`)
+    //   .neq('id', user.value.id)
+    //
+    // if (existingEmail?.data[0]) {
+    //   toast.add({
+    //     title: 'Gagal mengubah',
+    //     icon: 'i-heroicons-exclamation-circle-solid',
+    //     description:
+    //       'Email telah ada digunakan. Mohon menggunakan email yang lain',
+    //     color: 'warning',
+    //   })
+    //   isLoading.value = false
+    //   formRef.value.setErrors([
+    //     { message: 'Email telah digunakan', name: 'email' },
+    //   ])
+    //   return
+    // }
 
     await Promise.allSettled([
       supabase
         .from('users')
         .update({
-          email: data.email,
+          // email: data.email,
           username: data.username,
         })
         .eq('id', user.value.id),
+      // TODO: handle email confirmation process
       data.password
         ? supabase.auth.updateUser({
-            email: data.email,
             password: data.password,
           })
-        : supabase.auth.updateUser({
-            email: data.email,
-          }),
+        : null,
     ])
 
     toast.add({
@@ -166,16 +164,11 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
       class="space-y-4"
       @submit="onSubmit"
     >
+      <UFormField label="Email" name="email">
+        <p class="text-muted">{{ form.email }}</p>
+      </UFormField>
       <UFormField label="Username" name="username" required>
         <UInput v-model="form.username" class="w-full" :loading="isLoading" />
-      </UFormField>
-      <UFormField label="Email" name="email" required>
-        <UInput
-          v-model="form.email"
-          type="email"
-          class="w-full"
-          :loading="isLoading"
-        />
       </UFormField>
       <UFormField label="New password" name="password">
         <UInput
