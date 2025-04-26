@@ -10,33 +10,49 @@ useHead({
   title: 'Users',
 })
 
+const ITEMS_PER_PAGE = 12
+const page = ref(1)
 const supabase = useSupabaseClient<Database>()
-const { data: users } = await useAsyncData('hq/users', async () => {
-  const { data, error } = await supabase
-    .from('users')
-    .select(
-      'username, id, display_name, created_at, roles(name), stories!id(count)',
-    )
-    .order('created_at', { ascending: false })
+const { data: users } = await useAsyncData(
+  'hq/users',
+  async () => {
+    const startIndex = (page.value - 1) * ITEMS_PER_PAGE
+    const endIndex = startIndex + ITEMS_PER_PAGE - 1
+    const { data, error, count } = await supabase
+      .from('users')
+      .select(
+        'username, id, display_name, created_at, roles(name), stories!id(count)',
+        { count: 'exact' },
+      )
+      .order('created_at', { ascending: false })
+      .range(startIndex, endIndex)
 
-  if (error) {
-    console.error(error)
-    return []
-  }
+    if (error) {
+      console.error(error)
+      return { items: [], totalPages: 0, totalCount: 0 }
+    }
 
-  return data
-})
+    const totalCount = count || 0
+    const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE)
+
+    return { items: data, totalPages, totalCount }
+  },
+  {
+    watch: [page],
+    default: () => ({ items: [], totalPages: 0, totalCount: 0 }),
+  },
+)
 </script>
 
 <template>
   <div>
     <PageHeader title="Users" />
     <div class="mx-auto mt-4 w-full max-w-screen-xl px-4">
-      <p>Total: {{ users.length }}</p>
+      <p>Total: {{ users.totalCount }}</p>
 
       <div class="mt-2 block">
         <ul class="grid grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-3">
-          <li v-for="user in users" :key="user.id">
+          <li v-for="user in users.items" :key="user.id">
             <NuxtLink
               :to="`/hq/users/${user.username}`"
               class="hover:border-primary-400 ring-primary-500 flex w-full items-center justify-between border-2 bg-white p-2 transition focus:ring focus:outline-none"
@@ -57,6 +73,14 @@ const { data: users } = await useAsyncData('hq/users', async () => {
             </NuxtLink>
           </li>
         </ul>
+      </div>
+
+      <div class="flex justify-end mt-8 w-full">
+        <UPagination
+          v-model:page="page"
+          :items-per-page="ITEMS_PER_PAGE"
+          :total="users.totalCount"
+        />
       </div>
     </div>
   </div>
