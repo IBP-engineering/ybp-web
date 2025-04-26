@@ -32,15 +32,18 @@ const { data: stories } = await useAsyncData(
 
     if (error) {
       console.error(error)
-      return { items: [], totalPages: 0 }
+      return { items: [], totalPages: 0, totalCount: 0 }
     }
 
     const totalCount = count || 0
     const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE)
 
-    return { items: data, totalPages }
+    return { items: data, totalPages, totalCount }
   },
-  { watch: [page], default: () => ({ items: [], totalPages: 0 }) },
+  {
+    watch: [page],
+    default: () => ({ items: [], totalPages: 0, totalCount: 0 }),
+  },
 )
 </script>
 
@@ -48,20 +51,23 @@ const { data: stories } = await useAsyncData(
   <div>
     <PageHeader title="Stories" />
 
-    <div class="mx-auto mt-8 w-full max-w-screen-xl px-4 xl:px-0 space-y-4">
-      <HqStoryCard
-        v-for="story in stories.items"
-        :key="story.id"
-        :story="story"
-      />
-    </div>
-    <div class="flex justify-end mt-8 px-4 xl:px-12 w-full">
-      <UPagination
-        v-model:page="page"
-        :items-per-page="5"
-        :sibling-count="1"
-        :total="stories.totalPages"
-      />
+    <div class="mx-auto mt-4 w-full max-w-screen-xl px-4">
+      <p>Total: {{ stories.totalCount }}</p>
+
+      <div class="mx-auto mt-2 w-full max-w-screen-xl px-4 xl:px-0 space-y-4">
+        <HqStoryCard
+          v-for="story in stories.items"
+          :key="story.id"
+          :story="story"
+        />
+      </div>
+      <div class="flex justify-end mt-8 px-4 xl:px-12 w-full">
+        <UPagination
+          v-model:page="page"
+          :items-per-page="5"
+          :total="stories.totalCount"
+        />
+      </div>
     </div>
   </div>
 </template>
