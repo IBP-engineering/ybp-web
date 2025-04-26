@@ -2,6 +2,19 @@
 
 A peek into the exciting evolution of the Yogyakarta Book Party web app!
 
+## Version 0.2.3 - Smooth Scrolling & Easier Navigation! 📄➡️
+
+Get ready for a more organized Browse experience! In this release, we've focused on making pages with lots of content easier to navigate, allowing you to find what you're looking for without endless scrolling.
+
+✨ **What's New & Improved!** ✨
+
+- **Introducing Pagination!** ✨ To help you manage longer lists of items, we've started implementing pagination on some of our pages. This means content is now split into manageable pages, allowing for quicker loading and easier Browse. Look for the page numbers or navigation controls at the bottom of the lists!
+- **More Pagination Coming Soon!** 😉 This is just the beginning! We'll be rolling out pagination to more pages across the app in future updates, making the entire experience smoother as our community and content grow.
+
+🛠️ **Little Tweaks, Big Impact! Enhancements You'll Notice**:
+
+We hope this makes exploring the Yogyakarta Book Party web app even more enjoyable! Happy reading and happy navigating!
+
 ## Version 0.2.2 - Unlocking Your Account & A Fresh Look! ✨
 
 We're back with another update designed to make your experience with the Yogyakarta Book Party web app even smoother and more secure! This release focuses on improving how you access and join our community.
