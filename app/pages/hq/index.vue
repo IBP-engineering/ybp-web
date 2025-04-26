@@ -61,10 +61,10 @@ const { data: stories } = await useAsyncData(
           :story="story"
         />
       </div>
-      <div class="flex justify-end mt-8 px-4 xl:px-12 w-full">
+      <div class="flex justify-end mt-8 w-full">
         <UPagination
           v-model:page="page"
-          :items-per-page="5"
+          :items-per-page="ITEMS_PER_PAGE"
           :total="stories.totalCount"
         />
       </div>
