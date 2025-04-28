@@ -1,5 +1,5 @@
 <script setup lang="ts">
-defineSlots<{ default: any; title: any }>()
+defineSlots<{ default: string; title: string }>()
 </script>
 
 <template>
@@ -15,8 +15,8 @@ defineSlots<{ default: any; title: any }>()
     </small>
     <UButton
       size="sm"
-      variant="outline"
-      color="yellow"
+      variant="soft"
+      color="warning"
       icon="ph:sparkle-duotone"
       to="/login"
       >Gabung sekarang</UButton
