@@ -68,13 +68,13 @@ provide(onSuccessLogin, () => {
 </script>
 
 <template>
-  <div class="mt-8 flex w-24 items-center gap-2 px-4 md:flex-col md:px-0">
+  <div class="mt-8 flex w-24 items-center gap-2 px-4 lg:flex-col md:px-0">
     <UTooltip text="Sukai cerita">
       <UButton
         icon="i-heroicons-hand-thumb-up-solid"
         variant="soft"
         :color="isUserHasReacted ? 'primary' : 'neutral'"
-        class="flex md:flex-col"
+        class="flex lg:flex-col"
         @click="likeStory"
       >
         <span class="block">

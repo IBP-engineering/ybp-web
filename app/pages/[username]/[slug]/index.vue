@@ -74,7 +74,7 @@ useSeoMeta({
       <UBreadcrumb divider="/" :items="breadcrumbs" />
     </div>
 
-    <div class="mt-4 flex w-full flex-col-reverse gap-4 lg:flex-row">
+    <div class="mt-4 flex z-10 w-full flex-col-reverse gap-4 lg:flex-row">
       <StoryReactions :story="story" />
       <div class="flex w-full flex-col">
         <div
@@ -141,11 +141,13 @@ useSeoMeta({
           </div>
         </div>
 
-        <SharedJoinBanner>
-          Punya cerita menarik yang ingin dibagikan? Di sinilah tempatnya kamu
-          bisa membagikan kisah, pengalaman, tips bermanfaat, atau ulasan buku
-          favorit. Saatnya tulisan kamu menemukan pembaca! 📖
-        </SharedJoinBanner>
+        <div class="block lg:hidden">
+          <SharedJoinBanner>
+            Punya cerita menarik yang ingin dibagikan? Di sinilah tempatnya kamu
+            bisa membagikan kisah, pengalaman, tips bermanfaat, atau ulasan buku
+            favorit. Saatnya tulisan kamu menemukan pembaca! 📖
+          </SharedJoinBanner>
+        </div>
       </div>
 
       <StoryAside :author="story.author" />

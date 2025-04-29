@@ -2,7 +2,6 @@
 /**
  * @credits Nuxt SEO <https://nuxtseo.com/>
  */
-
 import { useOgImageRuntimeConfig } from '#og-image/shared'
 
 // convert to typescript props
@@ -10,13 +9,14 @@ const props = withDefaults(
   defineProps<{
     colorMode?: 'dark' | 'light'
     title?: string
-    description?: string
-    icon?: string | boolean
-    siteName?: string
-    siteLogo?: string
+    description: string
+    icon: string | boolean
+    siteName: string
+    siteLogo: string
     theme?: string
   }>(),
   {
+    colorMode: 'light',
     theme: '#00dc82',
     title: 'title',
   },
@@ -121,7 +121,9 @@ if (
             v-if="description"
             class="text-[35px]"
             :class="[
-              colorMode === 'light' ? ['text-neutral-700'] : ['text-neutral-300'],
+              colorMode === 'light'
+                ? ['text-neutral-700']
+                : ['text-neutral-300'],
             ]"
           >
             {{ description }}

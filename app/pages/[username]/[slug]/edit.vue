@@ -352,7 +352,7 @@ onMounted(() => {
           </button>
         </div>
       </div>
-      <LazyEditor v-model:editor="content" />
+      <LazySharedEditor v-model:editor="content" />
       <div class="mt-4 flex items-center justify-end gap-4">
         <UButton
           :loading="isLoading"

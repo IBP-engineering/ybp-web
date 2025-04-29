@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import * as v from 'valibot'
 import type { FormSubmitEvent } from '#ui/types'
 import { format } from 'date-fns'
 import id from 'date-fns/locale/id'
+import * as v from 'valibot'
 
 definePageMeta({
   layout: 'hq',
@@ -148,22 +148,22 @@ const closeTagDetail = () => {
 
       <div class="mt-8 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
         <button
-          v-for="tag in tags"
-          :key="tag.id"
+          v-for="tagItem in tags"
+          :key="tagItem.id"
           class="rounded border border-zinc-300 bg-zinc-50 p-2 text-left shadow transition hover:border-zinc-400 hover:bg-zinc-100"
-          @click="() => openTagDetail(tag.id)"
+          @click="() => openTagDetail(tagItem.id)"
         >
           <UBadge
-            v-if="!tag.is_active"
+            v-if="!tagItem.is_active"
             color="error"
             variant="soft"
             label="Tidak aktif"
           />
-          <b>#{{ tag.slug }}</b>
+          <b>#{{ tagItem.slug }}</b>
           <p
             class="overflow-hidden text-ellipsis whitespace-nowrap text-zinc-600"
           >
-            {{ tag.description }}
+            {{ tagItem.description }}
           </p>
         </button>
       </div>
@@ -205,8 +205,8 @@ const closeTagDetail = () => {
               name="title"
             >
               <UInput
-                :loading="tagDetailStatus === 'pending'"
                 v-model="state.title"
+                :loading="tagDetailStatus === 'pending'"
                 class="w-full"
                 @input="e => (state.slug = e.target.value)"
               />
@@ -219,16 +219,16 @@ const closeTagDetail = () => {
 
             <UFormField label="Deskripsi" required name="description">
               <UTextarea
-                :loading="tagDetailStatus === 'pending'"
                 v-model="state.description"
+                :loading="tagDetailStatus === 'pending'"
                 class="w-full"
               />
             </UFormField>
 
             <UFormField label="Aktif" required name="isActive">
               <USwitch
-                :loading="tagDetailStatus === 'pending'"
                 v-model="state.isActive"
+                :loading="tagDetailStatus === 'pending'"
               />
             </UFormField>
 
@@ -248,7 +248,7 @@ const closeTagDetail = () => {
             </div>
 
             <div class="flex justify-end gap-4">
-              <UButton @click="closeTagDetail" variant="outline" color="neutral"
+              <UButton variant="outline" color="neutral" @click="closeTagDetail"
                 >Batal</UButton
               >
               <UButton

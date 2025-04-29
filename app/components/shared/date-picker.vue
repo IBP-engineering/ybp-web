@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { DatePicker as VCalendarDatePicker } from 'v-calendar'
+import 'v-calendar/dist/style.css'
 import type {
   DatePickerDate,
   DatePickerRangeObject,
   // @ts-expect-error not found module
 } from 'v-calendar/dist/types/src/use/datePicker'
-import 'v-calendar/dist/style.css'
 
 defineOptions({
   inheritAttrs: false,

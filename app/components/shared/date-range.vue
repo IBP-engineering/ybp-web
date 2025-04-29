@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import { sub, format, add } from 'date-fns'
+import { format, sub } from 'date-fns'
 
-const selected = defineModel('selected', {
+const selected = defineModel<{ start: Date; end: Date }>('selected', {
   default: { start: sub(new Date(), { days: 7 }), end: new Date() },
 })
 
-const disabledDates = ref([{ start: add(new Date(), { days: 1 }), end: null }])
 const openPopover = ref(false)
 </script>
 
