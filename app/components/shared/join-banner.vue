@@ -4,7 +4,7 @@ defineSlots<{ default: string; title: string }>()
 
 <template>
   <div
-    class="mt-8 space-y-2 border-2 border-dotted border-neutral-300 bg-gradient-to-t from-neutral-100 to-neutral-50 p-2"
+    class="space-y-2 border-2 border-dotted border-neutral-300 bg-gradient-to-t from-neutral-100 to-neutral-50 p-2"
   >
     <UIcon name="ph:flag-banner-duotone" />
     <span class="ml-1">
