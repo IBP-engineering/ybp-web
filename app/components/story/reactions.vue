@@ -9,6 +9,7 @@ const props = defineProps<{
 }>()
 
 const route = useRoute()
+const router = useRouter()
 const openLoginModal = ref(false)
 const openShareModal = ref(false)
 const slug = route.params.slug
@@ -58,6 +59,10 @@ const likeStory = async () => {
   }
 }
 
+const toCommentSection = () => {
+  router.push('#commentary')
+}
+
 provide(onSuccessLogin, () => {
   openLoginModal.value = false
   toast.add({
@@ -73,8 +78,12 @@ provide(onSuccessLogin, () => {
   >
     <UTooltip text="Sukai cerita">
       <UButton
-        icon="i-heroicons-hand-thumb-up-solid"
-        variant="soft"
+        :icon="
+          isUserHasReacted
+            ? 'i-heroicons-hand-thumb-up-solid'
+            : 'i-heroicons-hand-thumb-up'
+        "
+        :variant="isUserHasReacted ? 'soft' : 'ghost'"
         :color="isUserHasReacted ? 'primary' : 'neutral'"
         class="flex lg:flex-col"
         @click="likeStory"
@@ -84,10 +93,29 @@ provide(onSuccessLogin, () => {
         </span>
       </UButton>
     </UTooltip>
+
+    <UTooltip text="Tinggalkan komentar">
+      <UButton
+        icon="ph:chat-centered"
+        variant="ghost"
+        color="neutral"
+        aria-label="Button to going into comment section"
+        class="flex lg:flex-col"
+        @click="toCommentSection"
+        >12</UButton
+      >
+    </UTooltip>
+
+    <LazySharedLoginModal v-model:open="openLoginModal" />
+    <LazySharedShareStoryModal
+      v-model:open="openShareModal"
+      :title="story.title"
+      :author="story.author.display_name"
+    />
     <UTooltip text="Bagikan cerita">
       <UButton
         icon="heroicons:share"
-        variant="soft"
+        variant="ghost"
         color="neutral"
         aria-label="Button to share this article"
         @click="shareStory"

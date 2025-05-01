@@ -153,19 +153,9 @@ useSeoMeta({
     </div>
 
     <section class="mt-8 px-4">
-      <b>Komentar</b>
+      <h4 id="commentary" class="font-bold scroll-m-10">Komentar</h4>
 
-      <div class="px-2 flex flex-col py-4 w-full">
-        <div>
-          <div class="flex gap-2">
-            <UserPicture class="w-9 h-9" seed="halodek" />
-            <b>kalwabed</b>
-            <span>1j</span>
-          </div>
-
-          <p class="pl-11 -mt-2">Lorem ipsum dolor sit amet.</p>
-        </div>
-      </div>
+      <StoryComment />
     </section>
 
     <SharedJoinBanner class="mt-8">
