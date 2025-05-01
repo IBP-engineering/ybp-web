@@ -4,14 +4,16 @@ withDefaults(
     isLove?: boolean
     loveCount?: number
     commentCount?: number
+    role?: 'op' | 'mod' | 'member'
     comment: { text: string; username: string }
     childComments: {
       isLove?: boolean
       loveCount?: number
+      role?: 'op' | 'mod'
       comment?: { text: string; username: string }
     }[]
   }>(),
-  { commentCount: 0, isLove: false, loveCount: 0 },
+  { commentCount: 0, isLove: false, loveCount: 0, role: 'member' },
 )
 
 const openChild = ref(false)
@@ -21,8 +23,20 @@ const openChild = ref(false)
   <div class="relative min-h-full flex flex-col">
     <div class="flex gap-2 -ml-1">
       <UserPicture class="border-4 border-white w-10 h-10" seed="halodek" />
-      <b>{{ comment.username }}</b>
-      <span>1j</span>
+
+      <div class="flex gap-2 items-start">
+        <b class="flex items-center gap-2"
+          >{{ comment.username }}
+          <UBadge
+            v-if="role !== 'member'"
+            :color="role === 'mod' ? 'warning' : 'neutral'"
+            class="px-1 py-[0.2px]"
+            :title="role === 'op' ? 'Original poster' : 'Moderator'"
+            >{{ role.toUpperCase() }}</UBadge
+          >
+        </b>
+        <span>1j</span>
+      </div>
     </div>
 
     <p class="pl-11 -mt-3 text-neutral-600 text-balance">
@@ -52,7 +66,7 @@ const openChild = ref(false)
       :class="{ 'h-[calc(100%-100px)]': openChild }"
     ></span>
 
-    <div v-if="!openChild && commentCount > 0" class="mt-6 flex items-center">
+    <div v-if="!openChild && commentCount > 0" class="mt-4 flex items-center">
       <UAvatarGroup :max="2" size="3xs">
         <UAvatar
           src="https://github.com/benjamincanac.png"
@@ -62,9 +76,15 @@ const openChild = ref(false)
         <UAvatar src="https://github.com/noook.png" alt="Neil Richter" />
       </UAvatarGroup>
 
-      <button class="text-neutral-500 ml-2 text-sm" @click="openChild = true">
+      <UButton
+        variant="ghost"
+        size="sm"
+        color="neutral"
+        class="ml-1"
+        @click="openChild = true"
+      >
         Tampilkan balasan
-      </button>
+      </UButton>
     </div>
 
     <div v-if="commentCount > 0 && openChild" class="flex flex-col gap-4 mt-4">
@@ -74,6 +94,7 @@ const openChild = ref(false)
         :comment="item.comment"
         :is-love="item.isLove"
         :love-count="item.loveCount"
+        :role="item.role"
         :child-comments="[]"
       />
     </div>

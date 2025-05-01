@@ -4,6 +4,7 @@ const data = [
     isLove: true,
     loveCount: 9,
     commentCount: 2,
+    role: 'mod',
     comment: {
       username: 'albed',
       text: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam fugit, inventore distinctio deleniti deserunt quidem quasi tempore nisi laborum magnam minima commodi, ipsam consequuntur iusto. Tenetur aliquam odio error earum?',
@@ -12,6 +13,7 @@ const data = [
       {
         isLove: true,
         loveCount: 1,
+        role: 'op',
         comment: {
           username: 'apakahreal',
           text: 'Lorem ipsum',
@@ -20,6 +22,7 @@ const data = [
       {
         isLove: false,
         loveCount: 0,
+        role: 'member',
         comment: {
           username: 'ownernya',
           text: 'Lorem ipsum dolor sit',
@@ -49,6 +52,7 @@ const data = [
       :love-count="item.loveCount"
       :comment-count="item.commentCount"
       :comment="item.comment"
+      :role="item.role"
       :child-comments="item.childComments"
     />
   </div>
