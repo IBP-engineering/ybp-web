@@ -9,7 +9,9 @@ defineProps<{
 </script>
 
 <template>
-  <div class="border border-neutral-300 bg-neutral-50 shadow rounded-lg p-4">
+  <div
+    class="border border-neutral-300 bg-neutral-50 shadow rounded-lg p-4 hidden lg:block"
+  >
     <NuxtLink
       :to="`/${author.username}`"
       class="group mb-4 flex items-center gap-4 rounded"
