@@ -1,16 +1,19 @@
 <script setup lang="ts">
+import { formatDistanceToNowStrict } from 'date-fns'
+import id from 'date-fns/locale/id'
+
 withDefaults(
   defineProps<{
     isLove?: boolean
     loveCount?: number
     commentCount?: number
     role?: 'op' | 'mod' | 'member'
-    comment: { text: string; username: string }
+    comment: { text: string; username: string; createdAt: number }
     childComments: {
       isLove?: boolean
       loveCount?: number
       role?: 'op' | 'mod'
-      comment?: { text: string; username: string }
+      comment?: { text: string; username: string; createdAt: Date }
     }[]
   }>(),
   { commentCount: 0, isLove: false, loveCount: 0, role: 'member' },
@@ -35,7 +38,16 @@ const openChild = ref(false)
             >{{ role.toUpperCase() }}</UBadge
           >
         </b>
-        <span>1j</span>
+        <time
+          :datetime="new Date(comment.createdAt).toISOString()"
+          :title="new Date(comment.createdAt).toISOString()"
+          >{{
+            formatDistanceToNowStrict(new Date(comment.createdAt), {
+              locale: id,
+              roundingMethod: 'round',
+            })
+          }}</time
+        >
       </div>
     </div>
 

@@ -8,6 +8,7 @@ const data = [
     comment: {
       username: 'albed',
       text: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam fugit, inventore distinctio deleniti deserunt quidem quasi tempore nisi laborum magnam minima commodi, ipsam consequuntur iusto. Tenetur aliquam odio error earum?',
+      createdAt: new Date().setHours(5, 0, 0),
     },
     childComments: [
       {
@@ -17,6 +18,7 @@ const data = [
         comment: {
           username: 'apakahreal',
           text: 'Lorem ipsum',
+          createdAt: new Date().setHours(6, 0, 0),
         },
       },
       {
@@ -26,6 +28,7 @@ const data = [
         comment: {
           username: 'ownernya',
           text: 'Lorem ipsum dolor sit',
+          createdAt: new Date().setHours(6, 10, 0),
         },
       },
     ],
@@ -34,9 +37,11 @@ const data = [
     isLove: false,
     loveCount: 2,
     commentCount: 0,
+    role: 'member',
     comment: {
       username: 'juragansawo99',
       text: 'Lorem ipsum dolor sit amet',
+      createdAt: new Date().setHours(5, 0, 0),
     },
     childComments: [],
   },
