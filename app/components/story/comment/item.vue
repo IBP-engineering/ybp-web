@@ -8,17 +8,26 @@ withDefaults(
     loveCount?: number
     commentCount?: number
     role?: 'op' | 'mod' | 'member'
+    isMainThread?: boolean
     comment: { text: string; username: string; createdAt: number }
     childComments: {
       isLove?: boolean
       loveCount?: number
+      isMainThread?: boolean
       role?: 'op' | 'mod'
-      comment?: { text: string; username: string; createdAt: Date }
+      comment?: { text: string; username: string; createdAt: number }
     }[]
   }>(),
-  { commentCount: 0, isLove: false, loveCount: 0, role: 'member' },
+  {
+    commentCount: 0,
+    isLove: false,
+    loveCount: 0,
+    isMainThread: true,
+    role: 'member',
+  },
 )
 
+const openComment = ref(false)
 const openChild = ref(false)
 </script>
 
@@ -28,8 +37,10 @@ const openChild = ref(false)
       <UserPicture class="border-4 border-white w-10 h-10" seed="halodek" />
 
       <div class="flex gap-2 items-start">
-        <b class="flex items-center gap-2"
-          >{{ comment.username }}
+        <div class="flex items-center gap-2">
+          <ULink to="#" class="font-bold hover:underline text-primary-950">{{
+            comment.username
+          }}</ULink>
           <UBadge
             v-if="role !== 'member'"
             :color="role === 'mod' ? 'warning' : 'neutral'"
@@ -37,7 +48,7 @@ const openChild = ref(false)
             :title="role === 'op' ? 'Original poster' : 'Moderator'"
             >{{ role.toUpperCase() }}</UBadge
           >
-        </b>
+        </div>
         <time
           :datetime="new Date(comment.createdAt).toISOString()"
           :title="new Date(comment.createdAt).toISOString()"
@@ -66,16 +77,20 @@ const openChild = ref(false)
       <UButton v-else color="neutral" variant="ghost" icon="ph:heart">{{
         loveCount
       }}</UButton>
-      <UButton color="neutral" variant="ghost" icon="ph:chat-centered">{{
-        commentCount
-      }}</UButton>
+      <UButton
+        color="neutral"
+        variant="ghost"
+        icon="ph:chat-centered"
+        @click="openComment = !openComment"
+        >{{ commentCount }}</UButton
+      >
     </div>
 
     <span
       v-if="commentCount > 0"
       aria-hidden="true"
       class="absolute left-4 top-10 bg-neutral-300 w-[.8px] h-[calc(100%-62px)]"
-      :class="{ 'h-[calc(100%-100px)]': openChild }"
+      :class="{ 'h-[calc(100%-140px)]': openChild }"
     ></span>
 
     <div v-if="!openChild && commentCount > 0" class="mt-4 flex items-center">
@@ -107,8 +122,19 @@ const openChild = ref(false)
         :is-love="item.isLove"
         :love-count="item.loveCount"
         :role="item.role"
+        :is-main-thread="false"
         :child-comments="[]"
       />
+    </div>
+
+    <div
+      v-if="isMainThread && openComment"
+      class="flex gap-2 pl-11 items-center mt-2"
+    >
+      <UInput placeholder="Balas ke Albed" class="w-3/4" variant="outline" />
+      <UTooltip text="Kirim komentar">
+        <UButton class="rounded-full" variant="soft" icon="lucide:send" />
+      </UTooltip>
     </div>
   </div>
 </template>

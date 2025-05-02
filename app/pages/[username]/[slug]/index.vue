@@ -153,7 +153,7 @@ useSeoMeta({
     </div>
 
     <section class="mt-8 px-4">
-      <h4 id="commentary" class="font-bold scroll-m-10">Komentar</h4>
+      <h4 id="commentary" class="font-bold scroll-m-24">Komentar</h4>
 
       <StoryComment />
     </section>
