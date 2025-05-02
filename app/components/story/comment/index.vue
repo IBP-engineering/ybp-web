@@ -46,19 +46,46 @@ const data = [
     childComments: [],
   },
 ]
+
+const commentText = ref('')
 </script>
 
 <template>
-  <div class="flex flex-col gap-12 py-4 w-full md:w-3/4">
-    <StoryCommentItem
-      v-for="item in data"
-      :key="item.loveCount"
-      :is-love="item.isLove"
-      :love-count="item.loveCount"
-      :comment-count="item.commentCount"
-      :comment="item.comment"
-      :role="item.role"
-      :child-comments="item.childComments"
-    />
-  </div>
+  <section class="flex flex-col gap-4 py-4 w-full md:w-3/4">
+    <div class="flex gap-2 items-center">
+      <UTextarea
+        v-model="commentText"
+        placeholder="Tinggalkan komentar"
+        class="w-3/4"
+        variant="outline"
+        autoresize
+        :rows="1"
+        :maxrows="6"
+        :avatar="{
+          src: `https://api.dicebear.com/9.x/shapes/svg?seed=haphap`,
+        }"
+      />
+      <UTooltip text="Kirim komentar">
+        <UButton
+          v-if="commentText.length > 0"
+          class="rounded-full"
+          variant="soft"
+          icon="lucide:send"
+        />
+      </UTooltip>
+    </div>
+
+    <div class="flex flex-col w-full gap-8">
+      <StoryCommentItem
+        v-for="item in data"
+        :key="item.loveCount"
+        :is-love="item.isLove"
+        :love-count="item.loveCount"
+        :comment-count="item.commentCount"
+        :comment="item.comment"
+        :role="item.role"
+        :child-comments="item.childComments"
+      />
+    </div>
+  </section>
 </template>

@@ -28,6 +28,7 @@ withDefaults(
 )
 
 const openComment = ref(false)
+const commentText = ref('')
 const openChild = ref(false)
 </script>
 
@@ -41,13 +42,15 @@ const openChild = ref(false)
           <ULink to="#" class="font-bold hover:underline text-primary-950">{{
             comment.username
           }}</ULink>
-          <UBadge
-            v-if="role !== 'member'"
-            :color="role === 'mod' ? 'warning' : 'neutral'"
-            class="px-1 py-[0.2px]"
-            :title="role === 'op' ? 'Original poster' : 'Moderator'"
-            >{{ role.toUpperCase() }}</UBadge
-          >
+          <UTooltip :text="role === 'op' ? 'Original poster' : 'Moderator'">
+            <UBadge
+              v-if="role !== 'member'"
+              :color="role === 'mod' ? 'warning' : 'neutral'"
+              class="px-1 py-[0.2px]"
+            >
+              {{ role.toUpperCase() }}
+            </UBadge>
+          </UTooltip>
         </div>
         <time
           :datetime="new Date(comment.createdAt).toISOString()"
@@ -67,30 +70,38 @@ const openChild = ref(false)
     </p>
 
     <div class="mt-2 pl-11 flex gap-2">
-      <UButton
-        v-if="isLove"
-        color="error"
-        variant="soft"
-        icon="ph:heart-fill"
-        >{{ loveCount }}</UButton
-      >
-      <UButton v-else color="neutral" variant="ghost" icon="ph:heart">{{
-        loveCount
-      }}</UButton>
-      <UButton
-        color="neutral"
-        variant="ghost"
-        icon="ph:chat-centered"
-        @click="openComment = !openComment"
-        >{{ commentCount }}</UButton
-      >
+      <UTooltip text="Sukai komentar">
+        <UButton
+          :color="isLove ? 'error' : 'neutral'"
+          :variant="isLove ? 'soft' : 'ghost'"
+          :icon="isLove ? 'ph:heart-fill' : 'ph:heart'"
+        >
+          {{ loveCount }}
+        </UButton>
+      </UTooltip>
+
+      <UTooltip text="Balas komentar">
+        <UButton
+          v-if="isMainThread"
+          color="neutral"
+          variant="ghost"
+          icon="ph:chat-centered"
+          @click="openComment = !openComment"
+        >
+          {{ commentCount }}
+        </UButton>
+      </UTooltip>
     </div>
 
     <span
       v-if="commentCount > 0"
       aria-hidden="true"
       class="absolute left-4 top-10 bg-neutral-300 w-[.8px] h-[calc(100%-62px)]"
-      :class="{ 'h-[calc(100%-140px)]': openChild }"
+      :class="{
+        'h-[calc(100%-120px)]': openChild,
+        'h-[calc(100%-140px)]': openComment && openChild,
+        'h-[calc(100%-110px)]': openComment && !openChild,
+      }"
     ></span>
 
     <div v-if="!openChild && commentCount > 0" class="mt-4 flex items-center">
@@ -115,6 +126,7 @@ const openChild = ref(false)
     </div>
 
     <div v-if="commentCount > 0 && openChild" class="flex flex-col gap-4 mt-4">
+      <!-- TODO: consider using slot instead of this method -->
       <StoryCommentItem
         v-for="item in childComments"
         :key="item.loveCount"
@@ -131,8 +143,21 @@ const openChild = ref(false)
       v-if="isMainThread && openComment"
       class="flex gap-2 pl-11 items-center mt-2"
     >
-      <UInput placeholder="Balas ke Albed" class="w-3/4" variant="outline" />
-      <UTooltip text="Kirim komentar">
+      <UTextarea
+        v-model="commentText"
+        placeholder="Balas ke albed"
+        class="w-3/4"
+        variant="outline"
+        autoresize
+        autofocus
+        :rows="1"
+        :maxrows="6"
+        :avatar="{
+          src: `https://api.dicebear.com/9.x/shapes/svg?seed=haphap`,
+        }"
+      />
+
+      <UTooltip v-if="commentText.length > 0" text="Kirim komentar">
         <UButton class="rounded-full" variant="soft" icon="lucide:send" />
       </UTooltip>
     </div>
