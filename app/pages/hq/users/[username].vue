@@ -34,7 +34,6 @@ type Schema = InferInput<typeof schema>
 
 const openEditProfileSlide = ref(false)
 const isLoading = ref(false)
-const roleOptions = ref([])
 
 const supabase = useSupabaseClient<Database>()
 const route = useRoute()
@@ -59,19 +58,30 @@ const { data: user, refresh: refreshUser } = await useAsyncData(
     return data
   },
 )
-const { data: roles } = await useLazyAsyncData('roles', async () => {
-  const { data, error } = await supabase
-    .from('roles')
-    .select('name, id, created_at')
-    .neq('has_full_access', true)
+const { data: roles } = await useLazyAsyncData(
+  'roles',
+  async () => {
+    const { data, error } = await supabase
+      .from('roles')
+      .select('name, id, created_at')
+      .neq('has_full_access', true)
 
-  if (error) {
-    console.error(error)
-    return null
-  }
+    if (error) {
+      console.error(error)
+      return null
+    }
 
-  return data
-})
+    return data
+  },
+  {
+    transform: data => {
+      return data?.map(role => ({
+        label: role.name,
+        value: role.id,
+      }))
+    },
+  },
+)
 
 if (!user.value) {
   throw createError({ statusCode: 404, statusMessage: 'Page Not Found' })
@@ -170,14 +180,6 @@ async function updateProfile(event: FormSubmitEvent<Schema>) {
     await Promise.allSettled([refreshUser(), refreshStories()])
   }
 }
-
-onMounted(() => {
-  if (roles.value?.length > 0) {
-    for (const role of roles.value) {
-      roleOptions.value.push({ label: role.name, value: role.id })
-    }
-  }
-})
 </script>
 
 <template>
@@ -304,11 +306,7 @@ onMounted(() => {
               label="Role"
               name="role"
             >
-              <USelect
-                v-model="state.role"
-                class="w-full"
-                :items="roleOptions"
-              />
+              <USelect v-model="state.role" class="w-full" :items="roles" />
             </UFormField>
             <UFormField class="mt-4" label="Aktif" name="isActive">
               <USwitch v-model="state.isActive" color="primary" />
