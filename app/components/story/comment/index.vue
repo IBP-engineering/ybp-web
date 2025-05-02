@@ -48,6 +48,11 @@ const data = [
 ]
 
 const commentText = ref('')
+const loadingPostComment = ref(false)
+
+const postComment = async () => {
+  console.log('ok')
+}
 </script>
 
 <template>
@@ -64,13 +69,17 @@ const commentText = ref('')
         :avatar="{
           src: `https://api.dicebear.com/9.x/shapes/svg?seed=haphap`,
         }"
+        @keydown.meta.enter="postComment"
+        @keydown.ctrl.enter="postComment"
       />
       <UTooltip text="Kirim komentar">
         <UButton
           v-if="commentText.length > 0"
+          @click.="postComment"
           class="rounded-full"
           variant="soft"
           icon="lucide:send"
+          :loading="loadingPostComment"
         />
       </UTooltip>
     </div>

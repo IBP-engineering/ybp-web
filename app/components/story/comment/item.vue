@@ -91,6 +91,16 @@ const openChild = ref(false)
           {{ commentCount }}
         </UButton>
       </UTooltip>
+
+      <UTooltip text="Opsi">
+        <UButton
+          v-if="isMainThread"
+          color="neutral"
+          variant="ghost"
+          icon="lucide:ellipsis-vertical"
+          disabled
+        />
+      </UTooltip>
     </div>
 
     <span
