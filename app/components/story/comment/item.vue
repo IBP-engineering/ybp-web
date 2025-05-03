@@ -1,62 +1,73 @@
 <script setup lang="ts">
 import { formatDistanceToNowStrict } from 'date-fns'
 import id from 'date-fns/locale/id'
+import type { CommentWithAuthorReplies, Story, User } from '~/types/entities'
 
-withDefaults(
-  defineProps<{
-    isLove?: boolean
-    loveCount?: number
-    commentCount?: number
-    role?: 'op' | 'mod' | 'member'
-    isMainThread?: boolean
-    comment: { text: string; username: string; createdAt: number }
-    childComments: {
-      isLove?: boolean
-      loveCount?: number
-      isMainThread?: boolean
-      role?: 'op' | 'mod'
-      comment?: { text: string; username: string; createdAt: number }
-    }[]
-  }>(),
-  {
-    commentCount: 0,
-    isLove: false,
-    loveCount: 0,
-    isMainThread: true,
-    role: 'member',
-  },
-)
+const props = defineProps<{
+  comment: CommentWithAuthorReplies
+}>()
 
 const openComment = ref(false)
 const commentText = ref('')
 const openChild = ref(false)
+const route = useRoute()
+const slug = route.params.slug
+const story = useNuxtData<Story>(`story/${slug}`)
+const user = useNuxtData<User>('current-user')
+
+const author = props.comment.author
+const isMainThread = props.comment.thread === null
+const commentCount = props.comment.replies.length
+const isOriginalPoster = computed(() => {
+  const isAuthor = story.data.value.user_id === author.id
+  return isAuthor
+})
+const isModeratorOrAdmin = author.role_id !== 1
+const isLoggedIn = computed(() => {
+  return Boolean(user.data.value)
+})
 </script>
 
 <template>
   <div class="relative min-h-full flex flex-col">
     <div class="flex gap-2 -ml-1">
-      <UserPicture class="border-4 border-white w-10 h-10" seed="halodek" />
+      <UserPicture
+        class="border-4 border-white w-10 h-10"
+        :seed="author.username"
+      />
 
       <div class="flex gap-2 items-start">
         <div class="flex items-center gap-2">
-          <ULink to="#" class="font-bold hover:underline text-primary-950">{{
-            comment.username
-          }}</ULink>
-          <UTooltip :text="role === 'op' ? 'Original poster' : 'Moderator'">
+          <ULink
+            :to="`/${author.username}`"
+            class="font-bold hover:underline text-primary-950"
+            >{{ author.display_name }}</ULink
+          >
+          <UTooltip
+            :text="
+              isOriginalPoster
+                ? 'Original poster'
+                : author.role_id === 2
+                  ? 'Moderator'
+                  : 'Grand master'
+            "
+          >
             <UBadge
-              v-if="role !== 'member'"
-              :color="role === 'mod' ? 'warning' : 'neutral'"
+              v-if="isOriginalPoster || isModeratorOrAdmin"
+              :color="isOriginalPoster ? 'neutral' : 'info'"
               class="px-1 py-[0.2px]"
             >
-              {{ role.toUpperCase() }}
+              {{
+                isOriginalPoster ? 'OP' : author.role_id === 2 ? 'MOD' : 'GM'
+              }}
             </UBadge>
           </UTooltip>
         </div>
         <time
-          :datetime="new Date(comment.createdAt).toISOString()"
-          :title="new Date(comment.createdAt).toISOString()"
+          :datetime="new Date(comment.created_at).toISOString()"
+          :title="new Date(comment.created_at).toISOString()"
           >{{
-            formatDistanceToNowStrict(new Date(comment.createdAt), {
+            formatDistanceToNowStrict(new Date(comment.created_at), {
               locale: id,
               roundingMethod: 'round',
             })
@@ -66,17 +77,17 @@ const openChild = ref(false)
     </div>
 
     <p class="pl-11 -mt-3 text-neutral-600 text-balance">
-      {{ comment.text }}
+      {{ comment.comment_text }}
     </p>
 
     <div class="mt-2 pl-11 flex gap-2">
       <UTooltip text="Sukai komentar">
         <UButton
-          :color="isLove ? 'error' : 'neutral'"
-          :variant="isLove ? 'soft' : 'ghost'"
-          :icon="isLove ? 'ph:heart-fill' : 'ph:heart'"
+          :color="true ? 'error' : 'neutral'"
+          :variant="true ? 'soft' : 'ghost'"
+          :icon="true ? 'ph:heart-fill' : 'ph:heart'"
         >
-          {{ loveCount }}
+          {{ 189 }}
         </UButton>
       </UTooltip>
 
@@ -117,11 +128,11 @@ const openChild = ref(false)
     <div v-if="!openChild && commentCount > 0" class="mt-4 flex items-center">
       <UAvatarGroup :max="2" size="3xs">
         <UAvatar
-          src="https://github.com/benjamincanac.png"
-          alt="Benjamin Canac"
+          v-for="comReply in comment.replies"
+          :key="comReply.id"
+          :src="`${avatarBaseUrl}?seed=${comReply.author.username}`"
+          :alt="comReply.author.display_name"
         />
-        <UAvatar src="https://github.com/romhml.png" alt="Romain Hamel" />
-        <UAvatar src="https://github.com/noook.png" alt="Neil Richter" />
       </UAvatarGroup>
 
       <UButton
@@ -138,24 +149,19 @@ const openChild = ref(false)
     <div v-if="commentCount > 0 && openChild" class="flex flex-col gap-4 mt-4">
       <!-- TODO: consider using slot instead of this method -->
       <StoryCommentItem
-        v-for="item in childComments"
-        :key="item.loveCount"
-        :comment="item.comment"
-        :is-love="item.isLove"
-        :love-count="item.loveCount"
-        :role="item.role"
-        :is-main-thread="false"
-        :child-comments="[]"
+        v-for="commentReply in comment.replies"
+        :key="commentReply.id"
+        :comment="commentReply"
       />
     </div>
 
     <div
-      v-if="isMainThread && openComment"
+      v-if="isLoggedIn && isMainThread && openComment"
       class="flex gap-2 pl-11 items-center mt-2"
     >
       <UTextarea
         v-model="commentText"
-        placeholder="Balas ke albed"
+        :placeholder="`Balas ke ${author.display_name}`"
         class="w-3/4"
         variant="outline"
         autoresize
@@ -163,7 +169,7 @@ const openChild = ref(false)
         :rows="1"
         :maxrows="6"
         :avatar="{
-          src: `https://api.dicebear.com/9.x/shapes/svg?seed=haphap`,
+          src: `${avatarBaseUrl}?seed=${user.data.value.username}`,
         }"
       />
 

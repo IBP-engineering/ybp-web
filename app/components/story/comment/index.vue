@@ -1,63 +1,124 @@
 <script setup lang="ts">
-const data = [
-  {
-    isLove: true,
-    loveCount: 9,
-    commentCount: 2,
-    role: 'mod',
-    comment: {
-      username: 'albed',
-      text: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam fugit, inventore distinctio deleniti deserunt quidem quasi tempore nisi laborum magnam minima commodi, ipsam consequuntur iusto. Tenetur aliquam odio error earum?',
-      createdAt: new Date().setHours(5, 0, 0),
-    },
-    childComments: [
-      {
-        isLove: true,
-        loveCount: 1,
-        role: 'op',
-        comment: {
-          username: 'apakahreal',
-          text: 'Lorem ipsum',
-          createdAt: new Date().setHours(6, 0, 0),
-        },
-      },
-      {
-        isLove: false,
-        loveCount: 0,
-        role: 'member',
-        comment: {
-          username: 'ownernya',
-          text: 'Lorem ipsum dolor sit',
-          createdAt: new Date().setHours(6, 10, 0),
-        },
-      },
-    ],
-  },
-  {
-    isLove: false,
-    loveCount: 2,
-    commentCount: 0,
-    role: 'member',
-    comment: {
-      username: 'juragansawo99',
-      text: 'Lorem ipsum dolor sit amet',
-      createdAt: new Date().setHours(5, 0, 0),
-    },
-    childComments: [],
-  },
-]
+import type { PostgrestError } from '@supabase/supabase-js'
+import type { Database } from '~/types/database.types'
+import type { CommentWithAuthorReplies, User } from '~/types/entities'
 
 const commentText = ref('')
 const loadingPostComment = ref(false)
 
+const supabase = useSupabaseClient<Database>()
+const route = useRoute()
+const toast = useToast()
+const slug = route.params.slug
+const story = useNuxtData(`story/${slug}`)
+const user = useNuxtData<User>('current-user')
+
+const { data: comments } = await useAsyncData(
+  `story/${slug}/comments`,
+  async () => {
+    const { data, error } = (await supabase
+      .from('story_comments')
+      .select(
+        `*,
+      author:users(id, display_name, username, role_id)
+      `,
+      )
+      .eq('story', story.data.value.id)
+      .neq('status', 'deleted')) as {
+      data: CommentWithAuthorReplies[]
+      error: PostgrestError
+    }
+
+    if (error) {
+      console.error(error)
+      return null
+    }
+
+    const commentsById = new Map<string, CommentWithAuthorReplies>()
+    const topLevelComments: CommentWithAuthorReplies[] = []
+
+    data.forEach(comment => {
+      commentsById.set(comment.id, comment)
+      comment.replies = []
+
+      if (!comment.thread) {
+        topLevelComments.push(comment)
+      }
+    })
+
+    data.forEach(comment => {
+      const parentId = comment.thread
+
+      if (parentId) {
+        const parentComment = commentsById.get(parentId)
+
+        if (parentComment) {
+          parentComment.replies.push(comment)
+        }
+      }
+    })
+
+    return topLevelComments
+  },
+)
+
 const postComment = async () => {
-  console.log('ok')
+  try {
+    if (!user.data.value) {
+      toast.add({
+        title: 'Pufft',
+        description:
+          'User tidak ditemukan. Pastikan anda sudah melakukan login',
+        color: 'error',
+        icon: 'i-heroicons-x-mark-solid',
+      })
+      return
+    }
+
+    if (!story.data.value) {
+      toast.add({
+        title: 'Pufft',
+        description:
+          'Story tidak ditemukan. Silahkan restart tab untuk memproses',
+        color: 'error',
+        icon: 'i-heroicons-x-mark-solid',
+      })
+      return
+    }
+
+    loadingPostComment.value = true
+
+    await supabase.from('story_comments').insert({
+      comment_text: commentText.value,
+      user: user.data.value.id,
+      story: story.data.value.id,
+    })
+
+    commentText.value = ''
+    await refreshNuxtData(`story/${slug}/comments`)
+    toast.add({
+      title: 'OK',
+      description: 'Komentar berhasil dikirim',
+      color: 'success',
+      icon: 'lucide:circle-check-big',
+    })
+  } catch (error) {
+    toast.add({
+      title: 'Upss',
+      description: 'Sepertinya terjadi kesalahan',
+      color: 'error',
+      icon: 'i-heroicons-x-mark-solid',
+    })
+    throw createError(error)
+  } finally {
+    loadingPostComment.value = false
+  }
 }
 </script>
 
 <template>
   <section class="flex flex-col gap-4 py-4 w-full md:w-3/4">
-    <div class="flex gap-2 items-center">
+    <div v-if="user.data.value" class="flex gap-2 items-center">
       <UTextarea
         v-model="commentText"
         placeholder="Tinggalkan komentar"
@@ -67,8 +128,9 @@ const postComment = async () => {
         :rows="1"
         :maxrows="6"
         :avatar="{
-          src: `https://api.dicebear.com/9.x/shapes/svg?seed=haphap`,
+          src: `${avatarBaseUrl}?seed=${user.data.value.username}`,
         }"
+        :loading="loadingPostComment"
         @keydown.meta.enter="postComment"
         @keydown.ctrl.enter="postComment"
       />
@@ -79,21 +141,16 @@ const postComment = async () => {
           class="rounded-full"
           variant="soft"
           icon="lucide:send"
-          :loading="loadingPostComment"
+          :disabled="loadingPostComment"
         />
       </UTooltip>
     </div>
 
     <div class="flex flex-col w-full gap-8">
       <StoryCommentItem
-        v-for="item in data"
-        :key="item.loveCount"
-        :is-love="item.isLove"
-        :love-count="item.loveCount"
-        :comment-count="item.commentCount"
-        :comment="item.comment"
-        :role="item.role"
-        :child-comments="item.childComments"
+        v-for="comment in comments"
+        :key="comment.id"
+        :comment="comment"
       />
     </div>
   </section>
