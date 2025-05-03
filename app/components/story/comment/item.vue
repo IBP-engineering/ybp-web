@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { formatDistanceToNowStrict } from 'date-fns'
 import id from 'date-fns/locale/id'
+import * as v from 'valibot'
 import type { CommentWithAuthorReplies, Story, User } from '~/types/entities'
 
 const props = defineProps<{
@@ -10,7 +11,10 @@ const props = defineProps<{
 const openComment = ref(false)
 const commentText = ref('')
 const openChild = ref(false)
+const loadingPostComment = ref(false)
 const route = useRoute()
+const toast = useToast()
+const supabase = useSupabaseClient()
 const slug = route.params.slug
 const story = useNuxtData<Story>(`story/${slug}`)
 const user = useNuxtData<User>('current-user')
@@ -26,6 +30,71 @@ const isModeratorOrAdmin = author.role_id !== 1
 const isLoggedIn = computed(() => {
   return Boolean(user.data.value)
 })
+
+const postComment = async () => {
+  try {
+    if (!user.data.value) {
+      toast.add({
+        title: 'Pufft',
+        description:
+          'User tidak ditemukan. Pastikan anda sudah melakukan login',
+        color: 'error',
+        icon: 'i-heroicons-x-mark-solid',
+      })
+      return
+    }
+
+    if (!story.data.value) {
+      toast.add({
+        title: 'Pufft',
+        description:
+          'Story tidak ditemukan. Silahkan restart tab untuk memproses',
+        color: 'error',
+        icon: 'i-heroicons-x-mark-solid',
+      })
+      return
+    }
+
+    const validator = v.safeParse(commentValidator, commentText.value)
+    if (!validator.success) {
+      toast.add({
+        title: 'Pufft',
+        description: validator.issues[0].message,
+        color: 'error',
+        icon: 'i-heroicons-x-mark-solid',
+      })
+      return
+    }
+
+    loadingPostComment.value = true
+
+    await supabase.from('story_comments').insert({
+      comment_text: commentText.value,
+      thread: props.comment.id,
+      user: user.data.value.id,
+      story: story.data.value.id,
+    })
+
+    commentText.value = ''
+    await refreshNuxtData(`story/${slug}/comments`)
+    toast.add({
+      title: 'OK',
+      description: 'Komentar berhasil dikirim',
+      color: 'success',
+      icon: 'lucide:circle-check-big',
+    })
+  } catch (error) {
+    toast.add({
+      title: 'Upss',
+      description: 'Sepertinya terjadi kesalahan',
+      color: 'error',
+      icon: 'i-heroicons-x-mark-solid',
+    })
+    throw createError(error)
+  } finally {
+    loadingPostComment.value = false
+  }
+}
 </script>
 
 <template>
@@ -171,10 +240,19 @@ const isLoggedIn = computed(() => {
         :avatar="{
           src: `${avatarBaseUrl}?seed=${user.data.value.username}`,
         }"
+        :loading="loadingPostComment"
+        @keydown.meta.enter="postComment"
+        @keydown.ctrl.enter="postComment"
       />
 
       <UTooltip v-if="commentText.length > 0" text="Kirim komentar">
-        <UButton class="rounded-full" variant="soft" icon="lucide:send" />
+        <UButton
+          class="rounded-full"
+          variant="soft"
+          @click.="postComment"
+          :disabled="loadingPostComment"
+          icon="lucide:send"
+        />
       </UTooltip>
     </div>
   </div>

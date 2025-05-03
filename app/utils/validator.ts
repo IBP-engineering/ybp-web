@@ -31,3 +31,5 @@ export const optionalPasswordValidator = v.pipe(
   v.trim(),
   v.check(input => input === '' || input.length >= 8, 'Minimal 8 karakter'),
 )
+
+export const commentValidator = v.pipe(v.string(), v.maxLength(200))

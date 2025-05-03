@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { PostgrestError } from '@supabase/supabase-js'
+import * as v from 'valibot'
 import type { Database } from '~/types/database.types'
 import type { CommentWithAuthorReplies, User } from '~/types/entities'
 
@@ -80,6 +81,17 @@ const postComment = async () => {
         title: 'Pufft',
         description:
           'Story tidak ditemukan. Silahkan restart tab untuk memproses',
+        color: 'error',
+        icon: 'i-heroicons-x-mark-solid',
+      })
+      return
+    }
+
+    const validator = v.safeParse(commentValidator, commentText.value)
+    if (!validator.success) {
+      toast.add({
+        title: 'Pufft',
+        description: validator.issues[0].message,
         color: 'error',
         icon: 'i-heroicons-x-mark-solid',
       })
