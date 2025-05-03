@@ -74,7 +74,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     </h2>
     <div class="mb-4">
       <UAvatar
-        :src="`https://api.dicebear.com/9.x/shapes/svg?seed=${userProfile.username}`"
+        :src="`${avatarBaseUrl}?seed=${userProfile.username}`"
         alt="Avatar"
         size="3xl"
       />

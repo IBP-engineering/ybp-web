@@ -1,5 +1,9 @@
 <script setup lang="ts">
 import type { DropdownMenuItem } from '@nuxt/ui'
+import type {
+  RouteLocationAsPathGeneric,
+  RouteLocationAsRelativeGeneric,
+} from 'vue-router'
 import { currentUser } from '~/store/session'
 
 useHead({
@@ -42,6 +46,13 @@ async function logout() {
   }
 
   reloadNuxtApp()
+}
+
+function closeAfterNavigate(
+  to: string | RouteLocationAsRelativeGeneric | RouteLocationAsPathGeneric,
+) {
+  navigateTo(to)
+  openNavModal.value = false
 }
 
 const { data: userData } = await useAsyncData(
@@ -144,7 +155,7 @@ const dropdownItems: DropdownMenuItem[][] = [
               {{ userData?.display_name }}
             </span>
             <UAvatar
-              :src="`https://api.dicebear.com/9.x/shapes/svg?seed=${userData?.username}`"
+              :src="`${avatarBaseUrl}?seed=${userData?.username}`"
               alt="Avatar"
             />
           </UButton>
@@ -158,7 +169,7 @@ const dropdownItems: DropdownMenuItem[][] = [
         >
           Sign in
         </UButton>
-        <LazyUSlideover>
+        <LazyUSlideover v-model:open="openNavModal" title="Menu navigasi">
           <UButton
             icon="i-heroicons-bars-3"
             square
@@ -179,7 +190,7 @@ const dropdownItems: DropdownMenuItem[][] = [
                   variant="link"
                   color="neutral"
                   trailing-icon="heroicons:arrow-small-right-20-solid"
-                  :to="link.to"
+                  @click="closeAfterNavigate(link.to)"
                   >{{ link.label }}</UButton
                 >
               </nav>
@@ -190,7 +201,7 @@ const dropdownItems: DropdownMenuItem[][] = [
                   </p>
 
                   <UAvatar
-                    :src="`https://api.dicebear.com/9.x/shapes/svg?seed=${userData?.username}`"
+                    :src="`${avatarBaseUrl}?seed=${userData?.username}`"
                     size="xs"
                     alt="Avatar"
                   />
@@ -204,8 +215,7 @@ const dropdownItems: DropdownMenuItem[][] = [
                         variant="outline"
                         block
                         :icon="item.icon"
-                        :to="item.to"
-                        @click="openNavModal = false"
+                        @click="closeAfterNavigate(item.to)"
                       >
                         {{ item.label }}
                       </UButton>
