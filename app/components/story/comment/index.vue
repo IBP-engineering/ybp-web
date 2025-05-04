@@ -1,8 +1,11 @@
 <script setup lang="ts">
-import type { PostgrestError } from '@supabase/supabase-js'
 import * as v from 'valibot'
 import type { Database } from '~/types/database.types'
 import type { CommentWithAuthorReplies, User } from '~/types/entities'
+
+defineProps<{
+  comments: CommentWithAuthorReplies[]
+}>()
 
 const commentText = ref('')
 const loadingPostComment = ref(false)
@@ -13,56 +16,6 @@ const toast = useToast()
 const slug = route.params.slug
 const story = useNuxtData(`story/${slug}`)
 const user = useNuxtData<User>('current-user')
-
-const { data: comments } = await useAsyncData(
-  `story/${slug}/comments`,
-  async () => {
-    const { data, error } = (await supabase
-      .from('story_comments')
-      .select(
-        `*,
-      author:users(id, display_name, username, role_id),
-      reactions:comment_reactions(id, user)
-      `,
-      )
-      .eq('story', story.data.value.id)
-      .neq('status', 'deleted')) as {
-      data: CommentWithAuthorReplies[]
-      error: PostgrestError
-    }
-
-    if (error) {
-      console.error(error)
-      return null
-    }
-
-    const commentsById = new Map<string, CommentWithAuthorReplies>()
-    const topLevelComments: CommentWithAuthorReplies[] = []
-
-    data.forEach(comment => {
-      commentsById.set(comment.id, comment)
-      comment.replies = []
-
-      if (!comment.thread) {
-        topLevelComments.push(comment)
-      }
-    })
-
-    data.forEach(comment => {
-      const parentId = comment.thread
-
-      if (parentId) {
-        const parentComment = commentsById.get(parentId)
-
-        if (parentComment) {
-          parentComment.replies.push(comment)
-        }
-      }
-    })
-
-    return topLevelComments
-  },
-)
 
 const postComment = async () => {
   try {

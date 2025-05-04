@@ -1,16 +1,12 @@
 <script setup lang="ts">
-import type {
-  CommentWithAuthorReplies,
-  Story,
-  StoryReaction,
-  User,
-} from '~/types/entities'
+import type { Story, StoryReaction, User } from '~/types/entities'
 
 const props = defineProps<{
   story: Partial<Story> & {
     author: Partial<User>
     reactions: Partial<StoryReaction>[]
   }
+  commentCount: number
 }>()
 
 const route = useRoute()
@@ -22,9 +18,6 @@ const slug = route.params.slug
 const toast = useToast()
 const user = useSupabaseUser()
 const supabase = useSupabaseClient()
-const comments = useNuxtData<CommentWithAuthorReplies[]>(
-  `story/${slug}/comments`,
-)
 
 const isUserHasReacted = computed(() => {
   const userId = user.value?.id
@@ -110,7 +103,7 @@ provide(onSuccessLogin, () => {
         aria-label="Button to going into comment section"
         class="flex lg:flex-col"
         @click="toCommentSection"
-        >{{ comments.data.value?.length ?? 0 }}</UButton
+        >{{ commentCount || null }}</UButton
       >
     </UTooltip>
 

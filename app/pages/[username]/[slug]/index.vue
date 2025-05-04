@@ -1,6 +1,8 @@
 <script lang="ts" setup>
+import type { PostgrestError } from '@supabase/supabase-js'
 import { format } from 'date-fns'
 import id from 'date-fns/locale/id'
+import type { CommentWithAuthorReplies } from '~/types/entities'
 
 defineOgImageComponent('default')
 
@@ -41,6 +43,56 @@ const { data: story } = await useAsyncData(`story/${slug}`, async () => {
   }
 })
 
+const { data: comments } = await useAsyncData(
+  `story/${slug}/comments`,
+  async () => {
+    const { data, error } = (await supabase
+      .from('story_comments')
+      .select(
+        `*,
+      author:users(id, display_name, username, role_id),
+      reactions:comment_reactions(id, user)
+      `,
+      )
+      .eq('story', story.value.id)
+      .neq('status', 'deleted')) as {
+      data: CommentWithAuthorReplies[]
+      error: PostgrestError
+    }
+
+    if (error) {
+      console.error(error)
+      return null
+    }
+
+    const commentsById = new Map<string, CommentWithAuthorReplies>()
+    const topLevelComments: CommentWithAuthorReplies[] = []
+
+    data.forEach(comment => {
+      commentsById.set(comment.id, comment)
+      comment.replies = []
+
+      if (!comment.thread) {
+        topLevelComments.push(comment)
+      }
+    })
+
+    data.forEach(comment => {
+      const parentId = comment.thread
+
+      if (parentId) {
+        const parentComment = commentsById.get(parentId)
+
+        if (parentComment) {
+          parentComment.replies.push(comment)
+        }
+      }
+    })
+
+    return topLevelComments
+  },
+)
+
 if (!story.value) {
   throw createError({
     statusCode: 404,
@@ -75,7 +127,7 @@ useSeoMeta({
     </div>
 
     <div class="mt-4 flex z-10 w-full flex-col-reverse gap-4 lg:flex-row">
-      <StoryReactions :story="story" />
+      <StoryReactions :story="story" :comment-count="comments.length" />
       <div class="flex w-full flex-col">
         <div
           class="w-full overflow-hidden shadow md:rounded-lg md:border md:border-neutral-300 md:bg-neutral-50"
@@ -155,7 +207,7 @@ useSeoMeta({
     <section class="mt-8 px-4">
       <h4 id="commentary" class="font-bold scroll-m-24">Komentar</h4>
 
-      <StoryComment />
+      <StoryComment :comments="comments" />
     </section>
 
     <SharedJoinBanner class="mt-8">
