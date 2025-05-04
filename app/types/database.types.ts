@@ -46,37 +46,37 @@ export type Database = {
       }
       comment_reactions: {
         Row: {
-          comment_id: string
+          comment: string
           created_at: string
           id: string
           reaction_type: Database["public"]["Enums"]["Comment reaction type"]
-          user_id: string
+          user: string
         }
         Insert: {
-          comment_id: string
+          comment: string
           created_at?: string
           id?: string
           reaction_type?: Database["public"]["Enums"]["Comment reaction type"]
-          user_id: string
+          user: string
         }
         Update: {
-          comment_id?: string
+          comment?: string
           created_at?: string
           id?: string
           reaction_type?: Database["public"]["Enums"]["Comment reaction type"]
-          user_id?: string
+          user?: string
         }
         Relationships: [
           {
-            foreignKeyName: "comment_reactions_comment_id_fkey"
-            columns: ["comment_id"]
+            foreignKeyName: "comment_reactions_comment_fkey"
+            columns: ["comment"]
             isOneToOne: false
             referencedRelation: "story_comments"
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "comment_reactions_user_id_fkey"
-            columns: ["user_id"]
+            foreignKeyName: "comment_reactions_user_fkey"
+            columns: ["user"]
             isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]

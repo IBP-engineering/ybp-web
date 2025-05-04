@@ -21,7 +21,8 @@ const { data: comments } = await useAsyncData(
       .from('story_comments')
       .select(
         `*,
-      author:users(id, display_name, username, role_id)
+      author:users(id, display_name, username, role_id),
+      reactions:comment_reactions(id, user)
       `,
       )
       .eq('story', story.data.value.id)

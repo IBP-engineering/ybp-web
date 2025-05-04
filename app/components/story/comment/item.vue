@@ -150,7 +150,7 @@ const postComment = async () => {
           :variant="true ? 'soft' : 'ghost'"
           :icon="true ? 'ph:heart-fill' : 'ph:heart'"
         >
-          {{ 189 }}
+          {{ comment.reactions?.length ?? 0 }}
         </UButton>
       </UTooltip>
 
