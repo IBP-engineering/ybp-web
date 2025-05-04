@@ -97,6 +97,24 @@ const postComment = async () => {
     loadingPostComment.value = false
   }
 }
+
+const giveReaction = async () => {
+  try {
+    await supabase.from('comment_reactions').insert({
+      comment: props.comment.id,
+      user: user.data.value.id,
+    })
+    await refreshNuxtData(`story/${slug}/comments`)
+  } catch (error) {
+    toast.add({
+      title: 'Upss',
+      description: 'Sepertinya terjadi kesalahan',
+      color: 'error',
+      icon: 'i-heroicons-x-mark-solid',
+    })
+    throw createError(error)
+  }
+}
 </script>
 
 <template>
@@ -157,8 +175,9 @@ const postComment = async () => {
           :color="isUserAlreadyReact ? 'error' : 'neutral'"
           :variant="isUserAlreadyReact ? 'soft' : 'ghost'"
           :icon="isUserAlreadyReact ? 'ph:heart-fill' : 'ph:heart'"
+          @click="giveReaction"
         >
-          {{ comment.reactions?.length ?? 0 }}
+          {{ comment.reactions?.length || null }}
         </UButton>
       </UTooltip>
 
@@ -170,7 +189,7 @@ const postComment = async () => {
           icon="ph:chat-centered"
           @click="openComment = !openComment"
         >
-          {{ commentCount }}
+          {{ commentCount || null }}
         </UButton>
       </UTooltip>
 
