@@ -22,13 +22,21 @@ const user = useNuxtData<User>('current-user')
 const author = props.comment.author
 const isMainThread = props.comment.thread === null
 const commentCount = props.comment.replies.length
+const isModeratorOrAdmin = author.role_id !== 1
+
 const isOriginalPoster = computed(() => {
   const isAuthor = story.data.value.user_id === author.id
   return isAuthor
 })
-const isModeratorOrAdmin = author.role_id !== 1
+
 const isLoggedIn = computed(() => {
   return Boolean(user.data.value)
+})
+
+const isUserAlreadyReact = computed(() => {
+  return props.comment.reactions.some(
+    react => react.user === user.data.value.id,
+  )
 })
 
 const postComment = async () => {
@@ -146,9 +154,9 @@ const postComment = async () => {
     <div class="mt-2 pl-11 flex gap-2">
       <UTooltip text="Sukai komentar">
         <UButton
-          :color="true ? 'error' : 'neutral'"
-          :variant="true ? 'soft' : 'ghost'"
-          :icon="true ? 'ph:heart-fill' : 'ph:heart'"
+          :color="isUserAlreadyReact ? 'error' : 'neutral'"
+          :variant="isUserAlreadyReact ? 'soft' : 'ghost'"
+          :icon="isUserAlreadyReact ? 'ph:heart-fill' : 'ph:heart'"
         >
           {{ comment.reactions?.length ?? 0 }}
         </UButton>
