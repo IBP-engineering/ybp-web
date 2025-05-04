@@ -77,12 +77,6 @@ const postComment = async () => {
 
     commentText.value = ''
     await refreshNuxtData(`story/${slug}/comments`)
-    toast.add({
-      title: 'OK',
-      description: 'Komentar berhasil dikirim',
-      color: 'success',
-      icon: 'lucide:circle-check-big',
-    })
   } catch (error) {
     toast.add({
       title: 'Upss',
