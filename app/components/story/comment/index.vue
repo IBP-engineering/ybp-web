@@ -9,6 +9,7 @@ defineProps<{
 
 const commentText = ref('')
 const loadingPostComment = ref(false)
+const openLoginModal = ref(false)
 
 const supabase = useSupabaseClient<Database>()
 const route = useRoute()
@@ -20,13 +21,7 @@ const user = useNuxtData<User>('current-user')
 const postComment = async () => {
   try {
     if (!user.data.value) {
-      toast.add({
-        title: 'Pufft',
-        description:
-          'User tidak ditemukan. Pastikan anda sudah melakukan login',
-        color: 'error',
-        icon: 'i-heroicons-x-mark-solid',
-      })
+      openLoginModal.value = true
       return
     }
 
@@ -80,11 +75,19 @@ const postComment = async () => {
     loadingPostComment.value = false
   }
 }
+
+provide(onSuccessLogin, () => {
+  openLoginModal.value = false
+  toast.add({
+    title: 'Berhasil login',
+    color: 'success',
+  })
+})
 </script>
 
 <template>
   <section class="flex flex-col gap-4 py-4 w-full md:w-3/4">
-    <div v-if="user.data.value" class="flex gap-2 items-center">
+    <div class="flex gap-2 items-center">
       <UTextarea
         v-model="commentText"
         placeholder="Tinggalkan komentar"
@@ -94,7 +97,8 @@ const postComment = async () => {
         :rows="1"
         :maxrows="6"
         :avatar="{
-          src: `${avatarBaseUrl}?seed=${user.data.value.username}`,
+          src: `${avatarBaseUrl}?seed=${user.data.value?.username}`,
+          class: `${user.data.value ? 'block' : 'hidden'}`,
         }"
         :loading="loadingPostComment"
         @keydown.meta.enter="postComment"
@@ -119,5 +123,6 @@ const postComment = async () => {
         :comment="comment"
       />
     </div>
+    <LazySharedLoginModal v-model:open="openLoginModal" />
   </section>
 </template>
