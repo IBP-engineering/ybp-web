@@ -100,6 +100,17 @@ const postComment = async () => {
 
 const giveReaction = async () => {
   try {
+    if (!user.data.value) {
+      // TODO: give proper behavior. maybe encourage to login?
+      toast.add({
+        title: 'Waduhh',
+        description: 'Kamu harus melakukan login terlebih dahulu',
+        color: 'warning',
+        icon: 'lucide:lock',
+      })
+      return
+    }
+
     await supabase.from('comment_reactions').insert({
       comment: props.comment.id,
       user: user.data.value.id,
@@ -184,6 +195,7 @@ const giveReaction = async () => {
       <UTooltip text="Balas komentar">
         <UButton
           v-if="isMainThread"
+          :disabled="!isLoggedIn"
           color="neutral"
           variant="ghost"
           icon="ph:chat-centered"
