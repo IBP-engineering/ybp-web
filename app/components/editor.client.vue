@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { EditorContent, Editor } from '@tiptap/vue-3'
 import ListItem from '@tiptap/extension-list-item'
-import TextStyle from '@tiptap/extension-text-style'
 import TextAlign from '@tiptap/extension-text-align'
+import TextStyle from '@tiptap/extension-text-style'
 import StarterKit from '@tiptap/starter-kit'
+import { type Content, Editor, EditorContent } from '@tiptap/vue-3'
 
-const editorModel = defineModel('editor')
+const editorModel = defineModel<Content>('editor')
 
 const editor = ref<Editor | null>(null)
 
@@ -60,7 +60,7 @@ onUnmounted(() => {
           :variant="
             editor.isActive('heading', { level: 2 }) ? 'solid' : 'ghost'
           "
-          color="black"
+          color="neutral"
           size="xs"
           icon="i-ph:text-h-two"
           :disabled="
@@ -75,7 +75,7 @@ onUnmounted(() => {
           :variant="
             editor.isActive('heading', { level: 3 }) ? 'solid' : 'ghost'
           "
-          color="black"
+          color="neutral"
           size="xs"
           icon="i-ph:text-h-three"
           :disabled="
@@ -88,7 +88,7 @@ onUnmounted(() => {
       <UTooltip text="Bold" :popper="{ arrow: true, placement: 'bottom' }">
         <UButton
           :variant="editor.isActive('bold') ? 'solid' : 'ghost'"
-          color="black"
+          color="neutral"
           size="xs"
           icon="i-ph:text-bolder"
           :disabled="!editor.can().chain().focus().toggleBold().run()"
@@ -99,7 +99,7 @@ onUnmounted(() => {
       <UTooltip text="Italic" :popper="{ arrow: true, placement: 'bottom' }">
         <UButton
           :variant="editor.isActive('italic') ? 'solid' : 'ghost'"
-          color="black"
+          color="neutral"
           size="xs"
           icon="i-ph:text-italic"
           :disabled="!editor.can().chain().focus().toggleItalic().run()"
@@ -113,7 +113,7 @@ onUnmounted(() => {
       >
         <UButton
           :variant="editor.isActive('strike') ? 'solid' : 'ghost'"
-          color="black"
+          color="neutral"
           size="xs"
           icon="i-ph:text-strikethrough"
           :disabled="!editor.can().chain().focus().toggleStrike().run()"
@@ -124,7 +124,7 @@ onUnmounted(() => {
       <UTooltip text="Code" :popper="{ arrow: true, placement: 'bottom' }">
         <UButton
           :variant="editor.isActive('code') ? 'solid' : 'ghost'"
-          color="black"
+          color="neutral"
           size="xs"
           icon="i-ph:code"
           :disabled="!editor.can().chain().focus().toggleCode().run()"
@@ -138,7 +138,7 @@ onUnmounted(() => {
       >
         <UButton
           :variant="editor.isActive('blockquote') ? 'solid' : 'ghost'"
-          color="black"
+          color="neutral"
           size="xs"
           icon="i-ph:quotes"
           :disabled="!editor.can().chain().focus().toggleBlockquote().run()"
@@ -152,7 +152,7 @@ onUnmounted(() => {
       >
         <UButton
           :variant="editor.isActive('bulletList') ? 'solid' : 'ghost'"
-          color="black"
+          color="neutral"
           size="xs"
           icon="i-ph:list-bullets"
           :disabled="!editor.can().chain().focus().toggleBulletList().run()"
@@ -166,7 +166,7 @@ onUnmounted(() => {
       >
         <UButton
           :variant="editor.isActive('orderedList') ? 'solid' : 'ghost'"
-          color="black"
+          color="neutral"
           size="xs"
           icon="i-ph:list-numbers"
           :disabled="!editor.can().chain().focus().toggleOrderedList().run()"
@@ -177,7 +177,7 @@ onUnmounted(() => {
       <UTooltip text="Text left" :popper="{ arrow: true, placement: 'bottom' }">
         <UButton
           :variant="editor.isActive({ textAlign: 'left' }) ? 'solid' : 'ghost'"
-          color="black"
+          color="neutral"
           size="xs"
           icon="ph:text-align-left"
           :disabled="!editor.can().chain().focus().setTextAlign('left').run()"
@@ -193,7 +193,7 @@ onUnmounted(() => {
           :variant="
             editor.isActive({ textAlign: 'center' }) ? 'solid' : 'ghost'
           "
-          color="black"
+          color="neutral"
           size="xs"
           icon="ph:text-align-center"
           :disabled="!editor.can().chain().focus().setTextAlign('center').run()"
@@ -207,7 +207,7 @@ onUnmounted(() => {
       >
         <UButton
           :variant="editor.isActive({ textAlign: 'right' }) ? 'solid' : 'ghost'"
-          color="black"
+          color="neutral"
           size="xs"
           icon="ph:text-align-right"
           :disabled="!editor.can().chain().focus().setTextAlign('right').run()"
@@ -223,7 +223,7 @@ onUnmounted(() => {
           :variant="
             editor.isActive({ textAlign: 'justify' }) ? 'solid' : 'ghost'
           "
-          color="black"
+          color="neutral"
           size="xs"
           icon="ph:text-align-justify"
           :disabled="
