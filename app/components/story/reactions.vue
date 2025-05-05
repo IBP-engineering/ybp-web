@@ -107,12 +107,6 @@ provide(onSuccessLogin, () => {
       >
     </UTooltip>
 
-    <LazySharedLoginModal v-model:open="openLoginModal" />
-    <LazySharedShareStoryModal
-      v-model:open="openShareModal"
-      :title="story.title"
-      :author="story.author.display_name"
-    />
     <UTooltip text="Bagikan cerita">
       <UButton
         icon="heroicons:share"
