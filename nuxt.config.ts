@@ -4,6 +4,7 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   image: {
     format: ['avif', 'webp'],
+    domains: ['dicebear.com'],
   },
   css: ['~/styles/tailwind.css'],
   routeRules: {
