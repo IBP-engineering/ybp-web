@@ -11,7 +11,8 @@ const ITEMS_PER_PAGE = 6
 const page = ref(1)
 
 const { data: stories } = await useAsyncData(
-  'stories/all',
+  // TODO: handle flashing ui with skeleton (?)
+  computed(() => `stories?page=${page.value}`),
   async () => {
     const startIndex = (page.value - 1) * ITEMS_PER_PAGE
     const endIndex = startIndex + ITEMS_PER_PAGE - 1
@@ -32,7 +33,7 @@ const { data: stories } = await useAsyncData(
 
     if (error) {
       console.error(error)
-      return { items: [], totalpages: 0, totalCount: 0 }
+      return { items: [], totalPages: 0, totalCount: 0 }
     }
 
     const totalCount = count || 0
@@ -41,8 +42,7 @@ const { data: stories } = await useAsyncData(
     return { items: data, totalPages, totalCount }
   },
   {
-    watch: [page],
-    default: () => ({ items: [], totalpages: 0, totalCount: 0 }),
+    default: () => ({ items: [], totalPages: 0, totalCount: 0 }),
   },
 )
 
