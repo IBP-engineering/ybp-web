@@ -190,8 +190,8 @@ watch([providedId, existingHabit], () => {
 <template>
   <UModal
     v-model:open="openRecordModal"
-    @close="resetValue"
     :title="providedId ? 'Update Habit' : 'Tambah baru'"
+    @close="resetValue"
   >
     <template #body>
       <UForm

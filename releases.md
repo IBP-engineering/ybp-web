@@ -2,6 +2,14 @@
 
 A peek into the exciting evolution of the Yogyakarta Book Party web app!
 
+## Version 0.2.3b - Fixing cannot edit reading habits! 📄➡️
+
+🛠️ **Fix**:
+
+- You can edit your Reading Habit now, haha.
+
+We hope this makes exploring the Yogyakarta Book Party web app even more enjoyable! Happy reading and happy navigating!
+
 ## Version 0.2.3 - Smooth Scrolling & Easier Navigation! 📄➡️
 
 Get ready for a more organized Browse experience! In this release, we've focused on making pages with lots of content easier to navigate, allowing you to find what you're looking for without endless scrolling.

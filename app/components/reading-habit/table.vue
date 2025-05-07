@@ -148,7 +148,7 @@ const columns: TableColumn<Partial<Column>>[] = [
         size: 'xs',
         icon: 'i-heroicons-pencil-square-20-solid',
         disabled: row.original.update_count > 0,
-        click: () => handleOpenModal(row.original.id),
+        onClick: () => handleOpenModal(row.original.id),
       })
     },
   },
