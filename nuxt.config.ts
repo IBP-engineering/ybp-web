@@ -40,6 +40,8 @@ export default defineNuxtConfig({
   experimental: {
     viewTransition: true,
     asyncEntry: true,
+    granularCachedData: true,
+    enforceModuleCompatibility: true,
   },
   supabase: {
     redirect: false,
