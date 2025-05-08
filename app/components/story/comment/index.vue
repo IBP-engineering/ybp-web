@@ -117,12 +117,16 @@ provide(onSuccessLogin, () => {
     </div>
 
     <div class="flex flex-col w-full gap-8">
-      <StoryCommentItem
-        v-for="comment in comments"
-        :key="comment.id"
-        :comment="comment"
-      />
+      <template v-if="Boolean(comments.length)">
+        <StoryCommentItem
+          v-for="comment in comments"
+          :key="comment.id"
+          :comment="comment"
+        />
+      </template>
+      <i v-else class="text-sm">-- Tampaknya belum ada komentar --</i>
     </div>
+
     <LazySharedLoginModal v-model:open="openLoginModal" />
   </section>
 </template>
