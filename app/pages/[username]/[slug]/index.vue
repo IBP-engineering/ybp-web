@@ -204,13 +204,13 @@ useSeoMeta({
       <StoryAside :author="story.author" />
     </div>
 
-    <section class="mt-8 px-4">
+    <section class="mt-8 px-4 md:px-0 lg:px-18">
       <h4 id="commentary" class="font-bold scroll-m-24">Komentar</h4>
 
       <StoryComment :comments="comments" />
     </section>
 
-    <SharedJoinBanner class="mt-8">
+    <SharedJoinBanner class="mt-8 max-w-4xl xl:max-w-screen-lg mx-auto">
       Punya cerita menarik yang ingin dibagikan? Di sinilah tempatnya kamu bisa
       membagikan kisah, pengalaman, tips bermanfaat, atau ulasan buku favorit.
       Saatnya tulisan kamu menemukan pembaca! 📖
