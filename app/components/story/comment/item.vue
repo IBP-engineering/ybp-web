@@ -111,10 +111,18 @@ const giveReaction = async () => {
       return
     }
 
-    await supabase.from('comment_reactions').insert({
-      comment: props.comment.id,
-      user: user.data.value.id,
-    })
+    if (isUserAlreadyReact.value) {
+      await supabase
+        .from('comment_reactions')
+        .delete()
+        .eq('comment', props.comment.id)
+        .eq('user', user.data.value.id)
+    } else {
+      await supabase.from('comment_reactions').insert({
+        comment: props.comment.id,
+        user: user.data.value.id,
+      })
+    }
     await refreshNuxtData(`story/${slug}/comments`)
   } catch (error) {
     toast.add({
