@@ -205,15 +205,12 @@ useSeoMeta({
     </div>
 
     <section class="mt-8 px-4 md:px-0 lg:px-18">
-      <h4 id="commentary" class="font-bold scroll-m-24">Komentar</h4>
+      <div class="flex grow-0 gap-1 items-start">
+        <h4 id="commentary" class="font-bold scroll-m-24">Komentar</h4>
+        <UBadge size="sm" variant="soft" icon="heroicons:sparkles">BARU</UBadge>
+      </div>
 
       <StoryComment :comments="comments" />
     </section>
-
-    <SharedJoinBanner class="mt-8 max-w-4xl xl:max-w-screen-lg mx-auto">
-      Punya cerita menarik yang ingin dibagikan? Di sinilah tempatnya kamu bisa
-      membagikan kisah, pengalaman, tips bermanfaat, atau ulasan buku favorit.
-      Saatnya tulisan kamu menemukan pembaca! 📖
-    </SharedJoinBanner>
   </div>
 </template>

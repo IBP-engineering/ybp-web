@@ -87,6 +87,7 @@ provide(onSuccessLogin, () => {
 
 <template>
   <section class="flex flex-col gap-4 py-4 w-full md:w-3/4">
+    <i class="text-sm">-- Tampaknya belum ada komentar --</i>
     <div class="flex gap-2 items-center">
       <UTextarea
         v-model="commentText"
@@ -116,15 +117,12 @@ provide(onSuccessLogin, () => {
       </UTooltip>
     </div>
 
-    <div class="flex flex-col w-full gap-8">
-      <template v-if="Boolean(comments.length)">
-        <StoryCommentItem
-          v-for="comment in comments"
-          :key="comment.id"
-          :comment="comment"
-        />
-      </template>
-      <i v-else class="text-sm">-- Tampaknya belum ada komentar --</i>
+    <div v-if="Boolean(comments.length)" class="flex flex-col w-full gap-8">
+      <StoryCommentItem
+        v-for="comment in comments"
+        :key="comment.id"
+        :comment="comment"
+      />
     </div>
 
     <LazySharedLoginModal v-model:open="openLoginModal" />
