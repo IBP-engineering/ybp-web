@@ -111,7 +111,7 @@ const items: DropdownMenuItem[][] = [
                   Welcome, {{ user?.display_name }}
                 </span>
                 <UAvatar
-                  :src="`https://api.dicebear.com/9.x/shapes/svg?seed=${user?.username}`"
+                  :src="`${avatarBaseUrl}?seed=${user?.username}`"
                   alt="Avatar"
                 />
               </UButton>

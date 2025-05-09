@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useMouse, useDevicePixelRatio } from '@vueuse/core'
+import { useDevicePixelRatio, useMouse } from '@vueuse/core'
 
 type Circle = {
   x: number

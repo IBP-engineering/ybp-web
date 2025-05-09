@@ -3,3 +3,5 @@ export const USER_ROLE = {
   editor: 2,
   admin: 3,
 }
+
+export const avatarBaseUrl = 'https://api.dicebear.com/9.x/shapes/svg'

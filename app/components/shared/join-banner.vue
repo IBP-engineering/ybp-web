@@ -1,10 +1,10 @@
 <script setup lang="ts">
-defineSlots<{ default: any; title: any }>()
+defineSlots<{ default: string; title: string }>()
 </script>
 
 <template>
   <div
-    class="mt-8 space-y-2 border-2 border-dotted border-neutral-300 bg-gradient-to-t from-neutral-100 to-neutral-50 p-2"
+    class="space-y-2 border-2 border-dotted border-neutral-300 bg-gradient-to-t from-neutral-100 to-neutral-50 p-2"
   >
     <UIcon name="ph:flag-banner-duotone" />
     <span class="ml-1">
@@ -15,8 +15,8 @@ defineSlots<{ default: any; title: any }>()
     </small>
     <UButton
       size="sm"
-      variant="outline"
-      color="yellow"
+      variant="soft"
+      color="warning"
       icon="ph:sparkle-duotone"
       to="/login"
       >Gabung sekarang</UButton

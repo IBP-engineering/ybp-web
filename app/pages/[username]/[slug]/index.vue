@@ -1,50 +1,95 @@
 <script lang="ts" setup>
+import type { PostgrestError } from '@supabase/supabase-js'
 import { format } from 'date-fns'
 import id from 'date-fns/locale/id'
+import type { CommentWithAuthorReplies } from '~/types/entities'
 
 defineOgImageComponent('default')
 
-const user = useSupabaseUser()
 const supabase = useSupabaseClient()
 const route = useRoute()
-const toast = useToast()
-const openLoginModal = ref(false)
-const openShareModal = ref(false)
 const slug = route.params.slug
 const authorUsername = route.params.username.toString()
 
-const { data: story, refresh } = await useAsyncData(
-  `story/${slug}`,
-  async () => {
-    const { data, error } = await supabase
-      .from('stories')
-      .select(
-        `*,
+const { data: story } = await useAsyncData(`story/${slug}`, async () => {
+  const { data, error } = await supabase
+    .from('stories')
+    .select(
+      `*,
       tags:story_tags!id(tag:tag_id(slug)),
       author:users(id, bio, display_name, username, location, created_at),
       reactions:story_reactions!id(*)
       `,
+    )
+    .eq('slug', slug.toString())
+    .single()
+
+  if (error) {
+    console.error(error)
+    return null
+  }
+
+  const coverWithPath = data.cover_path
+    ? supabase.storage.from('story-cover').getPublicUrl(data.cover_path).data
+        .publicUrl
+    : null
+
+  return {
+    ...data,
+    cover_path: coverWithPath,
+    tags: data.tags.map(
+      tag => (tag.tag as unknown as { slug: string }).slug as string,
+    ),
+  }
+})
+
+const { data: comments } = await useAsyncData(
+  `story/${slug}/comments`,
+  async () => {
+    const { data, error } = (await supabase
+      .from('story_comments')
+      .select(
+        `*,
+      author:users(id, display_name, username, role_id),
+      reactions:comment_reactions(id, user)
+      `,
       )
-      .eq('slug', slug.toString())
-      .single()
+      .eq('story', story.value.id)
+      .neq('status', 'deleted')) as {
+      data: CommentWithAuthorReplies[]
+      error: PostgrestError
+    }
 
     if (error) {
       console.error(error)
       return null
     }
 
-    const coverWithPath = data.cover_path
-      ? supabase.storage.from('story-cover').getPublicUrl(data.cover_path).data
-          .publicUrl
-      : null
+    const commentsById = new Map<string, CommentWithAuthorReplies>()
+    const topLevelComments: CommentWithAuthorReplies[] = []
 
-    return {
-      ...data,
-      cover_path: coverWithPath,
-      tags: data.tags.map(
-        tag => (tag.tag as unknown as { slug: string }).slug as string,
-      ),
-    }
+    data.forEach(comment => {
+      commentsById.set(comment.id, comment)
+      comment.replies = []
+
+      if (!comment.thread) {
+        topLevelComments.push(comment)
+      }
+    })
+
+    data.forEach(comment => {
+      const parentId = comment.thread
+
+      if (parentId) {
+        const parentComment = commentsById.get(parentId)
+
+        if (parentComment) {
+          parentComment.replies.push(comment)
+        }
+      }
+    })
+
+    return topLevelComments
   },
 )
 
@@ -69,55 +114,6 @@ const breadcrumbs = [
   },
 ]
 
-const isUserHasReacted = computed(() => {
-  const userId = user.value?.id
-
-  if (!userId || !story.value) {
-    return false
-  }
-
-  const hasReacted = story.value.reactions.some(
-    react => react.reacted_by === userId,
-  )
-
-  return hasReacted
-})
-
-const likeStory = async () => {
-  if (!user.value) {
-    openLoginModal.value = true
-    return
-  }
-
-  const userId = user.value.id
-
-  try {
-    if (isUserHasReacted.value) {
-      await supabase.from('story_reactions').delete().eq('reacted_by', userId)
-    } else {
-      await supabase
-        .from('story_reactions')
-        .insert({ story: story.value.id, reacted_by: userId })
-    }
-  } catch (error) {
-    console.error(error)
-  } finally {
-    refresh()
-  }
-}
-
-const shareStory = () => {
-  openShareModal.value = true
-}
-
-provide(onSuccessLogin, () => {
-  openLoginModal.value = false
-  toast.add({
-    title: 'Berhasil login',
-    color: 'success',
-  })
-})
-
 useSeoMeta({
   title: story.value?.title,
   description: `Cerita berjudul ${story.value.title} dari penulis ${story.value.author.display_name}`,
@@ -130,32 +126,8 @@ useSeoMeta({
       <UBreadcrumb divider="/" :items="breadcrumbs" />
     </div>
 
-    <div class="mt-4 flex w-full flex-col-reverse gap-4 lg:flex-row">
-      <div class="mt-8 flex w-24 items-center gap-2 px-4 md:flex-col md:px-0">
-        <UTooltip text="Sukai cerita">
-          <UButton
-            icon="i-heroicons-hand-thumb-up-solid"
-            variant="soft"
-            :color="isUserHasReacted ? 'primary' : 'neutral'"
-            class="flex md:flex-col"
-            @click="likeStory"
-          >
-            <span class="block">
-              {{ story.reactions.length }}
-            </span>
-          </UButton>
-        </UTooltip>
-        <UTooltip text="Bagikan cerita">
-          <UButton
-            icon="heroicons:share"
-            variant="soft"
-            color="neutral"
-            aria-label="Button to share this article"
-            @click="shareStory"
-          />
-        </UTooltip>
-      </div>
-
+    <div class="mt-4 flex z-10 w-full flex-col-reverse gap-4 lg:flex-row">
+      <StoryReactions :story="story" :comment-count="comments.length" />
       <div class="flex w-full flex-col">
         <div
           class="w-full overflow-hidden shadow md:rounded-lg md:border md:border-neutral-300 md:bg-neutral-50"
@@ -221,51 +193,24 @@ useSeoMeta({
           </div>
         </div>
 
-        <SharedJoinBanner>
-          Punya cerita menarik yang ingin dibagikan? Di sinilah tempatnya kamu
-          bisa membagikan kisah, pengalaman, tips bermanfaat, atau ulasan buku
-          favorit. Saatnya tulisan kamu menemukan pembaca! 📖
-        </SharedJoinBanner>
+        <div class="block lg:hidden mt-4">
+          <StoryAsideProfile
+            class="border-transparent py-0 md:p-0 bg-white shadow-none"
+            :author="story.author"
+          />
+        </div>
       </div>
 
-      <div
-        class="hidden h-full w-full rounded-lg border border-neutral-300 bg-neutral-50 p-4 shadow md:block lg:max-w-[370px]"
-      >
-        <NuxtLink
-          :to="`/${authorUsername}`"
-          class="group mb-4 flex items-center gap-4 rounded"
-          title="To author page"
-        >
-          <UserPicture :seed="authorUsername" width="40" height="40" />
-          <b class="group-hover:text-primary-600">{{
-            story.author.display_name
-          }}</b>
-        </NuxtLink>
-
-        <p class="text-neutral-600">
-          {{ story.author.bio }}
-        </p>
-        <ul class="mt-4 space-y-4 text-sm">
-          <li v-if="story.author.location">
-            <b class="text-xs">DOMISILI</b>
-            <p class="text-neutral-600">{{ story.author.location }}</p>
-          </li>
-          <li>
-            <b class="text-xs">BERGABUNG</b>
-            <p class="text-neutral-600">
-              {{
-                format(new Date(story.author.created_at), 'PPP', { locale: id })
-              }}
-            </p>
-          </li>
-        </ul>
-      </div>
+      <StoryAside :author="story.author" />
     </div>
-    <LazySharedLoginModal v-model:open="openLoginModal" />
-    <LazySharedShareStoryModal
-      v-model:open="openShareModal"
-      :title="story.title"
-      :author="story.author.display_name"
-    />
+
+    <section class="mt-8 px-4 md:px-0 lg:px-18">
+      <div class="flex grow-0 gap-1 items-start">
+        <h4 id="commentary" class="font-bold scroll-m-24">Komentar</h4>
+        <UBadge size="sm" variant="soft" icon="heroicons:sparkles">BARU</UBadge>
+      </div>
+
+      <StoryComment :comments="comments" />
+    </section>
   </div>
 </template>

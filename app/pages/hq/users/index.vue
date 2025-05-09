@@ -14,7 +14,8 @@ const ITEMS_PER_PAGE = 12
 const page = ref(1)
 const supabase = useSupabaseClient<Database>()
 const { data: users } = await useAsyncData(
-  'hq/users',
+  // TODO: handle flashing ui with skeleton (?)
+  computed(() => `hq/users?page=${page.value}`),
   async () => {
     const startIndex = (page.value - 1) * ITEMS_PER_PAGE
     const endIndex = startIndex + ITEMS_PER_PAGE - 1
@@ -38,7 +39,6 @@ const { data: users } = await useAsyncData(
     return { items: data, totalPages, totalCount }
   },
   {
-    watch: [page],
     default: () => ({ items: [], totalPages: 0, totalCount: 0 }),
   },
 )

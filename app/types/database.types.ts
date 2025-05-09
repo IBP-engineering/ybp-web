@@ -36,15 +36,50 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: 'book_genres_created_by_fkey'
-            columns: ['created_by']
-            foreignKeyName: 'book_genres_created_by_fkey'
-            columns: ['created_by']
+            foreignKeyName: "book_genres_created_by_fkey"
+            columns: ["created_by"]
             isOneToOne: false
-            referencedRelation: 'users'
-            referencedColumns: ['id']
-            referencedRelation: 'users'
-            referencedColumns: ['id']
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      comment_reactions: {
+        Row: {
+          comment: string
+          created_at: string
+          id: string
+          reaction_type: Database["public"]["Enums"]["Comment reaction type"]
+          user: string
+        }
+        Insert: {
+          comment: string
+          created_at?: string
+          id?: string
+          reaction_type?: Database["public"]["Enums"]["Comment reaction type"]
+          user: string
+        }
+        Update: {
+          comment?: string
+          created_at?: string
+          id?: string
+          reaction_type?: Database["public"]["Enums"]["Comment reaction type"]
+          user?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "comment_reactions_comment_fkey"
+            columns: ["comment"]
+            isOneToOne: false
+            referencedRelation: "story_comments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "comment_reactions_user_fkey"
+            columns: ["user"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -84,26 +119,18 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: 'reading_habits_genre_fkey'
-            columns: ['genre']
-            foreignKeyName: 'reading_habits_genre_fkey'
-            columns: ['genre']
+            foreignKeyName: "reading_habits_genre_fkey"
+            columns: ["genre"]
             isOneToOne: false
-            referencedRelation: 'book_genres'
-            referencedColumns: ['id']
-            referencedRelation: 'book_genres'
-            referencedColumns: ['id']
+            referencedRelation: "book_genres"
+            referencedColumns: ["id"]
           },
           {
-            foreignKeyName: 'reading_habits_user_fkey'
-            columns: ['created_by']
-            foreignKeyName: 'reading_habits_user_fkey'
-            columns: ['created_by']
+            foreignKeyName: "reading_habits_user_fkey"
+            columns: ["created_by"]
             isOneToOne: false
-            referencedRelation: 'users'
-            referencedColumns: ['id']
-            referencedRelation: 'users'
-            referencedColumns: ['id']
+            referencedRelation: "users"
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -139,8 +166,7 @@ export type Database = {
           id: string
           is_active: boolean
           slug: string
-          status: Database['public']['Enums']['Story status']
-          status: Database['public']['Enums']['Story status']
+          status: Database["public"]["Enums"]["Story status"]
           title: string
           updated_at: string
           user_id: string | null
@@ -152,8 +178,7 @@ export type Database = {
           id?: string
           is_active?: boolean
           slug: string
-          status?: Database['public']['Enums']['Story status']
-          status?: Database['public']['Enums']['Story status']
+          status?: Database["public"]["Enums"]["Story status"]
           title: string
           updated_at?: string
           user_id?: string | null
@@ -165,23 +190,76 @@ export type Database = {
           id?: string
           is_active?: boolean
           slug?: string
-          status?: Database['public']['Enums']['Story status']
-          status?: Database['public']['Enums']['Story status']
+          status?: Database["public"]["Enums"]["Story status"]
           title?: string
           updated_at?: string
           user_id?: string | null
         }
         Relationships: [
           {
-            foreignKeyName: 'stories_user_id_fkey'
-            columns: ['user_id']
-            foreignKeyName: 'stories_user_id_fkey'
-            columns: ['user_id']
+            foreignKeyName: "stories_user_id_fkey"
+            columns: ["user_id"]
             isOneToOne: false
-            referencedRelation: 'users'
-            referencedColumns: ['id']
-            referencedRelation: 'users'
-            referencedColumns: ['id']
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      story_comments: {
+        Row: {
+          comment_text: string | null
+          created_at: string
+          deleted_at: string | null
+          id: string
+          status: Database["public"]["Enums"]["Story comment status"]
+          story: string
+          thread: string | null
+          updated_at: string | null
+          user: string | null
+        }
+        Insert: {
+          comment_text?: string | null
+          created_at?: string
+          deleted_at?: string | null
+          id?: string
+          status?: Database["public"]["Enums"]["Story comment status"]
+          story?: string
+          thread?: string | null
+          updated_at?: string | null
+          user?: string | null
+        }
+        Update: {
+          comment_text?: string | null
+          created_at?: string
+          deleted_at?: string | null
+          id?: string
+          status?: Database["public"]["Enums"]["Story comment status"]
+          story?: string
+          thread?: string | null
+          updated_at?: string | null
+          user?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "story_comments_story_fkey"
+            columns: ["story"]
+            isOneToOne: false
+            referencedRelation: "stories"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "story_comments_thread_fkey"
+            columns: ["thread"]
+            isOneToOne: false
+            referencedRelation: "story_comments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "story_comments_user_fkey"
+            columns: ["user"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -191,47 +269,36 @@ export type Database = {
           id: number
           reacted_by: string | null
           story: string | null
-          type: Database['public']['Enums']['Story reaction']
-          type: Database['public']['Enums']['Story reaction']
+          type: Database["public"]["Enums"]["Story reaction"]
         }
         Insert: {
           created_at?: string
           id?: number
           reacted_by?: string | null
           story?: string | null
-          type?: Database['public']['Enums']['Story reaction']
-          type?: Database['public']['Enums']['Story reaction']
+          type?: Database["public"]["Enums"]["Story reaction"]
         }
         Update: {
           created_at?: string
           id?: number
           reacted_by?: string | null
           story?: string | null
-          type?: Database['public']['Enums']['Story reaction']
-          type?: Database['public']['Enums']['Story reaction']
+          type?: Database["public"]["Enums"]["Story reaction"]
         }
         Relationships: [
           {
-            foreignKeyName: 'story_reactions_reacted_by_fkey'
-            columns: ['reacted_by']
-            foreignKeyName: 'story_reactions_reacted_by_fkey'
-            columns: ['reacted_by']
+            foreignKeyName: "story_reactions_reacted_by_fkey"
+            columns: ["reacted_by"]
             isOneToOne: false
-            referencedRelation: 'users'
-            referencedColumns: ['id']
-            referencedRelation: 'users'
-            referencedColumns: ['id']
+            referencedRelation: "users"
+            referencedColumns: ["id"]
           },
           {
-            foreignKeyName: 'story_reactions_story_fkey'
-            columns: ['story']
-            foreignKeyName: 'story_reactions_story_fkey'
-            columns: ['story']
+            foreignKeyName: "story_reactions_story_fkey"
+            columns: ["story"]
             isOneToOne: false
-            referencedRelation: 'stories'
-            referencedColumns: ['id']
-            referencedRelation: 'stories'
-            referencedColumns: ['id']
+            referencedRelation: "stories"
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -240,8 +307,7 @@ export type Database = {
           created_at: string
           id: number
           reason: string | null
-          status: Database['public']['Enums']['Story status'] | null
-          status: Database['public']['Enums']['Story status'] | null
+          status: Database["public"]["Enums"]["Story status"] | null
           story_id: string
           updated_by: string | null
         }
@@ -249,8 +315,7 @@ export type Database = {
           created_at?: string
           id?: number
           reason?: string | null
-          status?: Database['public']['Enums']['Story status'] | null
-          status?: Database['public']['Enums']['Story status'] | null
+          status?: Database["public"]["Enums"]["Story status"] | null
           story_id: string
           updated_by?: string | null
         }
@@ -258,33 +323,24 @@ export type Database = {
           created_at?: string
           id?: number
           reason?: string | null
-          status?: Database['public']['Enums']['Story status'] | null
-          status?: Database['public']['Enums']['Story status'] | null
+          status?: Database["public"]["Enums"]["Story status"] | null
           story_id?: string
           updated_by?: string | null
         }
         Relationships: [
           {
-            foreignKeyName: 'story_status_histories_story_id_fkey'
-            columns: ['story_id']
-            foreignKeyName: 'story_status_histories_story_id_fkey'
-            columns: ['story_id']
+            foreignKeyName: "story_status_histories_story_id_fkey"
+            columns: ["story_id"]
             isOneToOne: false
-            referencedRelation: 'stories'
-            referencedColumns: ['id']
-            referencedRelation: 'stories'
-            referencedColumns: ['id']
+            referencedRelation: "stories"
+            referencedColumns: ["id"]
           },
           {
-            foreignKeyName: 'story_status_histories_updated_by_fkey'
-            columns: ['updated_by']
-            foreignKeyName: 'story_status_histories_updated_by_fkey'
-            columns: ['updated_by']
+            foreignKeyName: "story_status_histories_updated_by_fkey"
+            columns: ["updated_by"]
             isOneToOne: false
-            referencedRelation: 'users'
-            referencedColumns: ['id']
-            referencedRelation: 'users'
-            referencedColumns: ['id']
+            referencedRelation: "users"
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -309,26 +365,18 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: 'story_tags_story_id_fkey'
-            columns: ['story_id']
-            foreignKeyName: 'story_tags_story_id_fkey'
-            columns: ['story_id']
+            foreignKeyName: "story_tags_story_id_fkey"
+            columns: ["story_id"]
             isOneToOne: false
-            referencedRelation: 'stories'
-            referencedColumns: ['id']
-            referencedRelation: 'stories'
-            referencedColumns: ['id']
+            referencedRelation: "stories"
+            referencedColumns: ["id"]
           },
           {
-            foreignKeyName: 'story_tags_tag_id_fkey'
-            columns: ['tag_id']
-            foreignKeyName: 'story_tags_tag_id_fkey'
-            columns: ['tag_id']
+            foreignKeyName: "story_tags_tag_id_fkey"
+            columns: ["tag_id"]
             isOneToOne: false
-            referencedRelation: 'tags'
-            referencedColumns: ['id']
-            referencedRelation: 'tags'
-            referencedColumns: ['id']
+            referencedRelation: "tags"
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -365,15 +413,11 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: 'tags_created_by_fkey'
-            columns: ['created_by']
-            foreignKeyName: 'tags_created_by_fkey'
-            columns: ['created_by']
+            foreignKeyName: "tags_created_by_fkey"
+            columns: ["created_by"]
             isOneToOne: false
-            referencedRelation: 'users'
-            referencedColumns: ['id']
-            referencedRelation: 'users'
-            referencedColumns: ['id']
+            referencedRelation: "users"
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -419,15 +463,11 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: 'users_role_id_fkey'
-            columns: ['role_id']
-            foreignKeyName: 'users_role_id_fkey'
-            columns: ['role_id']
+            foreignKeyName: "users_role_id_fkey"
+            columns: ["role_id"]
             isOneToOne: false
-            referencedRelation: 'roles'
-            referencedColumns: ['id']
-            referencedRelation: 'roles'
-            referencedColumns: ['id']
+            referencedRelation: "roles"
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -439,10 +479,10 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      'Story reaction': 'like'
-      'Story status': 'approved' | 'rejected' | 'pending'
-      'Story reaction': 'like'
-      'Story status': 'approved' | 'rejected' | 'pending'
+      "Comment reaction type": "love"
+      "Story comment status": "posted" | "deleted"
+      "Story reaction": "love"
+      "Story status": "approved" | "rejected" | "pending"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -450,42 +490,29 @@ export type Database = {
   }
 }
 
-type DefaultSchema = Database[Extract<keyof Database, 'public'>]
-type PublicSchema = Database[Extract<keyof Database, 'public'>]
+type DefaultSchema = Database[Extract<keyof Database, "public">]
 
 export type Tables<
   DefaultSchemaTableNameOrOptions extends
-    | keyof (DefaultSchema['Tables'] & DefaultSchema['Views'])
-  PublicTableNameOrOptions extends
-    | keyof (PublicSchema['Tables'] & PublicSchema['Views'])
+    | keyof (DefaultSchema["Tables"] & DefaultSchema["Views"])
     | { schema: keyof Database },
   TableName extends DefaultSchemaTableNameOrOptions extends {
     schema: keyof Database
   }
-    ? keyof (Database[DefaultSchemaTableNameOrOptions['schema']]['Tables'] &
-        Database[DefaultSchemaTableNameOrOptions['schema']]['Views'])
-  TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
-    ? keyof (Database[PublicTableNameOrOptions['schema']]['Tables'] &
-        Database[PublicTableNameOrOptions['schema']]['Views'])
+    ? keyof (Database[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
+        Database[DefaultSchemaTableNameOrOptions["schema"]]["Views"])
     : never = never,
 > = DefaultSchemaTableNameOrOptions extends { schema: keyof Database }
-  ? (Database[DefaultSchemaTableNameOrOptions['schema']]['Tables'] &
-      Database[DefaultSchemaTableNameOrOptions['schema']]['Views'])[TableName] extends {
-> = PublicTableNameOrOptions extends { schema: keyof Database }
-  ? (Database[PublicTableNameOrOptions['schema']]['Tables'] &
-      Database[PublicTableNameOrOptions['schema']]['Views'])[TableName] extends {
+  ? (Database[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
+      Database[DefaultSchemaTableNameOrOptions["schema"]]["Views"])[TableName] extends {
       Row: infer R
     }
     ? R
     : never
-  : DefaultSchemaTableNameOrOptions extends keyof (DefaultSchema['Tables'] &
-        DefaultSchema['Views'])
-    ? (DefaultSchema['Tables'] &
-        DefaultSchema['Views'])[DefaultSchemaTableNameOrOptions] extends {
-  : PublicTableNameOrOptions extends keyof (PublicSchema['Tables'] &
-        PublicSchema['Views'])
-    ? (PublicSchema['Tables'] &
-        PublicSchema['Views'])[PublicTableNameOrOptions] extends {
+  : DefaultSchemaTableNameOrOptions extends keyof (DefaultSchema["Tables"] &
+        DefaultSchema["Views"])
+    ? (DefaultSchema["Tables"] &
+        DefaultSchema["Views"])[DefaultSchemaTableNameOrOptions] extends {
         Row: infer R
       }
       ? R
@@ -494,29 +521,21 @@ export type Tables<
 
 export type TablesInsert<
   DefaultSchemaTableNameOrOptions extends
-    | keyof DefaultSchema['Tables']
-  PublicTableNameOrOptions extends
-    | keyof PublicSchema['Tables']
+    | keyof DefaultSchema["Tables"]
     | { schema: keyof Database },
   TableName extends DefaultSchemaTableNameOrOptions extends {
     schema: keyof Database
   }
-    ? keyof Database[DefaultSchemaTableNameOrOptions['schema']]['Tables']
-  TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
-    ? keyof Database[PublicTableNameOrOptions['schema']]['Tables']
+    ? keyof Database[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
     : never = never,
 > = DefaultSchemaTableNameOrOptions extends { schema: keyof Database }
-  ? Database[DefaultSchemaTableNameOrOptions['schema']]['Tables'][TableName] extends {
-> = PublicTableNameOrOptions extends { schema: keyof Database }
-  ? Database[PublicTableNameOrOptions['schema']]['Tables'][TableName] extends {
+  ? Database[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
       Insert: infer I
     }
     ? I
     : never
-  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema['Tables']
-    ? DefaultSchema['Tables'][DefaultSchemaTableNameOrOptions] extends {
-  : PublicTableNameOrOptions extends keyof PublicSchema['Tables']
-    ? PublicSchema['Tables'][PublicTableNameOrOptions] extends {
+  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema["Tables"]
+    ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends {
         Insert: infer I
       }
       ? I
@@ -525,29 +544,21 @@ export type TablesInsert<
 
 export type TablesUpdate<
   DefaultSchemaTableNameOrOptions extends
-    | keyof DefaultSchema['Tables']
-  PublicTableNameOrOptions extends
-    | keyof PublicSchema['Tables']
+    | keyof DefaultSchema["Tables"]
     | { schema: keyof Database },
   TableName extends DefaultSchemaTableNameOrOptions extends {
     schema: keyof Database
   }
-    ? keyof Database[DefaultSchemaTableNameOrOptions['schema']]['Tables']
-  TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
-    ? keyof Database[PublicTableNameOrOptions['schema']]['Tables']
+    ? keyof Database[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
     : never = never,
 > = DefaultSchemaTableNameOrOptions extends { schema: keyof Database }
-  ? Database[DefaultSchemaTableNameOrOptions['schema']]['Tables'][TableName] extends {
-> = PublicTableNameOrOptions extends { schema: keyof Database }
-  ? Database[PublicTableNameOrOptions['schema']]['Tables'][TableName] extends {
+  ? Database[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
       Update: infer U
     }
     ? U
     : never
-  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema['Tables']
-    ? DefaultSchema['Tables'][DefaultSchemaTableNameOrOptions] extends {
-  : PublicTableNameOrOptions extends keyof PublicSchema['Tables']
-    ? PublicSchema['Tables'][PublicTableNameOrOptions] extends {
+  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema["Tables"]
+    ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends {
         Update: infer U
       }
       ? U
@@ -556,53 +567,41 @@ export type TablesUpdate<
 
 export type Enums<
   DefaultSchemaEnumNameOrOptions extends
-    | keyof DefaultSchema['Enums']
-  PublicEnumNameOrOptions extends
-    | keyof PublicSchema['Enums']
+    | keyof DefaultSchema["Enums"]
     | { schema: keyof Database },
   EnumName extends DefaultSchemaEnumNameOrOptions extends {
     schema: keyof Database
   }
-    ? keyof Database[DefaultSchemaEnumNameOrOptions['schema']]['Enums']
-  EnumName extends PublicEnumNameOrOptions extends { schema: keyof Database }
-    ? keyof Database[PublicEnumNameOrOptions['schema']]['Enums']
+    ? keyof Database[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"]
     : never = never,
 > = DefaultSchemaEnumNameOrOptions extends { schema: keyof Database }
-  ? Database[DefaultSchemaEnumNameOrOptions['schema']]['Enums'][EnumName]
-  : DefaultSchemaEnumNameOrOptions extends keyof DefaultSchema['Enums']
-    ? DefaultSchema['Enums'][DefaultSchemaEnumNameOrOptions]
-> = PublicEnumNameOrOptions extends { schema: keyof Database }
-  ? Database[PublicEnumNameOrOptions['schema']]['Enums'][EnumName]
-  : PublicEnumNameOrOptions extends keyof PublicSchema['Enums']
-    ? PublicSchema['Enums'][PublicEnumNameOrOptions]
+  ? Database[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"][EnumName]
+  : DefaultSchemaEnumNameOrOptions extends keyof DefaultSchema["Enums"]
+    ? DefaultSchema["Enums"][DefaultSchemaEnumNameOrOptions]
     : never
 
 export type CompositeTypes<
   PublicCompositeTypeNameOrOptions extends
-    | keyof DefaultSchema['CompositeTypes']
-    | keyof PublicSchema['CompositeTypes']
+    | keyof DefaultSchema["CompositeTypes"]
     | { schema: keyof Database },
   CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
     schema: keyof Database
   }
-    ? keyof Database[PublicCompositeTypeNameOrOptions['schema']]['CompositeTypes']
-    ? keyof Database[PublicCompositeTypeNameOrOptions['schema']]['CompositeTypes']
+    ? keyof Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
     : never = never,
 > = PublicCompositeTypeNameOrOptions extends { schema: keyof Database }
-  ? Database[PublicCompositeTypeNameOrOptions['schema']]['CompositeTypes'][CompositeTypeName]
-  : PublicCompositeTypeNameOrOptions extends keyof DefaultSchema['CompositeTypes']
-    ? DefaultSchema['CompositeTypes'][PublicCompositeTypeNameOrOptions]
-  ? Database[PublicCompositeTypeNameOrOptions['schema']]['CompositeTypes'][CompositeTypeName]
-  : PublicCompositeTypeNameOrOptions extends keyof PublicSchema['CompositeTypes']
-    ? PublicSchema['CompositeTypes'][PublicCompositeTypeNameOrOptions]
+  ? Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
+  : PublicCompositeTypeNameOrOptions extends keyof DefaultSchema["CompositeTypes"]
+    ? DefaultSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
     : never
 
 export const Constants = {
   public: {
     Enums: {
-      'Story reaction': ['like'],
-      'Story status': ['approved', 'rejected', 'pending'],
+      "Comment reaction type": ["love"],
+      "Story comment status": ["posted", "deleted"],
+      "Story reaction": ["love"],
+      "Story status": ["approved", "rejected", "pending"],
     },
   },
 } as const
-

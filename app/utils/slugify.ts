@@ -1,5 +1,5 @@
-import slugify from '@sindresorhus/slugify'
 import { createId } from '@paralleldrive/cuid2'
+import slugify from '@sindresorhus/slugify'
 
 export function toSlug(text: string, withHash = true) {
   if (!text) {

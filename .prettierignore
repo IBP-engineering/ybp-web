@@ -1,1 +1,4 @@
 pnpm-lock.yaml
+
+# auto generate
+app/types/database.types.ts

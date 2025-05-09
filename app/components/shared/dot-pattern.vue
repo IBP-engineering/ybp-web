@@ -21,6 +21,7 @@ const props = withDefaults(defineProps<DotPatternProps>(), {
   cx: 1,
   cy: 1,
   cr: 1,
+  className: '',
 })
 
 const id = `pattern-${useId()}`

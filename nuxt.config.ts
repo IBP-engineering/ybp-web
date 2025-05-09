@@ -4,6 +4,7 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   image: {
     format: ['avif', 'webp'],
+    domains: ['api.dicebear.com'],
   },
   css: ['~/styles/tailwind.css'],
   routeRules: {
@@ -39,6 +40,8 @@ export default defineNuxtConfig({
   experimental: {
     viewTransition: true,
     asyncEntry: true,
+    granularCachedData: true,
+    enforceModuleCompatibility: true,
   },
   supabase: {
     redirect: false,

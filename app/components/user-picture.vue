@@ -11,7 +11,7 @@ withDefaults(
 
 <template>
   <img
-    :src="`https://api.dicebear.com/9.x/shapes/svg?seed=${seed}`"
+    :src="`${avatarBaseUrl}?seed=${seed}`"
     alt="Profile picture"
     class="rounded-full border-2 border-neutral-300 bg-neutral-50"
     width="110"

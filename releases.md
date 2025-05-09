@@ -2,6 +2,21 @@
 
 A peek into the exciting evolution of the Yogyakarta Book Party web app!
 
+## Version 0.2.4 - Share Your Thoughts & Smoother Experiences! 💬✨
+
+Get ready to engage more deeply with the stories and insights shared on the Yogyakarta Book Party platform! This release brings a highly requested feature and overall improvements to make your interaction even better.
+
+**✨ What's New & Improved! ✨**
+
+- **Join the Conversation!** 🗣️ We're excited to introduce **Comments on Stories**! Now, logged-in users can share their thoughts, insights, and reactions directly on Story/blog posts. Dive into discussions, connect with other readers, and let your voice be heard!
+- **Enhanced User Experience!** 👍 We've made several **enhancements throughout the app** to improve the overall user experience (UX). This includes various tweaks and refinements designed to make navigating and interacting with the platform feel more intuitive and enjoyable.
+
+**🛠️ Little Tweaks, Big Impact! Enhancements You'll Notice:**
+
+- Behind the scenes, we've continued our work on optimization and stability, ensuring a more robust and reliable experience.
+
+We hope you enjoy sharing your perspectives and the smoother feel of the app! Happy reading and happy commenting!
+
 ## Version 0.2.3b - Fixing cannot edit reading habits! 📄➡️
 
 🛠️ **Fix**:

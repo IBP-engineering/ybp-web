@@ -142,7 +142,7 @@ const compoundWinner = computed(() => {
         :class="{ 'col-span-2': key === 0 }"
       >
         <img
-          :src="`https://api.dicebear.com/9.x/shapes/svg?seed=${win.username}`"
+          :src="`${avatarBaseUrl}?seed=${win.username}`"
           alt="profile"
           width="100"
           height="100"
