@@ -18,13 +18,14 @@
       "esbuild",
       "lefthook",
       "sharp",
+      "unrs-resolver",
       "vue-demi"
     ]
   },
   "dependencies": {
     "@date-fns/tz": "^1.2.0",
     "@node-rs/argon2": "^2.0.2",
-    "@nuxt/fonts": "^0.11.2",
+    "@nuxt/fonts": "^0.11.3",
     "@nuxt/image": "1.10.0",
     "@nuxt/ui": "^3.1.1",
     "@nuxtjs/seo": "3.0.3",
@@ -39,7 +40,7 @@
     "@tiptap/vue-3": "^2.12.0",
     "@vueuse/integrations": "^13.1.0",
     "date-fns": "^4.1.0",
-    "motion-v": "1.0.2",
+    "motion-v": "1.1.0-alpha.1",
     "nuxt": "^3.17.2",
     "qrcode": "^1.5.4",
     "v-calendar": "^3.1.2",
@@ -48,10 +49,10 @@
   },
   "devDependencies": {
     "@iconify-json/heroicons": "^1.2.2",
-    "@iconify-json/lucide": "^1.2.40",
+    "@iconify-json/lucide": "^1.2.42",
     "@iconify-json/ph": "^1.2.2",
     "@inspira-ui/plugins": "^0.0.1",
-    "@nuxt/eslint": "^1.3.0",
+    "@nuxt/eslint": "^1.3.1",
     "@supabase/supabase-js": "^2.49.4",
     "@tailwindcss/forms": "^0.5.10",
     "@tailwindcss/typography": "^0.5.16",
@@ -61,17 +62,16 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "eslint": "^9.26.0",
-    "eslint-config-prettier": "^10.1.2",
+    "eslint-config-prettier": "^10.1.5",
     "eslint-plugin-prettier": "^5.4.0",
     "lefthook": "^1.11.12",
     "prettier": "^3.5.3",
     "prettier-plugin-tailwindcss": "^0.6.11",
-    "sass-embedded": "^1.87.0",
-    "tailwind-merge": "^3.2.0",
-    "tailwindcss": "^4.1.5",
+    "sass-embedded": "^1.88.0",
+    "tailwind-merge": "^3.3.0",
+    "tailwindcss": "^4.1.6",
     "tailwindcss-animate": "^1.0.7",
     "typescript": "^5.8.3",
     "valibot": "1.1.0"
-  },
-  "packageManager": "pnpm@10.8.0+sha512.0e82714d1b5b43c74610193cb20734897c1d00de89d0e18420aebc5977fa13d780a9cb05734624e81ebd81cc876cd464794850641c48b9544326b5622ca29971"
+  }
 }
