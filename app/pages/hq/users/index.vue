@@ -11,7 +11,10 @@ useHead({
 })
 
 const ITEMS_PER_PAGE = 12
-const page = ref(1)
+const router = useRouter()
+const route = useRoute()
+const page = ref(+route.query.page || 1)
+
 const supabase = useSupabaseClient<Database>()
 const { data: users } = await useAsyncData(
   // TODO: handle flashing ui with skeleton (?)
@@ -42,6 +45,14 @@ const { data: users } = await useAsyncData(
     default: () => ({ items: [], totalPages: 0, totalCount: 0 }),
   },
 )
+
+watch(page, () => {
+  router.push({
+    query: {
+      page: page.value,
+    },
+  })
+})
 </script>
 
 <template>

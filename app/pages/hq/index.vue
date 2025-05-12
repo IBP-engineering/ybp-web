@@ -9,7 +9,9 @@ definePageMeta({
 })
 
 const ITEMS_PER_PAGE = 5
-const page = ref(1)
+const router = useRouter()
+const route = useRoute()
+const page = ref(+route.query.page || 1)
 
 const supabase = useSupabaseClient<Database>()
 const { data: stories } = await useAsyncData(
@@ -45,6 +47,14 @@ const { data: stories } = await useAsyncData(
     default: () => ({ items: [], totalPages: 0, totalCount: 0 }),
   },
 )
+
+watch(page, () => {
+  router.push({
+    query: {
+      page: page.value,
+    },
+  })
+})
 </script>
 
 <template>
