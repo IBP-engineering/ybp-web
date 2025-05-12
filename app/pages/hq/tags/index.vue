@@ -135,7 +135,7 @@ const closeTagDetail = () => {
 
 <template>
   <div>
-    <PageHeader title="Tags" />
+    <HqPageHeader title="Tags" />
     <div class="mx-auto mt-4 w-full max-w-screen-xl px-4">
       <div class="flex items-center justify-between">
         <UButton

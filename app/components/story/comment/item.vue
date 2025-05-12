@@ -139,7 +139,7 @@ const giveReaction = async () => {
 <template>
   <div class="relative min-h-full flex flex-col">
     <div class="flex gap-2 -ml-1">
-      <UserPicture
+      <SharedUserPicture
         class="border-4 border-white w-10 h-10"
         :seed="author.username"
       />

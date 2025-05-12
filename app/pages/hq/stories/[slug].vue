@@ -52,7 +52,11 @@ const { data: story } = await useAsyncData(`hq/stories/${slug}`, async () => {
 
 <template>
   <div>
-    <PageHeader title="Detail story" back-button-text="Stories" mode="detail" />
+    <HqPageHeader
+      title="Detail story"
+      back-button-text="Stories"
+      mode="detail"
+    />
     <div class="mx-auto mt-8 w-full max-w-screen-xl px-4 md:px-0">
       <div class="flex justify-end">
         <UButton
@@ -110,10 +114,10 @@ const { data: story } = await useAsyncData(`hq/stories/${slug}`, async () => {
       </div>
 
       <div class="mt-8">
-        <LazyProseRender :content="story.content" />
+        <LazySharedProseRender :content="story.content" />
       </div>
     </div>
-    <LazyModalReview
+    <LazyHqModalReview
       v-model="openReview"
       :story-id="story.id"
       :status="story.status"

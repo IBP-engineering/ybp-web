@@ -11,6 +11,7 @@ withDefaults(
     backButtonText: 'Back',
     mode: 'list',
     backButtonHref: '/hq',
+    buttonText: '',
   },
 )
 defineEmits<{

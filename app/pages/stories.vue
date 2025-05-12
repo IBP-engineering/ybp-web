@@ -8,10 +8,11 @@ useSeoMeta({
 
 const supabase = useSupabaseClient()
 const ITEMS_PER_PAGE = 6
-const page = ref(1)
+const router = useRouter()
+const route = useRoute()
+const page = ref(+route.query.page || 1)
 
-const { data: stories } = await useAsyncData(
-  // TODO: handle flashing ui with skeleton (?)
+const { data: stories, status } = await useAsyncData(
   computed(() => `stories?page=${page.value}`),
   async () => {
     const startIndex = (page.value - 1) * ITEMS_PER_PAGE
@@ -61,6 +62,14 @@ const storiesFiltered = computed(() => {
   // @ts-expect-error move forward for now
   return mapStoryTag(stories.value.items)
 })
+
+watch(page, () => {
+  router.push({
+    query: {
+      page: page.value,
+    },
+  })
+})
 </script>
 
 <template>
@@ -77,7 +86,13 @@ const storiesFiltered = computed(() => {
       </p>
     </section>
     <div
-      v-if="storiesFiltered?.length > 0"
+      v-if="status === 'pending'"
+      class="my-8 grid grid-cols-1 gap-4 md:grid-cols-2"
+    >
+      <StoryCardSkeleton v-for="idx in [1, 2, 3, 4, 5, 11]" :key="idx" />
+    </div>
+    <div
+      v-else-if="storiesFiltered?.length > 0"
       class="my-8 grid grid-cols-1 gap-4 md:grid-cols-2"
     >
       <StoryCard

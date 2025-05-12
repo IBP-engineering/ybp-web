@@ -9,10 +9,12 @@ definePageMeta({
 })
 
 const ITEMS_PER_PAGE = 5
-const page = ref(1)
+const router = useRouter()
+const route = useRoute()
+const page = ref(+route.query.page || 1)
 
 const supabase = useSupabaseClient<Database>()
-const { data: stories } = await useAsyncData(
+const { data: stories, status } = await useAsyncData(
   // TODO: handle flashing ui with skeleton (?)
   computed(() => `hq/stories?page=${page.value}`),
   async () => {
@@ -45,21 +47,35 @@ const { data: stories } = await useAsyncData(
     default: () => ({ items: [], totalPages: 0, totalCount: 0 }),
   },
 )
+
+watch(page, () => {
+  router.push({
+    query: {
+      page: page.value,
+    },
+  })
+})
 </script>
 
 <template>
   <div>
-    <PageHeader title="Stories" />
+    <HqPageHeader title="Stories" />
 
     <div class="mx-auto mt-4 w-full max-w-screen-xl px-4">
       <p>Total: {{ stories.totalCount }}</p>
 
       <div class="mx-auto mt-2 w-full max-w-screen-xl px-4 xl:px-0 space-y-4">
-        <HqStoryCard
-          v-for="story in stories.items"
-          :key="story.id"
-          :story="story"
-        />
+        <template v-if="status === 'pending'">
+          <HqStoryCardSkeleton v-for="idx in [1, 2, 3, 4, 5]" :key="idx" />
+        </template>
+
+        <template v-else>
+          <HqStoryCard
+            v-for="story in stories.items"
+            :key="story.id"
+            :story="story"
+          />
+        </template>
       </div>
       <div class="flex justify-end mt-8 w-full">
         <UPagination
