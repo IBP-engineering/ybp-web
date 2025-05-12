@@ -11,13 +11,14 @@ useHead({
 })
 
 const ITEMS_PER_PAGE = 12
+const dummyArray = Array.from({ length: ITEMS_PER_PAGE }, (_, i) => i)
+
 const router = useRouter()
 const route = useRoute()
 const page = ref(+route.query.page || 1)
 
 const supabase = useSupabaseClient<Database>()
-const { data: users } = await useAsyncData(
-  // TODO: handle flashing ui with skeleton (?)
+const { data: users, status } = await useAsyncData(
   computed(() => `hq/users?page=${page.value}`),
   async () => {
     const startIndex = (page.value - 1) * ITEMS_PER_PAGE
@@ -63,26 +64,17 @@ watch(page, () => {
 
       <div class="mt-2 block">
         <ul class="grid grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-3">
-          <li v-for="user in users.items" :key="user.id">
-            <NuxtLink
-              :to="`/hq/users/${user.username}`"
-              class="hover:border-primary-400 ring-primary-500 flex w-full items-center justify-between border-2 bg-white p-2 transition focus:ring focus:outline-none"
-            >
-              <div class="flex items-center gap-2">
-                <UserPicture :seed="user.username" width="50" height="50" />
-                <div>
-                  <RoleBadge :name="user.roles.name" />
-                  <br />
-                  <b class="mr-1">{{ user.display_name }}</b>
-                  <small class="text-neutral-600">@{{ user.username }}</small>
-                  <p class="text-neutral-600">
-                    {{ user.stories[0].count }}
-                    {{ user.stories[0].count > 1 ? 'stories' : 'story' }}
-                  </p>
-                </div>
-              </div>
-            </NuxtLink>
-          </li>
+          <template v-if="status === 'pending'">
+            <li v-for="idx in dummyArray" :key="idx">
+              <HqUserCardSkeleton />
+            </li>
+          </template>
+
+          <template v-else>
+            <li v-for="user in users.items" :key="user.id">
+              <HqUserCard :user="user" />
+            </li>
+          </template>
         </ul>
       </div>
 
