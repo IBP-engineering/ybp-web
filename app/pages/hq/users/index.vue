@@ -58,7 +58,7 @@ watch(page, () => {
 
 <template>
   <div>
-    <PageHeader title="Users" />
+    <HqPageHeader title="Users" />
     <div class="mx-auto mt-4 w-full max-w-screen-xl px-4">
       <p>Total: {{ users.totalCount }}</p>
 

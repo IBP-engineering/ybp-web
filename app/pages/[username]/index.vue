@@ -77,7 +77,7 @@ useSeoMeta({
     <div
       class="mt-10 flex w-full flex-col items-center rounded-lg border-4 border-neutral-300 bg-neutral-50 px-4 pb-4 text-center"
     >
-      <UserPicture
+      <SharedUserPicture
         :seed="user.username"
         class="-mt-8 border-4 border-white"
         width="80"

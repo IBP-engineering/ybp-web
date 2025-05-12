@@ -184,7 +184,7 @@ async function updateProfile(event: FormSubmitEvent<Schema>) {
 
 <template>
   <div>
-    <PageHeader
+    <HqPageHeader
       title="Detail user"
       mode="detail"
       back-button-text="Users"
@@ -241,7 +241,7 @@ async function updateProfile(event: FormSubmitEvent<Schema>) {
         </div>
 
         <div class="flex flex-col items-center gap-2">
-          <UserPicture :seed="user.username" />
+          <SharedUserPicture :seed="user.username" />
           <UButton
             class="hidden md:inline-flex"
             variant="outline"

@@ -160,7 +160,11 @@ useSeoMeta({
             </UAlert>
 
             <div class="my-4 flex items-center gap-4">
-              <UserPicture :seed="authorUsername" width="35" height="35" />
+              <SharedUserPicture
+                :seed="authorUsername"
+                width="35"
+                height="35"
+              />
               <div>
                 <ULink
                   :to="`/${authorUsername}`"
