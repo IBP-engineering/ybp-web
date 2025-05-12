@@ -11,7 +11,6 @@ const ITEMS_PER_PAGE = 6
 const page = ref(1)
 
 const { data: stories, status } = await useAsyncData(
-  // TODO: handle flashing ui with skeleton (?)
   computed(() => `stories?page=${page.value}`),
   async () => {
     const startIndex = (page.value - 1) * ITEMS_PER_PAGE
