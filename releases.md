@@ -2,6 +2,22 @@
 
 A peek into the exciting evolution of the Yogyakarta Book Party web app!
 
+## Version 0.2.5 - Seamless Loading & Shareable Pages! ⚡️🔗
+
+We're continuously working to make your Browse experience on the Yogyakarta Book Party web app even more fluid and efficient! This release brings noticeable improvements to how our paginated content loads and behaves.
+
+**✨ What's New & Improved! ✨**
+
+- **Smarter Pagination, Smoother Experience!** 🚀 For pages like `/stories` and `/hq` (and other paginated sections), you'll now notice two key enhancements:
+  - **Elegant Skeleton Loading:** No more blank screens! While content is loading, you'll see sleek **skeleton placeholders**, giving you a preview of the layout and making the loading process feel much smoother.
+  - **URL-Friendly Pages:** Navigating paginated content is now even better! Your current page selection will now be **synchronized with the URL query**. This means you can easily bookmark or share specific pages, and when someone opens the link, they'll land exactly on the page you intended!
+
+**🛠️ Under the Hood: Keeping Things Tidy!**
+
+- We've also performed a **small refactor in our codebase**. While not directly visible, these internal improvements make our application more maintainable and set the stage for even more exciting features and smoother performance in the future!
+
+We hope these enhancements make your journey through our stories and HQ pages even more delightful! Happy reading!
+
 ## Version 0.2.4 - Share Your Thoughts & Smoother Experiences! 💬✨
 
 Get ready to engage more deeply with the stories and insights shared on the Yogyakarta Book Party platform! This release brings a highly requested feature and overall improvements to make your interaction even better.
