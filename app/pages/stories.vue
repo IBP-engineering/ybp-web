@@ -10,7 +10,7 @@ const supabase = useSupabaseClient()
 const ITEMS_PER_PAGE = 6
 const page = ref(1)
 
-const { data: stories } = await useAsyncData(
+const { data: stories, status } = await useAsyncData(
   // TODO: handle flashing ui with skeleton (?)
   computed(() => `stories?page=${page.value}`),
   async () => {
@@ -77,7 +77,13 @@ const storiesFiltered = computed(() => {
       </p>
     </section>
     <div
-      v-if="storiesFiltered?.length > 0"
+      v-if="status === 'pending'"
+      class="my-8 grid grid-cols-1 gap-4 md:grid-cols-2"
+    >
+      <StoryCardSkeleton v-for="idx in [1, 2, 3, 4, 5, 11]" :key="idx" />
+    </div>
+    <div
+      v-else-if="storiesFiltered?.length > 0"
       class="my-8 grid grid-cols-1 gap-4 md:grid-cols-2"
     >
       <StoryCard
