@@ -8,7 +8,9 @@ useSeoMeta({
 
 const supabase = useSupabaseClient()
 const ITEMS_PER_PAGE = 6
-const page = ref(1)
+const router = useRouter()
+const route = useRoute()
+const page = ref(+route.query.page || 1)
 
 const { data: stories, status } = await useAsyncData(
   computed(() => `stories?page=${page.value}`),
@@ -59,6 +61,14 @@ const breadcrumbs = [
 const storiesFiltered = computed(() => {
   // @ts-expect-error move forward for now
   return mapStoryTag(stories.value.items)
+})
+
+watch(page, () => {
+  router.push({
+    query: {
+      page: page.value,
+    },
+  })
 })
 </script>
 
