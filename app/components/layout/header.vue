@@ -75,22 +75,22 @@ function closeAfterNavigate(
   openNavModal.value = false
 }
 
-const dropdownItems: DropdownMenuItem[][] = [
-  [
-    userData?.value?.roles?.id !== USER_ROLE.member
-      ? { label: 'HQ', to: '/hq', icon: 'heroicons:bolt' }
-      : { label: `Halo @${userData.value.username} 👋` },
-    { label: 'Dashboard', to: '/dashboard', icon: 'heroicons:home' },
-    { label: 'New story', to: '/new', icon: 'heroicons:plus' },
-    { label: 'My reading habits', to: '/dashboard?tab=1', icon: 'ph:clover' },
-    { label: 'Settings', to: '/settings', icon: 'heroicons:sparkles' },
-    {
-      label: 'Logout',
-      icon: 'i-heroicons-arrow-right-on-rectangle',
-      onSelect: logout,
-    },
-  ],
-]
+const dropdownItems = [
+  userData?.value?.roles?.id !== USER_ROLE.member
+    ? { label: 'HQ', to: '/hq', icon: 'heroicons:bolt' }
+    : { label: `Halo @${userData.value.username} 👋` },
+  { label: 'Dashboard', to: '/dashboard', icon: 'heroicons:home' },
+  { label: 'Notifications', slot: 'notification', icon: 'lucide:bell' },
+  { label: 'New story', to: '/new', icon: 'lucide:notebook-pen' },
+  { label: 'My reading habits', to: '/dashboard?tab=1', icon: 'ph:clover' },
+  { label: 'Settings', to: '/settings', icon: 'lucide:settings' },
+  {
+    label: 'Logout',
+    color: 'error',
+    icon: 'i-heroicons-arrow-right-on-rectangle',
+    onSelect: logout,
+  },
+] satisfies DropdownMenuItem[]
 </script>
 
 <template>
@@ -143,7 +143,12 @@ const dropdownItems: DropdownMenuItem[][] = [
             alt="Avatar"
           />
         </UButton>
+
+        <template #notification-trailing>
+          <span class="text-primary-500">5</span>
+        </template>
       </LazyUDropdownMenu>
+
       <UButton
         v-else
         class="hidden shrink-0 md:flex"
@@ -192,7 +197,7 @@ const dropdownItems: DropdownMenuItem[][] = [
               </div>
               <div class="mt-4 flex flex-col">
                 <ul class="space-y-4">
-                  <li v-for="item in dropdownItems[0]" :key="item.label">
+                  <li v-for="item in dropdownItems" :key="item.label">
                     <UButton
                       v-if="item.to || item.label.toLowerCase() !== 'logout'"
                       color="neutral"
