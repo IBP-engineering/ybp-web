@@ -1,15 +1,10 @@
 <script setup lang="ts">
 import type { DropdownMenuItem } from '@nuxt/ui'
-import type {
-  RouteLocationAsPathGeneric,
-  RouteLocationAsRelativeGeneric,
-} from 'vue-router'
 import { currentUser } from '~/store/session'
 
 const toast = useToast()
 const user = useSupabaseUser()
 const supabase = useSupabaseClient()
-const openNavModal = ref(false)
 
 const { data: userData } = await useAsyncData(
   'current-user',
@@ -37,7 +32,7 @@ const { data: userData } = await useAsyncData(
   { watch: [user] },
 )
 
-const navitems = [
+const navItems = [
   {
     label: 'Stories',
     to: '/stories',
@@ -66,13 +61,6 @@ async function logout() {
   }
 
   reloadNuxtApp()
-}
-
-function closeAfterNavigate(
-  to: string | RouteLocationAsRelativeGeneric | RouteLocationAsPathGeneric,
-) {
-  navigateTo(to)
-  openNavModal.value = false
 }
 
 const dropdownItems = [
@@ -113,7 +101,7 @@ const dropdownItems = [
           </div>
         </NuxtLink>
         <ul class="mx-auto hidden items-center space-x-2 md:flex">
-          <li v-for="link in navitems" :key="link.to">
+          <li v-for="link in navItems" :key="link.to">
             <NuxtLink
               :to="link.to"
               class="hover:bg-primary-200 hover:border-primary-300 focus:hover:border-primary-400 focus:hover:text-primary-900 hover:text-primary-900 focus:hover:bg-primary-100 ring-primary-500 rounded-lg border-2 border-transparent px-4 py-1 text-neutral-900 transition duration-300 ease-out outline-none focus-visible:ring md:w-auto"
@@ -145,7 +133,9 @@ const dropdownItems = [
         </UButton>
 
         <template #notification-trailing>
-          <span class="text-primary-500">5</span>
+          <span class="text-primary-600 px-1 rounded-full bg-primary-100"
+            >5</span
+          >
         </template>
       </LazyUDropdownMenu>
 
@@ -158,82 +148,12 @@ const dropdownItems = [
       >
         Sign in
       </UButton>
-      <LazyUSlideover v-model:open="openNavModal" title="Menu navigasi">
-        <UButton
-          icon="i-heroicons-bars-3"
-          square
-          variant="ghost"
-          size="lg"
-          class="flex md:hidden"
-          color="neutral"
-          aria-label="Menu button"
-        />
 
-        <template #body>
-          <div>
-            <nav class="mb-8 flex flex-col gap-1">
-              <UButton
-                v-for="link in navitems"
-                :key="link.to"
-                size="lg"
-                variant="link"
-                color="neutral"
-                trailing-icon="heroicons:arrow-small-right-20-solid"
-                @click="closeAfterNavigate(link.to)"
-                >{{ link.label }}</UButton
-              >
-            </nav>
-            <div v-if="userData" class="border-t-2 py-4">
-              <div class="flex items-center gap-2 text-black">
-                <p>
-                  Halo! <b>{{ userData?.display_name }}</b>
-                </p>
-
-                <UAvatar
-                  :src="`${avatarBaseUrl}?seed=${userData?.username}`"
-                  size="xs"
-                  alt="Avatar"
-                />
-              </div>
-              <div class="mt-4 flex flex-col">
-                <ul class="space-y-4">
-                  <li v-for="item in dropdownItems" :key="item.label">
-                    <UButton
-                      v-if="item.to || item.label.toLowerCase() !== 'logout'"
-                      color="neutral"
-                      variant="outline"
-                      block
-                      :icon="item.icon"
-                      @click="closeAfterNavigate(item.to)"
-                    >
-                      {{ item.label }}
-                    </UButton>
-                  </li>
-                  <li>
-                    <UButton
-                      variant="ghost"
-                      color="error"
-                      block
-                      icon="i-heroicons-arrow-right-on-rectangle"
-                      @click="logout"
-                    >
-                      Logout
-                    </UButton>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <UButton
-              v-else
-              trailing-icon="heroicons:arrow-small-right-20-solid"
-              size="xl"
-              block
-              to="/login"
-              >Sign in</UButton
-            >
-          </div>
-        </template>
-      </LazyUSlideover>
+      <LazyLayoutHeaderMobileNavigation
+        :dropdown-items="dropdownItems"
+        :nav-items="navItems"
+        @logout="logout"
+      />
     </div>
   </nav>
 </template>
