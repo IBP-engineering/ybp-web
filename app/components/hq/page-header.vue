@@ -20,7 +20,7 @@ defineEmits<{
 
 const openNavModal = ref(false)
 
-//! duplicate with dashboard layout
+//TODO: duplicate with dashboard layout
 const items = [
   {
     label: 'Close',
