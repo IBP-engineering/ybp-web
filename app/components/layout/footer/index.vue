@@ -7,7 +7,7 @@ const { socials } = useAppConfig()
     class="z-[5] container mx-auto mt-auto rounded-lg border border-neutral-300 bg-neutral-100 px-8 py-12 md:mb-12"
   >
     <div class="grid grid-cols-1 gap-12 md:grid-cols-3">
-      <div class="col-span-1 flex h-full flex-col justify-between">
+      <section class="col-span-1 flex h-full flex-col justify-between">
         <div>
           <NuxtImg
             src="/assets/logo.jpg"
@@ -35,50 +35,13 @@ const { socials } = useAppConfig()
             Built around the world. 🌎
           </p>
         </div>
-      </div>
-      <div class="col-span-2">
-        <div
-          class="grid grid-cols-2 justify-items-stretch gap-4 md:grid-cols-3 md:justify-items-end"
-        >
-          <div class="text-neutral-600 md:col-span-2">
-            <p class="mb-2 font-medium">PRODUCTS</p>
-            <ul class="space-y-2">
-              <li>
-                <NuxtLink to="/stories" class="hover:underline"
-                  >Stories</NuxtLink
-                >
-              </li>
-              <li>
-                <NuxtLink to="/reading-habits" class="hover:underline"
-                  >Reading Habits</NuxtLink
-                >
-              </li>
-              <li>
-                <NuxtLink to="/goodies" class="hover:underline"
-                  >Goodies (coming soon)</NuxtLink
-                >
-              </li>
-            </ul>
-          </div>
-          <div class="text-neutral-600">
-            <p class="mb-2 font-medium">ORGANIZATION</p>
-            <ul class="space-y-2">
-              <li>
-                <NuxtLink to="/#about-us" class="hover:underline"
-                  >About us</NuxtLink
-                >
-              </li>
-              <li>
-                <NuxtLink to="/#faq" class="hover:underline">FAQ</NuxtLink>
-              </li>
-              <li>
-                <a href="/#contacts" class="hover:underline">Collaboration</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
+      </section>
+
+      <seciton class="col-span-2">
+        <LayoutFooterLinks />
+      </seciton>
     </div>
+
     <div
       class="mt-20 flex flex-col items-center justify-between text-neutral-600 md:flex-row"
     >
