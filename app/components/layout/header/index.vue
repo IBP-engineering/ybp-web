@@ -2,6 +2,8 @@
 import type { DropdownMenuItem } from '@nuxt/ui'
 import { currentUser } from '~/store/session'
 
+const openNotification = ref(false)
+
 const toast = useToast()
 const user = useSupabaseUser()
 const supabase = useSupabaseClient()
@@ -68,7 +70,14 @@ const dropdownItems = [
     ? { label: 'HQ', to: '/hq', icon: 'heroicons:bolt' }
     : { label: `Halo @${userData.value.username} 👋` },
   { label: 'Dashboard', to: '/dashboard', icon: 'heroicons:home' },
-  { label: 'Notifications', slot: 'notification', icon: 'lucide:bell' },
+  {
+    label: 'Notifications',
+    slot: 'notification',
+    icon: 'lucide:bell',
+    onSelect() {
+      openNotification.value = true
+    },
+  },
   { label: 'New story', to: '/new', icon: 'lucide:notebook-pen' },
   { label: 'My reading habits', to: '/dashboard?tab=1', icon: 'ph:clover' },
   { label: 'Settings', to: '/settings', icon: 'lucide:settings' },
@@ -155,5 +164,7 @@ const dropdownItems = [
         @logout="logout"
       />
     </div>
+
+    <LazyLayoutHeaderNotificationPanel v-model:open="openNotification" />
   </nav>
 </template>
