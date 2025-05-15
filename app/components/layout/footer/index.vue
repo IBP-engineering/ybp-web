@@ -37,9 +37,9 @@ const { socials } = useAppConfig()
         </div>
       </section>
 
-      <seciton class="col-span-2">
+      <section class="col-span-2">
         <LayoutFooterLinks />
-      </seciton>
+      </section>
     </div>
 
     <div
