@@ -83,6 +83,63 @@ export type Database = {
           },
         ]
       }
+      notifications: {
+        Row: {
+          context_data: Json | null
+          created_at: string
+          id: string
+          read_at: string | null
+          recipient_id: string | null
+          related_entity_id: string | null
+          related_entity_type:
+            | Database["public"]["Enums"]["Notification related entity"]
+            | null
+          sender_id: string | null
+          type: Database["public"]["Enums"]["Notification type"] | null
+        }
+        Insert: {
+          context_data?: Json | null
+          created_at?: string
+          id?: string
+          read_at?: string | null
+          recipient_id?: string | null
+          related_entity_id?: string | null
+          related_entity_type?:
+            | Database["public"]["Enums"]["Notification related entity"]
+            | null
+          sender_id?: string | null
+          type?: Database["public"]["Enums"]["Notification type"] | null
+        }
+        Update: {
+          context_data?: Json | null
+          created_at?: string
+          id?: string
+          read_at?: string | null
+          recipient_id?: string | null
+          related_entity_id?: string | null
+          related_entity_type?:
+            | Database["public"]["Enums"]["Notification related entity"]
+            | null
+          sender_id?: string | null
+          type?: Database["public"]["Enums"]["Notification type"] | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "notifications_recipient_id_fkey"
+            columns: ["recipient_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "notifications_sender_id_fkey"
+            columns: ["sender_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       reading_habits: {
         Row: {
           created_at: string
@@ -480,6 +537,14 @@ export type Database = {
     }
     Enums: {
       "Comment reaction type": "love"
+      "Notification related entity": "story" | "comment" | "user"
+      "Notification type":
+        | "comment_on_story"
+        | "like_on_story"
+        | "like_on_comment"
+        | "reply_comment"
+        | "system_message"
+        | "update_story"
       "Story comment status": "posted" | "deleted"
       "Story reaction": "love"
       "Story status": "approved" | "rejected" | "pending"
@@ -599,6 +664,15 @@ export const Constants = {
   public: {
     Enums: {
       "Comment reaction type": ["love"],
+      "Notification related entity": ["story", "comment", "user"],
+      "Notification type": [
+        "comment_on_story",
+        "like_on_story",
+        "like_on_comment",
+        "reply_comment",
+        "system_message",
+        "update_story",
+      ],
       "Story comment status": ["posted", "deleted"],
       "Story reaction": ["love"],
       "Story status": ["approved", "rejected", "pending"],

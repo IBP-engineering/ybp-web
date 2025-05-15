@@ -1,13 +1,17 @@
 <script setup lang="ts">
 import type { DropdownMenuItem } from '@nuxt/ui'
 import { currentUser } from '~/store/session'
+import type { Database } from '~/types/database.types'
 
 const openNotification = ref(false)
 
 const toast = useToast()
 const user = useSupabaseUser()
-const supabase = useSupabaseClient()
+const supabase = useSupabaseClient<Database>()
 
+const { data: notification } = await useFetch('/api/notifications', {
+  key: 'notifications',
+})
 const { data: userData } = await useAsyncData(
   'current-user',
   async () => {
@@ -142,9 +146,9 @@ const dropdownItems = [
         </UButton>
 
         <template #notification-trailing>
-          <span class="text-primary-600 px-1 rounded-full bg-primary-100"
-            >5</span
-          >
+          <span class="text-primary-600 px-1 rounded-full bg-primary-100">{{
+            notification.count
+          }}</span>
         </template>
       </LazyUDropdownMenu>
 

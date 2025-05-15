@@ -1,5 +1,9 @@
 <script setup lang="ts">
 const notificationType = ref<'all' | 'unread'>('all')
+
+const { data: notification } = await useFetch('/api/notifications', {
+  key: 'notifications',
+})
 </script>
 
 <template>
@@ -41,10 +45,10 @@ const notificationType = ref<'all' | 'unread'>('all')
         <div class="flex flex-col">
           <small class="text-neutral-600 px-6 mb-1 font-medium">Hari ini</small>
           <div
-            v-for="i in [12, 3, 4, 5, 55]"
-            :key="i"
+            v-for="notif in notification.data"
+            :key="notif.id"
             class="hover:bg-neutral-50 transition px-6"
-            :class="{ 'bg-primary-50': false }"
+            :class="{ 'bg-primary-100': !notif.read_at }"
           >
             <div
               class="grid items-center grid-cols-[50px_minmax(0,1fr)] py-3 border-b"
@@ -52,7 +56,7 @@ const notificationType = ref<'all' | 'unread'>('all')
               <UAvatar alt="Albed" size="lg" />
               <div>
                 <p class="truncate">
-                  <b>John Doe tidur</b>
+                  <b>{{ notif.sender.display_name }}</b>
                   <span> sendiri di dalam topi sambil berselimut jerami </span>
                 </p>
                 <small class="text-neutral-500">1h yang lalu</small>
