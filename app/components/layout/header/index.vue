@@ -9,7 +9,7 @@ const toast = useToast()
 const user = useSupabaseUser()
 const supabase = useSupabaseClient<Database>()
 
-const { data: notification } = await useFetch('/api/notifications', {
+const { data: notification, refresh } = await useFetch('/api/notifications', {
   key: 'notifications',
 })
 const { data: userData } = await useAsyncData(
@@ -92,6 +92,10 @@ const dropdownItems = [
     onSelect: logout,
   },
 ] satisfies DropdownMenuItem[]
+
+watch(openNotification, () => {
+  refresh()
+})
 </script>
 
 <template>

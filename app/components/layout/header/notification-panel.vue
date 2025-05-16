@@ -1,8 +1,56 @@
 <script setup lang="ts">
+import {
+  format,
+  formatDistanceToNowStrict,
+  isToday,
+  isYesterday,
+} from 'date-fns'
+import id from 'date-fns/locale/id'
+import type { Notification, User } from '~/types/entities'
+
 const notificationType = ref<'all' | 'unread'>('all')
 
 const { data: notification } = await useFetch('/api/notifications', {
   key: 'notifications',
+})
+
+const notificationData = computed(() => {
+  const groupedData: Record<
+    string,
+    (Notification & { sender: Pick<User, 'username' | 'display_name'> })[]
+  > = {}
+
+  for (const data of notification.value.data) {
+    if (!data || !data.created_at) {
+      console.warn('Skipping data due to missing created_at ')
+      return
+    }
+
+    const createdAt = new Date(data.created_at)
+
+    if (isNaN(createdAt.getTime())) {
+      console.warn('Skipping data due to invalid created_at date')
+      return
+    }
+
+    let category: string
+
+    if (isToday(createdAt)) {
+      category = 'Hari ini'
+    } else if (isYesterday(createdAt)) {
+      category = 'Kemarin'
+    } else {
+      category = format(createdAt, 'dd MMM', { locale: id })
+    }
+
+    if (!groupedData[category]) {
+      groupedData[category] = []
+    }
+
+    groupedData[category].push(data)
+  }
+
+  return groupedData
 })
 </script>
 
@@ -28,7 +76,7 @@ const { data: notification } = await useFetch('/api/notifications', {
             variant="ghost"
             :color="notificationType === 'unread' ? 'primary' : 'neutral'"
             @click="notificationType = 'unread'"
-            >Belum terbaca (12)</UButton
+            >Belum terbaca ({{ notification.count }})</UButton
           >
         </div>
 
@@ -42,47 +90,45 @@ const { data: notification } = await useFetch('/api/notifications', {
       </div>
 
       <div class="pt-4 space-y-4">
-        <div class="flex flex-col">
-          <small class="text-neutral-600 px-6 mb-1 font-medium">Hari ini</small>
+        <div
+          v-for="[key, value] in Object.entries(notificationData)"
+          :key="key"
+          class="flex flex-col"
+        >
+          <small class="text-neutral-600 px-6 mb-1 font-medium">{{
+            key
+          }}</small>
           <div
-            v-for="notif in notification.data"
+            v-for="notif in value"
             :key="notif.id"
             class="hover:bg-neutral-50 transition px-6"
-            :class="{ 'bg-primary-100': !notif.read_at }"
+            :class="{ 'bg-primary-100 hover:bg-primary-200': !notif.read_at }"
           >
             <div
               class="grid items-center grid-cols-[50px_minmax(0,1fr)] py-3 border-b"
             >
-              <UAvatar alt="Albed" size="lg" />
+              <UAvatar
+                :alt="notif.sender.display_name"
+                :src="`${avatarBaseUrl}?seed=${notif.sender.username}`"
+                size="xl"
+              />
               <div>
                 <p class="truncate">
                   <b>{{ notif.sender.display_name }}</b>
                   <span> sendiri di dalam topi sambil berselimut jerami </span>
                 </p>
-                <small class="text-neutral-500">1h yang lalu</small>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="flex flex-col">
-          <small class="text-neutral-600 px-6 mb-1 font-medium">Kemarin</small>
-          <div
-            v-for="i in [12, 3, 4, 5, 55]"
-            :key="i"
-            class="hover:bg-neutral-50 transition px-6"
-            :class="{ 'bg-primary-50': false }"
-          >
-            <div
-              class="grid items-center grid-cols-[50px_minmax(0,1fr)] py-3 border-b"
-            >
-              <UAvatar alt="Albed" size="lg" />
-              <div>
-                <p class="truncate">
-                  <b>John Doe tidur</b>
-                  <span> sendiri di dalam topi sambil berselimut jerami </span>
-                </p>
-                <small class="text-neutral-500">1h yang lalu</small>
+                <time
+                  :datetime="new Date(notif.created_at).toISOString()"
+                  :title="new Date(notif.created_at).toLocaleString()"
+                  class="text-neutral-500 text-sm"
+                  >{{
+                    isToday(new Date(notif.created_at))
+                      ? formatDistanceToNowStrict(new Date(notif.created_at), {
+                          locale: id,
+                        })
+                      : format(new Date(notif.created_at), 'HH:mm')
+                  }}
+                </time>
               </div>
             </div>
           </div>
