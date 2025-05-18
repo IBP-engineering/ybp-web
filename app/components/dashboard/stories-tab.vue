@@ -206,7 +206,7 @@ watch(
       </div>
     </div>
 
-    <UModal title="Status Cerita" v-model:open="isOpenStatus">
+    <UModal v-model:open="isOpenStatus" title="Status Cerita">
       <template #body>
         <StoryHistories :story-histories="storyHistories" />
       </template>

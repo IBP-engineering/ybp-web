@@ -2,7 +2,8 @@
 import type { DropdownMenuItem } from '@nuxt/ui'
 import { format } from 'date-fns'
 import id from 'date-fns/locale/id'
-import type { Story, User } from '~/types/entities'
+import { currentUser } from '~/store/session'
+import type { Story } from '~/types/entities'
 
 const props = defineProps<{
   story: Story
@@ -13,9 +14,7 @@ const emit = defineEmits<{
   status: [id: string]
 }>()
 
-const { data: user } = useNuxtData<User>('current-user')
-
-const storyUrl = `/${user.value.username}/${props.story.slug}`
+const storyUrl = `/${currentUser?.value?.username}/${props.story.slug}`
 
 const storyOptions = [
   [
