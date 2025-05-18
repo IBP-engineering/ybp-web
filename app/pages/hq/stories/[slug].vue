@@ -117,7 +117,7 @@ const { data: story } = await useAsyncData(`hq/stories/${slug}`, async () => {
         <LazySharedProseRender :content="story.content" />
       </div>
     </div>
-    <LazyHqModalReview
+    <LazyHqStoryModalReview
       v-model="openReview"
       :story-id="story.id"
       :status="story.status"

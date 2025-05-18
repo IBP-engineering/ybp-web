@@ -2,6 +2,12 @@
 
 A peek into the exciting evolution of the Yogyakarta Book Party web app!
 
+## Version 0.2.5a - Hotfix moderator cannot check member story! 🍋
+
+Let's go. Now the moderator and admin can review your story!
+
+Keep spirit. Thanks!
+
 ## Version 0.2.5 - Seamless Loading & Shareable Pages! ⚡️🔗
 
 We're continuously working to make your Browse experience on the Yogyakarta Book Party web app even more fluid and efficient! This release brings noticeable improvements to how our paginated content loads and behaves.
