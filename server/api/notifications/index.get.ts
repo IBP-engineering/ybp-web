@@ -1,4 +1,8 @@
-import { serverSupabaseClient, serverSupabaseUser } from '#supabase/server'
+import {
+  serverSupabaseClient,
+  serverSupabaseSession,
+  serverSupabaseUser,
+} from '#supabase/server'
 import type { Database } from '~/types/database.types'
 import type { Notification, User } from '~/types/entities'
 
@@ -13,10 +17,16 @@ export default defineEventHandler(
     count: number
   }> => {
     try {
+      const session = await serverSupabaseSession(event)
+
+      if (!session) {
+        return { data: [], count: 0, error: null }
+      }
+
       const user = await serverSupabaseUser(event)
 
       if (!user) {
-        return null
+        return { data: [], count: 0, error: null }
       }
 
       const supabase = await serverSupabaseClient<Database>(event)
