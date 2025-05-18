@@ -231,6 +231,7 @@ async function updateProfile(event: FormSubmitEvent<Schema>) {
             </p>
           </div>
           <UButton
+            v-if="user.roles.name === 'admin'"
             block
             class="inline-flex md:hidden"
             variant="outline"
@@ -243,6 +244,7 @@ async function updateProfile(event: FormSubmitEvent<Schema>) {
         <div class="flex flex-col items-center gap-2">
           <SharedUserPicture :seed="user.username" />
           <UButton
+            v-if="user.roles.name === 'admin'"
             class="hidden md:inline-flex"
             variant="outline"
             color="neutral"
