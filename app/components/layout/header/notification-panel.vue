@@ -89,7 +89,7 @@ const notificationData = computed(() => {
         >
       </div>
 
-      <div class="pt-4 space-y-4">
+      <div v-if="notification.data.length > 0" class="pt-4 space-y-4">
         <div
           v-for="[key, value] in Object.entries(notificationData)"
           :key="key"
@@ -134,6 +134,9 @@ const notificationData = computed(() => {
           </div>
         </div>
       </div>
+      <p v-else class="text-center p-4 text-neutral-500">
+        Tampaknya belum ada notifikasi
+      </p>
     </template>
   </UModal>
 </template>
