@@ -9,9 +9,7 @@ const toast = useToast()
 const user = useSupabaseUser()
 const supabase = useSupabaseClient<Database>()
 
-const { data: notification, refresh } = await useFetch('/api/notifications', {
-  key: 'notifications',
-})
+const { data: notification, refresh } = await useFetch('/api/notifications')
 const { data: userData } = await useAsyncData(
   'current-user',
   async () => {
@@ -151,7 +149,7 @@ watch(openNotification, () => {
 
         <template #notification-trailing>
           <span class="text-primary-600 px-1 rounded-full bg-primary-100">{{
-            notification.count
+            notification.unreadCount
           }}</span>
         </template>
       </LazyUDropdownMenu>

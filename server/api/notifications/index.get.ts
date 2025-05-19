@@ -14,34 +14,48 @@ export default defineEventHandler(
     data: (Notification & {
       sender: Pick<User, 'display_name' | 'username'>
     })[]
-    count: number
+    unreadCount: number
   }> => {
     try {
+      const query = getQuery(event)
       const session = await serverSupabaseSession(event)
 
       if (!session) {
-        return { data: [], count: 0, error: null }
+        return { data: [], unreadCount: 0, error: null }
       }
 
       const user = await serverSupabaseUser(event)
 
       if (!user) {
-        return { data: [], count: 0, error: null }
+        return { data: [], unreadCount: 0, error: null }
       }
 
       const supabase = await serverSupabaseClient<Database>(event)
-      const { data, error } = await supabase
+      let queryNotification = supabase
         .from('notifications')
         .select('*, sender:users!sender_id(display_name, username)')
         .eq('recipient_id', user.id)
-        .order('created_at', { ascending: false })
 
+      // Conditionally add the filter for unread notifications
+      if (query?.type === 'unread') {
+        queryNotification = queryNotification.is('read_at', null)
+      }
+
+      // Add the ordering
+      queryNotification = queryNotification.order('created_at', {
+        ascending: false,
+      })
+
+      // Execute the query
       // get unread count
-      const { count } = await supabase
-        .from('notifications')
-        .select('id', { count: 'exact' })
-        .eq('recipient_id', user.id)
-        .is('read_at', null)
+      const [{ data, error }, { count }] = await Promise.all([
+        queryNotification,
+        supabase
+          .from('notifications')
+          .select('id', { count: 'exact' })
+          .eq('recipient_id', user.id)
+          .is('read_at', null),
+      ])
 
       if (error) {
         throw createError({
@@ -52,7 +66,7 @@ export default defineEventHandler(
         })
       }
 
-      return { data, count, error: null }
+      return { data, unreadCount: count, error: null }
     } catch (error) {
       console.error(error)
       throw createError({

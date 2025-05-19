@@ -6,7 +6,10 @@ import type { Notification, User } from '~/types/entities'
 const notificationType = ref<'all' | 'unread'>('all')
 
 const { data: notification } = await useFetch('/api/notifications', {
-  key: 'notifications',
+  query: {
+    type: notificationType,
+  },
+  key: computed(() => `notifications/${notificationType.value}`),
 })
 
 const notificationData = computed(() => {
@@ -71,7 +74,7 @@ const notificationData = computed(() => {
             variant="ghost"
             :color="notificationType === 'unread' ? 'primary' : 'neutral'"
             @click="notificationType = 'unread'"
-            >Belum terbaca ({{ notification.count }})</UButton
+            >Belum terbaca ({{ notification.unreadCount }})</UButton
           >
         </div>
 
