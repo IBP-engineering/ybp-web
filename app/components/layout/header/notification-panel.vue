@@ -1,10 +1,5 @@
 <script setup lang="ts">
-import {
-  format,
-  formatDistanceToNowStrict,
-  isToday,
-  isYesterday,
-} from 'date-fns'
+import { format, isToday, isYesterday } from 'date-fns'
 import id from 'date-fns/locale/id'
 import type { Notification, User } from '~/types/entities'
 
@@ -98,40 +93,11 @@ const notificationData = computed(() => {
           <small class="text-neutral-600 px-6 mb-1 font-medium">{{
             key
           }}</small>
-          <div
+          <LayoutHeaderNotificationItem
             v-for="notif in value"
             :key="notif.id"
-            class="hover:bg-neutral-50 transition px-6"
-            :class="{ 'bg-primary-100 hover:bg-primary-200': !notif.read_at }"
-          >
-            <div
-              class="grid items-center grid-cols-[50px_minmax(0,1fr)] py-3 border-b"
-            >
-              <UAvatar
-                :alt="notif.sender.display_name"
-                :src="`${avatarBaseUrl}?seed=${notif.sender.username}`"
-                size="xl"
-              />
-              <div>
-                <p class="truncate">
-                  <b>{{ notif.sender.display_name }}</b>
-                  <span> sendiri di dalam topi sambil berselimut jerami </span>
-                </p>
-                <time
-                  :datetime="new Date(notif.created_at).toISOString()"
-                  :title="new Date(notif.created_at).toLocaleString()"
-                  class="text-neutral-500 text-sm"
-                  >{{
-                    isToday(new Date(notif.created_at))
-                      ? formatDistanceToNowStrict(new Date(notif.created_at), {
-                          locale: id,
-                        })
-                      : format(new Date(notif.created_at), 'HH:mm')
-                  }}
-                </time>
-              </div>
-            </div>
-          </div>
+            :notification="notif"
+          />
         </div>
       </div>
       <p v-else class="text-center p-4 text-neutral-500">
