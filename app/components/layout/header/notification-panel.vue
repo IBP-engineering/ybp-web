@@ -5,7 +5,7 @@ import type { Notification, User } from '~/types/entities'
 
 const notificationType = ref<'all' | 'unread'>('all')
 
-const { data: notification } = await useFetch('/api/notifications', {
+const { data: notification, refresh } = await useFetch('/api/notifications', {
   query: {
     type: notificationType,
   },
@@ -50,6 +50,17 @@ const notificationData = computed(() => {
 
   return groupedData
 })
+
+const readAll = async () => {
+  try {
+    await $fetch('/api/notifications/read-all', {
+      method: 'post',
+    })
+    refresh()
+  } catch (error) {
+    console.error(error)
+  }
+}
 </script>
 
 <template>
@@ -83,6 +94,8 @@ const notificationData = computed(() => {
           icon="lucide:check-check"
           variant="ghost"
           color="primary"
+          loading-auto
+          @click="readAll"
           >Tandai semua sudah dibaca</UButton
         >
       </div>

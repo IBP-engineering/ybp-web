@@ -93,6 +93,7 @@ const dropdownItems = [
 
 watch(openNotification, () => {
   refresh()
+  refreshNuxtData(['notifications/all', 'notifications/unread'])
 })
 </script>
 
