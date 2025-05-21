@@ -12,6 +12,7 @@
     "lint:fix": "eslint . --fix",
     "prettier": "prettier . --write"
   },
+  "packageManager": "pnpm@10.11.0",
   "pnpm": {
     "onlyBuiltDependencies": [
       "@parcel/watcher",
@@ -42,7 +43,7 @@
     "@vueuse/integrations": "^13.2.0",
     "date-fns": "^4.1.0",
     "motion-v": "1.1.0-alpha.1",
-    "nuxt": "^3.17.3",
+    "nuxt": "^3.17.4",
     "qrcode": "^1.5.4",
     "v-calendar": "^3.1.2",
     "vue": "^3.5.14",
@@ -53,8 +54,8 @@
     "@iconify-json/lucide": "^1.2.44",
     "@iconify-json/ph": "^1.2.2",
     "@inspira-ui/plugins": "^0.0.1",
-    "@nuxt/eslint": "^1.4.0",
-    "@supabase/supabase-js": "^2.49.4",
+    "@nuxt/eslint": "^1.4.1",
+    "@supabase/supabase-js": "^2.49.7",
     "@tailwindcss/forms": "^0.5.10",
     "@tailwindcss/typography": "^0.5.16",
     "@trivago/prettier-plugin-sort-imports": "^5.2.2",
