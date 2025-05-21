@@ -140,6 +140,15 @@ const submitStory = async () => {
         updated_by: user.value?.id,
       }),
     ])
+    $fetch('/api/notifications/stories', {
+      method: 'post',
+      body: {
+        senderId: user.value?.id,
+        contextData: {},
+        relatedId: createdStory.id,
+        mode: 'create',
+      },
+    })
 
     openModal.value = true
     modalAlert.isSuccess = true
