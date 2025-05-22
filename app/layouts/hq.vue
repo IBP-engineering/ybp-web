@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { DropdownMenuItem } from '@nuxt/ui'
-import { currentUser } from '~/store/session'
 import type { Database } from '~/types/database.types'
 
 useHead({
@@ -13,8 +12,9 @@ const openNavModal = ref(false)
 
 const supabase = useSupabaseClient<Database>()
 const userSession = useSupabaseUser()
-
+const currentUser = useCurrentUser()
 const toast = useToast()
+
 const { data: user } = await useAsyncData('current-user', async () => {
   const { data, error } = await supabase
     .from('users')

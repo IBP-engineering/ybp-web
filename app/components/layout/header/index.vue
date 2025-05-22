@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { DropdownMenuItem } from '@nuxt/ui'
-import { currentUser } from '~/store/session'
 import type { Database } from '~/types/database.types'
 
 const openNotification = ref(false)
@@ -8,6 +7,7 @@ const openNotification = ref(false)
 const toast = useToast()
 const user = useSupabaseUser()
 const supabase = useSupabaseClient<Database>()
+const currentUser = useCurrentUser()
 
 const { data: notification, refresh } = await useFetch('/api/notifications')
 const { data: userData } = await useAsyncData(

@@ -22,7 +22,8 @@ const { data: stories, refresh: refreshStories } = await useAsyncData(
         .from('stories')
         .select(
           `*,
-      tags:story_tags!id(tag:tag_id(title))
+      tags:story_tags!id(tag:tag_id(title)),
+      author:users(username)
       `,
         )
         .eq('user_id', user.value.id)
@@ -41,7 +42,8 @@ const { data: stories, refresh: refreshStories } = await useAsyncData(
       .from('stories')
       .select(
         `*,
-      tags:story_tags!id(tag:tag_id(title))
+      tags:story_tags!id(tag:tag_id(title)),
+      author:users(username)
       `,
       )
       .eq('user_id', user.value.id)
