@@ -16,13 +16,15 @@ const message = computed(() => {
     case 'like_on_story':
       return ` menyukai artikel Anda: "Judul"`
     case 'reply_comment':
-      return 'membalas komentar Anda di artikel "adalah real"'
+      return ' membalas komentar Anda di artikel "adalah real"'
     case 'like_on_comment':
-      return 'menyukai komentar Anda di artikel "cinta padang bulan"'
+      return ' menyukai komentar Anda di artikel "cinta padang bulan"'
     case 'update_story':
-      return 'Status artikel Anda: "[Judul Artikel]" telah diperbarui menjadi [Status Baru].'
+      return ` status artikel Anda: "${props.notification.context_data?.title ?? ''}" telah diperbarui menjadi [Status Baru]`
     case 'system_message':
-      return 'Pembaruan fitur baru tersedia!'
+      return ' pembaruan fitur baru tersedia!'
+    case 'add_story':
+      return ` menambahkan Story baru: "${props.notification.context_data?.title ?? ''}"`
     default:
       return 'Yaudah'
   }
@@ -34,14 +36,14 @@ const message = computed(() => {
     class="hover:bg-neutral-50 transition px-6"
     :class="{ 'bg-primary-100 hover:bg-primary-200': !notification.read_at }"
   >
-    <div class="grid items-center grid-cols-[50px_minmax(0,1fr)] py-3 border-b">
+    <div class="grid items-start grid-cols-[50px_minmax(0,1fr)] py-3 border-b">
       <UAvatar
         :alt="notification.sender.display_name"
         :src="`${avatarBaseUrl}?seed=${notification.sender.username}`"
         size="xl"
       />
       <div>
-        <p class="truncate">
+        <p>
           <b>{{ notification.sender.display_name }}</b>
           <span>{{ message }}</span>
         </p>

@@ -3,6 +3,7 @@ import {
   serverSupabaseSession,
   serverSupabaseUser,
 } from '#supabase/server'
+import type { SupabaseClient } from '@supabase/supabase-js'
 import type { Database } from '~/types/database.types'
 import type { Notification, User } from '~/types/entities'
 
@@ -66,7 +67,35 @@ export default defineEventHandler(
         })
       }
 
-      return { data, unreadCount: count, error: null }
+      const storyRelatedIds =
+        data.length > 0
+          ? data.map(d => {
+              if (d.related_entity_type === 'story') {
+                return d.related_entity_id
+              }
+            })
+          : []
+      const uniqueStoryRelatedIds = [...new Set(storyRelatedIds)]
+      const stories = await getStoriesByIds(uniqueStoryRelatedIds, supabase)
+
+      const dataWithStory = data.map(data => {
+        if (uniqueStoryRelatedIds.length > 0) {
+          const findedStory = stories.find(
+            st => st.id === data.related_entity_id,
+          )
+
+          if (findedStory) {
+            return {
+              ...data,
+              context_data: { ...data.context_data, ...findedStory },
+            }
+          }
+        }
+
+        return data
+      })
+
+      return { data: dataWithStory, unreadCount: count, error: null }
     } catch (error) {
       console.error(error)
       throw createError({
@@ -77,3 +106,20 @@ export default defineEventHandler(
     }
   },
 )
+
+async function getStoriesByIds(
+  storyIdsToFetch: string[],
+  supabase: SupabaseClient<Database, 'public'>,
+) {
+  const { data, error } = await supabase
+    .from('stories')
+    .select('id,title')
+    .in('id', storyIdsToFetch) // Filter where the 'id' is in the provided array
+
+  if (error) {
+    console.error('Error fetching stories by IDs:', error)
+    return null
+  }
+
+  return data
+}
