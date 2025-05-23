@@ -1,6 +1,6 @@
 import type { InjectionKey } from 'vue'
 
 export const notificationKey = Symbol() as InjectionKey<{
-  openNotification: boolean
+  openNotification: Ref<boolean>
   switchOpenNotification: () => void
 }>
