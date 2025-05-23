@@ -4,10 +4,16 @@ import type { Database } from '~/types/database.types'
 
 const openNotification = ref(false)
 
+function switchOpenNotification() {
+  openNotification.value = !openNotification.value
+}
+
 const toast = useToast()
 const user = useSupabaseUser()
 const supabase = useSupabaseClient<Database>()
 const currentUser = useCurrentUser()
+
+provide(notificationKey, { openNotification, switchOpenNotification })
 
 const { data: notification, refresh } = await useFetch('/api/notifications')
 const { data: userData } = await useAsyncData(

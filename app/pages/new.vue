@@ -131,6 +131,8 @@ const submitStory = async () => {
       story_id: createdStory.id,
       tag_id: tag.id,
     }))
+
+    // TODO: consider moving into server side/api to proceed.
     await Promise.all([
       supabase.from('story_tags').insert(batchStoryWithTags),
       supabase.from('story_status_histories').insert({

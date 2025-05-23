@@ -9,26 +9,50 @@ const props = defineProps<{
   }
 }>()
 
+const { switchOpenNotification } = inject(notificationKey)
+
+const notificationUrl = computed(() => {
+  const { notification } = props
+  const isStory = notification.related_entity_type === 'story'
+
+  if (isStory) {
+    return `/${notification.sender.username}/${notification.context_data?.slug}`
+  }
+
+  return ''
+})
+
 const message = computed(() => {
+  const status =
+    props.notification.context_data?.status === 'approved'
+      ? 'Disetujui'
+      : 'Ditolak'
+
   switch (props.notification.type) {
     case 'comment_on_story':
-      return ` mengomentari artikel Anda: "niceee!"`
+      return ` mengomentari Story Anda: "${props.notification.context_data?.title ?? ''}"`
     case 'like_on_story':
-      return ` menyukai artikel Anda: "Judul"`
+      return ` menyukai Story Anda: "${props.notification.context_data?.title ?? ''}"`
     case 'reply_comment':
-      return ' membalas komentar Anda di artikel "adalah real"'
+      return ` membalas komentar Anda di Story "${props.notification.context_data?.title ?? ''}"`
     case 'like_on_comment':
-      return ' menyukai komentar Anda di artikel "cinta padang bulan"'
+      return ` menyukai komentar Anda di Story "${props.notification.context_data?.title ?? ''}"`
     case 'update_story':
-      return ` status artikel Anda: "${props.notification.context_data?.title ?? ''}" telah diperbarui menjadi [Status Baru]`
+      return ` Story "${props.notification.context_data?.title ?? ''}" telah diperbarui`
+    case 'update_story_status':
+      return ` status Story Anda: "${props.notification.context_data?.title ?? ''}" telah diperbarui menjadi ${status}`
     case 'system_message':
       return ' pembaruan fitur baru tersedia!'
     case 'add_story':
       return ` menambahkan Story baru: "${props.notification.context_data?.title ?? ''}"`
     default:
-      return 'Yaudah'
+      return 'Halo gaes'
   }
 })
+
+const onClickUrl = () => {
+  switchOpenNotification()
+}
 </script>
 
 <template>
@@ -43,10 +67,21 @@ const message = computed(() => {
         size="xl"
       />
       <div>
-        <p>
-          <b>{{ notification.sender.display_name }}</b>
-          <span>{{ message }}</span>
-        </p>
+        <div>
+          <NuxtLink
+            :to="`/${notification.sender.username}`"
+            class="font-bold hover:underline"
+            @click="onClickUrl"
+            >{{ notification.sender.display_name }}</NuxtLink
+          >
+          <NuxtLink
+            class="hover:underline"
+            :to="notificationUrl"
+            @click="onClickUrl"
+          >
+            {{ message }}
+          </NuxtLink>
+        </div>
         <time
           :datetime="new Date(notification.created_at).toISOString()"
           :title="new Date(notification.created_at).toLocaleString()"

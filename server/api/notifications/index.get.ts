@@ -95,7 +95,7 @@ export default defineEventHandler(
         return data
       })
 
-      return { data: dataWithStory, unreadCount: count, error: null }
+      return { data: dataWithStory, unreadCount: count ?? 0, error: null }
     } catch (error) {
       console.error(error)
       throw createError({
@@ -113,7 +113,7 @@ async function getStoriesByIds(
 ) {
   const { data, error } = await supabase
     .from('stories')
-    .select('id,title')
+    .select('id,title,slug')
     .in('id', storyIdsToFetch) // Filter where the 'id' is in the provided array
 
   if (error) {

@@ -5,7 +5,11 @@ import type { Notification, User } from '~/types/entities'
 
 const notificationType = ref<'all' | 'unread'>('all')
 
-const { data: notification, refresh } = await useFetch('/api/notifications', {
+const {
+  data: notification,
+  refresh,
+  status,
+} = await useFetch('/api/notifications', {
   query: {
     type: notificationType,
   },
@@ -76,6 +80,7 @@ const readAll = async () => {
           <UButton
             size="sm"
             variant="ghost"
+            :loading="status === 'pending' && notificationType === 'all'"
             :color="notificationType === 'all' ? 'primary' : 'neutral'"
             @click="notificationType = 'all'"
             >Semua</UButton
@@ -84,8 +89,9 @@ const readAll = async () => {
             size="sm"
             variant="ghost"
             :color="notificationType === 'unread' ? 'primary' : 'neutral'"
+            :loading="status === 'pending' && notificationType === 'unread'"
             @click="notificationType = 'unread'"
-            >Belum terbaca ({{ notification.unreadCount }})</UButton
+            >Belum terbaca ({{ notification?.unreadCount ?? 0 }})</UButton
           >
         </div>
 
@@ -95,12 +101,13 @@ const readAll = async () => {
           variant="ghost"
           color="primary"
           loading-auto
+          :disabled="notification?.unreadCount === 0"
           @click="readAll"
           >Tandai semua sudah dibaca</UButton
         >
       </div>
 
-      <div v-if="notification.data.length > 0" class="pt-4 space-y-4">
+      <div v-if="notification?.data?.length > 0" class="pt-4 space-y-4">
         <div
           v-for="[key, value] in Object.entries(notificationData)"
           :key="key"

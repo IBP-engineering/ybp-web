@@ -540,6 +540,7 @@ export type Database = {
         | "system_message"
         | "update_story"
         | "add_story"
+        | "update_story_status"
       "Story comment status": "posted" | "deleted"
       "Story reaction": "love"
       "Story status": "approved" | "rejected" | "pending"
@@ -668,6 +669,7 @@ export const Constants = {
         "system_message",
         "update_story",
         "add_story",
+        "update_story_status",
       ],
       "Story comment status": ["posted", "deleted"],
       "Story reaction": ["love"],
