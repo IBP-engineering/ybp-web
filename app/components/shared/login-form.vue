@@ -9,6 +9,9 @@ const props = withDefaults(
   { redirect: true },
 )
 
+const route = useRoute()
+const redirectPath = computed(() => route.query.redirect as string | undefined)
+
 const schema = object({
   email: emailValidator,
   password: pipe(string(), nonEmpty('Mohon masukkan password anda')),
@@ -81,10 +84,14 @@ async function login(event: FormSubmitEvent<Schema>) {
       return
     }
 
-    if (userRole.role_id === 1) {
-      await navigateTo('/dashboard')
+    if (redirectPath.value) {
+      await navigateTo(redirectPath.value)
     } else {
-      await navigateTo('/hq')
+      if (userRole.role_id === 1) {
+        await navigateTo('/dashboard')
+      } else {
+        await navigateTo('/hq')
+      }
     }
   } catch (error) {
     console.error(error)
@@ -140,7 +147,13 @@ async function login(event: FormSubmitEvent<Schema>) {
     <USeparator label="ATAU" />
     <p class="text-center">
       Belum memiliki akun?
-      <ULink class="text-primary-600 hover:underline" to="/register"
+      <ULink
+        class="text-primary-600 hover:underline"
+        :to="
+          redirectPath
+            ? `/register?redirect=${encodeURIComponent(redirectPath)}`
+            : '/register'
+        "
         >Buat baru</ULink
       >
     </p>
