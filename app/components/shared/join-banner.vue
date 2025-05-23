@@ -1,5 +1,8 @@
 <script setup lang="ts">
 defineSlots<{ default: string; title: string }>()
+
+const route = useRoute()
+const currentPath = computed(() => route.fullPath)
 </script>
 
 <template>
@@ -18,7 +21,7 @@ defineSlots<{ default: string; title: string }>()
       variant="soft"
       color="warning"
       icon="ph:sparkle-duotone"
-      to="/login"
+      :to="`/login?redirect=${encodeURIComponent(currentPath)}`"
       >Gabung sekarang</UButton
     >
   </div>
