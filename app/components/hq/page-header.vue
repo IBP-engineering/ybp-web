@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type { Role, User } from '~/types/entities'
+
 withDefaults(
   defineProps<{
     title: string
@@ -20,7 +22,7 @@ defineEmits<{
 
 const openNavModal = ref(false)
 
-//! duplicate with dashboard layout
+//TODO: duplicate with dashboard layout
 const items = [
   {
     label: 'Close',
@@ -41,7 +43,7 @@ const items = [
   },
 ]
 
-const currentUser = useNuxtData('current-user')
+const currentUser = useNuxtData<User & { roles: Role }>('current-user')
 
 if (currentUser.data.value.roles.id === USER_ROLE.admin) {
   // only user with role admin

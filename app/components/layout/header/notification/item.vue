@@ -1,0 +1,100 @@
+<script setup lang="ts">
+import { format, formatDistanceToNowStrict, isToday } from 'date-fns'
+import id from 'date-fns/locale/id'
+import type { Notification, User } from '~/types/entities'
+
+const props = defineProps<{
+  notification: Notification & {
+    sender: Pick<User, 'username' | 'display_name'>
+  }
+}>()
+
+const { switchOpenNotification } = inject(notificationKey)
+
+const notificationUrl = computed(() => {
+  const { notification } = props
+  const isStory = notification.related_entity_type === 'story'
+
+  if (isStory) {
+    return `/${notification.sender.username}/${notification.context_data?.slug}`
+  }
+
+  return ''
+})
+
+const message = computed(() => {
+  const status =
+    props.notification.context_data?.status === 'approved'
+      ? 'Disetujui'
+      : 'Ditolak'
+
+  switch (props.notification.type) {
+    case 'comment_on_story':
+      return ` mengomentari Story Anda: "${props.notification.context_data?.title ?? ''}"`
+    case 'like_on_story':
+      return ` menyukai Story Anda: "${props.notification.context_data?.title ?? ''}"`
+    case 'reply_comment':
+      return ` membalas komentar Anda di Story "${props.notification.context_data?.title ?? ''}"`
+    case 'like_on_comment':
+      return ` menyukai komentar Anda di Story "${props.notification.context_data?.title ?? ''}"`
+    case 'update_story':
+      return ` Story "${props.notification.context_data?.title ?? ''}" telah diperbarui`
+    case 'update_story_status':
+      return ` status Story Anda: "${props.notification.context_data?.title ?? ''}" telah diperbarui menjadi ${status}`
+    case 'system_message':
+      return ' pembaruan fitur baru tersedia!'
+    case 'add_story':
+      return ` menambahkan Story baru: "${props.notification.context_data?.title ?? ''}"`
+    default:
+      return 'Halo gaes'
+  }
+})
+
+const onClickUrl = () => {
+  switchOpenNotification()
+}
+</script>
+
+<template>
+  <div
+    class="hover:bg-neutral-50 transition px-6"
+    :class="{ 'bg-primary-100 hover:bg-primary-200': !notification.read_at }"
+  >
+    <div class="grid items-start grid-cols-[50px_minmax(0,1fr)] py-3 border-b">
+      <UAvatar
+        :alt="notification.sender.display_name"
+        :src="`${avatarBaseUrl}?seed=${notification.sender.username}`"
+        size="xl"
+      />
+      <div>
+        <div>
+          <NuxtLink
+            :to="`/${notification.sender.username}`"
+            class="font-bold hover:underline"
+            @click="onClickUrl"
+            >{{ notification.sender.display_name }}</NuxtLink
+          >
+          <NuxtLink
+            class="hover:underline"
+            :to="notificationUrl"
+            @click="onClickUrl"
+          >
+            {{ message }}
+          </NuxtLink>
+        </div>
+        <time
+          :datetime="new Date(notification.created_at).toISOString()"
+          :title="new Date(notification.created_at).toLocaleString()"
+          class="text-neutral-500 text-sm"
+          >{{
+            isToday(new Date(notification.created_at))
+              ? formatDistanceToNowStrict(new Date(notification.created_at), {
+                  locale: id,
+                })
+              : format(new Date(notification.created_at), 'HH:mm')
+          }}
+        </time>
+      </div>
+    </div>
+  </div>
+</template>

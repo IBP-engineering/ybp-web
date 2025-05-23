@@ -1,6 +1,7 @@
 <script setup lang="ts">
+import type { PostgrestError } from '@supabase/supabase-js'
 import type { Database } from '~/types/database.types'
-import type { Tag } from '~/types/entities'
+import type { Story, Tag, User } from '~/types/entities'
 
 defineOgImageComponent('default')
 definePageMeta({
@@ -12,20 +13,29 @@ const supabase = useSupabaseClient<Database>()
 const user = useSupabaseUser()
 const route = useRoute()
 const slug = route.params.slug
-const { data: currentStory } = await useAsyncData(`story/${slug}`, async () => {
-  const { data, error } = await supabase
-    .from('stories')
-    .select('*, tags:story_tags!id(tag:tag_id(*), id),author:users(username)')
-    .eq('slug', slug.toString())
-    .single()
+const { data: currentStory } = await useAsyncData(
+  `story/${slug}/edit`,
+  async () => {
+    const { data, error } = (await supabase
+      .from('stories')
+      .select('*, tags:story_tags!id(tag:tag_id(*), id),author:users(username)')
+      .eq('slug', slug.toString())
+      .single()) as {
+      data: Story & {
+        tags: { id: string; tag: Tag }[]
+        author: Pick<User, 'username'>
+      }
+      error: PostgrestError
+    }
 
-  if (error) {
-    console.error(error)
-    return null
-  }
+    if (error) {
+      console.error(error)
+      return null
+    }
 
-  return data
-})
+    return data
+  },
+)
 
 if (currentStory?.value.user_id !== user?.value.id) {
   throw createError({ statusCode: 403, statusMessage: 'Page is forbidden' })
@@ -154,6 +164,7 @@ const submitStory = async () => {
     }))
     const batchTagsToDelete = currentStory.value.tags.map(t => t.id)
 
+    // TODO: consider moving into server side/api to proceed.
     await Promise.all([
       supabase.from('story_tags').delete().in('id', batchTagsToDelete),
       supabase.from('story_tags').insert(batchStoryWithTags),
@@ -164,6 +175,16 @@ const submitStory = async () => {
         updated_by: user.value?.id,
       }),
     ])
+
+    $fetch('/api/notifications/stories', {
+      method: 'post',
+      body: {
+        senderId: user.value?.id,
+        contextData: {},
+        relatedId: currentStory.value.id,
+        mode: 'update',
+      },
+    })
 
     openModal.value = true
     modalAlert.isSuccess = true
