@@ -14,40 +14,43 @@ const supabase = useSupabaseClient<Database>()
 const slug = route.params.slug
 const openReview = ref(false)
 
-const { data: story } = await useAsyncData(`hq/stories/${slug}`, async () => {
-  const { data, error } = (await supabase
-    .from('stories')
-    .select(
-      `*, 
+const { data: story } = await useAsyncData(
+  computed(() => `hq/stories/${slug}`),
+  async () => {
+    const { data, error } = (await supabase
+      .from('stories')
+      .select(
+        `*, 
       author:users(display_name, username),
       tags:story_tags!id(tag_id(*))
       `,
-    )
-    .eq('slug', slug.toString())
-    .single()) as {
-    data: Story & { author: User; tags: [{ tag_id: Tag[] }] }
-    error: PostgrestError
-  }
+      )
+      .eq('slug', slug.toString())
+      .single()) as {
+      data: Story & { author: User; tags: [{ tag_id: Tag[] }] }
+      error: PostgrestError
+    }
 
-  if (error) {
-    console.error(error)
-    return null
-  }
+    if (error) {
+      console.error(error)
+      return null
+    }
 
-  return {
-    ...data,
-    cover_path: data.cover_path
-      ? supabase.storage.from('story-cover').getPublicUrl(data.cover_path).data
-          .publicUrl
-      : null,
-    tags: data.tags.map(tag => tag.tag_id) as unknown as {
-      id: string
-      description: string
-      title: string
-      slug: string
-    }[],
-  }
-})
+    return {
+      ...data,
+      cover_path: data.cover_path
+        ? supabase.storage.from('story-cover').getPublicUrl(data.cover_path)
+            .data.publicUrl
+        : null,
+      tags: data.tags.map(tag => tag.tag_id) as unknown as {
+        id: string
+        description: string
+        title: string
+        slug: string
+      }[],
+    }
+  },
+)
 </script>
 
 <template>
@@ -119,7 +122,7 @@ const { data: story } = await useAsyncData(`hq/stories/${slug}`, async () => {
     </div>
     <LazyHqStoryModalReview
       v-model="openReview"
-      :story-id="story.id"
+      :story="story"
       :status="story.status"
     />
   </div>

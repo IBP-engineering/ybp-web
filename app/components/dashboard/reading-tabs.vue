@@ -1,12 +1,10 @@
 <script setup lang="ts">
-import type { User } from '~/types/entities'
-
 const page = ref(1)
 const openRecordModal = ref(false)
 
-const { data: currentUser } = useNuxtData<User>('current-user')
+const currentUser = useSupabaseUser()
 const { data, status } = await useAsyncData(
-  `habits/user/${currentUser.value.id}`,
+  computed(() => `habits/user/${currentUser.value.id}`),
   () => {
     return Promise.all([
       $fetch(`/api/reading-habits/${currentUser.value.id}/statistic`),
@@ -27,7 +25,7 @@ const { data, status } = await useAsyncData(
   <div class="mx-auto w-full max-w-screen-xl px-4 md:px-0">
     <section class="mt-8 flex items-center justify-between">
       <h2 class="font-medium">Personal Reading Habits</h2>
-      <UButton @click="openRecordModal = true" trailing-icon="ph:plus"
+      <UButton trailing-icon="ph:plus" @click="openRecordModal = true"
         >New Record</UButton
       >
     </section>

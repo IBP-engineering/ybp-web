@@ -23,10 +23,19 @@ const notificationUrl = computed(() => {
 })
 
 const message = computed(() => {
-  const status =
-    props.notification.context_data?.status === 'approved'
-      ? 'Disetujui'
-      : 'Ditolak'
+  let status = ''
+
+  switch (props.notification.context_data?.status) {
+    case 'approved':
+      status = 'Disetujui'
+      break
+    case 'pending':
+      status = 'Diproses'
+      break
+    default:
+      status = 'Ditolak'
+      break
+  }
 
   switch (props.notification.type) {
     case 'comment_on_story':

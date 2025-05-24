@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import type { Database } from '~/types/database.types'
-import type { StoryStatus } from '~/types/entities'
+import type { Story, StoryStatus } from '~/types/entities'
 
 const props = defineProps<{
-  storyId: string
+  story: Story
   status: StoryStatus
 }>()
 
@@ -31,12 +31,12 @@ const supabase = useSupabaseClient<Database>()
 const user = useSupabaseUser()
 const toast = useToast()
 const { data: storyHistories } = await useAsyncData(
-  `hq/stories/${props.storyId}/history`,
+  `hq/stories/${props.story.id}/history`,
   async () => {
     const { data, error } = await supabase
       .from('story_status_histories')
       .select('*, updated_by(display_name)')
-      .eq('story_id', props.storyId)
+      .eq('story_id', props.story.id)
       .order('created_at', { ascending: false })
 
     if (error) {
@@ -55,15 +55,15 @@ const { data: storyHistories } = await useAsyncData(
 
 const saveStatus = async () => {
   isLoading.value = true
-  console.log(selected.value, props.storyId)
+  console.log(selected.value, props.story.id)
 
   try {
     await supabase
       .from('stories')
       .update({ status: selected.value })
-      .eq('id', props.storyId)
+      .eq('id', props.story.id)
     await supabase.from('story_status_histories').insert({
-      story_id: props.storyId,
+      story_id: props.story.id,
       reason: reason.value,
       status: selected.value,
       updated_by: user.value.id,
@@ -75,6 +75,17 @@ const saveStatus = async () => {
       title: 'Berhasil',
       description: 'Status Cerita berhasil diubah',
       color: 'success',
+    })
+
+    $fetch('/api/notifications/stories/status', {
+      method: 'post',
+      body: {
+        senderId: user.value.id,
+        recipientId: props.story.user_id,
+        contextData: { status: selected.value },
+        relatedId: props.story.id,
+        type: 'update_story_status',
+      },
     })
   } catch (error) {
     console.error(error)
