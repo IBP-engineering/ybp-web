@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import * as v from 'valibot'
 import type { Database } from '~/types/database.types'
-import type { CommentWithAuthorReplies, User } from '~/types/entities'
+import type { CommentWithAuthorReplies } from '~/types/entities'
 
 defineProps<{
   comments: CommentWithAuthorReplies[]
@@ -16,11 +16,13 @@ const route = useRoute()
 const toast = useToast()
 const slug = route.params.slug
 const story = useNuxtData(`story/${slug}`)
-const user = useNuxtData<User>('current-user')
+const { data: user } = await useFetch('/api/session/current-user', {
+  key: 'current-user',
+})
 
 const postComment = async () => {
   try {
-    if (!user.data.value) {
+    if (!user.value) {
       openLoginModal.value = true
       return
     }
@@ -51,7 +53,7 @@ const postComment = async () => {
 
     await supabase.from('story_comments').insert({
       comment_text: commentText.value,
-      user: user.data.value.id,
+      user: user.value.id,
       story: story.data.value.id,
     })
 
@@ -98,8 +100,8 @@ provide(onSuccessLogin, () => {
         :rows="1"
         :maxrows="6"
         :avatar="{
-          src: `${avatarBaseUrl}?seed=${user.data.value?.username}`,
-          class: `${user.data.value ? 'block' : 'hidden'}`,
+          src: `${avatarBaseUrl}?seed=${user?.username}`,
+          class: `${user ? 'block' : 'hidden'}`,
         }"
         :loading="loadingPostComment"
         @keydown.meta.enter="postComment"

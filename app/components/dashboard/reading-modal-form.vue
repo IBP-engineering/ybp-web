@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import type { Form, RadioGroupItem } from '@nuxt/ui'
 import * as v from 'valibot'
-import type { User } from '~/types/entities'
 
 const openRecordModal = defineModel('open', { type: Boolean })
 const providedId = defineModel('id', { type: String })
@@ -21,7 +20,9 @@ type Schema = v.InferOutput<typeof schema>
 
 const supabase = useSupabaseClient()
 const toast = useToast()
-const { data: currentUser } = useNuxtData<User>('current-user')
+const { data: user } = await useFetch('/api/session/current-user', {
+  key: 'current-user',
+})
 const { data: existingHabit, status } = await useLazyAsyncData(
   `habits/${providedId.value}`,
   async () => {
@@ -174,7 +175,7 @@ const genreItems: RadioGroupItem[] = computed(() => {
 })
 
 const refreshData = async () => {
-  await refreshNuxtData(`habits/user/${currentUser.value.id}`)
+  await refreshNuxtData(`habits/user/${user.value.id}`)
 }
 
 watch([providedId, existingHabit], () => {

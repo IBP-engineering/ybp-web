@@ -9,38 +9,14 @@ function switchOpenNotification() {
 }
 
 const toast = useToast()
-const user = useSupabaseUser()
 const supabase = useSupabaseClient<Database>()
-const currentUser = useCurrentUser()
 
 provide(notificationKey, { openNotification, switchOpenNotification })
 
 const { data: notification, refresh } = await useFetch('/api/notifications')
-const { data: userData } = await useAsyncData(
-  'current-user',
-  async () => {
-    if (user.value) {
-      const { data, error } = await supabase
-        .from('users')
-        .select('username, id, display_name, created_at, roles(id, name)')
-        .eq('id', user.value.id)
-        .eq('is_active', true)
-        .single()
-
-      if (error) {
-        console.error(error)
-        currentUser.value = null
-        return null
-      }
-
-      currentUser.value = data
-      return data
-    }
-
-    return null
-  },
-  { watch: [user] },
-)
+const { data: userData } = await useFetch('/api/session/current-user', {
+  key: 'current-user',
+})
 
 const navItems = [
   {

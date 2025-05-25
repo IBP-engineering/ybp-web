@@ -4,7 +4,6 @@ import type {
   RouteLocationAsPathGeneric,
   RouteLocationAsRelativeGeneric,
 } from 'vue-router'
-import type { User } from '~/types/entities'
 
 defineProps<{
   navItems: { label: string; to: string }[]
@@ -16,9 +15,9 @@ defineEmits<{
 }>()
 
 const openNavModal = ref(false)
-const {
-  data: { value: currentUser },
-} = useNuxtData<User>('current-user')
+const { data: user } = await useFetch('/api/session/current-user', {
+  key: 'current-user',
+})
 
 function closeAfterNavigate(
   to: string | RouteLocationAsRelativeGeneric | RouteLocationAsPathGeneric,
@@ -54,14 +53,14 @@ function closeAfterNavigate(
             >{{ link.label }}</UButton
           >
         </nav>
-        <div v-if="currentUser" class="border-t-2 py-4">
+        <div v-if="user" class="border-t-2 py-4">
           <div class="flex items-center gap-2 text-black">
             <p>
-              Halo! <b>{{ currentUser?.display_name }}</b>
+              Halo! <b>{{ user?.display_name }}</b>
             </p>
 
             <UAvatar
-              :src="`${avatarBaseUrl}?seed=${currentUser?.username}`"
+              :src="`${avatarBaseUrl}?seed=${user?.username}`"
               size="xs"
               alt="Avatar"
             />

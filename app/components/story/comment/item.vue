@@ -2,7 +2,7 @@
 import { formatDistanceToNowStrict } from 'date-fns'
 import id from 'date-fns/locale/id'
 import * as v from 'valibot'
-import type { CommentWithAuthorReplies, Story, User } from '~/types/entities'
+import type { CommentWithAuthorReplies, Story } from '~/types/entities'
 
 const props = defineProps<{
   comment: CommentWithAuthorReplies
@@ -17,7 +17,9 @@ const toast = useToast()
 const supabase = useSupabaseClient()
 const slug = route.params.slug
 const story = useNuxtData<Story>(`story/${slug}`)
-const user = useNuxtData<User>('current-user')
+const { data: user } = await useFetch('/api/session/current-user', {
+  key: 'current-user',
+})
 
 const author = props.comment.author
 const isMainThread = props.comment.thread === null
@@ -30,18 +32,16 @@ const isOriginalPoster = computed(() => {
 })
 
 const isLoggedIn = computed(() => {
-  return Boolean(user.data.value)
+  return Boolean(user.value)
 })
 
 const isUserAlreadyReact = computed(() => {
-  return props.comment.reactions.some(
-    react => react.user === user.data.value.id,
-  )
+  return props.comment.reactions.some(react => react.user === user.value.id)
 })
 
 const postComment = async () => {
   try {
-    if (!user.data.value) {
+    if (!user.value) {
       toast.add({
         title: 'Pufft',
         description:
@@ -79,7 +79,7 @@ const postComment = async () => {
     await supabase.from('story_comments').insert({
       comment_text: commentText.value,
       thread: props.comment.id,
-      user: user.data.value.id,
+      user: user.value.id,
       story: story.data.value.id,
     })
 
@@ -100,7 +100,7 @@ const postComment = async () => {
 
 const giveReaction = async () => {
   try {
-    if (!user.data.value) {
+    if (!user.value) {
       // TODO: give proper behavior. maybe encourage to login?
       toast.add({
         title: 'Waduhh',
@@ -116,11 +116,11 @@ const giveReaction = async () => {
         .from('comment_reactions')
         .delete()
         .eq('comment', props.comment.id)
-        .eq('user', user.data.value.id)
+        .eq('user', user.value.id)
     } else {
       await supabase.from('comment_reactions').insert({
         comment: props.comment.id,
-        user: user.data.value.id,
+        user: user.value.id,
       })
     }
     await refreshNuxtData(`story/${slug}/comments`)
@@ -279,7 +279,7 @@ const giveReaction = async () => {
         :rows="1"
         :maxrows="6"
         :avatar="{
-          src: `${avatarBaseUrl}?seed=${user.data.value.username}`,
+          src: `${avatarBaseUrl}?seed=${user.username}`,
         }"
         :loading="loadingPostComment"
         @keydown.meta.enter="postComment"
