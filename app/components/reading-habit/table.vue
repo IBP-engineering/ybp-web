@@ -254,7 +254,7 @@ Ditambahkan pada {{ row.original.created_at }}</pre
     <div
       class="flex justify-end border-t border-neutral-200 px-3 py-3.5 dark:border-neutral-700"
     >
-      <UPagination v-model="page" :page-count="pageCount" :total="total" />
+      <UPagination v-model:page="page" :page-count="pageCount" :total="total" />
     </div>
 
     <LazyDashboardReadingModalForm
