@@ -127,7 +127,7 @@ useSeoMeta({
     </div>
 
     <div class="mt-4 flex z-10 w-full flex-col-reverse gap-4 lg:flex-row">
-      <StoryReactions :story="story" :comment-count="comments.length" />
+      <StoryReactions :story="story" :comment-count="comments?.length ?? 0" />
       <div class="flex w-full flex-col">
         <div
           class="w-full overflow-hidden shadow md:rounded-lg md:border md:border-neutral-300 md:bg-neutral-50"
