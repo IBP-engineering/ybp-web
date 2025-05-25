@@ -77,13 +77,14 @@ const saveStatus = async () => {
       color: 'success',
     })
 
-    $fetch('/api/notifications/stories/status', {
+    $fetch('/api/notifications/stories', {
       method: 'post',
       body: {
         senderId: user.value.id,
         recipientId: props.story.user_id,
         contextData: { status: selected.value },
         relatedId: props.story.id,
+        relatedType: 'story',
         type: 'update_story_status',
       },
     })

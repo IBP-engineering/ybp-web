@@ -57,13 +57,14 @@ const postComment = async () => {
       story: story.data.value.id,
     })
 
-    $fetch('/api/notifications/stories/status', {
+    $fetch('/api/notifications/stories', {
       method: 'post',
       body: {
         type: 'comment_on_story',
         contextData: {
           content: commentText.value,
         },
+        relatedType: 'story',
         relatedId: story.data.value.id,
         recipientId: story.data.value.user_id,
         senderId: user.value.id,

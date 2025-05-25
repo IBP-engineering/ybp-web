@@ -143,7 +143,7 @@ const submitStory = async () => {
         updated_by: user.value?.id,
       }),
     ])
-    $fetch('/api/notifications/stories', {
+    $fetch('/api/notifications/stories/mod', {
       method: 'post',
       body: {
         senderId: user.value?.id,

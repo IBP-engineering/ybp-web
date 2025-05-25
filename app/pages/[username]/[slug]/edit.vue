@@ -176,7 +176,7 @@ const submitStory = async () => {
       }),
     ])
 
-    $fetch('/api/notifications/stories', {
+    $fetch('/api/notifications/stories/mod', {
       method: 'post',
       body: {
         senderId: user.value?.id,
