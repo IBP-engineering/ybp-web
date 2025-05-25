@@ -9,6 +9,8 @@ const props = defineProps<{
   }
 }>()
 
+const supabase = useSupabaseClient()
+
 const { switchOpenNotification } = inject(notificationKey)
 
 const notificationUrl = computed(() => {
@@ -59,7 +61,12 @@ const message = computed(() => {
   }
 })
 
-const onClickUrl = () => {
+const onClickUrl = async () => {
+  await supabase
+    .from('notifications')
+    .update({ read_at: new Date().toISOString() })
+    .eq('id', props.notification.id)
+
   switchOpenNotification()
 }
 </script>
