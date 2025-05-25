@@ -103,7 +103,9 @@ provide(onSuccessLogin, () => {
 
 <template>
   <section class="flex flex-col gap-4 py-4 w-full md:w-3/4">
-    <i class="text-sm">-- Tampaknya belum ada komentar --</i>
+    <i v-if="comments.length === 0" class="text-sm"
+      >-- Tampaknya belum ada komentar --</i
+    >
     <div class="flex gap-2 items-center">
       <UTextarea
         v-model="commentText"

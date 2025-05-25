@@ -67,7 +67,7 @@ export default defineEventHandler(
         })
       }
 
-      const storyRelatedIds =
+      const storyRelatedIds: string[] =
         data.length > 0
           ? data.map(d => {
               if (d.related_entity_type === 'story') {
@@ -75,7 +75,7 @@ export default defineEventHandler(
               }
             })
           : []
-      const uniqueStoryRelatedIds = [...new Set(storyRelatedIds)]
+      const uniqueStoryRelatedIds: string[] = [...new Set(storyRelatedIds)]
       const stories = await getStoriesByIds(uniqueStoryRelatedIds, supabase)
 
       const dataWithStory = data.map(data => {
