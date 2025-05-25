@@ -60,8 +60,8 @@ importers:
         specifier: ^4.1.0
         version: 4.1.0
       motion-v:
-        specifier: 1.1.0-alpha.1
-        version: 1.1.0-alpha.1(vue@3.5.14(typescript@5.8.3))
+        specifier: 1.1.1
+        version: 1.1.1(vue@3.5.14(typescript@5.8.3))
       nuxt:
         specifier: ^3.17.4
         version: 3.17.4(@parcel/watcher@2.5.1)(@types/node@22.15.21)(db0@0.3.2)(eslint@9.27.0(jiti@2.4.2))(ioredis@5.6.1)(lightningcss@1.30.1)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.41.0)(sass-embedded@1.89.0)(terser@5.37.0)(typescript@5.8.3)(vite@6.3.5(@types/node@22.15.21)(jiti@2.4.2)(lightningcss@1.30.1)(sass-embedded@1.89.0)(terser@5.37.0)(yaml@2.7.0))(yaml@2.7.0)
@@ -94,8 +94,8 @@ importers:
         specifier: ^1.4.1
         version: 1.4.1(@vue/compiler-sfc@3.5.14)(eslint@9.27.0(jiti@2.4.2))(magicast@0.3.5)(typescript@5.8.3)(vite@6.3.5(@types/node@22.15.21)(jiti@2.4.2)(lightningcss@1.30.1)(sass-embedded@1.89.0)(terser@5.37.0)(yaml@2.7.0))
       '@supabase/supabase-js':
-        specifier: ^2.49.7
-        version: 2.49.7
+        specifier: ^2.49.8
+        version: 2.49.8
       '@tailwindcss/forms':
         specifier: ^0.5.10
         version: 0.5.10(tailwindcss@4.1.7)
@@ -1470,8 +1470,8 @@ packages:
   '@supabase/storage-js@2.7.1':
     resolution: {integrity: sha512-asYHcyDR1fKqrMpytAS1zjyEfvxuOIp1CIXX7ji4lHHcJKqyk+sLl/Vxgm4sN6u8zvuUtae9e4kDxQP2qrwWBA==}
 
-  '@supabase/supabase-js@2.49.7':
-    resolution: {integrity: sha512-hx6khHHC9GherCxTaRF91Sp3uiRtlgo8Aw+MUC5hck/DLdsIIZfbBbLzXqiiDUdGDeERagmFVanI93QDZe+Nww==}
+  '@supabase/supabase-js@2.49.8':
+    resolution: {integrity: sha512-zzBQLgS/jZs7btWcIAc7V5yfB+juG7h0AXxKowMJuySsO5vK+F7Vp+HCa07Z+tu9lZtr3sT9fofkc86bdylmtw==}
 
   '@swc/helpers@0.5.17':
     resolution: {integrity: sha512-5IKx/Y13RsYd+sauPb2x+U/xZikHjolzfuDgTAl/Tdf3Q8rslRvC19NKDLgAJQ6wsqADk10ntlv08nPFw/gO/A==}
@@ -3393,8 +3393,8 @@ packages:
   fraction.js@4.3.7:
     resolution: {integrity: sha512-ZsDfxO51wGAXREY55a7la9LScWpwv9RxIrYABrlvOFBlH/ShPnrtsXeuUIfXKKOVicNxQ+o8JTbJvjS4M89yew==}
 
-  framer-motion@12.10.5:
-    resolution: {integrity: sha512-p6VF1YkwWvNDFzg5IQ5lqPx11Td4TQ6LqDnshV7sWj0Nrp4dwz2/aEzmgh9WA9ridcTIJ625Fr0oiuhgqIoFwQ==}
+  framer-motion@12.12.1:
+    resolution: {integrity: sha512-PFw4/GCREHI2suK/NlPSUxd+x6Rkp80uQsfCRFSOQNrm5pZif7eGtmG1VaD/UF1fW9tRBy5AaS77StatB3OJDg==}
     peerDependencies:
       '@emotion/is-prop-valid': '*'
       react: ^18.0.0 || ^19.0.0
@@ -4287,14 +4287,14 @@ packages:
     engines: {node: '>=14'}
     hasBin: true
 
-  motion-dom@12.11.0:
-    resolution: {integrity: sha512-CItkGYJenn5ZsbzTX0D9mE0UWdjdd9r535FrxEXhzR8Kwa9I2dLr1uhEJgQPWbgaIJ6i0sNFnf2T9NvVDWQVBw==}
+  motion-dom@12.12.1:
+    resolution: {integrity: sha512-GXq/uUbZBEiFFE+K1Z/sxdPdadMdfJ/jmBALDfIuHGi0NmtealLOfH9FqT+6aNPgVx8ilq0DtYmyQlo6Uj9LKQ==}
 
-  motion-utils@12.9.4:
-    resolution: {integrity: sha512-BW3I65zeM76CMsfh3kHid9ansEJk9Qvl+K5cu4DVHKGsI52n76OJ4z2CUJUV+Mn3uEP9k1JJA3tClG0ggSrRcg==}
+  motion-utils@12.12.1:
+    resolution: {integrity: sha512-f9qiqUHm7hWSLlNW8gS9pisnsN7CRFRD58vNjptKdsqFLpkVnX00TNeD6Q0d27V9KzT7ySFyK1TZ/DShfVOv6w==}
 
-  motion-v@1.1.0-alpha.1:
-    resolution: {integrity: sha512-id9Gl2H4RimWWtFyuIiv/RpsxMPKY7Vie3FsB8hmnsYTkaudTMR7yZ4tFGwkfyQGKrTDhbXJCnlIdev4VQNNug==}
+  motion-v@1.1.1:
+    resolution: {integrity: sha512-lm2q8DnQYokkSwT9+X86Ea9bDmhoYC5H/xk0RGFjhwmwPgTbaokWBvPcXn1B9Od4D/LQoHq0fY0kap0irgU78Q==}
     peerDependencies:
       vue: '>=3.0.0'
 
@@ -7616,8 +7616,8 @@ snapshots:
 
   '@nuxtjs/supabase@1.5.1':
     dependencies:
-      '@supabase/ssr': 0.6.1(@supabase/supabase-js@2.49.7)
-      '@supabase/supabase-js': 2.49.7
+      '@supabase/ssr': 0.6.1(@supabase/supabase-js@2.49.8)
+      '@supabase/supabase-js': 2.49.8
       defu: 6.1.4
       pathe: 2.0.3
     transitivePeerDependencies:
@@ -8004,16 +8004,16 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
-  '@supabase/ssr@0.6.1(@supabase/supabase-js@2.49.7)':
+  '@supabase/ssr@0.6.1(@supabase/supabase-js@2.49.8)':
     dependencies:
-      '@supabase/supabase-js': 2.49.7
+      '@supabase/supabase-js': 2.49.8
       cookie: 1.0.2
 
   '@supabase/storage-js@2.7.1':
     dependencies:
       '@supabase/node-fetch': 2.6.15
 
-  '@supabase/supabase-js@2.49.7':
+  '@supabase/supabase-js@2.49.8':
     dependencies:
       '@supabase/auth-js': 2.69.1
       '@supabase/functions-js': 2.4.4
@@ -10130,10 +10130,10 @@ snapshots:
 
   fraction.js@4.3.7: {}
 
-  framer-motion@12.10.5:
+  framer-motion@12.12.1:
     dependencies:
-      motion-dom: 12.11.0
-      motion-utils: 12.9.4
+      motion-dom: 12.12.1
+      motion-utils: 12.12.1
       tslib: 2.8.1
 
   fresh@2.0.0: {}
@@ -10979,16 +10979,16 @@ snapshots:
       ast-module-types: 5.0.0
       node-source-walk: 6.0.2
 
-  motion-dom@12.11.0:
+  motion-dom@12.12.1:
     dependencies:
-      motion-utils: 12.9.4
+      motion-utils: 12.12.1
 
-  motion-utils@12.9.4: {}
+  motion-utils@12.12.1: {}
 
-  motion-v@1.1.0-alpha.1(vue@3.5.14(typescript@5.8.3)):
+  motion-v@1.1.1(vue@3.5.14(typescript@5.8.3)):
     dependencies:
       '@vueuse/core': 10.11.1(vue@3.5.14(typescript@5.8.3))
-      framer-motion: 12.10.5
+      framer-motion: 12.12.1
       hey-listen: 1.0.8
       vue: 3.5.14(typescript@5.8.3)
     transitivePeerDependencies:
