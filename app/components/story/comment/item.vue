@@ -112,15 +112,35 @@ const giveReaction = async () => {
     }
 
     if (isUserAlreadyReact.value) {
-      await supabase
-        .from('comment_reactions')
-        .delete()
-        .eq('comment', props.comment.id)
-        .eq('user', user.value.id)
+      await Promise.all([
+        supabase
+          .from('comment_reactions')
+          .delete()
+          .eq('comment', props.comment.id)
+          .eq('user', user.value.id),
+        supabase
+          .from('notifications')
+          .delete()
+          .eq('sender_id', user.value.id)
+          .eq('recipient_id', props.comment.user)
+          .eq('related_entity_id', props.comment.id)
+          .eq('type', 'like_on_comment'),
+      ])
     } else {
       await supabase.from('comment_reactions').insert({
         comment: props.comment.id,
         user: user.value.id,
+      })
+      $fetch('/api/notifications/stories', {
+        method: 'post',
+        body: {
+          senderId: user.value.id,
+          recipientId: props.comment.user,
+          contextData: { content: props.comment.comment_text },
+          relatedId: props.comment.id,
+          relatedType: 'comment',
+          type: 'like_on_comment',
+        },
       })
     }
     await refreshNuxtData(`story/${slug}/comments`)

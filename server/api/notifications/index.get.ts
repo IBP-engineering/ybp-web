@@ -75,7 +75,9 @@ export default defineEventHandler(
               }
             })
           : []
-      const uniqueStoryRelatedIds: string[] = [...new Set(storyRelatedIds)]
+      const uniqueStoryRelatedIds: string[] = [
+        ...new Set(storyRelatedIds),
+      ].filter(Boolean)
       const stories = await getStoriesByIds(uniqueStoryRelatedIds, supabase)
 
       const dataWithStory = data.map(data => {

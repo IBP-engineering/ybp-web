@@ -132,7 +132,7 @@ watch(openNotification, () => {
 
         <template #notification-trailing>
           <span class="text-primary-600 px-1 rounded-full bg-primary-100">{{
-            notification.unreadCount
+            notification?.unreadCount
           }}</span>
         </template>
       </LazyUDropdownMenu>

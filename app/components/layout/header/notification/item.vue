@@ -45,9 +45,9 @@ const message = computed(() => {
     case 'like_on_story':
       return ` menyukai Story Anda: "${props.notification.context_data?.title ?? ''}"`
     case 'reply_comment':
-      return ` membalas komentar Anda di Story "${props.notification.context_data?.title ?? ''}"`
+      return ` membalas komentar Anda "${props.notification.context_data?.title ?? ''}"`
     case 'like_on_comment':
-      return ` menyukai komentar Anda di Story "${props.notification.context_data?.title ?? ''}"`
+      return ` menyukai komentar Anda "${props.notification.context_data?.content ?? ''}"`
     case 'update_story':
       return ` Story "${props.notification.context_data?.title ?? ''}" telah diperbarui`
     case 'update_story_status':
