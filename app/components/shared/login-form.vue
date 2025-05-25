@@ -151,8 +151,8 @@ async function login(event: FormSubmitEvent<Schema>) {
         class="text-primary-600 hover:underline"
         :to="
           redirectPath
-            ? `/register?redirect=${encodeURIComponent(redirectPath)}`
-            : '/register'
+            ? { path: '/register', query: { redirect: redirectPath } }
+            : { path: '/register' }
         "
         >Buat baru</ULink
       >

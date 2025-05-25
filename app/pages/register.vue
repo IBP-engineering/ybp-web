@@ -216,8 +216,8 @@ async function register(event: FormSubmitEvent<Schema>) {
           <ULink
             :to="
               redirectPath
-                ? `/login?redirect=${encodeURIComponent(redirectPath)}`
-                : '/login'
+                ? { path: '/login', query: { redirect: redirectPath } }
+                : { path: '/login' }
             "
             class="text-primary-600 hover:underline"
             >Masuk</ULink

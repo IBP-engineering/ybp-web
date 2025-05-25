@@ -21,7 +21,12 @@ const currentPath = computed(() => route.fullPath)
       variant="soft"
       color="warning"
       icon="ph:sparkle-duotone"
-      :to="`/login?redirect=${encodeURIComponent(currentPath)}`"
+      :to="{
+        path: '/login',
+        query: {
+          redirect: currentPath,
+        },
+      }"
       >Gabung sekarang</UButton
     >
   </div>
