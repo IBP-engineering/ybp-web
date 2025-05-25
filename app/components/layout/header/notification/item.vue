@@ -39,7 +39,7 @@ const message = computed(() => {
 
   switch (props.notification.type) {
     case 'comment_on_story':
-      return ` mengomentari Story Anda: "${props.notification.context_data?.title ?? ''}"`
+      return ` mengomentari salah satu Story Anda: "${props.notification.context_data?.content ?? ''}"`
     case 'like_on_story':
       return ` menyukai Story Anda: "${props.notification.context_data?.title ?? ''}"`
     case 'reply_comment':

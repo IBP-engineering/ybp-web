@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import * as v from 'valibot'
 import type { Database } from '~/types/database.types'
-import type { CommentWithAuthorReplies } from '~/types/entities'
+import type { CommentWithAuthorReplies, Story } from '~/types/entities'
 
 defineProps<{
   comments: CommentWithAuthorReplies[]
@@ -15,7 +15,7 @@ const supabase = useSupabaseClient<Database>()
 const route = useRoute()
 const toast = useToast()
 const slug = route.params.slug
-const story = useNuxtData(`story/${slug}`)
+const story = useNuxtData<Story>(`story/${slug}`)
 const { data: user } = await useFetch('/api/session/current-user', {
   key: 'current-user',
 })
@@ -57,8 +57,22 @@ const postComment = async () => {
       story: story.data.value.id,
     })
 
+    $fetch('/api/notifications/stories/status', {
+      method: 'post',
+      body: {
+        type: 'comment_on_story',
+        contextData: {
+          content: commentText.value,
+        },
+        relatedId: story.data.value.id,
+        recipientId: story.data.value.user_id,
+        senderId: user.value.id,
+      },
+    })
+
     commentText.value = ''
     await refreshNuxtData(`story/${slug}/comments`)
+
     toast.add({
       title: 'OK',
       description: 'Komentar berhasil dikirim',
