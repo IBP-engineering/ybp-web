@@ -58,6 +58,7 @@ const { data: genres } = await useLazyAsyncData('genres', async () => {
   return data.map(gen => ({ value: gen.id, label: gen.label }))
 })
 
+const isLoadingSubmit = ref<boolean>(false)
 const form = ref<Form<Schema>>()
 const openConfirmation = ref(false)
 const state = reactive<Schema>({
@@ -76,6 +77,7 @@ async function sendNewHabit() {
   form.value.clear()
 
   try {
+    isLoadingSubmit.value = true
     const res = await $fetch<{ data: unknown; error?: string }>(
       '/api/reading-habits',
       {
@@ -114,12 +116,16 @@ async function sendNewHabit() {
       icon: 'i-heroicons-x-mark-solid',
     })
     console.error(error)
+  } finally {
+    isLoadingSubmit.value = false
   }
 }
 
 const updateHabit = async () => {
   openConfirmation.value = false
   form.value.clear()
+  isLoadingSubmit.value = true
+
   try {
     await $fetch('/api/reading-habits', {
       method: 'PUT',
@@ -146,6 +152,8 @@ const updateHabit = async () => {
       icon: 'i-heroicons-x-mark-solid',
     })
     console.error(error)
+  } finally {
+    isLoadingSubmit.value = false
   }
 }
 
@@ -261,7 +269,10 @@ watch([providedId, existingHabit], () => {
             @click="openRecordModal = false"
             >Batal</UButton
           >
-          <UButton type="submit" :loading="status === 'pending'"
+          <UButton
+            type="submit"
+            :disabed="status === 'pending'"
+            :loading="isLoadingSubmit"
             >Simpan</UButton
           >
         </div>
