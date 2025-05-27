@@ -44,7 +44,7 @@ const { data: story } = await useAsyncData(`story/${slug}`, async () => {
 })
 
 const { data: comments } = await useAsyncData(
-  `story/${slug}/comments`,
+  computed(() => `story/${slug}/comments`),
   async () => {
     const { data, error } = (await supabase
       .from('story_comments')

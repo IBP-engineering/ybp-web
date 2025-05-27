@@ -48,7 +48,7 @@ const links = [
   },
 ]
 
-if (user.value.roles.id === USER_ROLE.admin) {
+if (user?.value?.roles.id === USER_ROLE.admin) {
   // only user with role admin
   links.push({
     label: 'Users',
@@ -60,7 +60,7 @@ if (user.value.roles.id === USER_ROLE.admin) {
 
 const items: DropdownMenuItem[][] = [
   [
-    { label: `@${user.value.username}` },
+    { label: `@${user?.value?.username}` },
     { label: 'Dashboard', to: '/dashboard', icon: 'heroicons:home' },
     {
       label: 'Logout',
@@ -87,7 +87,7 @@ const items: DropdownMenuItem[][] = [
               loading="lazy"
               class="rounded-full border"
             />
-            <b class="ml-2 text-lg">| {{ user.roles.name.toUpperCase() }}</b>
+            <b class="ml-2 text-lg">| {{ user?.roles?.name.toUpperCase() }}</b>
           </NuxtLink>
           <div class="flex items-center gap-4">
             <UDropdownMenu

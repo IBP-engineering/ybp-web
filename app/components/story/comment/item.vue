@@ -32,16 +32,16 @@ const isOriginalPoster = computed(() => {
 })
 
 const isLoggedIn = computed(() => {
-  return Boolean(user.value)
+  return Boolean(user.value?.username)
 })
 
 const isUserAlreadyReact = computed(() => {
-  return props.comment.reactions.some(react => react.user === user.value.id)
+  return props.comment.reactions.some(react => react.user === user?.value?.id)
 })
 
 const postComment = async () => {
   try {
-    if (!user.value) {
+    if (!user.value.username) {
       toast.add({
         title: 'Pufft',
         description:
@@ -81,6 +81,20 @@ const postComment = async () => {
       thread: props.comment.id,
       user: user.value.id,
       story: story.data.value.id,
+    })
+
+    $fetch('/api/notifications/stories', {
+      method: 'post',
+      body: {
+        type: 'reply_comment',
+        contextData: {
+          content: commentText.value,
+        },
+        relatedType: 'comment',
+        relatedId: props.comment.id,
+        recipientId: props.comment.user,
+        senderId: user.value.id,
+      },
     })
 
     commentText.value = ''
@@ -299,7 +313,7 @@ const giveReaction = async () => {
         :rows="1"
         :maxrows="6"
         :avatar="{
-          src: `${avatarBaseUrl}?seed=${user.username}`,
+          src: `${avatarBaseUrl}?seed=${user?.username}`,
         }"
         :loading="loadingPostComment"
         @keydown.meta.enter="postComment"

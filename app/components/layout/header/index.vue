@@ -111,7 +111,7 @@ watch(openNotification, () => {
       </div>
 
       <LazyUDropdownMenu
-        v-if="userData"
+        v-if="userData.username"
         :items="dropdownItems"
         :popper="{ strategy: 'absolute', placements: 'bottom', arrow: true }"
       >

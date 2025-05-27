@@ -346,7 +346,7 @@ const removeImageCover = () => {
           >
           <UButton
             icon="i-heroicons:chevron-right"
-            :to="`/${user.username}/${createdSlug}`"
+            :to="`/${user?.username}/${createdSlug}`"
             >Ke cerita</UButton
           >
         </div>

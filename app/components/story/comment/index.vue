@@ -22,7 +22,7 @@ const { data: user } = await useFetch('/api/session/current-user', {
 
 const postComment = async () => {
   try {
-    if (!user.value) {
+    if (!user.value.username) {
       openLoginModal.value = true
       return
     }
@@ -53,8 +53,8 @@ const postComment = async () => {
 
     await supabase.from('story_comments').insert({
       comment_text: commentText.value,
-      user: user.value.id,
-      story: story.data.value.id,
+      user: user.value?.id,
+      story: story.data.value?.id,
     })
 
     $fetch('/api/notifications/stories', {
@@ -118,7 +118,7 @@ provide(onSuccessLogin, () => {
         :maxrows="6"
         :avatar="{
           src: `${avatarBaseUrl}?seed=${user?.username}`,
-          class: `${user ? 'block' : 'hidden'}`,
+          class: `${user.id ? 'block' : 'hidden'}`,
         }"
         :loading="loadingPostComment"
         @keydown.meta.enter="postComment"
@@ -139,7 +139,7 @@ provide(onSuccessLogin, () => {
     <div v-if="Boolean(comments.length)" class="flex flex-col w-full gap-8">
       <StoryCommentItem
         v-for="comment in comments"
-        :key="comment.id"
+        :key="comment?.id"
         :comment="comment"
       />
     </div>

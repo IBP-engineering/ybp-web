@@ -5,6 +5,11 @@ export default defineEventHandler(async event => {
   const body = await readBody(event)
   const supabase = await serverSupabaseClient<Database>(event)
 
+  if (body.senderId === body.recipientId) {
+    // skip if the same user
+    return { data: null, error: null }
+  }
+
   const { error } = await supabase.from('notifications').insert({
     sender_id: body.senderId,
     recipient_id: body.recipientId,

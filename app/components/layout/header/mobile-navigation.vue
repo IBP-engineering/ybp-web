@@ -53,7 +53,7 @@ function closeAfterNavigate(
             >{{ link.label }}</UButton
           >
         </nav>
-        <div v-if="user" class="border-t-2 py-4">
+        <div v-if="user.username" class="border-t-2 py-4">
           <div class="flex items-center gap-2 text-black">
             <p>
               Halo! <b>{{ user?.display_name }}</b>
