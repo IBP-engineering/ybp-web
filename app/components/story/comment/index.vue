@@ -10,8 +10,12 @@ const props = defineProps<{
 const commentText = ref('')
 const loadingPostComment = ref(false)
 const openLoginModal = ref(false)
-const sortItems = ref(['Terbaru', 'Terlama', 'Teratas'])
-const sortBy = ref('Terbaru')
+const sortItems = ref([
+  { label: 'Terbaru', value: 'newest' },
+  { label: 'Terlama', value: 'oldest' },
+  { label: 'Teratas', value: 'top' },
+])
+const sortBy = ref('newest')
 const supabase = useSupabaseClient<Database>()
 const route = useRoute()
 const toast = useToast()
@@ -25,12 +29,12 @@ const sortedComments = computed(() => {
   const commentsToSort = [...props.comments]
 
   switch (sortBy.value) {
-    case 'Terlama':
+    case 'oldest':
       return commentsToSort.sort(
         (a, b) =>
           new Date(a.created_at).getTime() - new Date(b.created_at).getTime(),
       )
-    case 'Teratas':
+    case 'top':
       return commentsToSort.sort((a, b) => {
         const reactA = Array.isArray(a.reactions) ? a.reactions.length : 0
         const reactB = Array.isArray(b.reactions) ? b.reactions.length : 0
@@ -41,7 +45,7 @@ const sortedComments = computed(() => {
           new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
         )
       })
-    case 'Terbaru':
+    case 'newest':
     default:
       return commentsToSort.sort(
         (a, b) =>
