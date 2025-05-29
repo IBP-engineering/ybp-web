@@ -1,7 +1,21 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  compatibilityDate: '2024-11-01',
+  compatibilityDate: '2025-05-15',
   devtools: { enabled: true },
+
+  // workarounds from https://github.com/nuxt/nuxt/issues/32175#issuecomment-2898200099
+  vite: {
+    $server: {
+      build: {
+        rollupOptions: {
+          output: {
+            preserveModules: true,
+          },
+        },
+      },
+    },
+  },
+
   image: {
     format: ['avif', 'webp'],
     domains: ['api.dicebear.com'],
@@ -20,9 +34,6 @@ export default defineNuxtConfig({
     },
   },
   nitro: {
-    prerender: {
-      crawlLinks: true,
-    },
     future: {
       nativeSWR: true,
     },
