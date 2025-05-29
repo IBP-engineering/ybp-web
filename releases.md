@@ -2,6 +2,12 @@
 
 A peek into the exciting evolution of the Yogyakarta Book Party web app!
 
+## Version 0.2.5b - Hotfix pagination not paginated in Reading Habits! 🍋
+
+Alreight, Let's go. Now we can use pagination again!
+
+Keep spirit. Thanks!
+
 ## Version 0.2.5a - Hotfix moderator cannot check member story! 🍋
 
 Let's go. Now the moderator and admin can review your story!
