@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import * as v from 'valibot'
 import type { Database } from '~/types/database.types'
-import type { CommentWithAuthorReplies, User } from '~/types/entities'
+import type { CommentWithAuthorReplies, Story } from '~/types/entities'
 
 defineProps<{
   comments: CommentWithAuthorReplies[]
@@ -13,14 +13,17 @@ const openLoginModal = ref(false)
 
 const supabase = useSupabaseClient<Database>()
 const route = useRoute()
+const router = useRouter()
 const toast = useToast()
 const slug = route.params.slug
-const story = useNuxtData(`story/${slug}`)
-const user = useNuxtData<User>('current-user')
+const story = useNuxtData<Story>(`story/${slug}`)
+const { data: user } = await useFetch('/api/session/current-user', {
+  key: 'current-user',
+})
 
 const postComment = async () => {
   try {
-    if (!user.data.value) {
+    if (!user.value.username) {
       openLoginModal.value = true
       return
     }
@@ -49,17 +52,42 @@ const postComment = async () => {
 
     loadingPostComment.value = true
 
-    await supabase.from('story_comments').insert({
-      comment_text: commentText.value,
-      user: user.data.value.id,
-      story: story.data.value.id,
+    const { data } = await supabase
+      .from('story_comments')
+      .insert({
+        comment_text: commentText.value,
+        user: user.value?.id,
+        story: story.data.value?.id,
+      })
+      .select('id')
+      .single()
+
+    $fetch('/api/notifications/stories', {
+      method: 'post',
+      body: {
+        type: 'comment_on_story',
+        contextData: {
+          content: commentText.value,
+          parentComment: data.id,
+        },
+        relatedType: 'story',
+        relatedId: story.data.value.id,
+        recipientId: story.data.value.user_id,
+        senderId: user.value.id,
+      },
     })
 
     commentText.value = ''
     await refreshNuxtData(`story/${slug}/comments`)
+
+    // clean existing query from comment
+    router.replace({
+      query: {},
+    })
+
     toast.add({
       title: 'OK',
-      description: 'Komentar berhasil dikirim',
+      description: 'Komentar berhasil ditambahkan',
       color: 'success',
       icon: 'lucide:circle-check-big',
     })
@@ -87,7 +115,9 @@ provide(onSuccessLogin, () => {
 
 <template>
   <section class="flex flex-col gap-4 py-4 w-full md:w-3/4">
-    <i class="text-sm">-- Tampaknya belum ada komentar --</i>
+    <i v-if="comments?.length === 0" class="text-sm"
+      >-- Tampaknya belum ada komentar --</i
+    >
     <div class="flex gap-2 items-center">
       <UTextarea
         v-model="commentText"
@@ -98,8 +128,8 @@ provide(onSuccessLogin, () => {
         :rows="1"
         :maxrows="6"
         :avatar="{
-          src: `${avatarBaseUrl}?seed=${user.data.value?.username}`,
-          class: `${user.data.value ? 'block' : 'hidden'}`,
+          src: `${avatarBaseUrl}?seed=${user?.username}`,
+          class: `${user.id ? 'block' : 'hidden'}`,
         }"
         :loading="loadingPostComment"
         @keydown.meta.enter="postComment"
@@ -117,10 +147,10 @@ provide(onSuccessLogin, () => {
       </UTooltip>
     </div>
 
-    <div v-if="Boolean(comments.length)" class="flex flex-col w-full gap-8">
+    <div v-if="Boolean(comments?.length)" class="flex flex-col w-full gap-8">
       <StoryCommentItem
         v-for="comment in comments"
-        :key="comment.id"
+        :key="`${comment?.id}-${comment.replies.length}`"
         :comment="comment"
       />
     </div>

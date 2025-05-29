@@ -15,7 +15,6 @@ const page = ref(+route.query.page || 1)
 
 const supabase = useSupabaseClient<Database>()
 const { data: stories, status } = await useAsyncData(
-  // TODO: handle flashing ui with skeleton (?)
   computed(() => `hq/stories?page=${page.value}`),
   async () => {
     const startIndex = (page.value - 1) * ITEMS_PER_PAGE
@@ -30,6 +29,7 @@ const { data: stories, status } = await useAsyncData(
 `,
         { count: 'exact' },
       )
+      .eq('is_active', true)
       .order('created_at', { ascending: false })
       .range(startIndex, endIndex)
 

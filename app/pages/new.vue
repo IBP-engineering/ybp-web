@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Database } from '~/types/database.types'
-import type { Tag, User } from '~/types/entities'
+import type { Tag } from '~/types/entities'
 
 defineOgImageComponent('default')
 definePageMeta({
@@ -15,7 +15,6 @@ useSeoMeta({
 
 const toast = useToast()
 const supabase = useSupabaseClient<Database>()
-const user = useSupabaseUser()
 const { data: tags } = await useAsyncData('tags', async () => {
   const { data, error } = await supabase
     .from('tags')
@@ -41,7 +40,9 @@ const form = reactive<{
   coverImage: null,
 })
 const createdSlug = ref('')
-const { data: currentUser } = useNuxtData<User>('current-user')
+const { data: user } = await useFetch('/api/session/current-user', {
+  key: 'current-user',
+})
 const previewImageUrl = ref<string | ArrayBuffer>('')
 const content = ref('<p>Pada suatu masa...</p>')
 const showTags = ref(false)
@@ -131,6 +132,8 @@ const submitStory = async () => {
       story_id: createdStory.id,
       tag_id: tag.id,
     }))
+
+    // TODO: consider moving into server side/api to proceed.
     await Promise.all([
       supabase.from('story_tags').insert(batchStoryWithTags),
       supabase.from('story_status_histories').insert({
@@ -140,6 +143,15 @@ const submitStory = async () => {
         updated_by: user.value?.id,
       }),
     ])
+    $fetch('/api/notifications/stories/mod', {
+      method: 'post',
+      body: {
+        senderId: user.value?.id,
+        contextData: {},
+        relatedId: createdStory.id,
+        mode: 'create',
+      },
+    })
 
     openModal.value = true
     modalAlert.isSuccess = true
@@ -334,7 +346,7 @@ const removeImageCover = () => {
           >
           <UButton
             icon="i-heroicons:chevron-right"
-            :to="`/${currentUser.username}/${createdSlug}`"
+            :to="`/${user?.username}/${createdSlug}`"
             >Ke cerita</UButton
           >
         </div>
