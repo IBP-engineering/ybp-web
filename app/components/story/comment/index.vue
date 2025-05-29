@@ -156,7 +156,7 @@ watch(sortBy, value => {
         :items="sortItems"
         class="w-40"
         placeholder="Urutkan"
-        @update:model-value="label => (sortBy.value = getSortValue(label))"
+        @update:model-value="label => (sortBy = getSortValue(label))"
       />
     </div>
 
