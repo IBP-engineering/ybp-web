@@ -67,6 +67,9 @@ const state = reactive<Partial<Schema>>({
   repeatPassword: '',
 })
 
+const route = useRoute()
+const redirectPath = route.query?.redirect
+
 async function register(event: FormSubmitEvent<Schema>) {
   isLoading.value = true
   const data = event.data
@@ -113,7 +116,13 @@ async function register(event: FormSubmitEvent<Schema>) {
     title: 'Berhasil daftar',
   })
   isLoading.value = false
-  reloadNuxtApp()
+
+  if (redirectPath) {
+    await navigateTo(redirectPath.toString())
+    reloadNuxtApp()
+  } else {
+    reloadNuxtApp()
+  }
 }
 </script>
 
@@ -204,7 +213,13 @@ async function register(event: FormSubmitEvent<Schema>) {
         <USeparator label="ATAU" />
         <p class="text-center">
           Sudah memiliki akun?
-          <ULink to="/login" class="text-primary-600 hover:underline"
+          <ULink
+            :to="
+              redirectPath
+                ? { path: '/login', query: { redirect: redirectPath } }
+                : { path: '/login' }
+            "
+            class="text-primary-600 hover:underline"
             >Masuk</ULink
           >
         </p>

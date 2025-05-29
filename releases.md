@@ -2,9 +2,19 @@
 
 A peek into the exciting evolution of the Yogyakarta Book Party web app!
 
+## Version 0.2.6 - Seamless Login Redirects! ↩️
+
+Great news for smoother navigation! We know how important it is to pick up right where you left off. This release introduces a highly requested feature that makes your post-login experience more intuitive than ever.
+
+**✨ What's New & Improved! ✨**
+
+- **Back to Where You Were!** 🧭 After logging in, you'll now be **automatically redirected to the page you were on before logging in**. No more manually navigating back! Whether you were Browse stories, checking out the HQ, or exploring any other part of the app, we'll take you right back there after a successful login.
+
+We believe this enhancement will make your journey through the Yogyakarta Book Party web app even more streamlined and enjoyable. Happy reading!
+
 ## Version 0.2.5b - Hotfix pagination not paginated in Reading Habits! 🍋
 
-Alreight, Let's go. Now we can use pagination again!
+Alright, Let's go. Now we can use pagination again!
 
 Keep spirit. Thanks!
 
