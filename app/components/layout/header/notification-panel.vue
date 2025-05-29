@@ -71,7 +71,7 @@ const readAll = async () => {
   <UModal
     title="Notifikasi"
     description="Tetap update dengan pemberitahuan terbaru"
-    class="max-w-xl sm:max-h-[50dvh]"
+    class="max-w-2xl sm:max-h-[50dvh]"
     :ui="{ body: 'sm:p-0' }"
   >
     <template #body>

@@ -51,21 +51,21 @@ const message = computed(() => {
 
   switch (props.notification.type) {
     case 'comment_on_story':
-      return ` mengomentari salah satu Story Anda: "${props.notification.context_data?.content ?? ''}"`
+      return `💬 mengomentari salah satu Story Anda: "${props.notification.context_data?.content ?? ''}"`
     case 'like_on_story':
-      return ` menyukai Story Anda: "${props.notification.context_data?.title ?? ''}"`
+      return `❤️ menyukai Story Anda: "${props.notification.context_data?.title ?? ''}"`
     case 'reply_comment':
-      return ` membalas komentar Anda "${props.notification.context_data?.content ?? ''}"`
+      return `↪️ membalas komentar Anda "${props.notification.context_data?.content ?? ''}"`
     case 'like_on_comment':
-      return ` menyukai komentar Anda "${props.notification.context_data?.content ?? ''}"`
+      return `❤️ menyukai komentar Anda "${props.notification.context_data?.content ?? ''}"`
     case 'update_story':
-      return ` Story "${props.notification.context_data?.title ?? ''}" telah diperbarui`
+      return `✍️ Story "${props.notification.context_data?.title ?? ''}" telah diperbarui`
     case 'update_story_status':
-      return ` status Story Anda: "${props.notification.context_data?.title ?? ''}" telah diperbarui menjadi ${status}`
+      return `🔼 status Story Anda: "${props.notification.context_data?.title ?? ''}" telah diperbarui menjadi ${status}`
     case 'system_message':
-      return ' pembaruan fitur baru tersedia!'
+      return '🔔 pembaruan fitur baru tersedia!'
     case 'add_story':
-      return ` menambahkan Story baru: "${props.notification.context_data?.title ?? ''}"`
+      return `➕ menambahkan Story baru: "${props.notification.context_data?.title ?? ''}"`
     default:
       return 'Whoopsie'
   }
@@ -107,7 +107,7 @@ const onClickUrl = async () => {
             @click="onClickUrl"
             >{{ notification.sender.display_name }}</NuxtLink
           >
-          <button class="hover:underline" @click="onClickUrl">
+          <button class="ml-1 hover:underline focus:ring" @click="onClickUrl">
             {{ message }}
           </button>
         </div>
