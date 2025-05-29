@@ -10,7 +10,7 @@ const props = withDefaults(
 )
 
 const route = useRoute()
-const redirectPath = computed(() => route.query.redirect as string | undefined)
+const redirectPath = route.query?.redirect
 
 const schema = object({
   email: emailValidator,
@@ -84,8 +84,8 @@ async function login(event: FormSubmitEvent<Schema>) {
       return
     }
 
-    if (redirectPath.value) {
-      await navigateTo(redirectPath.value)
+    if (redirectPath) {
+      await navigateTo(redirectPath.toString())
     } else {
       if (userRole.role_id === 1) {
         await navigateTo('/dashboard')

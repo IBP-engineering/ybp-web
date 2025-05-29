@@ -68,7 +68,7 @@ const state = reactive<Partial<Schema>>({
 })
 
 const route = useRoute()
-const redirectPath = computed(() => route.query.redirect as string | undefined)
+const redirectPath = route.query?.redirect
 
 async function register(event: FormSubmitEvent<Schema>) {
   isLoading.value = true
@@ -117,8 +117,8 @@ async function register(event: FormSubmitEvent<Schema>) {
   })
   isLoading.value = false
 
-  if (redirectPath.value) {
-    await navigateTo(redirectPath.value)
+  if (redirectPath) {
+    await navigateTo(redirectPath.toString())
     reloadNuxtApp()
   } else {
     reloadNuxtApp()

@@ -2,7 +2,7 @@
 defineSlots<{ default: string; title: string }>()
 
 const route = useRoute()
-const currentPath = computed(() => route.fullPath)
+const currentPath = route.fullPath
 </script>
 
 <template>
