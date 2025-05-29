@@ -13,8 +13,10 @@ const commentText = ref('')
 const openChild = ref(false)
 const loadingPostComment = ref(false)
 const route = useRoute()
+const router = useRouter()
 const toast = useToast()
 const supabase = useSupabaseClient()
+const commentContainer = useTemplateRef('comment-container')
 const slug = route.params.slug
 const story = useNuxtData<Story>(`story/${slug}`)
 const { data: user } = await useFetch('/api/session/current-user', {
@@ -76,12 +78,17 @@ const postComment = async () => {
 
     loadingPostComment.value = true
 
-    await supabase.from('story_comments').insert({
-      comment_text: commentText.value,
-      thread: props.comment.id,
-      user: user.value.id,
-      story: story.data.value.id,
-    })
+    const { data } = await supabase
+      .from('story_comments')
+      .insert({
+        comment_text: commentText.value,
+        thread: props.comment.id,
+        user: user.value.id,
+        story: story.data.value.id,
+      })
+      .select('id')
+
+    const isChildComment = Boolean(props.comment.thread)
 
     $fetch('/api/notifications/stories', {
       method: 'post',
@@ -89,9 +96,13 @@ const postComment = async () => {
         type: 'reply_comment',
         contextData: {
           content: commentText.value,
+          parentComment: isChildComment
+            ? props.comment.thread
+            : props.comment.id,
+          childrenComment: isChildComment ? props.comment.id : null,
         },
-        relatedType: 'comment',
-        relatedId: props.comment.id,
+        relatedType: 'story',
+        relatedId: story.data.value.id,
         recipientId: props.comment.user,
         senderId: user.value.id,
       },
@@ -99,6 +110,14 @@ const postComment = async () => {
 
     commentText.value = ''
     await refreshNuxtData(`story/${slug}/comments`)
+
+    router.replace({
+      query: {
+        pc: props.comment.thread ?? props.comment.id,
+        cc: data[0].id,
+      },
+    })
+    resetScrollPosition()
   } catch (error) {
     toast.add({
       title: 'Upss',
@@ -145,18 +164,28 @@ const giveReaction = async () => {
         comment: props.comment.id,
         user: user.value.id,
       })
+
+      const isChildComment = Boolean(props.comment.thread)
+
       $fetch('/api/notifications/stories', {
         method: 'post',
         body: {
           senderId: user.value.id,
           recipientId: props.comment.user,
-          contextData: { content: props.comment.comment_text },
-          relatedId: props.comment.id,
-          relatedType: 'comment',
+          contextData: {
+            content: props.comment.comment_text,
+            parentComment: isChildComment
+              ? props.comment.thread
+              : props.comment.id,
+            childrenComment: isChildComment ? props.comment.id : null,
+          },
+          relatedId: story.data.value.id,
+          relatedType: 'story',
           type: 'like_on_comment',
         },
       })
     }
+
     await refreshNuxtData(`story/${slug}/comments`)
   } catch (error) {
     toast.add({
@@ -168,11 +197,32 @@ const giveReaction = async () => {
     throw createError(error)
   }
 }
+
+const resetScrollPosition = () => {
+  const parentCommentId = route.query.pc
+
+  if (parentCommentId === props.comment.id) {
+    // condition when user try to access commment box
+
+    commentContainer.value.scrollIntoView({ behavior: 'smooth' })
+    openChild.value = true
+  }
+}
+
+onMounted(async () => {
+  if (!commentContainer.value) return
+
+  await nextTick()
+  resetScrollPosition()
+})
 </script>
 
 <template>
-  <div class="relative min-h-full flex flex-col">
-    <div class="flex gap-2 -ml-1">
+  <div
+    class="relative min-h-full flex flex-col rounded"
+    :class="{ 'bg-blue-50 py-1 px-2': comment.id === route.query.cc }"
+  >
+    <div ref="comment-container" class="flex scroll-m-24 gap-2 -ml-1">
       <SharedUserPicture
         class="border-4 border-white w-10 h-10"
         :seed="author.username"
@@ -223,7 +273,7 @@ const giveReaction = async () => {
     </p>
 
     <div class="mt-2 pl-11 flex gap-2">
-      <UTooltip text="Sukai komentar">
+      <UTooltip text="Suka komentar">
         <UButton
           :color="isUserAlreadyReact ? 'error' : 'neutral'"
           :variant="isUserAlreadyReact ? 'soft' : 'ghost'"
@@ -247,15 +297,15 @@ const giveReaction = async () => {
         </UButton>
       </UTooltip>
 
-      <UTooltip text="Opsi">
-        <UButton
-          v-if="isMainThread"
-          color="neutral"
-          variant="ghost"
-          icon="lucide:ellipsis-vertical"
-          disabled
-        />
-      </UTooltip>
+      <!-- <UTooltip text="Opsi"> -->
+      <!--   <UButton -->
+      <!--     v-if="isMainThread" -->
+      <!--     color="neutral" -->
+      <!--     variant="ghost" -->
+      <!--     icon="lucide:ellipsis-vertical" -->
+      <!--     disabled -->
+      <!--   /> -->
+      <!-- </UTooltip> -->
     </div>
 
     <span

@@ -45,7 +45,7 @@ const message = computed(() => {
     case 'like_on_story':
       return ` menyukai Story Anda: "${props.notification.context_data?.title ?? ''}"`
     case 'reply_comment':
-      return ` membalas komentar Anda "${props.notification.context_data?.title ?? ''}"`
+      return ` membalas komentar Anda "${props.notification.context_data?.content ?? ''}"`
     case 'like_on_comment':
       return ` menyukai komentar Anda "${props.notification.context_data?.content ?? ''}"`
     case 'update_story':
@@ -57,7 +57,7 @@ const message = computed(() => {
     case 'add_story':
       return ` menambahkan Story baru: "${props.notification.context_data?.title ?? ''}"`
     default:
-      return 'Halo gaes'
+      return 'Whoopsie'
   }
 })
 

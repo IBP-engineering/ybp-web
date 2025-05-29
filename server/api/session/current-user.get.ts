@@ -23,7 +23,6 @@ export default defineEventHandler(
         return {}
       }
 
-      console.log('asdasdadasd sampai sini')
       const { data, error } = await getCurrentUser(userSession.id, event)
 
       if (!data) {
