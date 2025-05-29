@@ -3,13 +3,30 @@ import * as v from 'valibot'
 import type { Database } from '~/types/database.types'
 import type { CommentWithAuthorReplies, User } from '~/types/entities'
 
-defineProps<{
+const props = defineProps<{
   comments: CommentWithAuthorReplies[]
 }>()
 
 const commentText = ref('')
 const loadingPostComment = ref(false)
 const openLoginModal = ref(false)
+const sortBy = ref('newest')
+
+const sortOptions = [
+  { label: 'Terbaru', value: 'newest' },
+  { label: 'Terlama', value: 'oldest' },
+  { label: 'Teratas', value: 'top' },
+]
+const sortItems = sortOptions.map(option => option.label)
+
+const getSortValue = (label: string) => {
+  const found = sortOptions.find(option => option.label === label)
+  return found ? found.value : 'newest'
+}
+const getSortLabel = (value: string) => {
+  const found = sortOptions.find(option => option.value === value)
+  return found ? found.label : 'Terbaru'
+}
 
 const supabase = useSupabaseClient<Database>()
 const route = useRoute()
@@ -17,6 +34,37 @@ const toast = useToast()
 const slug = route.params.slug
 const story = useNuxtData(`story/${slug}`)
 const user = useNuxtData<User>('current-user')
+
+const sortedComments = computed(() => {
+  if (!props.comments?.length) return []
+
+  const commentsToSort = [...props.comments]
+
+  switch (sortBy.value) {
+    case 'oldest':
+      return commentsToSort.sort(
+        (a, b) =>
+          new Date(a.created_at).getTime() - new Date(b.created_at).getTime(),
+      )
+    case 'top':
+      return commentsToSort.sort((a, b) => {
+        const reactA = Array.isArray(a.reactions) ? a.reactions.length : 0
+        const reactB = Array.isArray(b.reactions) ? b.reactions.length : 0
+        if (reactB !== reactA) {
+          return reactB - reactA
+        }
+        return (
+          new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+        )
+      })
+    case 'newest':
+    default:
+      return commentsToSort.sort(
+        (a, b) =>
+          new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
+      )
+  }
+})
 
 const postComment = async () => {
   try {
@@ -83,11 +131,35 @@ provide(onSuccessLogin, () => {
     color: 'success',
   })
 })
+
+const sortLabel = ref(getSortLabel(sortBy.value))
+watch(sortLabel, label => {
+  sortBy.value = getSortValue(label)
+})
+watch(sortBy, value => {
+  sortLabel.value = getSortLabel(value)
+})
 </script>
 
 <template>
   <section class="flex flex-col gap-4 py-4 w-full md:w-3/4">
-    <i class="text-sm">-- Tampaknya belum ada komentar --</i>
+    <i v-if="!props.comments.length" class="text-sm">
+      -- Tampaknya belum ada komentar --
+    </i>
+
+    <div v-if="props.comments.length" class="flex justify-between items-center">
+      <span class="text-sm font-stretch-normal text-gray-500">
+        {{ props.comments.length }} Komentar
+      </span>
+      <USelect
+        v-model="sortLabel"
+        :items="sortItems"
+        class="w-40"
+        placeholder="Urutkan"
+        @update:model-value="label => (sortBy.value = getSortValue(label))"
+      />
+    </div>
+
     <div class="flex gap-2 items-center">
       <UTextarea
         v-model="commentText"
@@ -108,18 +180,21 @@ provide(onSuccessLogin, () => {
       <UTooltip text="Kirim komentar">
         <UButton
           v-if="commentText.length > 0"
-          @click.="postComment"
           class="rounded-full"
           variant="soft"
           icon="lucide:send"
           :disabled="loadingPostComment"
+          @click="postComment"
         />
       </UTooltip>
     </div>
 
-    <div v-if="Boolean(comments.length)" class="flex flex-col w-full gap-8">
+    <div
+      v-if="Boolean(props.comments.length)"
+      class="flex flex-col w-full gap-8"
+    >
       <StoryCommentItem
-        v-for="comment in comments"
+        v-for="comment in sortedComments"
         :key="comment.id"
         :comment="comment"
       />
