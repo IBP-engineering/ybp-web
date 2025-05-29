@@ -3,14 +3,19 @@ import * as v from 'valibot'
 import type { Database } from '~/types/database.types'
 import type { CommentWithAuthorReplies, Story } from '~/types/entities'
 
-defineProps<{
+const props = defineProps<{
   comments: CommentWithAuthorReplies[]
 }>()
 
 const commentText = ref('')
 const loadingPostComment = ref(false)
 const openLoginModal = ref(false)
-
+const sortItems = ref([
+  { label: 'Terbaru', value: 'newest' },
+  { label: 'Terlama', value: 'oldest' },
+  { label: 'Teratas', value: 'top' },
+])
+const sortBy = ref('newest')
 const supabase = useSupabaseClient<Database>()
 const route = useRoute()
 const router = useRouter()
@@ -19,6 +24,37 @@ const slug = route.params.slug
 const story = useNuxtData<Story>(`story/${slug}`)
 const { data: user } = await useFetch('/api/session/current-user', {
   key: 'current-user',
+})
+
+const sortedComments = computed(() => {
+  if (!props.comments?.length) return []
+
+  const commentsToSort = [...props.comments]
+
+  switch (sortBy.value) {
+    case 'oldest':
+      return commentsToSort.sort(
+        (a, b) =>
+          new Date(a.created_at).getTime() - new Date(b.created_at).getTime(),
+      )
+    case 'top':
+      return commentsToSort.sort((a, b) => {
+        const reactA = Array.isArray(a.reactions) ? a.reactions.length : 0
+        const reactB = Array.isArray(b.reactions) ? b.reactions.length : 0
+        if (reactB !== reactA) {
+          return reactB - reactA
+        }
+        return (
+          new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+        )
+      })
+    case 'newest':
+    default:
+      return commentsToSort.sort(
+        (a, b) =>
+          new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
+      )
+  }
 })
 
 const postComment = async () => {
@@ -116,8 +152,21 @@ provide(onSuccessLogin, () => {
 <template>
   <section class="flex flex-col gap-4 py-4 w-full md:w-3/4">
     <i v-if="comments?.length === 0" class="text-sm"
-      >-- Tampaknya belum ada komentar --</i
-    >
+      >-- Tampaknya belum ada komentar --
+    </i>
+
+    <div v-if="props.comments.length" class="flex justify-between items-center">
+      <span class="text-sm font-stretch-normal text-gray-500">
+        {{ props.comments.length }} Komentar
+      </span>
+      <USelect
+        v-model="sortBy"
+        :items="sortItems"
+        class="w-40"
+        placeholder="Urutkan"
+      />
+    </div>
+
     <div class="flex gap-2 items-center">
       <UTextarea
         v-model="commentText"
@@ -138,18 +187,18 @@ provide(onSuccessLogin, () => {
       <UTooltip text="Kirim komentar">
         <UButton
           v-if="commentText.length > 0"
-          @click.="postComment"
           class="rounded-full"
           variant="soft"
           icon="lucide:send"
           :disabled="loadingPostComment"
+          @click="postComment"
         />
       </UTooltip>
     </div>
 
     <div v-if="Boolean(comments?.length)" class="flex flex-col w-full gap-8">
       <StoryCommentItem
-        v-for="comment in comments"
+        v-for="comment in sortedComments"
         :key="`${comment?.id}-${comment.replies.length}`"
         :comment="comment"
       />

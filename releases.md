@@ -2,9 +2,32 @@
 
 A peek into the exciting evolution of the Yogyakarta Book Party web app!
 
+## Version 0.2.7 - Sort Your Story Comments, Your Way! ⬇️⬆️⭐
+
+We're excited to bring you more control over how you engage with our community! This release introduces powerful new sorting options for comments on stories, making it easier to find the discussions that matter most to you.
+
+**✨ What's New & Improved! ✨**
+
+- **Sort Comments with Ease!** 💬 You can now organize story comments exactly how you prefer. We've added flexible sorting options, allowing you to:
+  - **Oldest First:** See the conversation unfold from the very beginning.
+  - **Newest First:** Jump straight to the latest contributions and updates.
+  - **Most Popular:** Discover the comments that are resonating most with the community.
+
+We hope these new sorting capabilities enhance your experience and help you delve deeper into the discussions around your favorite stories! Happy reading and commenting!
+
+## Version 0.2.6 - Seamless Login Redirects! ↩️
+
+Great news for smoother navigation! We know how important it is to pick up right where you left off. This release introduces a highly requested feature that makes your post-login experience more intuitive than ever.
+
+**✨ What's New & Improved! ✨**
+
+- **Back to Where You Were!** 🧭 After logging in, you'll now be **automatically redirected to the page you were on before logging in**. No more manually navigating back! Whether you were Browse stories, checking out the HQ, or exploring any other part of the app, we'll take you right back there after a successful login.
+
+We believe this enhancement will make your journey through the Yogyakarta Book Party web app even more streamlined and enjoyable. Happy reading!
+
 ## Version 0.2.5b - Hotfix pagination not paginated in Reading Habits! 🍋
 
-Alreight, Let's go. Now we can use pagination again!
+Alright, Let's go. Now we can use pagination again!
 
 Keep spirit. Thanks!
 
