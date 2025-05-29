@@ -20,6 +20,9 @@ export default defineNuxtConfig({
     },
   },
   nitro: {
+    prerender: {
+      crawlLinks: true,
+    },
     future: {
       nativeSWR: true,
     },
