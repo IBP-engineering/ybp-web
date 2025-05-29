@@ -126,14 +126,17 @@ useSeoMeta({
       <UBreadcrumb divider="/" :items="breadcrumbs" />
     </div>
 
-    <div class="mt-4 flex z-10 w-full flex-col-reverse gap-4 lg:flex-row">
+    <div
+      v-if="story?.id"
+      class="mt-4 flex z-10 w-full flex-col-reverse gap-4 lg:flex-row"
+    >
       <StoryReactions :story="story" :comment-count="comments?.length ?? 0" />
       <div class="flex w-full flex-col">
         <div
           class="w-full overflow-hidden shadow md:rounded-lg md:border md:border-neutral-300 md:bg-neutral-50"
         >
           <img
-            v-if="story.cover_path"
+            v-if="story?.cover_path"
             :src="story.cover_path"
             width="700"
             height="400"
@@ -142,13 +145,13 @@ useSeoMeta({
           />
           <div class="px-4 py-4 md:px-10">
             <UAlert
-              v-if="story.status !== 'approved'"
-              :color="story.status === 'pending' ? 'warning' : 'info'"
+              v-if="story?.status !== 'approved'"
+              :color="story?.status === 'pending' ? 'warning' : 'info'"
               title="Halo pembaca!"
               icon="heroicons:exclamation-triangle"
             >
               <template #description>
-                <p v-if="story.status === 'pending'">
+                <p v-if="story?.status === 'pending'">
                   Cerita ini belum dipublikasikan dan masih dalam tahap
                   pengecekan oleh editor kami
                 </p>
@@ -170,16 +173,18 @@ useSeoMeta({
                   :to="`/${authorUsername}`"
                   class="text-sm font-semibold hover:underline"
                   title="To author page"
-                  >{{ story.author.display_name }}</ULink
+                  >{{ story?.author.display_name }}</ULink
                 >
                 <small
                   :title="
-                    format(new Date(story.created_at), 'PPPppp', { locale: id })
+                    format(new Date(story?.created_at), 'PPPppp', {
+                      locale: id,
+                    })
                   "
                   class="block text-xs text-neutral-600"
                   >Ditulis pada
                   {{
-                    format(new Date(story.created_at), 'PPP', { locale: id })
+                    format(new Date(story?.created_at), 'PPP', { locale: id })
                   }}</small
                 >
               </div>
@@ -187,25 +192,25 @@ useSeoMeta({
             <h1
               class="text-2xl font-bold md:text-3xl lg:text-4xl lg:leading-tight"
             >
-              {{ story.title }}
+              {{ story?.title }}
             </h1>
             <div class="mt-2">
-              <StoryTag v-for="tag in story.tags" :key="tag" :tag="tag" />
+              <StoryTag v-for="tag in story?.tags" :key="tag" :tag="tag" />
             </div>
 
-            <div class="prose mt-8" v-html="story.content" />
+            <div class="prose mt-8" v-html="story?.content" />
           </div>
         </div>
 
         <div class="block lg:hidden mt-4">
           <StoryAsideProfile
             class="border-transparent py-0 md:p-0 bg-white shadow-none"
-            :author="story.author"
+            :author="story?.author"
           />
         </div>
       </div>
 
-      <StoryAside :author="story.author" />
+      <StoryAside :author="story?.author" />
     </div>
 
     <section class="mt-8 px-4 md:px-0 lg:px-18">

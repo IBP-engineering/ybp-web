@@ -218,7 +218,7 @@ onMounted(async () => {
   <div
     class="relative min-h-full flex flex-col rounded"
     :class="{
-      'bg-blue-50 py-1 px-2': route.query.cc
+      'bg-blue-50 py-1': route.query.cc
         ? comment.id === route.query.cc
         : comment.id === route.query.pc,
     }"

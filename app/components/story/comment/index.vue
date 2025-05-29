@@ -115,7 +115,7 @@ provide(onSuccessLogin, () => {
 
 <template>
   <section class="flex flex-col gap-4 py-4 w-full md:w-3/4">
-    <i v-if="comments.length === 0" class="text-sm"
+    <i v-if="comments?.length === 0" class="text-sm"
       >-- Tampaknya belum ada komentar --</i
     >
     <div class="flex gap-2 items-center">
@@ -147,7 +147,7 @@ provide(onSuccessLogin, () => {
       </UTooltip>
     </div>
 
-    <div v-if="Boolean(comments.length)" class="flex flex-col w-full gap-8">
+    <div v-if="Boolean(comments?.length)" class="flex flex-col w-full gap-8">
       <StoryCommentItem
         v-for="comment in comments"
         :key="`${comment?.id}-${comment.replies.length}`"
