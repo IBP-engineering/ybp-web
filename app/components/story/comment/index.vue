@@ -10,24 +10,12 @@ const props = defineProps<{
 const commentText = ref('')
 const loadingPostComment = ref(false)
 const openLoginModal = ref(false)
-const sortBy = ref('newest')
-
-const sortOptions = [
+const sortItems = ref([
   { label: 'Terbaru', value: 'newest' },
   { label: 'Terlama', value: 'oldest' },
   { label: 'Teratas', value: 'top' },
-]
-const sortItems = sortOptions.map(option => option.label)
-
-const getSortValue = (label: string) => {
-  const found = sortOptions.find(option => option.label === label)
-  return found ? found.value : 'newest'
-}
-const getSortLabel = (value: string) => {
-  const found = sortOptions.find(option => option.value === value)
-  return found ? found.label : 'Terbaru'
-}
-
+])
+const sortBy = ref('newest')
 const supabase = useSupabaseClient<Database>()
 const route = useRoute()
 const toast = useToast()
@@ -131,14 +119,6 @@ provide(onSuccessLogin, () => {
     color: 'success',
   })
 })
-
-const sortLabel = ref(getSortLabel(sortBy.value))
-watch(sortLabel, label => {
-  sortBy.value = getSortValue(label)
-})
-watch(sortBy, value => {
-  sortLabel.value = getSortLabel(value)
-})
 </script>
 
 <template>
@@ -152,11 +132,10 @@ watch(sortBy, value => {
         {{ props.comments.length }} Komentar
       </span>
       <USelect
-        v-model="sortLabel"
+        v-model="sortBy"
         :items="sortItems"
         class="w-40"
         placeholder="Urutkan"
-        @update:model-value="label => (sortBy = getSortValue(label))"
       />
     </div>
 
