@@ -13,6 +13,7 @@ const openLoginModal = ref(false)
 
 const supabase = useSupabaseClient<Database>()
 const route = useRoute()
+const router = useRouter()
 const toast = useToast()
 const slug = route.params.slug
 const story = useNuxtData<Story>(`story/${slug}`)
@@ -74,9 +75,14 @@ const postComment = async () => {
     commentText.value = ''
     await refreshNuxtData(`story/${slug}/comments`)
 
+    // clean existing query from comment
+    router.replace({
+      query: {},
+    })
+
     toast.add({
       title: 'OK',
-      description: 'Komentar berhasil dikirim',
+      description: 'Komentar berhasil ditambahkan',
       color: 'success',
       icon: 'lucide:circle-check-big',
     })
