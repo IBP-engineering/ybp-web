@@ -72,12 +72,18 @@ export default defineEventHandler(
           ? data.map(d => {
               if (d.related_entity_type === 'story') {
                 return d.related_entity_id
+              } else if (d.related_entity_type === 'comment') {
+                return d.context_data.story
               }
+
+              return false
             })
           : []
+
       const uniqueStoryRelatedIds: string[] = [
         ...new Set(storyRelatedIds),
       ].filter(Boolean)
+
       const stories = await getStoriesByIds(uniqueStoryRelatedIds, supabase)
 
       const dataWithStory = data.map(data => {
@@ -115,7 +121,7 @@ async function getStoriesByIds(
 ) {
   const { data, error } = await supabase
     .from('stories')
-    .select('id,title,slug')
+    .select('id,title,slug,user_id(username)')
     .in('id', storyIdsToFetch) // Filter where the 'id' is in the provided array
 
   if (error) {

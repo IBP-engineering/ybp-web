@@ -16,9 +16,19 @@ const { switchOpenNotification } = inject(notificationKey)
 const notificationUrl = computed(() => {
   const { notification } = props
   const isStory = notification.related_entity_type === 'story'
+  const isComment = notification.related_entity_type === 'comment'
 
   if (isStory) {
-    return `/${notification.sender.username}/${notification.context_data?.slug}`
+    const toStory = `/${notification.sender.username}/${notification.context_data?.slug}`
+    if (notification.type === 'comment_on_story') {
+      return toStory.concat(`?pc=${notification.context_data.parentComment}`)
+    }
+
+    return toStory
+  } else if (isComment) {
+    const { user_id, slug, parentComment, childrenComment } =
+      notification.context_data
+    return `/${user_id.username}/${slug}?pc=${parentComment}&cc=${childrenComment}`
   }
 
   return ''
@@ -68,6 +78,13 @@ const onClickUrl = async () => {
     .eq('id', props.notification.id)
 
   switchOpenNotification()
+  // refreshNuxtData()
+  // navigateTo(notificationUrl.value)
+  // NOTE: best practice to not using reload, but since if we dont do it
+  // in case comment that needs to scroll to position, is only possible if we
+  // reload the page.
+  console.log('notificationUrl', notificationUrl.value)
+  reloadNuxtApp({ path: notificationUrl.value })
 }
 </script>
 
@@ -90,13 +107,9 @@ const onClickUrl = async () => {
             @click="onClickUrl"
             >{{ notification.sender.display_name }}</NuxtLink
           >
-          <NuxtLink
-            class="hover:underline"
-            :to="notificationUrl"
-            @click="onClickUrl"
-          >
+          <button class="hover:underline" @click="onClickUrl">
             {{ message }}
-          </NuxtLink>
+          </button>
         </div>
         <time
           :datetime="new Date(notification.created_at).toISOString()"

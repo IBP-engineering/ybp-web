@@ -96,8 +96,8 @@ const postComment = async () => {
         contextData: {
           content: commentText.value,
           story: story.data.value.id,
-          parentComment: props.comment.thread,
-          childrenComment: props.comment.id,
+          parentComment: props.comment.thread ?? props.comment.id,
+          childrenComment: data.id,
         },
         relatedType: 'comment',
         relatedId: story.data.value.id,
@@ -115,6 +115,7 @@ const postComment = async () => {
         cc: data.id,
       },
     })
+
     await nextTick()
     resetScrollPosition(data.thread)
   } catch (error) {
@@ -172,7 +173,7 @@ const giveReaction = async () => {
           contextData: {
             content: props.comment.comment_text,
             story: story.data.value.id,
-            parentComment: props.comment.thread,
+            parentComment: props.comment.thread ?? props.comment.id,
             childrenComment: props.comment.id,
           },
           relatedId: story.data.value.id,
@@ -198,9 +199,9 @@ const giveReaction = async () => {
 const resetScrollPosition = (to?: string) => {
   const parentCommentId = to ?? route.query.pc
 
-  console.log(parentCommentId, props.comment)
+  // condition when user try to access commment box
   if (parentCommentId === props.comment.id) {
-    // condition when user try to access commment box
+    if (!commentContainer.value) return
 
     openChild.value = true
     commentContainer.value.scrollIntoView({ behavior: 'smooth' })
@@ -208,8 +209,6 @@ const resetScrollPosition = (to?: string) => {
 }
 
 onMounted(async () => {
-  if (!commentContainer.value) return
-
   await nextTick()
   resetScrollPosition()
 })
@@ -218,7 +217,11 @@ onMounted(async () => {
 <template>
   <div
     class="relative min-h-full flex flex-col rounded"
-    :class="{ 'bg-blue-50 py-1 px-2': comment.id === route.query.cc }"
+    :class="{
+      'bg-blue-50 py-1 px-2': route.query.cc
+        ? comment.id === route.query.cc
+        : comment.id === route.query.pc,
+    }"
   >
     <div ref="comment-container" class="flex scroll-m-24 gap-2 -ml-1">
       <SharedUserPicture

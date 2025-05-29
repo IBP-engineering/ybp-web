@@ -52,11 +52,15 @@ const postComment = async () => {
 
     loadingPostComment.value = true
 
-    await supabase.from('story_comments').insert({
-      comment_text: commentText.value,
-      user: user.value?.id,
-      story: story.data.value?.id,
-    })
+    const { data } = await supabase
+      .from('story_comments')
+      .insert({
+        comment_text: commentText.value,
+        user: user.value?.id,
+        story: story.data.value?.id,
+      })
+      .select('id')
+      .single()
 
     $fetch('/api/notifications/stories', {
       method: 'post',
@@ -64,6 +68,7 @@ const postComment = async () => {
         type: 'comment_on_story',
         contextData: {
           content: commentText.value,
+          parentComment: data.id,
         },
         relatedType: 'story',
         relatedId: story.data.value.id,
@@ -145,7 +150,7 @@ provide(onSuccessLogin, () => {
     <div v-if="Boolean(comments.length)" class="flex flex-col w-full gap-8">
       <StoryCommentItem
         v-for="comment in comments"
-        :key="comment?.id"
+        :key="`${comment?.id}-${comment.replies.length}`"
         :comment="comment"
       />
     </div>
