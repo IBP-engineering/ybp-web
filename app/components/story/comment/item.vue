@@ -86,9 +86,8 @@ const postComment = async () => {
         user: user.value.id,
         story: story.data.value.id,
       })
-      .select('id')
-
-    const isChildComment = Boolean(props.comment.thread)
+      .select('id, thread')
+      .single()
 
     $fetch('/api/notifications/stories', {
       method: 'post',
@@ -96,12 +95,11 @@ const postComment = async () => {
         type: 'reply_comment',
         contextData: {
           content: commentText.value,
-          parentComment: isChildComment
-            ? props.comment.thread
-            : props.comment.id,
-          childrenComment: isChildComment ? props.comment.id : null,
+          story: story.data.value.id,
+          parentComment: props.comment.thread,
+          childrenComment: props.comment.id,
         },
-        relatedType: 'story',
+        relatedType: 'comment',
         relatedId: story.data.value.id,
         recipientId: props.comment.user,
         senderId: user.value.id,
@@ -113,11 +111,12 @@ const postComment = async () => {
 
     router.replace({
       query: {
-        pc: props.comment.thread ?? props.comment.id,
-        cc: data[0].id,
+        pc: data.thread,
+        cc: data.id,
       },
     })
-    resetScrollPosition()
+    await nextTick()
+    resetScrollPosition(data.thread)
   } catch (error) {
     toast.add({
       title: 'Upss',
@@ -165,8 +164,6 @@ const giveReaction = async () => {
         user: user.value.id,
       })
 
-      const isChildComment = Boolean(props.comment.thread)
-
       $fetch('/api/notifications/stories', {
         method: 'post',
         body: {
@@ -174,18 +171,18 @@ const giveReaction = async () => {
           recipientId: props.comment.user,
           contextData: {
             content: props.comment.comment_text,
-            parentComment: isChildComment
-              ? props.comment.thread
-              : props.comment.id,
-            childrenComment: isChildComment ? props.comment.id : null,
+            story: story.data.value.id,
+            parentComment: props.comment.thread,
+            childrenComment: props.comment.id,
           },
           relatedId: story.data.value.id,
-          relatedType: 'story',
+          relatedType: 'comment',
           type: 'like_on_comment',
         },
       })
     }
 
+    router.replace({ query: {} })
     await refreshNuxtData(`story/${slug}/comments`)
   } catch (error) {
     toast.add({
@@ -198,14 +195,15 @@ const giveReaction = async () => {
   }
 }
 
-const resetScrollPosition = () => {
-  const parentCommentId = route.query.pc
+const resetScrollPosition = (to?: string) => {
+  const parentCommentId = to ?? route.query.pc
 
+  console.log(parentCommentId, props.comment)
   if (parentCommentId === props.comment.id) {
     // condition when user try to access commment box
 
-    commentContainer.value.scrollIntoView({ behavior: 'smooth' })
     openChild.value = true
+    commentContainer.value.scrollIntoView({ behavior: 'smooth' })
   }
 }
 
@@ -257,7 +255,7 @@ onMounted(async () => {
         </div>
         <time
           :datetime="new Date(comment.created_at).toISOString()"
-          :title="new Date(comment.created_at).toISOString()"
+          :title="new Date(comment.created_at).toLocaleString()"
           >{{
             formatDistanceToNowStrict(new Date(comment.created_at), {
               locale: id,
