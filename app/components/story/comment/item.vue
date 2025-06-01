@@ -16,6 +16,7 @@ const route = useRoute()
 const router = useRouter()
 const toast = useToast()
 const supabase = useSupabaseClient()
+const channel = supabase.channel('notifications')
 const commentContainer = useTemplateRef('comment-container')
 const slug = route.params.slug
 const story = useNuxtData<Story>(`story/${slug}`)
@@ -180,6 +181,12 @@ const giveReaction = async () => {
           relatedType: 'comment',
           type: 'like_on_comment',
         },
+      })
+
+      channel.send({
+        type: 'broadcast',
+        event: `notifications-${props.comment.user}`,
+        payload: { sender: user.value.display_name },
       })
     }
 

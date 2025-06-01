@@ -10,10 +10,13 @@ function switchOpenNotification() {
 
 const toast = useToast()
 const supabase = useSupabaseClient<Database>()
+const channel = supabase.channel('notifications')
 
 provide(notificationKey, { openNotification, switchOpenNotification })
 
-const { data: notification, refresh } = await useFetch('/api/notifications')
+const { data: notification, refresh } = await useFetch('/api/notifications', {
+  key: 'notifications/all',
+})
 const { data: userData } = await useFetch('/api/session/current-user', {
   key: 'current-user',
 })
@@ -75,7 +78,34 @@ const dropdownItems = [
 
 watch(openNotification, () => {
   refresh()
-  refreshNuxtData(['notifications/all', 'notifications/unread'])
+})
+
+onMounted(() => {
+  if (userData.value?.id) {
+    channel
+      .on(
+        'broadcast',
+        { event: `notifications-${userData.value.id}` },
+        ({ payload }) => {
+          toast.add({
+            title: 'Notifikasi',
+            description: `Ada notifikasi baru dari ${payload.sender}`,
+            color: 'info',
+            icon: 'ph:bell-ringing-duotone',
+          })
+          refresh()
+        },
+      )
+      .subscribe(status => {
+        if (status === 'SUBSCRIBED') {
+          console.info('subscribe to notification')
+        }
+      })
+  }
+})
+
+onUnmounted(() => {
+  supabase.removeChannel(channel)
 })
 </script>
 

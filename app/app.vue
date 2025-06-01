@@ -14,7 +14,7 @@ useHead({
 </script>
 
 <template>
-  <UApp :locale="id">
+  <UApp :locale="id" :toaster="{ position: 'top-right', expand: false }">
     <NuxtLayout>
       <NuxtLoadingIndicator />
       <NuxtRouteAnnouncer />

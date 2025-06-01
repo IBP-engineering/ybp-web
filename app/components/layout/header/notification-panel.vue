@@ -15,6 +15,9 @@ const {
   },
   key: computed(() => `notifications/${notificationType.value}`),
 })
+const supabase = useSupabaseClient()
+const userData = useNuxtData<User>('current-user')
+const channel = supabase.channel('notifications')
 
 const notificationData = computed(() => {
   const groupedData: Record<
@@ -65,6 +68,18 @@ const readAll = async () => {
     console.error(error)
   }
 }
+
+onMounted(() => {
+  if (userData.data.value?.id) {
+    channel.on(
+      'broadcast',
+      { event: `notifications-${userData.data.value.id}` },
+      () => {
+        refresh()
+      },
+    )
+  }
+})
 </script>
 
 <template>
