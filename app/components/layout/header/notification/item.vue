@@ -19,7 +19,7 @@ const notificationUrl = computed(() => {
   const isComment = notification.related_entity_type === 'comment'
 
   if (isStory) {
-    const toStory = `/${notification.sender.username}/${notification.context_data?.slug}`
+    const toStory = `/${notification.context_data.user_id.username}/${notification.context_data?.slug}`
     if (notification.type === 'comment_on_story') {
       return toStory.concat(`?pc=${notification.context_data.parentComment}`)
     }
