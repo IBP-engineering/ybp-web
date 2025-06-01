@@ -101,6 +101,23 @@ onMounted(() => {
           console.info('subscribe to notification')
         }
       })
+
+    if (userData.value.roles.name !== 'member') {
+      // if user is mod/admin
+      channel.on(
+        'broadcast',
+        { event: 'notifications-x-mod' },
+        ({ payload }) => {
+          toast.add({
+            title: 'Notifikasi moderator',
+            description: `Ada notifikasi baru dari ${payload.sender}`,
+            color: 'info',
+            icon: 'ph:bell-ringing-duotone',
+          })
+          refresh()
+        },
+      )
+    }
   }
 })
 

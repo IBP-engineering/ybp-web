@@ -15,6 +15,7 @@ useSeoMeta({
 
 const toast = useToast()
 const supabase = useSupabaseClient<Database>()
+const channel = supabase.channel('notifications')
 const { data: tags } = await useAsyncData('tags', async () => {
   const { data, error } = await supabase
     .from('tags')
@@ -151,6 +152,12 @@ const submitStory = async () => {
         relatedId: createdStory.id,
         mode: 'create',
       },
+    })
+
+    channel.send({
+      type: 'broadcast',
+      event: 'notifications-x-mod',
+      payload: { sender: user.value.display_name },
     })
 
     openModal.value = true

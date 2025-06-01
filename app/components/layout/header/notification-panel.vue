@@ -78,6 +78,13 @@ onMounted(() => {
         refresh()
       },
     )
+
+    if (userData.data.value.role_id !== 1) {
+      // if user is mod/admin
+      channel.on('broadcast', { event: 'notifications-x-mod' }, () => {
+        refresh()
+      })
+    }
   }
 })
 </script>

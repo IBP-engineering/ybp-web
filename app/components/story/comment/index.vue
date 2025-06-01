@@ -17,6 +17,7 @@ const sortItems = ref([
 ])
 const sortBy = ref('newest')
 const supabase = useSupabaseClient<Database>()
+const channel = supabase.channel('notifications')
 const route = useRoute()
 const router = useRouter()
 const toast = useToast()
@@ -111,6 +112,12 @@ const postComment = async () => {
         recipientId: story.data.value.user_id,
         senderId: user.value.id,
       },
+    })
+
+    channel.send({
+      type: 'broadcast',
+      event: `notifications-${story.data.value.user_id}`,
+      payload: { sender: user.value.display_name },
     })
 
     commentText.value = ''

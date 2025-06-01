@@ -107,6 +107,12 @@ const postComment = async () => {
       },
     })
 
+    channel.send({
+      type: 'broadcast',
+      event: `notifications-${props.comment.user}`,
+      payload: { sender: user.value.display_name },
+    })
+
     commentText.value = ''
     await refreshNuxtData(`story/${slug}/comments`)
 

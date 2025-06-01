@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Database } from '~/types/database.types'
-import type { Story, StoryStatus } from '~/types/entities'
+import type { Story, StoryStatus, User } from '~/types/entities'
 
 const props = defineProps<{
   story: Story
@@ -28,7 +28,8 @@ const selected = ref<StoryStatus>(props.status)
 const reason = ref('')
 const isLoading = ref(false)
 const supabase = useSupabaseClient<Database>()
-const user = useSupabaseUser()
+const channel = supabase.channel('notifications')
+const user = useNuxtData<User>('current-user')
 const toast = useToast()
 const { data: storyHistories } = await useAsyncData(
   `hq/stories/${props.story.id}/history`,
@@ -66,7 +67,7 @@ const saveStatus = async () => {
       story_id: props.story.id,
       reason: reason.value,
       status: selected.value,
-      updated_by: user.value.id,
+      updated_by: user.data.value.id,
     })
     isLoading.value = false
     isOpen.value = false
@@ -80,13 +81,18 @@ const saveStatus = async () => {
     $fetch('/api/notifications/stories', {
       method: 'post',
       body: {
-        senderId: user.value.id,
+        senderId: user.data.value.id,
         recipientId: props.story.user_id,
         contextData: { status: selected.value },
         relatedId: props.story.id,
         relatedType: 'story',
         type: 'update_story_status',
       },
+    })
+    channel.send({
+      type: 'broadcast',
+      event: `notifications-${props.story.user_id}`,
+      payload: { sender: user.data.value.display_name },
     })
   } catch (error) {
     console.error(error)

@@ -107,7 +107,10 @@ const onClickUrl = async () => {
             @click="onClickUrl"
             >{{ notification.sender.display_name }}</NuxtLink
           >
-          <button class="ml-1 hover:underline focus:ring" @click="onClickUrl">
+          <button
+            class="ml-1 text-left hover:underline focus:ring"
+            @click="onClickUrl"
+          >
             {{ message }}
           </button>
         </div>

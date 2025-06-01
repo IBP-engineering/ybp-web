@@ -13,17 +13,20 @@ const supabase = useSupabaseClient<Database>()
 const user = useSupabaseUser()
 const route = useRoute()
 const slug = route.params.slug
+const channel = supabase.channel('notifications')
 const { data: currentStory } = await useAsyncData(
   `story/${slug}/edit`,
   async () => {
     const { data, error } = (await supabase
       .from('stories')
-      .select('*, tags:story_tags!id(tag:tag_id(*), id),author:users(username)')
+      .select(
+        '*, tags:story_tags!id(tag:tag_id(*), id),author:users(username, display_name)',
+      )
       .eq('slug', slug.toString())
       .single()) as {
       data: Story & {
         tags: { id: string; tag: Tag }[]
-        author: Pick<User, 'username'>
+        author: Pick<User, 'username' | 'display_name'>
       }
       error: PostgrestError
     }
@@ -184,6 +187,12 @@ const submitStory = async () => {
         relatedId: currentStory.value.id,
         mode: 'update',
       },
+    })
+
+    channel.send({
+      type: 'broadcast',
+      event: 'notifications-x-mod',
+      payload: { sender: currentStory.value.author.display_name },
     })
 
     openModal.value = true
