@@ -25,7 +25,7 @@ const { data: story } = await useAsyncData(`story/${slug}`, async () => {
     .single()
 
   if (error) {
-    console.error(error)
+    console.error('error while fetching stories by id', error)
     return null
   }
 
@@ -61,8 +61,8 @@ const { data: comments } = await useAsyncData(
     }
 
     if (error) {
-      console.error(error)
-      return null
+      console.error('error while fetching comments', error)
+      return []
     }
 
     const commentsById = new Map<string, CommentWithAuthorReplies>()
@@ -89,8 +89,9 @@ const { data: comments } = await useAsyncData(
       }
     })
 
-    return topLevelComments
+    return topLevelComments ?? []
   },
+  { default: () => [] },
 )
 
 if (!story.value) {
@@ -219,7 +220,7 @@ useSeoMeta({
         <UBadge size="sm" variant="soft" icon="heroicons:sparkles">BARU</UBadge>
       </div>
 
-      <StoryComment :comments="comments" />
+      <StoryComment :comments="comments ?? []" />
     </section>
   </div>
 </template>
