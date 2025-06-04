@@ -129,7 +129,7 @@ onUnmounted(() => {
 <template>
   <nav class="fixed z-20 mt-8 flex w-screen justify-center px-4 md:px-0">
     <div
-      class="mx-auto flex w-full max-w-4xl items-center justify-between rounded-xl border border-neutral-100/40 bg-white/60 px-4 py-1 shadow-sm backdrop-blur"
+      class="mx-auto flex w-full max-w-5xl items-center justify-between rounded-xl border border-neutral-100/40 bg-white/60 px-4 py-1 shadow-sm backdrop-blur"
     >
       <div class="flex w-full items-center justify-between">
         <NuxtLink to="/" class="flex items-center gap-1" title="To home page">
