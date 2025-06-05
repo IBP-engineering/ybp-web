@@ -20,3 +20,4 @@ export type CommentWithAuthorReplies = CommentWithAuthor & {
   reactions?: CommentReaction[]
 }
 export type Role = Database['public']['Tables']['roles']['Row']
+export type Notification = Database['public']['Tables']['notifications']['Row']

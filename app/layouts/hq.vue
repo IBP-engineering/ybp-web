@@ -11,22 +11,10 @@ useHead({
 const openNavModal = ref(false)
 
 const supabase = useSupabaseClient<Database>()
-const userSession = useSupabaseUser()
-
 const toast = useToast()
-const { data: user } = await useAsyncData('current-user', async () => {
-  const { data, error } = await supabase
-    .from('users')
-    .select('username, id, display_name, created_at, roles(id, name)')
-    .eq('id', userSession.value.id)
-    .single()
 
-  if (error) {
-    console.error(error)
-    return null
-  }
-
-  return data
+const { data: user } = await useFetch('/api/session/current-user', {
+  key: 'current-user',
 })
 
 async function logout() {
@@ -60,7 +48,7 @@ const links = [
   },
 ]
 
-if (user.value.roles.id === USER_ROLE.admin) {
+if (user?.value?.roles.id === USER_ROLE.admin) {
   // only user with role admin
   links.push({
     label: 'Users',
@@ -72,7 +60,7 @@ if (user.value.roles.id === USER_ROLE.admin) {
 
 const items: DropdownMenuItem[][] = [
   [
-    { label: `@${user.value.username}` },
+    { label: `@${user?.value?.username}` },
     { label: 'Dashboard', to: '/dashboard', icon: 'heroicons:home' },
     {
       label: 'Logout',
@@ -99,7 +87,7 @@ const items: DropdownMenuItem[][] = [
               loading="lazy"
               class="rounded-full border"
             />
-            <b class="ml-2 text-lg">| {{ user.roles.name.toUpperCase() }}</b>
+            <b class="ml-2 text-lg">| {{ user?.roles?.name.toUpperCase() }}</b>
           </NuxtLink>
           <div class="flex items-center gap-4">
             <UDropdownMenu
