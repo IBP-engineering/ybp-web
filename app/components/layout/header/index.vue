@@ -162,20 +162,22 @@ onUnmounted(() => {
         :items="dropdownItems"
         :popper="{ strategy: 'absolute', placements: 'bottom', arrow: true }"
       >
-        <UButton
-          class="hidden shrink-0 md:flex"
-          size="sm"
-          color="neutral"
-          variant="ghost"
-        >
-          <span class="hidden md:block">
-            {{ userData?.display_name }}
-          </span>
-          <UAvatar
-            :src="`${avatarBaseUrl}?seed=${userData?.username}`"
-            alt="Avatar"
-          />
-        </UButton>
+        <UChip :show="notification?.unreadCount > 0">
+          <UButton
+            class="hidden shrink-0 md:flex"
+            size="sm"
+            color="neutral"
+            variant="ghost"
+          >
+            <span class="hidden md:block">
+              {{ userData?.display_name }}
+            </span>
+            <UAvatar
+              :src="`${avatarBaseUrl}?seed=${userData?.username}`"
+              alt="Avatar"
+            />
+          </UButton>
+        </UChip>
 
         <template #notification-trailing>
           <span class="text-primary-600 px-1 rounded-full bg-primary-100">{{
