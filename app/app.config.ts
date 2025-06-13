@@ -1,5 +1,5 @@
 export default defineAppConfig({
-  appVersion: '0.2.7',
+  appVersion: '0.2.8',
   socials: [
     {
       id: 'wa',
