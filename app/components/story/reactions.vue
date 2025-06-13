@@ -119,9 +119,9 @@ provide(onSuccessLogin, () => {
 
     <LazySharedLoginModal v-model:open="openLoginModal" />
     <LazySharedShareStoryModal
+      v-if="story?.id"
       v-model:open="openShareModal"
-      :title="story.title"
-      :author="story.author.display_name"
+      :story="story"
     />
   </div>
 </template>

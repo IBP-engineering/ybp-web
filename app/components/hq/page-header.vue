@@ -20,7 +20,7 @@ defineEmits<{
 
 const openNavModal = ref(false)
 
-//! duplicate with dashboard layout
+//TODO: duplicate with dashboard layout
 const items = [
   {
     label: 'Close',
@@ -41,9 +41,11 @@ const items = [
   },
 ]
 
-const currentUser = useNuxtData('current-user')
+const { data: user } = await useFetch('/api/session/current-user', {
+  key: 'current-user',
+})
 
-if (currentUser.data.value.roles.id === USER_ROLE.admin) {
+if (user.value.roles.id === USER_ROLE.admin) {
   // only user with role admin
   items.push({
     label: 'Users',

@@ -2,7 +2,7 @@
 import { formatDistanceToNowStrict } from 'date-fns'
 import id from 'date-fns/locale/id'
 import * as v from 'valibot'
-import type { CommentWithAuthorReplies, Story, User } from '~/types/entities'
+import type { CommentWithAuthorReplies, Story } from '~/types/entities'
 
 const props = defineProps<{
   comment: CommentWithAuthorReplies
@@ -13,11 +13,16 @@ const commentText = ref('')
 const openChild = ref(false)
 const loadingPostComment = ref(false)
 const route = useRoute()
+const router = useRouter()
 const toast = useToast()
 const supabase = useSupabaseClient()
+const channel = supabase.channel('notifications')
+const commentContainer = useTemplateRef('comment-container')
 const slug = route.params.slug
 const story = useNuxtData<Story>(`story/${slug}`)
-const user = useNuxtData<User>('current-user')
+const { data: user } = await useFetch('/api/session/current-user', {
+  key: 'current-user',
+})
 
 const author = props.comment.author
 const isMainThread = props.comment.thread === null
@@ -30,7 +35,7 @@ const isOriginalPoster = computed(() => {
 })
 
 const isLoggedIn = computed(() => {
-  return Boolean(user.data.value)
+  return Boolean(user.value?.username)
 })
 
 const isUserAlreadyReact = computed(() => {
@@ -42,7 +47,7 @@ const isUserAlreadyReact = computed(() => {
 
 const postComment = async () => {
   try {
-    if (!user.data.value) {
+    if (!user.value.username) {
       toast.add({
         title: 'Pufft',
         description:
@@ -77,15 +82,52 @@ const postComment = async () => {
 
     loadingPostComment.value = true
 
-    await supabase.from('story_comments').insert({
-      comment_text: commentText.value,
-      thread: props.comment.id,
-      user: user.data.value.id,
-      story: story.data.value.id,
+    const { data } = await supabase
+      .from('story_comments')
+      .insert({
+        comment_text: commentText.value,
+        thread: props.comment.id,
+        user: user.value.id,
+        story: story.data.value.id,
+      })
+      .select('id, thread')
+      .single()
+
+    $fetch('/api/notifications/stories', {
+      method: 'post',
+      body: {
+        type: 'reply_comment',
+        contextData: {
+          content: commentText.value,
+          story: story.data.value.id,
+          parentComment: props.comment.thread ?? props.comment.id,
+          childrenComment: data.id,
+        },
+        relatedType: 'comment',
+        relatedId: story.data.value.id,
+        recipientId: props.comment.user,
+        senderId: user.value.id,
+      },
+    })
+
+    channel.send({
+      type: 'broadcast',
+      event: `notifications-${props.comment.user}`,
+      payload: { sender: user.value.display_name },
     })
 
     commentText.value = ''
     await refreshNuxtData(`story/${slug}/comments`)
+
+    router.replace({
+      query: {
+        pc: data.thread,
+        cc: data.id,
+      },
+    })
+
+    await nextTick()
+    resetScrollPosition(data.thread)
   } catch (error) {
     toast.add({
       title: 'Upss',
@@ -101,7 +143,7 @@ const postComment = async () => {
 
 const giveReaction = async () => {
   try {
-    if (!user.data.value) {
+    if (!user.value) {
       // TODO: give proper behavior. maybe encourage to login?
       toast.add({
         title: 'Waduhh',
@@ -113,17 +155,51 @@ const giveReaction = async () => {
     }
 
     if (isUserAlreadyReact.value) {
-      await supabase
-        .from('comment_reactions')
-        .delete()
-        .eq('comment', props.comment.id)
-        .eq('user', user.data.value.id)
+      await Promise.all([
+        supabase
+          .from('comment_reactions')
+          .delete()
+          .eq('comment', props.comment.id)
+          .eq('user', user.value.id),
+        supabase
+          .from('notifications')
+          .delete()
+          .eq('sender_id', user.value.id)
+          .eq('recipient_id', props.comment.user)
+          .eq('related_entity_id', props.comment.id)
+          .eq('type', 'like_on_comment'),
+      ])
     } else {
       await supabase.from('comment_reactions').insert({
         comment: props.comment.id,
-        user: user.data.value.id,
+        user: user.value.id,
+      })
+
+      $fetch('/api/notifications/stories', {
+        method: 'post',
+        body: {
+          senderId: user.value.id,
+          recipientId: props.comment.user,
+          contextData: {
+            content: props.comment.comment_text,
+            story: story.data.value.id,
+            parentComment: props.comment.thread ?? props.comment.id,
+            childrenComment: props.comment.id,
+          },
+          relatedId: story.data.value.id,
+          relatedType: 'comment',
+          type: 'like_on_comment',
+        },
+      })
+
+      channel.send({
+        type: 'broadcast',
+        event: `notifications-${props.comment.user}`,
+        payload: { sender: user.value.display_name },
       })
     }
+
+    router.replace({ query: {} })
     await refreshNuxtData(`story/${slug}/comments`)
   } catch (error) {
     toast.add({
@@ -135,11 +211,35 @@ const giveReaction = async () => {
     throw createError(error)
   }
 }
+
+const resetScrollPosition = (to?: string) => {
+  const parentCommentId = to ?? route.query.pc
+
+  // condition when user try to access commment box
+  if (parentCommentId === props.comment.id) {
+    if (!commentContainer.value) return
+
+    openChild.value = true
+    commentContainer.value.scrollIntoView({ behavior: 'smooth' })
+  }
+}
+
+onMounted(async () => {
+  await nextTick()
+  resetScrollPosition()
+})
 </script>
 
 <template>
-  <div class="relative min-h-full flex flex-col">
-    <div class="flex gap-2 -ml-1">
+  <div
+    class="relative min-h-full flex flex-col rounded"
+    :class="{
+      'bg-blue-50 py-1': route.query.cc
+        ? comment.id === route.query.cc
+        : comment.id === route.query.pc,
+    }"
+  >
+    <div ref="comment-container" class="flex scroll-m-24 gap-2 -ml-1">
       <SharedUserPicture
         class="border-4 border-white w-10 h-10"
         :seed="author.username"
@@ -174,7 +274,7 @@ const giveReaction = async () => {
         </div>
         <time
           :datetime="new Date(comment.created_at).toISOString()"
-          :title="new Date(comment.created_at).toISOString()"
+          :title="new Date(comment.created_at).toLocaleString()"
           >{{
             formatDistanceToNowStrict(new Date(comment.created_at), {
               locale: id,
@@ -190,7 +290,7 @@ const giveReaction = async () => {
     </p>
 
     <div class="mt-2 pl-11 flex gap-2">
-      <UTooltip text="Sukai komentar">
+      <UTooltip text="Suka komentar">
         <UButton
           :color="isUserAlreadyReact ? 'error' : 'neutral'"
           :variant="isUserAlreadyReact ? 'soft' : 'ghost'"
@@ -215,15 +315,15 @@ const giveReaction = async () => {
         </UButton>
       </UTooltip>
 
-      <UTooltip text="Opsi">
-        <UButton
-          v-if="isMainThread"
-          color="neutral"
-          variant="ghost"
-          icon="lucide:ellipsis-vertical"
-          disabled
-        />
-      </UTooltip>
+      <!-- <UTooltip text="Opsi"> -->
+      <!--   <UButton -->
+      <!--     v-if="isMainThread" -->
+      <!--     color="neutral" -->
+      <!--     variant="ghost" -->
+      <!--     icon="lucide:ellipsis-vertical" -->
+      <!--     disabled -->
+      <!--   /> -->
+      <!-- </UTooltip> -->
     </div>
 
     <span
@@ -281,7 +381,7 @@ const giveReaction = async () => {
         :rows="1"
         :maxrows="6"
         :avatar="{
-          src: `${avatarBaseUrl}?seed=${user.data.value.username}`,
+          src: `${avatarBaseUrl}?seed=${user?.username}`,
         }"
         :loading="loadingPostComment"
         @keydown.meta.enter="postComment"

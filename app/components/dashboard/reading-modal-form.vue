@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import type { Form, RadioGroupItem } from '@nuxt/ui'
 import * as v from 'valibot'
-import type { User } from '~/types/entities'
 
 const openRecordModal = defineModel('open', { type: Boolean })
 const providedId = defineModel('id', { type: String })
@@ -21,7 +20,9 @@ type Schema = v.InferOutput<typeof schema>
 
 const supabase = useSupabaseClient()
 const toast = useToast()
-const { data: currentUser } = useNuxtData<User>('current-user')
+const { data: user } = await useFetch('/api/session/current-user', {
+  key: 'current-user',
+})
 const { data: existingHabit, status } = await useLazyAsyncData(
   `habits/${providedId.value}`,
   async () => {
@@ -57,6 +58,7 @@ const { data: genres } = await useLazyAsyncData('genres', async () => {
   return data.map(gen => ({ value: gen.id, label: gen.label }))
 })
 
+const isLoadingSubmit = ref<boolean>(false)
 const form = ref<Form<Schema>>()
 const openConfirmation = ref(false)
 const state = reactive<Schema>({
@@ -75,6 +77,7 @@ async function sendNewHabit() {
   form.value.clear()
 
   try {
+    isLoadingSubmit.value = true
     const res = await $fetch<{ data: unknown; error?: string }>(
       '/api/reading-habits',
       {
@@ -113,12 +116,16 @@ async function sendNewHabit() {
       icon: 'i-heroicons-x-mark-solid',
     })
     console.error(error)
+  } finally {
+    isLoadingSubmit.value = false
   }
 }
 
 const updateHabit = async () => {
   openConfirmation.value = false
   form.value.clear()
+  isLoadingSubmit.value = true
+
   try {
     await $fetch('/api/reading-habits', {
       method: 'PUT',
@@ -145,6 +152,8 @@ const updateHabit = async () => {
       icon: 'i-heroicons-x-mark-solid',
     })
     console.error(error)
+  } finally {
+    isLoadingSubmit.value = false
   }
 }
 
@@ -174,7 +183,7 @@ const genreItems: RadioGroupItem[] = computed(() => {
 })
 
 const refreshData = async () => {
-  await refreshNuxtData(`habits/user/${currentUser.value.id}`)
+  await refreshNuxtData(`habits/user/${user.value.id}`)
 }
 
 watch([providedId, existingHabit], () => {
@@ -260,7 +269,10 @@ watch([providedId, existingHabit], () => {
             @click="openRecordModal = false"
             >Batal</UButton
           >
-          <UButton type="submit" :loading="status === 'pending'"
+          <UButton
+            type="submit"
+            :disabed="status === 'pending'"
+            :loading="isLoadingSubmit"
             >Simpan</UButton
           >
         </div>

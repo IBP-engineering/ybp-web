@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import type { Database } from '~/types/database.types'
-import type { StoryStatus } from '~/types/entities'
+import type { Story, StoryStatus, User } from '~/types/entities'
 
 const props = defineProps<{
-  storyId: string
+  story: Story
   status: StoryStatus
 }>()
 
@@ -28,15 +28,16 @@ const selected = ref<StoryStatus>(props.status)
 const reason = ref('')
 const isLoading = ref(false)
 const supabase = useSupabaseClient<Database>()
-const user = useSupabaseUser()
+const channel = supabase.channel('notifications')
+const user = useNuxtData<User>('current-user')
 const toast = useToast()
 const { data: storyHistories } = await useAsyncData(
-  `hq/stories/${props.storyId}/history`,
+  `hq/stories/${props.story.id}/history`,
   async () => {
     const { data, error } = await supabase
       .from('story_status_histories')
       .select('*, updated_by(display_name)')
-      .eq('story_id', props.storyId)
+      .eq('story_id', props.story.id)
       .order('created_at', { ascending: false })
 
     if (error) {
@@ -55,18 +56,18 @@ const { data: storyHistories } = await useAsyncData(
 
 const saveStatus = async () => {
   isLoading.value = true
-  console.log(selected.value, props.storyId)
+  console.log(selected.value, props.story.id)
 
   try {
     await supabase
       .from('stories')
       .update({ status: selected.value })
-      .eq('id', props.storyId)
+      .eq('id', props.story.id)
     await supabase.from('story_status_histories').insert({
-      story_id: props.storyId,
+      story_id: props.story.id,
       reason: reason.value,
       status: selected.value,
-      updated_by: user.value.id,
+      updated_by: user.data.value.id,
     })
     isLoading.value = false
     isOpen.value = false
@@ -75,6 +76,23 @@ const saveStatus = async () => {
       title: 'Berhasil',
       description: 'Status Cerita berhasil diubah',
       color: 'success',
+    })
+
+    $fetch('/api/notifications/stories', {
+      method: 'post',
+      body: {
+        senderId: user.data.value.id,
+        recipientId: props.story.user_id,
+        contextData: { status: selected.value },
+        relatedId: props.story.id,
+        relatedType: 'story',
+        type: 'update_story_status',
+      },
+    })
+    channel.send({
+      type: 'broadcast',
+      event: `notifications-${props.story.user_id}`,
+      payload: { sender: user.data.value.display_name },
     })
   } catch (error) {
     console.error(error)
