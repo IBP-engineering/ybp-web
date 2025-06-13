@@ -2,6 +2,17 @@
 
 A peek into the exciting evolution of the Yogyakarta Book Party web app!
 
+## Version 0.2.8 - Squashing Bugs & Polishing Your Story Experience! 🐛✨
+
+We've been hard at work, not just on new features, but also on refining your overall experience with the Yogyakarta Book Party web app. This release tackles a couple of pesky bugs to ensure a smoother and more reliable journey, especially on mobile!
+
+**🐞 Bug Fixes & Improvements! 🛠️**
+
+- **Smooth Logouts from Story Pages!** 🚪 We've fixed an issue where some users experienced unexpected behavior when logging out directly from a story page. Now, your logout process will be seamless and reliable, no matter where you are in the app.
+- **Tidy Story Cards on Mobile!** 📱 For our mobile readers, we've addressed an **overflow issue in story cards**. This means you'll now see perfectly formatted story previews without any elements spilling out, ensuring a clean and enjoyable Browse experience on smaller screens.
+
+These fixes are part of our ongoing commitment to providing you with a stable and delightful platform. Happy reading!
+
 ## Version 0.2.7 - Sort Your Story Comments, Your Way! ⬇️⬆️⭐
 
 We're excited to bring you more control over how you engage with our community! This release introduces powerful new sorting options for comments on stories, making it easier to find the discussions that matter most to you.
