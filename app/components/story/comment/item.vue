@@ -39,7 +39,10 @@ const isLoggedIn = computed(() => {
 })
 
 const isUserAlreadyReact = computed(() => {
-  return props.comment.reactions.some(react => react.user === user?.value?.id)
+  if (!user.data.value) return false
+  return props.comment.reactions.some(
+    react => react.user === user.data.value.id,
+  )
 })
 
 const postComment = async () => {
@@ -292,6 +295,7 @@ onMounted(async () => {
           :color="isUserAlreadyReact ? 'error' : 'neutral'"
           :variant="isUserAlreadyReact ? 'soft' : 'ghost'"
           :icon="isUserAlreadyReact ? 'ph:heart-fill' : 'ph:heart'"
+          :disabled="!isLoggedIn"
           @click="giveReaction"
         >
           {{ comment.reactions?.length || null }}

@@ -39,7 +39,7 @@ defineProps<{
       >
         {{ story.title }}
       </NuxtLink>
-      <div v-if="story.tags.length > 0" class="mt-2 space-x-1">
+      <div v-if="story.tags.length > 0" class="mt-2 flex flex-wrap gap-1">
         <StoryTag v-for="tag in story.tags" :key="tag.slug" :tag="tag.slug" />
       </div>
     </div>
