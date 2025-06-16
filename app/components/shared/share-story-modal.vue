@@ -1,19 +1,24 @@
 <script setup lang="ts">
 import { useQRCode } from '@vueuse/integrations/useQRCode'
+import type { Story, User } from '~/types/entities'
 
 const props = defineProps<{
-  title: string
-  author: string
+  story: Partial<Story> & {
+    author: Partial<User>
+  }
 }>()
 const isOpen = defineModel<boolean>('open')
 
-const url = useRequestURL()
 const { copy, copied } = useClipboard()
-const qrCode = useQRCode(url.href)
+const url = useRequestURL()
+const storyUrl = computed(() => {
+  return `${url.origin}/${props.story.author.username}/${props.story.slug}`
+})
+const qrCode = useQRCode(storyUrl.value)
 const { share, isSupported } = useShare({
-  url: url.href,
-  title: props.title,
-  text: url.href,
+  url: storyUrl.value,
+  title: props.story.title,
+  text: storyUrl.value,
 })
 </script>
 
@@ -27,21 +32,21 @@ const { share, isSupported } = useShare({
       >
         <div class="w-full p-4">
           <div class="text-center">
-            <b class="block text-2xl">{{ title }}</b>
+            <b class="block text-2xl">{{ story.title }}</b>
             <p>
               oleh
               <span class="border-primary-400 text-primary-900 border-b-4">
-                {{ author }}
+                {{ story.author.display_name }}
               </span>
             </p>
           </div>
           <img :src="qrCode" class="mx-auto h-64 w-64" />
           <div class="group relative w-full">
-            <p
+            <small
               class="mb-2 block w-full border bg-slate-100 p-1 text-center font-mono break-words transition group-hover:text-neutral-500"
             >
-              {{ url.href }}
-            </p>
+              {{ storyUrl }}
+            </small>
             <UButton
               :trailing-icon="
                 copied
@@ -51,7 +56,7 @@ const { share, isSupported } = useShare({
               color="neutral"
               size="sm"
               class="absolute top-1 right-1 hidden group-hover:flex"
-              @click="() => copy(url.href)"
+              @click="() => copy(storyUrl)"
             >
               <span v-if="copied"> Tersalin! </span>
             </UButton>

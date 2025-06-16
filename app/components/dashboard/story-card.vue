@@ -5,7 +5,7 @@ import id from 'date-fns/locale/id'
 import type { Story, User } from '~/types/entities'
 
 const props = defineProps<{
-  story: Story
+  story: Story & { author: Pick<User, 'username'> }
 }>()
 
 const emit = defineEmits<{
@@ -13,9 +13,9 @@ const emit = defineEmits<{
   status: [id: string]
 }>()
 
-const { data: user } = useNuxtData<User>('current-user')
-
-const storyUrl = `/${user.value.username}/${props.story.slug}`
+const storyUrl = computed(() => {
+  return `/${props.story.author.username}/${props.story.slug}`
+})
 
 const storyOptions = [
   [
@@ -29,7 +29,7 @@ const storyOptions = [
     {
       label: 'Ubah',
       icon: 'i-heroicons:pencil-square',
-      onSelect: () => navigateTo(storyUrl.concat('/edit')),
+      onSelect: () => navigateTo(storyUrl.value.concat('/edit')),
     },
     {
       label: 'Arsipkan',

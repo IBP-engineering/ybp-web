@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { id } from '@nuxt/ui/locale'
+
 useHead({
   script: [
     {
@@ -12,13 +14,13 @@ useHead({
 </script>
 
 <template>
-  <NuxtLayout>
-    <NuxtLoadingIndicator />
-    <NuxtRouteAnnouncer />
-    <UApp>
+  <UApp :locale="id" :toaster="{ position: 'top-right', expand: false }">
+    <NuxtLayout>
+      <NuxtLoadingIndicator />
+      <NuxtRouteAnnouncer />
       <NuxtPage />
-    </UApp>
-  </NuxtLayout>
+    </NuxtLayout>
+  </UApp>
 </template>
 
 <style>
