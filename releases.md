@@ -2,6 +2,32 @@
 
 A peek into the exciting evolution of the Yogyakarta Book Party web app!
 
+## Version 0.3.0 - Introducing In-App Notifications & More! 🎉🔔
+
+We're thrilled to unveil a major enhancement to your experience on the Yogyakarta Book Party web app! Version 0.3.0 marks a significant step forward, bringing you real-time updates and continued improvements.
+
+**✨ What's New: Stay Connected with In-App Notifications! ✨**
+
+No more missing out on important activities! We're rolling out our brand new **in-app notification system**, designed to keep you informed about what matters most, right within the app.
+
+- **Story Updates:** Get notified when there are new comments on your stories or when someone reacts to your contributions!
+- **Reactions & Engagements:** See who's reacting to your comments or stories with a quick glance.
+- **And More to Come!** This is just the beginning for our notification system. We're laying the groundwork for even more ways to keep you connected and engaged with the community.
+
+**🚀 Improvements & Refinements 🛠️**
+
+We're always striving to make your experience smoother and more delightful. This release also includes:
+
+- **Under the Hood Optimizations:** We've continued to refine our codebase for better performance and stability, setting the stage for future exciting features.
+
+**🐞 Bug Fixes 🩹**
+
+We've also addressed a few lingering issues to ensure a more polished experience:
+
+- Minor bug fixes to improve overall application reliability.
+
+We're incredibly excited about these new additions and the enhanced connection they'll bring to the Yogyakarta Book Party community. Keep an eye out for more notification types and features coming soon! Happy reading and interacting!
+
 ## Version 0.2.8 - Squashing Bugs & Polishing Your Story Experience! 🐛✨
 
 We've been hard at work, not just on new features, but also on refining your overall experience with the Yogyakarta Book Party web app. This release tackles a couple of pesky bugs to ensure a smoother and more reliable journey, especially on mobile!
