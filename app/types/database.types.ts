@@ -1,4 +1,10 @@
-export type Json = Record<string, any>
+export type Json =
+  | string
+  | number
+  | boolean
+  | null
+  | { [key: string]: Json | undefined }
+  | Json[]
 
 export type Database = {
   public: {
@@ -482,6 +488,7 @@ export type Database = {
           is_active: boolean
           location: string | null
           password: string | null
+          profile_path: string | null
           role_id: number | null
           updated_at: string
           username: string
@@ -495,6 +502,7 @@ export type Database = {
           is_active?: boolean
           location?: string | null
           password?: string | null
+          profile_path?: string | null
           role_id?: number | null
           updated_at?: string
           username: string
@@ -508,6 +516,7 @@ export type Database = {
           is_active?: boolean
           location?: string | null
           password?: string | null
+          profile_path?: string | null
           role_id?: number | null
           updated_at?: string
           username?: string

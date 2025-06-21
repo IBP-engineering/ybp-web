@@ -21,6 +21,15 @@ const { data: userData } = await useFetch('/api/session/current-user', {
   key: 'current-user',
 })
 
+const defaultAvatar = `${avatarBaseUrl}?seed=${userData?.value.username}`
+const avatarUrl = computed(() => {
+  return userData?.value.profile_path
+    ? supabase.storage
+        .from('profile')
+        .getPublicUrl(userData?.value.profile_path).data.publicUrl
+    : defaultAvatar
+})
+
 const navItems = [
   {
     label: 'Stories',
@@ -172,10 +181,7 @@ onUnmounted(() => {
             <span class="hidden md:block">
               {{ userData?.display_name }}
             </span>
-            <UAvatar
-              :src="`${avatarBaseUrl}?seed=${userData?.username}`"
-              alt="Avatar"
-            />
+            <UAvatar :src="avatarUrl" alt="Avatar" />
           </UButton>
         </UChip>
 
