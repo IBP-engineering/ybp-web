@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { Form, FormSubmitEvent } from '@nuxt/ui'
 import * as v from 'valibot'
+import VuePictureCropper, { cropper } from 'vue-picture-cropper'
 import type { Database } from '~/types/database.types'
 
 const schema = v.object({
@@ -31,6 +32,13 @@ const state = reactive<Schema>({
 })
 const isLoading = ref(false)
 const form = ref<Form<Schema>>()
+const uploadInput = useTemplateRef('uploadInput')
+const pic = ref<string>('')
+const showModalCrop = ref(false)
+const result = reactive({
+  dataURL: null,
+  blobURL: null,
+})
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
   const data = event.data
@@ -63,6 +71,54 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     isLoading.value = false
   }
 }
+
+/**
+ * Select the picture to be cropped
+ */
+function selectFile(e: Event) {
+  // Reset last selection and results
+  pic.value = ''
+  result.dataURL = ''
+  result.blobURL = ''
+
+  // Get selected files
+  const { files } = e.target as HTMLInputElement
+  if (!files || !files.length) return
+
+  // Convert to dataURL and pass to the cropper component
+  const file = files[0]
+  const reader = new FileReader()
+  reader.readAsDataURL(file)
+  reader.onload = () => {
+    // Update the picture source of the `img` prop
+    pic.value = String(reader.result)
+
+    // Show the modal
+    showModalCrop.value = true
+
+    // Clear selected files of input element
+    if (!uploadInput.value) return
+    uploadInput.value.inputRef.value = file.name
+  }
+}
+
+/**
+ * Get cropping results
+ */
+async function getResult() {
+  if (!cropper) return
+  const base64 = cropper.getDataURL()
+  const blob: Blob | null = await cropper.getBlob()
+  if (!blob) return
+
+  // const file = await cropper.getFile({
+  //   fileName: new Date().getTime().toString(),
+  // })
+
+  result.dataURL = base64
+  result.blobURL = URL.createObjectURL(blob)
+  showModalCrop.value = false
+}
 </script>
 
 <template>
@@ -72,16 +128,47 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     >
       <UIcon name="i-lucide-user" /> Profile
     </h2>
-    <div class="mb-4">
+    <div class="flex flex-col mb-4">
       <UAvatar
-        :src="`${avatarBaseUrl}?seed=${userProfile.username}`"
+        :src="result.blobURL ?? `${avatarBaseUrl}?seed=${userProfile.username}`"
         alt="Avatar"
         size="3xl"
       />
-      <small class="block text-neutral-600"
-        >*akan berubah mengikuti username</small
-      >
+      <UInput
+        ref="uploadInput"
+        class="mt-2"
+        accept="image/jpg, image/jpeg, image/png, image/gif"
+        type="file"
+        @change="selectFile"
+      />
     </div>
+
+    <UModal v-model:open="showModalCrop" class="max-w-2xl" title="Crop">
+      <template #body>
+        <VuePictureCropper
+          :img="pic"
+          :box-style="{
+            width: '100%',
+            height: '100%',
+            backgroundColor: '#f8f8f8',
+            margin: 'auto',
+          }"
+          :options="{
+            viewMode: 1,
+            dragMore: 'crop',
+            aspectRatio: 1,
+            cropBoxResizable: false,
+          }"
+          :preset-mode="{ mode: 'fixedSize' }"
+        />
+      </template>
+
+      <template #footer>
+        <div class="flex justify-end w-full">
+          <UButton @click="getResult">Crop</UButton>
+        </div>
+      </template>
+    </UModal>
 
     <UForm
       ref="form"
