@@ -199,6 +199,7 @@ async function updateProfile(event: FormSubmitEvent<Schema>) {
               >Tidak aktif</UBadge
             >
           </div>
+          <SharedUserPicture :data="user" size="xl" />
           <h1 class="text-xl font-bold md:mb-1 md:text-4xl">
             {{ user.display_name }}
           </h1>
@@ -242,9 +243,8 @@ async function updateProfile(event: FormSubmitEvent<Schema>) {
         </div>
 
         <div class="flex flex-col items-center gap-2">
-          <SharedUserPicture :data="user" />
           <UButton
-            v-if="user.roles.name === 'admin'"
+            v-if="user.roles.name !== 'admin'"
             class="hidden md:inline-flex"
             variant="outline"
             color="neutral"

@@ -17,18 +17,6 @@ const { data: user } = await useFetch('/api/session/current-user', {
   key: 'current-user',
 })
 
-const profilePicture = computed(() => {
-  const defaultPicture = `${avatarBaseUrl}?seed=${user?.value.username}`
-
-  if (user.value.profile_path) {
-    return supabase.storage
-      .from('profile')
-      .getPublicUrl(user.value.profile_path).data.publicUrl
-  }
-
-  return defaultPicture
-})
-
 async function logout() {
   const { error } = await supabase.auth.signOut()
 
@@ -110,7 +98,7 @@ const items: DropdownMenuItem[][] = [
                 <span class="hidden md:block">
                   Welcome, {{ user?.display_name }}
                 </span>
-                <UAvatar :src="profilePicture" alt="Avatar" />
+                <SharedUserPicture :data="user" />
               </UButton>
             </UDropdownMenu>
           </div>

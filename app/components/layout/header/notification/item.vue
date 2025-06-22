@@ -71,16 +71,6 @@ const message = computed(() => {
   }
 })
 
-const profilePic = computed(() => {
-  if (props.notification.sender.profile_path) {
-    return supabase.storage
-      .from('profile')
-      .getPublicUrl(props.notification.sender.profile_path).data.publicUrl
-  }
-
-  return `${avatarBaseUrl}?seed=${props.notification.sender.username}`
-})
-
 const onClickUrl = async () => {
   await supabase
     .from('notifications')
@@ -104,11 +94,7 @@ const onClickUrl = async () => {
     :class="{ 'bg-primary-100 hover:bg-primary-200': !notification.read_at }"
   >
     <div class="grid items-start grid-cols-[50px_minmax(0,1fr)] py-3 border-b">
-      <UAvatar
-        :alt="notification.sender.display_name"
-        :src="profilePic"
-        size="xl"
-      />
+      <SharedUserPicture :data="notification.sender" size="xl" />
       <div>
         <div>
           <NuxtLink

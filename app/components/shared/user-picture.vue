@@ -19,13 +19,11 @@ const pictureUrl = computed(() => {
 </script>
 
 <template>
-  <img
-    :src="pictureUrl"
-    alt="Profile picture"
-    class="rounded-full border-2 border-neutral-300 bg-neutral-50"
-    width="110"
-    height="110"
-    loading="lazy"
-    decoding="async"
-  />
+  <UTooltip :text="data.username">
+    <UAvatar
+      :src="pictureUrl"
+      :alt="data.username"
+      class="rounded-full border-2 border-neutral-300 bg-neutral-50"
+    />
+  </UTooltip>
 </template>

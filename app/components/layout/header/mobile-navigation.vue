@@ -4,7 +4,6 @@ import type {
   RouteLocationAsPathGeneric,
   RouteLocationAsRelativeGeneric,
 } from 'vue-router'
-import type { Database } from '~/types/database.types'
 
 defineProps<{
   navItems: { label: string; to: string }[]
@@ -16,19 +15,8 @@ defineEmits<{
 }>()
 
 const openNavModal = ref(false)
-const supabase = useSupabaseClient<Database>()
 const { data: user } = await useFetch('/api/session/current-user', {
   key: 'current-user',
-})
-
-const profilePicture = computed(() => {
-  if (user.value?.profile_path) {
-    return supabase.storage
-      .from('profile')
-      .getPublicUrl(user.value.profile_path).data.publicUrl
-  }
-
-  return `${avatarBaseUrl}?seed=${user?.value.username}`
 })
 
 function closeAfterNavigate(
@@ -71,7 +59,7 @@ function closeAfterNavigate(
               Halo! <b>{{ user?.display_name }}</b>
             </p>
 
-            <UAvatar :src="profilePicture" size="xs" alt="Avatar" />
+            <SharedUserPicture :data="user" :width="35" />
           </div>
           <div class="mt-4 flex flex-col">
             <ul class="space-y-4">

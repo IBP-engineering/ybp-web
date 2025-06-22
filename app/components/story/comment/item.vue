@@ -351,11 +351,10 @@ onMounted(async () => {
 
     <div v-if="!openChild && commentCount > 0" class="mt-4 flex items-center">
       <UAvatarGroup :max="2" size="3xs">
-        <UAvatar
+        <SharedUserPicture
           v-for="comReply in comment.replies"
           :key="comReply.id"
-          :src="getProfilePicture(comReply.author)"
-          :alt="comReply.author.display_name"
+          :data="comReply.author"
         />
       </UAvatarGroup>
 
