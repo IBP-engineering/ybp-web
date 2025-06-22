@@ -40,10 +40,14 @@ const uploadedImgBlob = ref()
 
 const profileUrl = computed(() => {
   const defaultAvatar = `${avatarBaseUrl}?seed=${userProfile.value.username}`
-  const fromStorage = supabase.storage
-    .from('profile')
-    .getPublicUrl(userProfile.value?.profile_path).data.publicUrl
-  return fromStorage ?? defaultAvatar
+
+  if (userProfile.value.profile_path) {
+    return supabase.storage
+      .from('profile')
+      .getPublicUrl(userProfile.value?.profile_path).data.publicUrl
+  }
+
+  return defaultAvatar
 })
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
