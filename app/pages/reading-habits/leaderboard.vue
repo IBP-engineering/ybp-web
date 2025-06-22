@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { TableColumn } from '@nuxt/ui'
 import { format, sub } from 'date-fns'
+import type { Database } from '~/types/database.types'
 
 defineOgImageComponent('default')
 useSeoMeta({
@@ -39,6 +40,7 @@ const breadcrumbs = [
 
 const router = useRouter()
 const route = useRoute()
+const supabase = useSupabaseClient<Database>()
 const defaultSelectedDate = {
   start: sub(new Date(), { days: 7 }),
   end: new Date(),
@@ -51,6 +53,17 @@ const selected = ref({
     ? new Date(route.query?.endDate as string)
     : defaultSelectedDate.end,
 })
+
+const getProfilePicture = (user: { username: string; profilePath: string }) => {
+  const defaultPicture = `${avatarBaseUrl}?seed=${user.username}`
+
+  if (user.profilePath) {
+    return supabase.storage.from('profile').getPublicUrl(user.profilePath ?? '')
+      .data.publicUrl
+  }
+
+  return defaultPicture
+}
 
 watch(selected, () => {
   if (selected.value) {
@@ -142,7 +155,7 @@ const compoundWinner = computed(() => {
         :class="{ 'col-span-2': key === 0 }"
       >
         <img
-          :src="`${avatarBaseUrl}?seed=${win.username}`"
+          :src="getProfilePicture(win)"
           alt="profile"
           width="100"
           height="100"

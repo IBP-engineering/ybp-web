@@ -5,7 +5,7 @@ import type { Notification, User } from '~/types/entities'
 
 const props = defineProps<{
   notification: Notification & {
-    sender: Pick<User, 'username' | 'display_name'>
+    sender: Pick<User, 'username' | 'display_name' | 'profile_path'>
   }
 }>()
 
@@ -71,6 +71,16 @@ const message = computed(() => {
   }
 })
 
+const profilePic = computed(() => {
+  if (props.notification.sender.profile_path) {
+    return supabase.storage
+      .from('profile')
+      .getPublicUrl(props.notification.sender.profile_path).data.publicUrl
+  }
+
+  return `${avatarBaseUrl}?seed=${props.notification.sender.username}`
+})
+
 const onClickUrl = async () => {
   await supabase
     .from('notifications')
@@ -96,7 +106,7 @@ const onClickUrl = async () => {
     <div class="grid items-start grid-cols-[50px_minmax(0,1fr)] py-3 border-b">
       <UAvatar
         :alt="notification.sender.display_name"
-        :src="`${avatarBaseUrl}?seed=${notification.sender.username}`"
+        :src="profilePic"
         size="xl"
       />
       <div>

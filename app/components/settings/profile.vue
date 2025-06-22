@@ -36,14 +36,15 @@ const uploadInput = useTemplateRef('uploadInput')
 const pic = ref<string>('')
 const showModalCrop = ref(false)
 const profilePic = ref<File>(null)
-const defaultAvatar = `${avatarBaseUrl}?seed=${userProfile.value.username}`
+const uploadedImgBlob = ref()
+
 const profileUrl = computed(() => {
-  const supbasePublicUrl = supabase.storage
+  const defaultAvatar = `${avatarBaseUrl}?seed=${userProfile.value.username}`
+  const fromStorage = supabase.storage
     .from('profile')
     .getPublicUrl(userProfile.value?.profile_path).data.publicUrl
-  return supbasePublicUrl ?? defaultAvatar
+  return fromStorage ?? defaultAvatar
 })
-const uploadedImgBlob = ref()
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
   const data = event.data

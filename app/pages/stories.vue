@@ -23,7 +23,7 @@ const { data: stories, status } = await useAsyncData(
       .select(
         `*,
       tags:story_tags!id(tag:tag_id(slug)),
-      author:users(id, username, display_name)
+      author:users(id, username, display_name, profile_path)
       `,
         { count: 'exact' },
       )

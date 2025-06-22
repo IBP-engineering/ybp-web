@@ -22,7 +22,9 @@ const channel = supabase.channel('notifications')
 const notificationData = computed(() => {
   const groupedData: Record<
     string,
-    (Notification & { sender: Pick<User, 'username' | 'display_name'> })[]
+    (Notification & {
+      sender: Pick<User, 'username' | 'display_name' | 'profile_path'>
+    })[]
   > = {}
 
   for (const data of notification.value.data) {

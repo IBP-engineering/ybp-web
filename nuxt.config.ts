@@ -47,7 +47,6 @@ export default defineNuxtConfig({
     '@nuxtjs/seo',
     '@nuxt/image',
     'motion-v/nuxt',
-    'nuxt-modern-cropper',
   ],
   future: {
     compatibilityVersion: 4,

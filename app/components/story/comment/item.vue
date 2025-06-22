@@ -39,10 +39,8 @@ const isLoggedIn = computed(() => {
 })
 
 const isUserAlreadyReact = computed(() => {
-  if (!user.data.value) return false
-  return props.comment.reactions.some(
-    react => react.user === user.data.value.id,
-  )
+  if (!user.value) return false
+  return props.comment.reactions.some(react => react.user === user.value.id)
 })
 
 const postComment = async () => {
@@ -224,6 +222,20 @@ const resetScrollPosition = (to?: string) => {
   }
 }
 
+const getProfilePicture = (
+  data: Partial<{
+    username: string
+    profile_path: string
+  }>,
+) => {
+  if (data.profile_path) {
+    return supabase.storage.from('profile').getPublicUrl(data.profile_path).data
+      .publicUrl
+  }
+
+  return `${avatarBaseUrl}?seed=${data?.username}`
+}
+
 onMounted(async () => {
   await nextTick()
   resetScrollPosition()
@@ -242,7 +254,7 @@ onMounted(async () => {
     <div ref="comment-container" class="flex scroll-m-24 gap-2 -ml-1">
       <SharedUserPicture
         class="border-4 border-white w-10 h-10"
-        :seed="author.username"
+        :data="author"
       />
 
       <div class="flex gap-2 items-start">
@@ -342,7 +354,7 @@ onMounted(async () => {
         <UAvatar
           v-for="comReply in comment.replies"
           :key="comReply.id"
-          :src="`${avatarBaseUrl}?seed=${comReply.author.username}`"
+          :src="getProfilePicture(comReply.author)"
           :alt="comReply.author.display_name"
         />
       </UAvatarGroup>
@@ -381,7 +393,7 @@ onMounted(async () => {
         :rows="1"
         :maxrows="6"
         :avatar="{
-          src: `${avatarBaseUrl}?seed=${user?.username}`,
+          src: getProfilePicture(user),
         }"
         :loading="loadingPostComment"
         @keydown.meta.enter="postComment"

@@ -15,6 +15,7 @@ import { cleanDate } from '~~/server/utils/date'
 interface Data {
   username: string
   displayName: string
+  profilePath: string
   point: number
   streakDay: number
   totalDay: number
@@ -49,7 +50,7 @@ export default defineCachedEventHandler(
         id,
         page_count,
         created_at,
-        created_by(display_name,username,id),
+        created_by(display_name,username,id,profile_path),
         genre(multiple)`,
         )
         .gte('created_at', startDate)
@@ -88,6 +89,7 @@ export default defineCachedEventHandler(
           displayName: group[0].created_by.display_name,
           username: group[0].created_by.username,
           point: totalPoint,
+          profilePath: group[0].created_by.profile_path,
           streakDay: streakDay.maxStreak,
           streakDates: streakDay.userDates,
           totalDay: streakDay.totalDay,

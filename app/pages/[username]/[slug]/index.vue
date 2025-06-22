@@ -17,7 +17,7 @@ const { data: story } = await useAsyncData(`story/${slug}`, async () => {
     .select(
       `*,
       tags:story_tags!id(tag:tag_id(slug)),
-      author:users(id, bio, display_name, username, location, created_at),
+      author:users(id, bio, display_name, username, location, profile_path, created_at),
       reactions:story_reactions!id(*)
       `,
     )
@@ -50,7 +50,7 @@ const { data: comments } = await useAsyncData(
       .from('story_comments')
       .select(
         `*,
-      author:users(id, display_name, username, role_id),
+      author:users(id, display_name, username, profile_path, role_id),
       reactions:comment_reactions(id, user)
       `,
       )
@@ -164,11 +164,7 @@ useSeoMeta({
             </UAlert>
 
             <div class="my-4 flex items-center gap-4">
-              <SharedUserPicture
-                :seed="authorUsername"
-                width="35"
-                height="35"
-              />
+              <SharedUserPicture :data="story.author" width="35" height="35" />
               <div>
                 <ULink
                   :to="`/${authorUsername}`"

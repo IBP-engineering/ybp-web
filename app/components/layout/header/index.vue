@@ -21,12 +21,13 @@ const { data: userData } = await useFetch('/api/session/current-user', {
   key: 'current-user',
 })
 
-const defaultAvatar = `${avatarBaseUrl}?seed=${userData?.value.username}`
 const avatarUrl = computed(() => {
-  return userData?.value.profile_path
+  const defaultAvatar = `${avatarBaseUrl}?seed=${userData?.value?.username}`
+
+  return userData?.value?.profile_path
     ? supabase.storage
         .from('profile')
-        .getPublicUrl(userData?.value.profile_path).data.publicUrl
+        .getPublicUrl(userData?.value?.profile_path).data.publicUrl
     : defaultAvatar
 })
 

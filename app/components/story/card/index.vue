@@ -19,7 +19,7 @@ defineProps<{
       class="group flex items-center gap-x-2"
     >
       <div>
-        <SharedUserPicture :seed="author.username" width="35" height="35" />
+        <SharedUserPicture :data="author" width="35" height="35" />
       </div>
       <div>
         <span

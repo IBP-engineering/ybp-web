@@ -58,6 +58,16 @@ const sortedComments = computed(() => {
   }
 })
 
+const profilePicture = computed(() => {
+  if (user?.value?.profile_path) {
+    return supabase.storage
+      .from('profile')
+      .getPublicUrl(user.value.profile_path).data.publicUrl
+  }
+
+  return `${avatarBaseUrl}?seed=${user?.value?.username}`
+})
+
 const postComment = async () => {
   try {
     if (!user.value.username) {
@@ -184,7 +194,7 @@ provide(onSuccessLogin, () => {
         :rows="1"
         :maxrows="6"
         :avatar="{
-          src: `${avatarBaseUrl}?seed=${user?.username}`,
+          src: profilePicture,
           class: `${user.id ? 'block' : 'hidden'}`,
         }"
         :loading="loadingPostComment"

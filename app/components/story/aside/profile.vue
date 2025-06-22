@@ -17,7 +17,7 @@ defineProps<{
       class="group mb-4 flex items-center gap-4 rounded"
       title="To author page"
     >
-      <SharedUserPicture :seed="author.username" width="40" height="40" />
+      <SharedUserPicture :data="author" width="40" height="40" />
       <b class="group-hover:text-primary-600">{{ author.display_name }}</b>
     </NuxtLink>
 

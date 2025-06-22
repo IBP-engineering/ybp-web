@@ -94,7 +94,7 @@ const { data: stories, refresh: refreshStories } = await useAsyncData(
       .from('stories')
       .select(
         `*, 
-        author:users(id, username, display_name)
+        author:users(id, username, display_name, profile_path)
         `,
       )
       .eq('user_id', user.value.id)
@@ -242,7 +242,7 @@ async function updateProfile(event: FormSubmitEvent<Schema>) {
         </div>
 
         <div class="flex flex-col items-center gap-2">
-          <SharedUserPicture :seed="user.username" />
+          <SharedUserPicture :data="user" />
           <UButton
             v-if="user.roles.name === 'admin'"
             class="hidden md:inline-flex"
