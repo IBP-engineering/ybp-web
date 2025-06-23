@@ -172,10 +172,7 @@ onUnmounted(() => {
             <span class="hidden md:block">
               {{ userData?.display_name }}
             </span>
-            <UAvatar
-              :src="`${avatarBaseUrl}?seed=${userData?.username}`"
-              alt="Avatar"
-            />
+            <SharedUserPicture :data="userData" />
           </UButton>
         </UChip>
 

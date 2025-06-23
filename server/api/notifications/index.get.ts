@@ -13,7 +13,7 @@ export default defineEventHandler(
   ): Promise<{
     error: unknown
     data: (Notification & {
-      sender: Pick<User, 'display_name' | 'username'>
+      sender: Pick<User, 'display_name' | 'username' | 'profile_path'>
     })[]
     unreadCount: number
   }> => {
@@ -34,7 +34,9 @@ export default defineEventHandler(
       const supabase = await serverSupabaseClient<Database>(event)
       let queryNotification = supabase
         .from('notifications')
-        .select('*, sender:users!sender_id(display_name, username)')
+        .select(
+          '*, sender:users!sender_id(display_name, username, profile_path)',
+        )
         .eq('recipient_id', user.id)
 
       // Conditionally add the filter for unread notifications

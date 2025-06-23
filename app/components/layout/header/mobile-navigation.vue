@@ -59,11 +59,7 @@ function closeAfterNavigate(
               Halo! <b>{{ user?.display_name }}</b>
             </p>
 
-            <UAvatar
-              :src="`${avatarBaseUrl}?seed=${user?.username}`"
-              size="xs"
-              alt="Avatar"
-            />
+            <SharedUserPicture :data="user" :width="35" />
           </div>
           <div class="mt-4 flex flex-col">
             <ul class="space-y-4">

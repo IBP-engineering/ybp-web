@@ -5,7 +5,7 @@ import type { Notification, User } from '~/types/entities'
 
 const props = defineProps<{
   notification: Notification & {
-    sender: Pick<User, 'username' | 'display_name'>
+    sender: Pick<User, 'username' | 'display_name' | 'profile_path'>
   }
 }>()
 
@@ -94,11 +94,7 @@ const onClickUrl = async () => {
     :class="{ 'bg-primary-100 hover:bg-primary-200': !notification.read_at }"
   >
     <div class="grid items-start grid-cols-[50px_minmax(0,1fr)] py-3 border-b">
-      <UAvatar
-        :alt="notification.sender.display_name"
-        :src="`${avatarBaseUrl}?seed=${notification.sender.username}`"
-        size="xl"
-      />
+      <SharedUserPicture :data="notification.sender" size="xl" />
       <div>
         <div>
           <NuxtLink

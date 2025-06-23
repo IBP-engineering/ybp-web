@@ -58,7 +58,9 @@ const getCurrentUser = defineCachedFunction(
 
     const { error, data } = await supabase
       .from('users')
-      .select('username, id, display_name, created_at, roles(id, name)')
+      .select(
+        'username, id, display_name, profile_path, created_at, roles(id, name)',
+      )
       .eq('id', id)
       .eq('is_active', true)
       .single()

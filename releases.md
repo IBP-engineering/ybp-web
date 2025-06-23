@@ -2,6 +2,17 @@
 
 A peek into the exciting evolution of the Yogyakarta Book Party web app!
 
+## Version 0.3.1 - Personalize Your Presence! 🖼️
+
+We're continuing to empower you to make your Yogyakarta Book Party web app experience truly your own! This latest update adds a touch of personalization to your profile.
+
+**✨ What's New & Improved! ✨**
+
+- **Profile Pictures!** 📸 You can now **upload your own profile picture** to represent yourself within the community! Show off your unique style or a favorite image.
+  - **Default Avatar by Username:** If you prefer not to upload a picture, no worries! Your profile will automatically display a **neat default avatar based on your username**, ensuring you still have a distinct presence.
+
+This is a subtle yet significant step in making the platform feel more personalized and connected. We hope you enjoy adding your personal touch!
+
 ## Version 0.3.0 - Introducing In-App Notifications & More! 🎉🔔
 
 We're thrilled to unveil a major enhancement to your experience on the Yogyakarta Book Party web app! Version 0.3.0 marks a significant step forward, bringing you real-time updates and continued improvements.

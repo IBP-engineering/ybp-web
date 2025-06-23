@@ -98,10 +98,7 @@ const items: DropdownMenuItem[][] = [
                 <span class="hidden md:block">
                   Welcome, {{ user?.display_name }}
                 </span>
-                <UAvatar
-                  :src="`${avatarBaseUrl}?seed=${user?.username}`"
-                  alt="Avatar"
-                />
+                <SharedUserPicture :data="user" />
               </UButton>
             </UDropdownMenu>
           </div>
