@@ -18,7 +18,7 @@ export default defineNuxtConfig({
 
   image: {
     format: ['avif', 'webp'],
-    domains: ['api.dicebear.com'],
+    domains: ['api.dicebear.com', 'pbwnxbtrvstghwumkkrk.supabase.co'],
   },
   css: ['~/styles/tailwind.css'],
   routeRules: {
