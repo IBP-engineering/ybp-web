@@ -2,6 +2,16 @@
 
 A peek into the exciting evolution of the Yogyakarta Book Party web app!
 
+## Version 0.3.2 - Profile Picture Perfection! 📸✨
+
+We heard your feedback and made a quick adjustment to ensure your personalized presence truly shines! This minor update addresses a visual tweak related to profile pictures.
+
+**🐞 Bug Fixes & Improvements! 🛠️**
+
+- **Perfectly Sized Profile Pictures!** We've resolved an issue where your **profile picture on the profile page was appearing smaller than intended**. Now, your chosen image will display at a much better size, making your profile look even more polished and visually appealing.
+
+This small fix ensures that your effort to personalize your profile is properly reflected. Enjoy your beautifully displayed profile picture!
+
 ## Version 0.3.1 - Personalize Your Presence! 🖼️
 
 We're continuing to empower you to make your Yogyakarta Book Party web app experience truly your own! This latest update adds a touch of personalization to your profile.
