@@ -81,9 +81,10 @@ useSeoMeta({
     >
       <SharedUserPicture
         :data="user"
-        class="-mt-8 border-4 border-white"
-        width="80"
-        height="80"
+        class="-mt-8 border-4 border-white rounded-full"
+        :width="150"
+        :height="150"
+        :use-avatar="false"
       />
       <b class="mt-6 text-3xl">{{ user.display_name }}</b>
       <p class="mt-2 md:w-[75%]">
