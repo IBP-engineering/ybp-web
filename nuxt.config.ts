@@ -1,6 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  compatibilityDate: '2025-05-15',
+  compatibilityDate: '2025-07-23',
   devtools: { enabled: true },
 
   // workarounds from https://github.com/nuxt/nuxt/issues/32175#issuecomment-2898200099
@@ -48,9 +48,9 @@ export default defineNuxtConfig({
     '@nuxt/image',
     'motion-v/nuxt',
   ],
-  future: {
-    compatibilityVersion: 4,
-  },
+  // future: {
+  //   compatibilityVersion: 4,
+  // },
   experimental: {
     viewTransition: true,
     asyncEntry: true,

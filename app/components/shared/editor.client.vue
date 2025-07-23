@@ -1,13 +1,32 @@
 <script setup lang="ts">
 import ListItem from '@tiptap/extension-list-item'
 import TextAlign from '@tiptap/extension-text-align'
-import TextStyle from '@tiptap/extension-text-style'
+import { TextStyle } from '@tiptap/extension-text-style'
 import StarterKit from '@tiptap/starter-kit'
-import { type Content, Editor, EditorContent } from '@tiptap/vue-3'
+import { type Content, EditorContent, useEditor } from '@tiptap/vue-3'
 
 const editorModel = defineModel<Content>('editor')
 
-const editor = ref<Editor | null>(null)
+// const editor = ref<Editor | null>(null)
+const editor = useEditor({
+  content: editorModel.value,
+  editorProps: {
+    attributes: {
+      spellcheck: 'false',
+    },
+  },
+  extensions: [
+    StarterKit,
+    TextAlign.configure({
+      types: ['heading', 'paragraph'],
+    }),
+    // @ts-expect-error
+    TextStyle.configure({ types: [ListItem.name] }),
+  ],
+  onUpdate: () => {
+    editorModel.value = editor.value?.getHTML()
+  },
+})
 
 watch(
   () => editor.value?.getHTML(),
@@ -18,34 +37,34 @@ watch(
       return
     }
 
-    editor.value.commands.setContent(value, false)
+    editor.value.commands.setContent(value)
   },
 )
 
 onMounted(() => {
-  editor.value = new Editor({
-    content: editorModel.value,
-    editorProps: {
-      attributes: {
-        spellcheck: 'false',
-      },
-    },
-    extensions: [
-      StarterKit,
-      TextAlign.configure({
-        types: ['heading', 'paragraph'],
-      }),
-      // @ts-expect-error
-      TextStyle.configure({ types: [ListItem.name] }),
-    ],
-    onUpdate: () => {
-      editorModel.value = editor.value?.getHTML()
-    },
-  })
+  // editor.value = new Editor({
+  //   content: editorModel.value,
+  //   editorProps: {
+  //     attributes: {
+  //       spellcheck: 'false',
+  //     },
+  //   },
+  //   extensions: [
+  //     StarterKit,
+  //     TextAlign.configure({
+  //       types: ['heading', 'paragraph'],
+  //     }),
+  //     // @ts-expect-error
+  //     TextStyle.configure({ types: [ListItem.name] }),
+  //   ],
+  //   onUpdate: () => {
+  //     editorModel.value = editor.value?.getHTML()
+  //   },
+  // })
 })
 
 onUnmounted(() => {
-  editor.value?.destroy()
+  editor.value.unmount()
 })
 </script>
 

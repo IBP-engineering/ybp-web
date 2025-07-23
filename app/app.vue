@@ -1,16 +1,16 @@
 <script setup lang="ts">
 import { id } from '@nuxt/ui/locale'
 
-useHead({
-  script: [
-    {
-      src: 'https://liwan.kalwabed.com/script.js',
-      type: 'module',
-      id: 'ybp-web-script',
-      'data-entity': 'ybp-web',
-    },
-  ],
-})
+// useHead({
+//   script: [
+//     {
+//       src: 'https://liwan.kalwabed.com/script.js',
+//       type: 'module',
+//       id: 'ybp-web-script',
+//       'data-entity': 'ybp-web',
+//     },
+//   ],
+// })
 </script>
 
 <template>
