@@ -24,8 +24,6 @@ import { id } from '@nuxt/ui/locale'
 </template>
 
 <style>
-@import url(./styles/tailwind.css);
-
 html,
 body,
 #__nuxt {
