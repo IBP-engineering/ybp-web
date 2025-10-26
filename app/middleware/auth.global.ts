@@ -11,7 +11,7 @@ export default defineNuxtRouteMiddleware(async to => {
     const { data } = await supabase
       .from('users')
       .select('role_id')
-      .eq('id', user.value.id)
+      .eq('id', user.value.sub)
       .single()
     const isMember = data?.role_id === 1
 
@@ -26,7 +26,7 @@ export default defineNuxtRouteMiddleware(async to => {
     const { data } = await supabase
       .from('users')
       .select('role_id')
-      .eq('id', user.value.id)
+      .eq('id', user.value.sub)
       .single()
     const isMember = data?.role_id === 1
 

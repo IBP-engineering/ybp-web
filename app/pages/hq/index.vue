@@ -6,6 +6,7 @@ useHead({
 })
 definePageMeta({
   layout: 'hq',
+  middleware: ['staff-only'],
 })
 
 const ITEMS_PER_PAGE = 5

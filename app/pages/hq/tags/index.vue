@@ -6,7 +6,7 @@ import * as v from 'valibot'
 
 definePageMeta({
   layout: 'hq',
-  middleware: 'need-auth',
+  middleware: 'staff-only',
 })
 
 useHead({
@@ -99,7 +99,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         description: data.description,
         is_active: data.isActive,
         slug: toSlug(data.slug, false),
-        created_by: user.value.id,
+        created_by: user.value.sub,
       })
       toast.add({
         title: 'Berhasil menambahkan tag',

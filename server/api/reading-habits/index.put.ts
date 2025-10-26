@@ -9,7 +9,7 @@ export default defineEventHandler(async event => {
   const { data } = await supabase
     .from('reading_habits')
     .select('id,update_count')
-    .match({ id: body.id, created_by: user.id })
+    .match({ id: body.id, created_by: user.sub })
     .single()
 
   if (!data) {

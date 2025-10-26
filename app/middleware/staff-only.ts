@@ -5,7 +5,7 @@ export default defineNuxtRouteMiddleware(async () => {
     .from('users')
     .select('id')
     .eq('id', user.value.sub)
-    .eq('role_id', 3)
+    .neq('role_id', 1) // 1 is member role id
 
   if (data?.length === 1) {
     return true

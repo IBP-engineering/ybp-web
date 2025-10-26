@@ -20,7 +20,7 @@ const user = useSupabaseUser()
 const supabase = useSupabaseClient()
 
 const isUserHasReacted = computed(() => {
-  const userId = user.value?.id
+  const userId = user.value?.sub
 
   if (!userId || !props.story) {
     return false
@@ -43,7 +43,7 @@ const likeStory = async () => {
     return
   }
 
-  const userId = user.value.id
+  const userId = user.value.sub
 
   try {
     if (isUserHasReacted.value) {

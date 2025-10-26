@@ -8,7 +8,7 @@ export default defineEventHandler(async event => {
   const { data: existingNotifications } = await supabase
     .from('notifications')
     .select('id')
-    .eq('recipient_id', user.id)
+    .eq('recipient_id', user.sub)
     .is('read_at', null)
 
   if (existingNotifications?.length === 0) {

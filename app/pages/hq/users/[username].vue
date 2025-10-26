@@ -15,6 +15,7 @@ import type { Database } from '~/types/database.types'
 defineOgImageComponent('default')
 definePageMeta({
   layout: 'hq',
+  middleware: ['admin-only'],
 })
 
 useHead({
