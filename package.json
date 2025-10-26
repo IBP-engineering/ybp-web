@@ -22,10 +22,7 @@
       "sharp",
       "unrs-resolver",
       "vue-demi"
-    ],
-    "overrides": {
-      "vite": "npm:rolldown-vite@latest"
-    }
+    ]
   },
   "dependencies": {
     "@date-fns/tz": "^1.4.1",
@@ -45,6 +42,7 @@
     "@tiptap/vue-3": "^3.8.0",
     "date-fns": "^4.1.0",
     "motion-v": "1.7.4",
+    "nuxt": "^4.2.0",
     "qrcode": "^1.5.4",
     "v-calendar": "^3.1.2",
     "vue": "^3.5.22",
@@ -71,7 +69,6 @@
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.4",
     "lefthook": "^2.0.1",
-    "nuxt": "^4.2.0",
     "prettier": "^3.6.2",
     "prettier-plugin-tailwindcss": "^0.7.1",
     "sass-embedded": "^1.93.2",
