@@ -195,7 +195,7 @@ provide(onSuccessLogin, () => {
         :maxrows="6"
         :avatar="{
           src: profilePicture,
-          class: `${user.id ? 'block' : 'hidden'}`,
+          class: `${user?.id ? 'block' : 'hidden'}`,
         }"
         :loading="loadingPostComment"
         @keydown.meta.enter="postComment"

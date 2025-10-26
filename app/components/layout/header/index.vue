@@ -55,7 +55,7 @@ async function logout() {
 const dropdownItems = [
   userData?.value?.roles?.id !== USER_ROLE.member
     ? { label: 'HQ', to: '/hq', icon: 'heroicons:bolt' }
-    : { label: `Halo @${userData.value.username} 👋` },
+    : { label: `Halo @${userData.value?.username} 👋` },
   { label: 'Dashboard', to: '/dashboard', icon: 'heroicons:home' },
   {
     label: 'Notifications',
@@ -158,7 +158,7 @@ onUnmounted(() => {
       </div>
 
       <LazyUDropdownMenu
-        v-if="userData.username"
+        v-if="userData?.username"
         :items="dropdownItems"
         :popper="{ strategy: 'absolute', placements: 'bottom', arrow: true }"
       >

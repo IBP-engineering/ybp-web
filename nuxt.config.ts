@@ -48,14 +48,17 @@ export default defineNuxtConfig({
     '@nuxt/image',
     'motion-v/nuxt',
   ],
-  // future: {
-  //   compatibilityVersion: 4,
-  // },
+  future: {
+    compatibilityVersion: 5,
+  },
   experimental: {
     viewTransition: true,
     asyncEntry: true,
     granularCachedData: true,
     enforceModuleCompatibility: true,
+    viteEnvironmentApi: true,
+    extractAsyncDataHandlers: true,
+    typescriptPlugin: true,
   },
   supabase: {
     redirect: false,
