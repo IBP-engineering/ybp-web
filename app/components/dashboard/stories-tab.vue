@@ -15,7 +15,7 @@ const filterCount = reactive({
 })
 
 const { data: stories, refresh: refreshStories } = await useAsyncData(
-  `stories/${user?.value?.id}`,
+  `stories/${user?.value?.sub}`,
   async () => {
     if (filterStatus.value === 'all') {
       const { data, error } = await supabase
@@ -26,7 +26,7 @@ const { data: stories, refresh: refreshStories } = await useAsyncData(
       author:users(username)
       `,
         )
-        .eq('user_id', user.value.id)
+        .eq('user_id', user.value.sub)
         .eq('is_active', true)
         .order('created_at', { ascending: false })
 
@@ -46,7 +46,7 @@ const { data: stories, refresh: refreshStories } = await useAsyncData(
       author:users(username)
       `,
       )
-      .eq('user_id', user.value.id)
+      .eq('user_id', user.value.sub)
       .eq('status', filterStatus.value)
       .eq('is_active', true)
       .order('created_at', { ascending: false })
@@ -67,7 +67,7 @@ const deleteStory = async (id: string) => {
       .from('stories')
       .update({ is_active: false })
       .eq('id', id)
-      .eq('user_id', user.value.id)
+      .eq('user_id', user.value.sub)
 
     if (error) {
       toast.add({

@@ -7,6 +7,7 @@ import type { Story, Tag, User } from '~/types/entities'
 
 definePageMeta({
   layout: 'hq',
+  middleware: ['staff-only'],
 })
 
 const route = useRoute()

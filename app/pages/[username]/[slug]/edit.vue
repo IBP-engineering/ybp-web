@@ -40,7 +40,7 @@ const { data: currentStory } = await useAsyncData(
   },
 )
 
-if (currentStory?.value.user_id !== user?.value.id) {
+if (currentStory?.value.user_id !== user?.value.sub) {
   throw createError({ statusCode: 403, statusMessage: 'Page is forbidden' })
 }
 
@@ -139,7 +139,7 @@ const submitStory = async () => {
       console.log('filename', fileName)
       const { data } = await supabase.storage
         .from('story-cover')
-        .upload(`${user.value.id}/${fileName}`, form.coverImage, {
+        .upload(`${user.value.sub}/${fileName}`, form.coverImage, {
           upsert: true,
         })
       console.log('image', data)
@@ -175,14 +175,14 @@ const submitStory = async () => {
         story_id: currentStory.value.id,
         status: 'pending',
         reason: 'Updating story',
-        updated_by: user.value?.id,
+        updated_by: user.value?.sub,
       }),
     ])
 
     $fetch('/api/notifications/stories/mod', {
       method: 'post',
       body: {
-        senderId: user.value?.id,
+        senderId: user.value?.sub,
         contextData: {},
         relatedId: currentStory.value.id,
         mode: 'update',

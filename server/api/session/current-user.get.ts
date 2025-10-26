@@ -23,7 +23,7 @@ export default defineEventHandler(
         return {}
       }
 
-      const { data, error } = await getCurrentUser(userSession.id, event)
+      const { data, error } = await getCurrentUser(userSession.sub, event)
 
       if (!data) {
         throw createError({

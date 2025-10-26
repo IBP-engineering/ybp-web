@@ -49,15 +49,18 @@ type Schema = v.InferOutput<typeof schema>
 const supabase = useSupabaseClient<Database>()
 const user = useSupabaseUser()
 const toast = useToast()
-const { data: userProfile } = await useAsyncData('profile', async () => {
-  const { data } = await supabase
-    .from('users')
-    .select('id, username, bio, location, display_name, email')
-    .eq('id', user.value.id)
-    .single()
+const { data: userProfile } = await useAsyncData(
+  'profile-account',
+  async () => {
+    const { data } = await supabase
+      .from('users')
+      .select('id, username, bio, location, display_name, email')
+      .eq('id', user.value.sub)
+      .single()
 
-  return data
-})
+    return data
+  },
+)
 
 const form = reactive<Schema>({
   email: userProfile.value.email,
@@ -79,7 +82,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
       .from('users')
       .select('id, username')
       .ilike('username', `%${data.username.trim()}%`)
-      .neq('id', user.value.id)
+      .neq('id', user.value.sub)
 
     if (existingUsername?.data[0]) {
       toast.add({
@@ -124,7 +127,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
           // email: data.email,
           username: data.username,
         })
-        .eq('id', user.value.id),
+        .eq('id', user.value.sub),
       // TODO: handle email confirmation process
       data.password
         ? supabase.auth.updateUser({

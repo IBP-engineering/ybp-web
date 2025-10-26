@@ -11,7 +11,7 @@ export default defineEventHandler(async event => {
     summary: body.summary,
     title: body.title,
     genre: body.genre,
-    created_by: user.id,
+    created_by: user.sub,
     update_count: 0,
   })
 

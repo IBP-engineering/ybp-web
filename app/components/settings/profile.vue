@@ -19,7 +19,7 @@ const { data: userProfile } = await useAsyncData('profile', async () => {
   const { data } = await supabase
     .from('users')
     .select('id, username, bio, location, display_name, email, profile_path')
-    .eq('id', user.value.id)
+    .eq('id', user.value.sub)
     .single()
 
   return data
@@ -61,7 +61,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
       const filename = `${profilePic.value.name}`
       const { data: profileResult } = await supabase.storage
         .from('profile')
-        .upload(`${user.value.id}/${filename}`, profilePic.value, {
+        .upload(`${user.value.sub}/${filename}`, profilePic.value, {
           upsert: true,
         })
 
@@ -77,7 +77,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         location: data.location,
         profile_path: profilePicturePath,
       })
-      .eq('id', user.value.id)
+      .eq('id', user.value.sub)
 
     toast.add({
       title: 'Berhasil',

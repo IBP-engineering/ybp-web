@@ -1,6 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  compatibilityDate: '2025-09-01',
+  compatibilityDate: '2025-10-26',
   devtools: { enabled: true },
 
   // workarounds from https://github.com/nuxt/nuxt/issues/32175#issuecomment-2898200099
@@ -48,14 +48,17 @@ export default defineNuxtConfig({
     '@nuxt/image',
     'motion-v/nuxt',
   ],
-  // future: {
-  //   compatibilityVersion: 4,
-  // },
+  future: {
+    compatibilityVersion: 5,
+  },
   experimental: {
     viewTransition: true,
     asyncEntry: true,
     granularCachedData: true,
     enforceModuleCompatibility: true,
+    viteEnvironmentApi: true,
+    extractAsyncDataHandlers: true,
+    typescriptPlugin: true,
   },
   supabase: {
     redirect: false,

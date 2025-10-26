@@ -37,7 +37,7 @@ export default defineEventHandler(
         .select(
           '*, sender:users!sender_id(display_name, username, profile_path)',
         )
-        .eq('recipient_id', user.id)
+        .eq('recipient_id', user.sub)
 
       // Conditionally add the filter for unread notifications
       if (query?.type === 'unread') {
@@ -56,7 +56,7 @@ export default defineEventHandler(
         supabase
           .from('notifications')
           .select('id', { count: 'exact' })
-          .eq('recipient_id', user.id)
+          .eq('recipient_id', user.sub)
           .is('read_at', null),
       ])
 

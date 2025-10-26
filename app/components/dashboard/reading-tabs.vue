@@ -4,11 +4,11 @@ const openRecordModal = ref(false)
 
 const currentUser = useSupabaseUser()
 const { data, status } = await useAsyncData(
-  computed(() => `habits/user/${currentUser.value.id}`),
+  computed(() => `habits/user/${currentUser.value.sub}`),
   () => {
     return Promise.all([
-      $fetch(`/api/reading-habits/${currentUser.value.id}/statistic`),
-      $fetch(`/api/reading-habits/${currentUser?.value?.id}`, {
+      $fetch(`/api/reading-habits/${currentUser.value.sub}/statistic`),
+      $fetch(`/api/reading-habits/${currentUser?.value?.sub}`, {
         query: {
           page: page.value,
         },
